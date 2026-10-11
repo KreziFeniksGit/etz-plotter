@@ -38,11 +38,12 @@ def branch(name, kind):
 
 WM_COLOUR = {'servo_case': 'servo', 'servo_tabs': 'servo', 'servo_spline': 'white', 'servo_horn': 'steel', 'nema11': 'motor',
              'nema11_pilot': 'motor', 'nema11_shaft': 'steel', 'electromagnet': 'copper', 'camera_board': 'board', 'camera_lens': 'black',
-             'mgn12h_block': 'steel'}
+             'mgn12h_block': 'steel', 'hall_drv5023': 'black', 'flag_magnet_3x2': 'steel'}
 WM_COLOUR.update({k: 'black' for k in W.GROUP if k.startswith('zip_')})
 
 _FRAME = None
 _WM = None
+_DET = None
 
 def _cache():
     global _FRAME, _WM
@@ -52,8 +53,26 @@ def _cache():
         _WM = (parts, bought)
     return _FRAME, _WM
 
-def world(PYC=F.PYC0, PXB=F.PXB0, h=W.H_MAX, wrist_deg=0.0, field=True, cables=True, fasteners=False):
+def _detail():
+    global _DET
+    if _DET is None:
+        _DET = (F.detailed(), W.detailed())
+    return _DET
+
+def world(PYC=F.PYC0, PXB=F.PXB0, h=W.H_MAX, wrist_deg=0.0, field=True, cables=True, fasteners=False, detail=False):
+    """detail=True swaps in the real vendor STEP models (vendor/) where we have them."""
     frame, (wparts, wbought) = _cache()
+    if detail:
+        fd, wd = _detail()
+        frame = dict(frame)
+        for k, s in fd.items():
+            frame[k] = (s,) + tuple(frame[k][1:])
+        wbought = dict(wbought)
+        for k, s in wd.items():
+            if s is None:
+                wbought.pop(k, None)
+            else:
+                wbought[k] = s
     out = {}
     dy = PYC - F.PYC0
     for k, (s, g, kind, col) in frame.items():
@@ -93,7 +112,7 @@ ALLOWED = [
     ('wm_mgn12h_block', 'x_rail_mgn12_250'), ('y_block_mgn12h', 'y_rail_mgn12_400'),
     ('x_home_switch_d2f', 'wm_wrist_carriage'), ('y_home_switch_d2f', 'y_carriage'),
     ('battery_strap', 'battery_4s_2200'), ('battery_strap', 'battery_tray'), ('cable_chain_y', 'y_carriage'), ('cable_chain_y', 'y_chain_guide'), ('cable_chain_x', 'wm_chain_post'), ('cable_chain_x', 'boom_2020'), ('cable_chain', 'cable_'),
-    ('wm_zip_', 'cable_'), ('zip_tie_', 'cable_'), ('cable_wrist_', 'cable_wrist_'),
+    ('wm_zip_', 'cable_'), ('zip_tie_', 'cable_'), ('cable_wrist_', 'cable_wrist_'), ('cable_wrist_stepper', 'wm_nema11'), ('cable_wrist_servo', 'wm_servo_case'),
     ('led_', 'control_panel'), ('estop', 'control_panel'), ('start_button', 'control_panel'), ('header_', 'control_panel'),
     ('header_', 'connector_pcb'), ('standoff', 'perfboard'), ('standoff', 'plywood'),
 ] + [tuple('wm_' + x for x in p) for p in [
@@ -101,7 +120,7 @@ ALLOWED = [
     ('brg_AL', 'arm_bottom'), ('brg_BL', 'arm_bottom'), ('brg_BT', 'arm_top'), ('nema11_shaft', 'wrist_hub'), ('nema11_pilot', 'nema11'),
     ('nema11_shaft', 'nema11_pilot'), ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'), ('servo_case', 'servo_tabs'),
     ('spacer_AL', 'brg_AL'), ('spacer_BT', 'brg_BT'), ('spacer_BL', 'brg_BL'), ('shim_BT', 'brg_BT'), ('shim_BL', 'brg_BL'),
-    ('shim_AL', 'brg_AL'), ('shim_BT', 'end_plate'), ('shim_BL', 'end_plate'), ('spacer_AL', 'wrist_carriage')]]
+    ('shim_AL', 'brg_AL'), ('nema11', 'nema11_shaft'), ('shim_BT', 'end_plate'), ('shim_BL', 'end_plate'), ('spacer_AL', 'wrist_carriage')]]
 
 def allowed(a, b):
     for p, q in ALLOWED:
@@ -339,6 +358,16 @@ if __name__ == '__main__':
             fsweep[str(p)] = hits
     R['fastener_sweep_poses'] = len(fposes)
     R['fastener_sweep'] = fsweep or 'none'
+    # the real vendor models (vendor/*.step) in place of the simple shapes: at rest (with fasteners) and in the lift/wrist extremes
+    wd = world(field=False, fasteners=True, detail=True)
+    R['detailed_static_park'] = collisions(wd) or 'none'
+    R['detailed_fastener_clips'] = fastener_check(wd) or 'none'
+    dsweep = {}
+    for p in [(40.0, 292.0, 5.0, 90.0), (40.0, 292.0, 40.0, 0.0), (376.0, 435.0, 5.0, 180.0), (376.0, 435.0, 40.0, -90.0)]:
+        hits = collisions(world(*p, field=False, detail=True), only_moving=True)
+        if hits:
+            dsweep[str(p)] = hits
+    R['detailed_sweep'] = dsweep or 'none'
     import csv
     with open(os.path.join(OUT, 'fastener_bom.csv'), 'w', newline='') as fh:
         wr = csv.writer(fh)

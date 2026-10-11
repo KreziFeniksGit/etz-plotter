@@ -44,7 +44,7 @@ octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop li
 | 8 / 9 | Wrist STEP / DIR | NEMA11 |
 | 11 / 12 | Spare driver STEP / DIR | 4th TMC2209, fitted as a spare |
 | 13 | EN, all drivers (low = on) | 10 k pull-up to 3V3, so the drivers stay off while the ESP32 boots |
-| 14 | Servo PWM (DS3218) | LEDC, 50 Hz; 1 k in series; servo powered from the 6 V rail |
+| 14 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series; servo powered from the 6 V rail |
 | 21 | Magnet MOSFET gate (AO3400) | 100 R in series, 100 k gate to GND; 1N5819 across the magnet |
 | 38 | Wrist home (DRV5023 OUT) | open drain: 10 k pull-up to 3V3; sensor powered from 3V3 |
 | 39 | X home switch | to GND, internal pull-up; wire the NC contact so a broken wire reads as "pressed" |

@@ -31,8 +31,10 @@ def tube(pts, d):
 # up the chain post's -y face (zip ties at z 165 and 192), over the post plate, into the X chain's moving end
 WRIST = {
     'cable_wrist_bundle': (7.0, [(13, -28.5, 142), (13, -28.5, 211), (6, -14, 216.5), (0, 0, 216.5), (5, 0, 216.5)]),
-    # servo lead: out of the case's far end (VERIFY exit position), up beside it, under the carriage plate (tie), to the bundle
-    'cable_wrist_servo': (3.5, [(-31.8, -12, 117), (-32, -12, 131.05), (-32, -26.5, 131.05), (2, -26.8, 131.05), (13, -28.5, 142)]),
+    # servo lead: out of the case's spline end 8 mm above the case bottom (MG996R), then to -y beside the case end
+    # (clear of the chain post screw heads under the plate) and up to the bundle
+    'cable_wrist_servo': (3.5, [(W.SERVO_X1 + W.SERVO_LEAD_BOSS + 1.95, W.CASE_TOP_Y - W.SERVO_CASE_H + W.SERVO_LEAD_UP, W.Z_PIVOT_TOP),
+                                (W.SERVO_X1 + W.SERVO_LEAD_BOSS + 1.95, -27.0, 120.0), (13, -28.5, 142)]),
 }
 # ---------------------------------------------------------------- Y carriage (moves in Y)
 YCAR = {
@@ -47,8 +49,8 @@ YCAR = {
 BASE = {
     # Y chain fixed end -> electronics board
     'cable_y_chain_to_board': (7.0, [(235.5, 218, 39.5), (235.5, 210, 39.5), (245, 203, 31), (262, 190, 31)]),
-    # Y motor -> corridor x 189.5 -> under the beam at y 205 -> board
-    'cable_y_motor': (5.0, [(128.5, 428, 35), (127, 428, 18), (160, 428, 18), (160, 412, 18), (189.5, 300, 18), (189.5, 205, 18), (225, 200, 18),
+    # Y motor (lead stub on its +y side, near the rear) -> down to the plywood -> corridor x 189.5 -> under the beam at y 205 -> board
+    'cable_y_motor': (5.0, [(137.2, 484.5, 45.0), (137.2, 484.5, 30.0), (137.2, 468.0, 18), (160, 440, 18), (160, 428, 18), (160, 412, 18), (189.5, 300, 18), (189.5, 205, 18), (225, 200, 18),
                             (240, 196, 31), (268, 180, 31)]),
     # battery -> corridor x 184 -> into the control panel (stop button)
     'cable_battery': (5.0, [(125, 301.5, 35), (125, 296, 33), (125, 294, 22), (184, 290, 22), (184, 100, 22), (166, 80, 22), (156, 80, 22)]),

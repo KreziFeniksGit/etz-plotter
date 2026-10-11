@@ -89,6 +89,8 @@ EB = (246.0, 110.0, 326.0, 210.0)         # electronics board
 NEMA17 = dict(sq=42.3, L=40.0, chamfer=4.0, hole=31.0, pilot=22.0, pilot_h=2.0, shaft=5.0, shaft_L=23.0, flat=4.5)   # 17HS16-2004S1
 D2F = dict(L=12.8, W=5.8, H=6.5, hole_pitch=6.5)          # Omron D2F-01L
 ESP32_BOARD = (25.5, 62.7)                # ESP32-S3-DevKitC-1 (N16R8) board, x by y. VERIFY on the board you have (clones differ)
+ESP32_PIN_ROWS = 22.86                    # distance between its two pin rows (VERIFY)
+HDR_H = 8.5                               # female header height (modules plug in, so they can be swapped)
 
 PARTS = {}      # name -> (shape, group, kind, colour)
 COL = {'printed': (0.12, 0.55, 0.52), 'printed2': (0.85, 0.47, 0.13), 'alu': (0.80, 0.82, 0.84), 'steel': (0.70, 0.72, 0.75),
@@ -154,6 +156,23 @@ def nema17(face_c, direction):
         out[k] = s
     return out
 
+def nema17_vendor(face_c, direction, spin=0.0):
+    """vendor/17HS16-2004S1.step placed like nema17() (vendor: rear at z 0, mounting face at z 40, shaft +z)."""
+    s = W.vendor('17HS16-2004S1.step')
+    s.translate(V(0, 0, -40.0))
+    if spin:
+        s.rotate(V(0, 0, 0), V(0, 0, 1), spin)        # turn about the shaft: where the lead stub points
+    rot = {'+x': (V(0, 1, 0), 90), '-x': (V(0, 1, 0), -90), '+y': (V(1, 0, 0), -90), '-y': (V(1, 0, 0), 90),
+           '+z': (V(0, 0, 1), 0), '-z': (V(1, 0, 0), 180)}[direction]
+    if rot[1]:
+        s.rotate(V(0, 0, 0), rot[0], rot[1])
+    s.translate(V(*face_c))
+    return s
+
+def detailed():
+    """Vendor shapes for frame parts, in build coordinates (Y carriage parts at PYC0)."""
+    return {'y_motor_17HS16': nema17_vendor((YM_FACE, YM_C[0], YM_C[1]), '+x', 180.0),     # leads toward +y, away from the battery
+            'x_motor_17HS16': nema17_vendor((XM_C[0], PYC0 + XM_FACE_DY, XM_C[1]), '-y')}
 def gt2_pulley(c, axis, t0, toothed=True):
     """GT2 20T pulley/idler: flanges r 8, teeth r 6.1, along axis from coordinate t0 (7 mm wide belt part)."""
     def cy(r, a, b):
@@ -562,20 +581,35 @@ def panel_items():
     for i, (x, y) in enumerate(((EB[0] + 4, EB[1] + 4), (EB[2] - 4, EB[1] + 4), (EB[0] + 4, EB[3] - 4), (EB[2] - 4, EB[3] - 4))):
         add('standoff_m3x10_%d' % (i + 1), cyl((x, y, Z_PLY1), 2.75, 10.0), kind='bought', colour='steel')     # solid: the check measures thread engagement
     zt = z + 1.6
-    add('esp32_s3_devkitc1', box(EB[0] + 5, EB[1] + 5, zt + 8.5, EB[0] + 5 + ESP32_BOARD[0], EB[1] + 5 + ESP32_BOARD[1], zt + 10.1),
-        kind='bought', colour='board')      # on female headers; USB ports at the -y end
+    # ESP32-S3-DevKitC-1 on two 1x22 female headers: board, WROOM module (far end), 2 USB-C (-y end)
+    bx0, by0 = EB[0] + 5, EB[1] + 5
+    bw, bl = ESP32_BOARD
+    zb = zt + HDR_H
+    for k, xr in (('l', bx0 + (bw - ESP32_PIN_ROWS) / 2), ('r', bx0 + (bw + ESP32_PIN_ROWS) / 2)):
+        y0 = by0 + (bl - 22 * 2.54) / 2
+        add('header_esp32_%s_1x22' % k, box(xr - 1.27, y0, zt, xr + 1.27, y0 + 22 * 2.54, zb), kind='bought', colour='black')
+    add('esp32_s3_devkitc1', box(bx0, by0, zb, bx0 + bw, by0 + bl, zb + 1.6), kind='bought', colour='black')
+    add('esp32_s3_wroom1', box(bx0 + (bw - 18.0) / 2, by0 + bl - 25.5, zb + 1.6, bx0 + (bw + 18.0) / 2, by0 + bl, zb + 1.6 + 3.1),
+        kind='bought', colour='steel')
+    for k, xc in (('1', bx0 + bw / 2 - 6.0), ('2', bx0 + bw / 2 + 6.0)):
+        add('esp32_usb_c_%s' % k, rbox(xc - 4.5, by0 - 1.0, zb + 1.6, xc + 4.5, by0 + 6.5, zb + 1.6 + 3.2, 1.0, 'y'), kind='bought', colour='steel')
+    # Pololu D36V28F5 / F6 regulators, soldered flat to the board
     for i, nm in enumerate(('pololu_5v_d36v28f5', 'pololu_6v_d36v28f6')):
         x = EB[0] + 36.0 + i * 24.0
-        add(nm, box(x, EB[1] + 60, zt, x + 17.8, EB[1] + 80.3, zt + 6.0), kind='bought', colour='board')
+        add(nm, box(x, EB[1] + 60, zt, x + 17.8, EB[1] + 80.3, zt + 1.6).fuse(box(x + 3.0, EB[1] + 64, zt + 1.6, x + 12.0, EB[1] + 73, zt + 6.0)),
+            kind='bought', colour='board')     # board + inductor
 
 def tmc_fix():
-    # the generator above returned None from translate(); rebuild the driver solids cleanly
+    """Four TMC2209 modules (BIGTREETECH V1.3: 15.3 x 20.3, two 1x8 rows 12.7 apart) in a 2 x 2 grid on female headers."""
     zt = Z_PLY1 + 10.0 + 1.6
+    zb = zt + HDR_H
     for i in range(4):
-        x = EB[0] + 34.0 + i * 11.0 - (i * 0.0)
-        s = box(x, EB[1] + 10, zt + 8.5, x + 10.0, EB[1] + 30.3, zt + 10.1).fuse(box(x + 1.0, EB[1] + 12, zt + 10.1, x + 9.0, EB[1] + 28, zt + 19.0))
+        x = EB[0] + 36.0 + (i % 2) * 21.0             # clear of the board's corner screws
+        y = EB[1] + 5.0 + (i // 2) * 25.0
+        s = box(x, y, zb, x + 15.3, y + 20.3, zb + 1.6).fuse(box(x + 3.15, y + 5.65, zb + 1.6, x + 12.15, y + 14.65, zb + 1.6 + 7.0))  # board + heatsink
         PARTS['tmc2209_%d' % (i + 1)] = (s, 'base', 'bought', 'board')
-
+        for k, dx in (('a', 1.3), ('b', 1.3 + 12.7)):
+            PARTS['header_tmc%d%s_1x8' % (i + 1, k)] = (box(x + dx - 1.27, y + 0.0, zt, x + dx + 1.27, y + 8 * 2.54, zb), 'base', 'bought', 'black')
 # =============================================================================
 # 7. FIELD REFERENCE (not part of the device)
 # =============================================================================

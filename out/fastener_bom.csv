@@ -2,14 +2,14 @@ Item,Qty,Used for
 M3 x 6 ISO 4762,4,"carriage plate to X rail block, heads sunk 3.5"
 M3 x 10 ISO 4762,8,"belt riser, from below; chain post, from below; belt clamp into the riser; shelf to end plate foot, from below"
 Ruthex M3 x 5.7 heat-set insert,10,"belt riser, from below; chain post, from below; belt clamp into the riser; shelf to end plate foot, from below; Y belt clamp + spacer into the carriage"
-M3 x 14 ISO 4762,6,"servo tabs, washer + nyloc on the +y side; Y belt clamp + spacer into the carriage"
-M3 washer ISO 7089 (7 x 0.5),4,"servo tabs, washer + nyloc on the +y side"
-M3 nyloc ISO 10511 nut,4,"servo tabs, washer + nyloc on the +y side"
+M2 x 12 ISO 4762,4,"servo tabs: M2x12, large washer under the head (4.5 tab hole), nyloc on the +y side (no washer: a longer screw would reach the horn)"
+M2 washer ISO 7089 (6 x 0.8),4,"servo tabs: M2x12, large washer under the head (4.5 tab hole), nyloc on the +y side (no washer: a longer screw would reach the horn)"
+M2 nyloc ISO 10511 nut,4,"servo tabs: M2x12, large washer under the head (4.5 tab hole), nyloc on the +y side (no washer: a longer screw would reach the horn)"
 M4 x 30 ISO 4762,1,"lower A pivot: boss, spacer, bearing, shim, nyloc"
 M4 nyloc ISO 10511 nut,3,"lower A pivot: boss, spacer, bearing, shim, nyloc; B pivots: washer, spacer, bearing, shim, end plate, nyloc"
 M4 x 20 ISO 4762,2,"B pivots: washer, spacer, bearing, shim, end plate, nyloc"
 M4 washer ISO 7089 (9 x 0.8),2,"B pivots: washer, spacer, bearing, shim, end plate, nyloc"
-M3 x 10 ISO 7380,4,top arm to the disc horn (horn holes threaded); X chain fixed end link on the boom top
+M3 x 10 ISO 7380,3,"top arm to the horn arm (M3 tapped hole at r 24, VERIFY); X chain fixed end link on the boom top"
 M3 x 6 ISO 7380,6,horn centre screw into the servo spline; magnet on the hub (magnet thread depth VERIFY); board on the standoff
 M2.5 x 6 ISO 7380,4,"NEMA11 from below (motor thread depth VERIFY, about 2.5)"
 M2 x 12 pan head,4,"camera board, nut under the board"
@@ -19,6 +19,7 @@ M3 hex ISO 4032 nut,4,"X chain moving end link on the chain post; Y chain moving
 M3 x 8 ISO 4762,38,"Y carriage to the Y block, heads sunk 5; X motor (thread depth 4.5); X rail to the boom (bottom slot); Y motor; Y rail to the beam (top slot)"
 M5 x 10 ISO 4762,4,"post in its socket, T-nut in the post slot"
 M5 drop-in T-nut for 2020 (6 mm slot),14,"post in its socket, T-nut in the post slot; X motor mount to the post (+y slot), heads in the counterbore; corner bracket; Y beam through plywood and riser, from below"
+M3 x 14 ISO 4762,2,Y belt clamp + spacer into the carriage
 M3 x 20 ISO 7380,2,"Y chain moving end link, nut under the carriage"
 M5 x 16 ISO 4762,2,"X motor mount to the post (+y slot), heads in the counterbore"
 M2 x 10 pan head,4,"X home switch, M2 self-tapping; Y home switch, M2 self-tapping"

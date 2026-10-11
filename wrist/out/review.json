@@ -50,17 +50,17 @@
  "min_gap_mm": {
   "arm_top | wrist_carriage": 1.5,
   "arm_bottom | wrist_carriage": 0.5,
-  "servo_horn | wrist_carriage": 3.5,
+  "servo_horn | wrist_carriage": 5.81,
   "arm_top | x_belt_riser": 11.96,
   "arm_bottom | shelf": 0.5,
   "arm_top | end_plate": 0.8,
   "arm_bottom | end_plate": 0.8,
   "arm_top | arm_bottom": 17.03,
   "servo_case | wrist_carriage": 0.36,
-  "arm_top | servo_case": 6.0,
+  "arm_top | servo_case": 6.74,
   "wrist_hub | shelf": 0.8,
   "electromagnet | shelf": 17.08,
-  "end_plate | wrist_carriage": 41.68,
+  "end_plate | wrist_carriage": 41.88,
   "spacer_AL | arm_bottom": 0.3,
   "spacer_BT | arm_top": 0.3,
   "spacer_BL | arm_bottom": 0.3,
@@ -86,30 +86,48 @@
     74.0
    ],
    "fits_220": true,
-   "volume_cm3": 32.95,
-   "mass_g": 25.1,
+   "volume_cm3": 33.07,
+   "mass_g": 25.2,
    "min_wall": 2.5,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 2.2,
+   "widest_bridge_mm": 1.8,
    "bridges": [
     [
-     2.2,
-     9.9,
+     1.8,
+     7.3,
      [
       20.0,
-      -6.2,
+      -6.0,
       7.0
      ]
     ],
     [
-     2.2,
-     9.9,
+     1.8,
+     7.3,
      [
       -0.0,
-      -6.2,
+      -6.0,
       7.0
+     ]
+    ],
+    [
+     0.9,
+     5.3,
+     [
+      22.8,
+      -2.3,
+      22.9
+     ]
+    ],
+    [
+     0.9,
+     5.3,
+     [
+      -24.0,
+      -2.3,
+      22.9
      ]
     ]
    ],
@@ -214,8 +232,8 @@
     6.5
    ],
    "fits_220": true,
-   "volume_cm3": 11.04,
-   "mass_g": 8.4,
+   "volume_cm3": 11.9,
+   "mass_g": 9.1,
    "min_wall": 2.5,
    "thin_samples": 0,
    "thin_examples": [],

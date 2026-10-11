@@ -14,7 +14,7 @@ MASS_G = {                     # bought parts, grams (datasheet or typical)
     'y_rail_mgn12_400': 260, 'x_rail_mgn12_250': 163,                         # 0.65 kg/m
     'y_block_mgn12h': 47, 'wm_mgn12h_block': 47,
     'y_motor_17HS16': 280, 'x_motor_17HS16': 280, 'wm_nema11': 110, 'wm_nema11_pilot': 0, 'wm_nema11_shaft': 0,
-    'wm_servo_case': 60, 'wm_servo_tabs': 0, 'wm_servo_spline': 0, 'wm_servo_horn': 8,
+    'wm_servo_case': 55, 'wm_servo_tabs': 0, 'wm_servo_spline': 0, 'wm_servo_horn': 8,
     'wm_electromagnet': 35, 'wm_camera_board': 8, 'wm_camera_lens': 4,
     'battery_4s_2200': 230, 'estop_22mm_latching': 60, 'start_button_16mm': 10, 'breadboard_400': 45,
     'perfboard_100x80': 30, 'esp32_s3_devkitc1': 10, 'pololu_5v_d36v28f5': 3, 'pololu_6v_d36v28f6': 3,

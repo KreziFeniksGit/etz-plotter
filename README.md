@@ -86,6 +86,7 @@ Model v2 follows the design rules: parameters at the top of the script, separate
 - `wrist/out/*.step`: the wrist parts in print orientation (the same files are in `out/printed/`). `wrist/out/wrist_module_assembly.step`: the whole module with the bought parts.
 - `wrist/out/review.json`: all review results. `wrist/out/*.png`: renders.
 - `components.csv`: every component of the device, with the reason it was chosen and the data used in the CAD.
+- `vendor/`: real models of bought parts (MG996R, 25T aluminium arm horn, 11HS12-0674S, 17HS16-2004S1; the 684 bearing and MGN12 meshes are kept for reference only). The exported STEP/FCStd use them; the fast checks use simple shapes sized from them, and `assembly.py` also re-checks with the real models (`detailed_*` results).
 
 Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows installer), then
 `freecadcmd -c "exec(open('wrist_module.py').read())"`, or open the file in the FreeCAD GUI with Macro > Macros > Execute.
@@ -94,11 +95,12 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 - **Carriage and servo plate are one L-part.** This gives a stiff joint with no screws. It prints with the block face down; the servo window has a W-shaped 45 degree roof, so it needs no bridge. The lower pivot boss is a teardrop for the same reason.
 - **Parallelogram, 80 mm arms.** The magnet face stays level from 5 to 40 mm. The servo swings +-12.6 degrees and the X shift (up to 1.9 mm) is corrected in software.
 - **Bearings in the arms, clamped on the inner ring only.** A nylon spacer 4.2 x 7 x 3 goes through a 7.6 mm shoulder hole on one side and a 7 mm shim washer goes on the other, so nothing touches the outer ring. Moving gaps are 0.5 to 0.8 mm.
-- **The top arm's horn slots** are four radial slots that fit disc horns with holes on radii 7.5 to 10.5 mm, so the exact horn brand does not matter.
+- **The top arm bolts to a 25T aluminium single-arm horn**: centre screw into the spline plus one M3 into the horn's tapped hole at r 24, with the horn's arm lying along the top arm.
 - **Lightening slots** in both arms remove about 25 % of the web. The two flanges carry the bending, so stiffness hardly drops.
 - **Shelf and end plate are separate flat parts.** Both print flat, so the stepper and pivot holes are vertical, round and accurate. They join with two M3 screws into inserts in the end plate's foot pad, which sits clear of the pivot nut.
 - **The belt clamp** has half-round grooves at 2 mm pitch that take the belt teeth.
-- **The hall switch** sits in a press pocket 0.8 mm from the hub's flag magnet.
+- **The hall switch** sits leads-down in a press pocket 0.8 mm from the hub's flag magnet; its leads run under the shelf to a hole beside the end plate.
+- **MG996R servo**: M2 bolts with large washers through its 4.5 mm tab holes (M3 would leave only 2 mm of plastic to the window); shallow grooves take the ribs under its tabs.
 
 ## Tolerances used
 | Feature | Size |
@@ -131,11 +133,11 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 
 Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 
-**Bought parts:** DS3218 servo + 25T disc horn, NEMA11 11HS12-0674S, P20/15 5 V magnet, DRV5023 hall switch + 3x2 magnet, 3x 684ZZ, 3x nylon spacer 4.2x7x3, 3x shim 4.2x7x0.8, camera, 10x Ruthex M3x5.7.
+**Bought parts:** MG996R servo + 25T aluminium arm horn, NEMA11 11HS12-0674S, P20/15 5 V magnet, DRV5023 hall switch + 3x2 magnet, 3x 684ZZ, 3x nylon spacer 4.2x7x3, 3x shim 4.2x7x0.8, camera, 10x Ruthex M3x5.7.
 
 **Screws:**
 - 4x M3x6 ISO4762: carriage to the rail block.
-- 4x M3x14 ISO4762 + nyloc + washer: servo tabs.
+- 4x M2x12 ISO4762 + DIN 9021 washer under the head + nyloc (no washer under the nut): servo tabs.
 - 1x M4x30 ISO4762 + nyloc: lower A pivot.
 - 2x M4x20 ISO4762 + washer + nyloc: B pivots.
 - 2x M3x10: belt riser. 2x M3x10: chain post. 2x M3x8: belt clamp. 2x M3x12 + nut: X chain end on the post.
@@ -143,20 +145,20 @@ Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 - 4x M2.5x6 ISO7380: NEMA11.
 - 4x M2x12 + nut: camera.
 - 1x M3x6 or M3x8 ISO7380: magnet. Use the length that suits the magnet's thread depth.
-- 2 to 4x M3x10 ISO7380: horn (nut behind if the horn holes are not threaded).
+- 1x M3x10 ISO7380: top arm to the horn (r 24 hole, tapped M3 in the horn: VERIFY).
 
 ## Assembly order
 1. Press the heat-set inserts: riser (2 top, 2 bottom), chain post foot (2), end plate foot (2).
 2. Screw the wrist carriage to the rail block (4x M3x6 from below). Do this before the servo goes in: the servo covers two of the screws.
 3. Fit the riser and chain post from below (M3x10).
-4. Push the servo through the window from the -Y side and bolt the tabs (M3x14 + nyloc).
+4. Push the servo through the window from the -Y side and bolt the tabs (M2x12, large washer under the head, nyloc).
 5. Press the bearings into both arms from the end-plate side (flush).
 6. Set the servo to its centre pulse (1500 us), fit the horn with the arm level, and screw the top arm to it.
 7. Lower pivot A: M4x30 from the servo side, through the boss, spacer, bearing, shim and nyloc. Snug only: the arm must swing freely.
 8. Screw the shelf to the end plate (2x M3x10 from below). Mount the NEMA11 (4x M2.5x6 from below) and the camera.
 9. B pivots: M4x20 with washer and spacer from the arm side, then bearing, shim, end plate and nyloc.
 10. Press the hub onto the stepper shaft (D flat aligned), with the magnet screw already inside it, then screw on the electromagnet. Press the 3x2 magnet into the flag and the hall switch into its pocket.
-11. Route the cables: servo cable at the carriage zip slots, stepper and camera cables at the shelf slots, the bundle at the end plate slots, then up into the chain at the chain post.
+11. Route the cables (see wiring.md): camera cable tie on the shelf, hall leads under the shelf and up its hole, the harness tie on the end plate, two ties round the top arm, servo lead to the bundle, two ties on the chain post.
 
 ## Measure before printing (marked VERIFY in the script)
-Servo: tab underside to case top, case height, spline centre to case end, horn face height. Magnet: thread depth. Camera: board size and hole spacing. Enter the measured values at the top of `wrist_module.py`; everything else follows.
+Servo (MG996R, taken from a third-party STEP model): tab face to cover top, case height, spline centre to case end, tab hole spacing (48.4), horn face height, horn screw hole thread. Magnet: thread depth. Camera: board size and hole spacing. Enter the measured values at the top of `wrist_module.py`; everything else follows.

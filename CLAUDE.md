@@ -39,6 +39,7 @@ Design rules Egor requires: `docs/design_rules.md`.
 | `tools/render_pose.py` | PNG render of any pose (crop optional) |
 | `tolerance/coupons.py` | 11 tolerance test coupons -> `tolerance/out/*.step`; `tolerance/README.md` = how to test |
 | `verify_step.py` | Re-import a STEP and count parts/solids |
+| `vendor/` | Real STEP models of bought parts (Egor's downloads). `W.detailed()` / `F.detailed()` place them; `world(detail=True)` swaps them in (export + `detailed_*` checks) |
 | `components.csv` | Every bought component, why it was chosen, CAD data |
 | `wiring.md` | Power, stop button, ESP32-S3 pin map, harnesses, driver currents |
 
@@ -57,7 +58,7 @@ FreeCAD 1.0.x or 1.1.x is the CAD kernel (OpenCascade); Egor's PC has 1.1. Scrip
 Full check and export after a change (about 15 minutes in total):
 1. `cd wrist && ../fcpy review.py` - interference none, DFM clean.
 2. `./fcpy assembly.py` - static_park {}, cable_paths_through_parts none, fastener_clips_at_rest none,
-   fastener_engagement_problems none, fastener_sweep none, sweep none, worst_outside_polygon 0, parked in zones,
+   fastener_engagement_problems none, fastener_sweep none, sweep none, detailed_* none, worst_outside_polygon 0, parked in zones,
    every frame part DFM clean (thin 0, sharp 0, overhang 0).
 3. `./fcpy tools/stability.py`
 4. `./fcgui export_gui.py` then `./fcpy verify_step.py out/ETZ_plotter_parked.step`
@@ -68,6 +69,8 @@ Full check and export after a change (about 15 minutes in total):
   tree need `export_gui.py` run inside FreeCAD (it ends with `os._exit(0)`).
 - DFM on engraved text is very slow: coupons are checked with `LABELS = False`; check compounds per solid.
 - Tessellating many detailed STEP files at fine tolerance runs out of memory: use 0.25-0.3 for renders.
+- Vendor models: the fast checks use simple shapes sized from the vendor STEP; `assembly.py` also runs `detailed_static_park`,
+  `detailed_fastener_clips`, `detailed_sweep` with the real models. Wire stubs and stray features are trimmed when placing them.
 - Zip ties: `zip_pair` slots sit either side of the cable (cable runs along 'along'); a tie entry in `W.ZIPS` / `frame.ZIPS`
   cuts the slots (`zip_slots`) and places the tie (`zip_tie`) from one line, so they always match.
 - `fillet_all()` fillets every concave/convex edge; very small features may fail to fillet (logged in `FILLET_LOG`).

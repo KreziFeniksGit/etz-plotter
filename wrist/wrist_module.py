@@ -57,16 +57,26 @@ def bolt(d):
 BLK_HOLE_PITCH = 20.0         # 20 x 20 mm, M3, thread depth 3.5
 BLK_W, BLK_L, BLK_H = 27.0, 45.4, 10.0
 Z_BLOCK_FACE = 139.0
-# DSServo DS3218 standard-size servo, 25T spline
-SERVO_L, SERVO_W = 40.0, 20.0
-SERVO_TAB_SPAN, SERVO_TAB_PITCH = 49.5, 10.0
-SERVO_TAB_LEN, SERVO_TAB_THK = 54.5, 2.5
-SERVO_TAB_TO_TOP = 10.0       # VERIFY: tab underside to case top (spline side)
-SERVO_CASE_H = 36.5           # VERIFY: case bottom to case top
-SERVO_SHAFT_FROM_END = 10.2   # VERIFY: spline centre to the near case end
-HORN_FACE_ABOVE_TOP = 6.0     # VERIFY: case top to the outer face of the aluminium disc horn
-HORN_D = 25.0                 # 25T aluminium disc horn (24..25.4 fit)
-HORN_SLOT_R = (7.5, 10.5)     # arm slots cover horn holes on radii 7.5..10.5 mm
+# TowerPro MG996R standard-size servo, 25T spline (Egor's choice, replaced the DS3218).
+# Sizes read from vendor/mg996r.step (a third-party model): VERIFY on your servo with calipers, clones vary.
+SERVO_L, SERVO_W = 40.4, 20.0
+SERVO_TAB_SPAN, SERVO_TAB_PITCH = 48.4, 10.0   # tab hole centres (holes 4.5)
+SERVO_TAB_LEN, SERVO_TAB_THK = 54.4, 2.5
+SERVO_TAB_TO_TOP = 7.7        # tab face against the servo plate to the top of the case cover
+SERVO_COVER = (4.4, 0.4, 2.0) # top cover: inset from the far end, inset per side, height
+SERVO_CASE_H = 40.2           # case bottom to the cover top
+SERVO_SHAFT_FROM_END = 9.6    # spline centre to the near case end (the lead exits this end, 8 mm above the bottom)
+SERVO_BOSSES = ((6.55, 1.6), (5.4, 2.0))       # spline bosses above the cover: (radius, top above the cover)
+SERVO_SPLINE = (2.9, 5.9)                      # spline radius, its top above the cover
+SERVO_LEAD_UP = 8.0                            # lead exit above the case bottom (a 3 mm boss on the case end)
+SERVO_LEAD_BOSS = 3.0
+SERVO_TAB_RIB = (6.0, 0.95, 1.0)              # rib under each tab, next to the case: length out from the case, height, width
+SERVO_BOLT = 2.0                               # M2 through the 4.5 tab holes, DIN 9021 washer under the head
+HORN_FACE_ABOVE_TOP = 8.74    # cover top to the outer face of the horn (spline 3.4 deep in the horn: VERIFY)
+# aluminium 25T single-arm horn (vendor/servo_horn_25t_aluminium.step): hub d 14.8, arm 6.7 wide to r 27.6,
+# M3 tapped holes (2.5) at r 20 and 24; the top arm uses r 24 + the centre screw
+HORN_HUB_R, HORN_T, HORN_ARM = 7.4, 6.24, (27.6, 3.35, 3.65)   # hub radius, total thickness, arm (reach, half width, thickness)
+HORN_SCREW_R = 24.0
 # 684ZZ bearing; the outer ring's inner edge is about 7.6 mm, so spacers/shims up to 7 mm OD touch the inner ring only
 BRG_ID, BRG_OD, BRG_W = 4.0, 9.0, 4.0
 SPACER_OD, SPACER_L = 7.0, 3.0      # nylon round spacer 4.2 x 7 x 3 (reaches the inner ring through the arm shoulder)
@@ -76,6 +86,8 @@ N11_SQ, N11_LEN = 28.2, 31.5
 N11_HOLE_PITCH, N11_HOLE = 23.0, 2.5
 N11_PILOT_D, N11_PILOT_H = 22.0, 2.0
 N11_SHAFT_D, N11_SHAFT_FLAT, N11_SHAFT_LEN = 5.0, 4.5, 20.0
+N11_LEAD_BOSS = (12.0, 3.0, 22.5, 29.5)   # leads leave a boss on one side near the rear (vendor/11HS12-0674S.step): width, height, z from..to above the face
+N11_LEAD_Z = 27.1                        # lead height above the mounting face
 # electromagnet P20/15, 5 V, M3 thread on top
 MAG_D, MAG_H = 20.0, 15.0
 # camera board (your choice; change to match it)
@@ -110,7 +122,7 @@ CP_Y_RISER = 28.0               # plate edge under the belt riser
 ARM_CLEAR_X = -16.0
 BLOCK_SINK = 3.5                # block screw heads sunk into the plate from below
 # servo plate (vertical): the servo tabs bear on its -y face
-SP_Y0, SP_T = 4.0, 5.0
+SP_Y0, SP_T = 3.56, 5.0          # 3.56: keeps the horn face (= top arm) at y 20 with the MG996R
 SP_Y1 = SP_Y0 + SP_T
 SP_Z0 = Z_PIVOT_BOT - 12.0
 # servo position (spline axis = pivot A top)
@@ -372,7 +384,8 @@ def wrist_carriage():
     wx0, wx1 = SERVO_X0 - TOL_MOVE, SERVO_X1 + TOL_MOVE
     wz0, wz1 = Z_PIVOT_TOP - SERVO_W / 2 - TOL_MOVE, Z_PIVOT_TOP + SERVO_W / 2 + TOL_MOVE
     q = (wx1 - wx0) / 4
-    win = prism_y([(wx0, wz1), (wx0, wz0), (wx0 + q, wz0 - q), (wx0 + 2 * q, wz0), (wx0 + 3 * q, wz0 - q), (wx1, wz0), (wx1, wz1)],
+    qz = q * 1.02                                  # roof a hair steeper than 45 deg, so rounding never tips it over the limit
+    win = prism_y([(wx0, wz1), (wx0, wz0), (wx0 + q, wz0 - qz), (wx0 + 2 * q, wz0), (wx0 + 3 * q, wz0 - qz), (wx1, wz0), (wx1, wz1)],
                   SP_Y0 - 1, SP_Y1 + 1)
     # round the window's corners on the tool itself (r 0.5 keeps 0.35 mm around the case corners)
     win = win.makeFillet(0.5, [e for e in win.Edges if is_line(e) and abs(e.Length - (SP_T + 2)) < 1e-6
@@ -385,10 +398,14 @@ def wrist_carriage():
         cut.append(cyl((x, y, Z_CP0 - 1), (5.5 + 2 * TOL_MOVE) / 2, 1 + BLOCK_SINK))
     for x, y in RISER_MOUNT + CHAIN_MOUNT:          # M3 from below into inserts in the add-on parts
         cut.append(cyl((x, y, Z_CP0 - 1), bolt(3) / 2, CP_T + 2))
-    for x, z in SERVO_TAB_HOLES:                    # M3 bolt + nyloc; servo tab holes (4.5) give the play
-        cut.append(cyl((x, SP_Y0 - 1, z), bolt(3) / 2, SP_T + 2, 'y'))
+    for x, z in SERVO_TAB_HOLES:                    # M2 bolt + large washer + nyloc (M3 would leave only 2 mm to the window)
+        cut.append(cyl((x, SP_Y0 - 1, z), bolt(SERVO_BOLT) / 2, SP_T + 2, 'y'))
+    for x in (SERVO_X0 - SERVO_TAB_RIB[0] - TOL_MOVE, SERVO_X1 - TOL_MOVE):   # grooves for the ribs under the servo tabs
+        g = box(x, SP_Y0 - 1, Z_PIVOT_TOP - SERVO_TAB_RIB[2] / 2 - TOL_MOVE, x + SERVO_TAB_RIB[0] + 2 * TOL_MOVE,
+                SP_Y0 + SERVO_TAB_RIB[1] + TOL_MOVE, Z_PIVOT_TOP + SERVO_TAB_RIB[2] / 2 + TOL_MOVE)
+        cut.append(g.makeFillet(0.4, [e for e in g.Edges if min(v.Point.y for v in e.Vertexes) > SP_Y0 - 0.5 or is_line(e) and
+                                      abs(e.Vertexes[0].Point.y - e.Vertexes[1].Point.y) > 1.0]))   # rounded groove: no sharp inside corner
     cut.append(cyl((0.0, SP_Y0 - 1, Z_PIVOT_BOT), bolt(4) / 2, ARM_Y0 - SP_Y0 + 2, 'y'))   # M4 pivot bolt
-    cut.append(zip_slots(ZIPS['zip_servo']))                                              # servo lead under the plate
     return cut_all(body, cut)
 
 def x_belt_riser():
@@ -449,21 +466,20 @@ def _arm_shape(r_a):
     web = prism_y([t1a, t1b, t2b, t2a], 0, ARM_T)
     return tidy(da.fuse([db, web]))
 
+ARM_SLOT_X0 = {True: 31.0, False: 20.0}    # lightening slot start: the top arm keeps 2.4 mm round the horn screw at x 24
+
 def _arm(top):
     za = Z_PIVOT_TOP if top else Z_PIVOT_BOT
     body = _arm_shape(ARM_TOP_BOSS_R if top else ARM_BOSS_R)
-    cut = [slot((20.0, -1, 0), (R_ARM - 18.0, -1, 0), 3.0, ARM_T + 2, 'y')]   # lightening slot, about 25 % of the web
+    sx0 = ARM_SLOT_X0[top]
+    cut = [slot((sx0, -1, 0), (R_ARM - 18.0, -1, 0), 3.0, ARM_T + 2, 'y')]   # lightening slot
     def bearing(x):
         return [cyl((x, ARM_T + 0.01, 0), (BRG_OD + TOL_PRESS) / 2, -BRG_W - 0.01, 'y'),        # press seat from the end-plate side
                 cyl((x, -1, 0), (SPACER_OD + 2 * SPACER_GAP) / 2, ARM_T + 2, 'y')]                    # shoulder hole: spacer + 0.3 radial, keeps a 0.76 mm ledge for the outer ring
     cut += bearing(R_ARM)
     if top:
         cut.append(cyl((0, -1, 0), 3.5, ARM_T + 2, 'y'))                                         # clears the horn screw head
-        for k in range(4):
-            ang = math.radians(45 + 90 * k)
-            p0 = (HORN_SLOT_R[0] * math.cos(ang), -1, HORN_SLOT_R[0] * math.sin(ang))
-            p1 = (HORN_SLOT_R[1] * math.cos(ang), -1, HORN_SLOT_R[1] * math.sin(ang))
-            cut.append(slot(p0, p1, bolt(3) / 2, ARM_T + 2, 'y'))
+        cut.append(cyl((HORN_SCREW_R, -1, 0), bolt(3) / 2, ARM_T + 2, 'y'))                     # M3 into the horn's tapped hole at r 24
     else:
         cut += bearing(0.0)
     body = cut_all(body, cut)
@@ -480,7 +496,7 @@ def _arm(top):
         return False
     body = tidy(body.makeFillet(0.8, [e for e in body.Edges if outline(e)]))
     # slot rims: fillet each slot outline as one tangent chain (lines + its end arcs)
-    for x0, x1, r in [(20.0, R_ARM - 18.0, 3.0)]:
+    for x0, x1, r in [(sx0, R_ARM - 18.0, 3.0)]:
         rim = [e for e in body.Edges if (is_line(e) and abs(e.Length - (x1 - x0)) < 1e-6) or
                (not is_line(e) and hasattr(e, 'Curve') and e.Curve.__class__.__name__ == 'Circle' and abs(e.Curve.Radius - r) < 1e-6)]
         try:
@@ -488,8 +504,8 @@ def _arm(top):
         except Exception:
             FILLET_LOG.append(len(rim))
     if top:
-        rim = [e for e in body.Edges if (is_line(e) and abs(e.Length - (HORN_SLOT_R[1] - HORN_SLOT_R[0])) < 1e-6) or
-               (not is_line(e) and e.Curve.__class__.__name__ == 'Circle' and abs(e.Curve.Radius - bolt(3) / 2) < 1e-6)]
+        rim = [e for e in body.Edges if not is_line(e) and hasattr(e, 'Curve') and e.Curve.__class__.__name__ == 'Circle'
+               and abs(e.Curve.Radius - bolt(3) / 2) < 1e-6]
         try:
             body = tidy(body.makeFillet(0.4, rim))
         except Exception:
@@ -570,7 +586,6 @@ def wrist_hub():
 # name: (part, point on the cable-side face between the slots, cable direction, plate normal axis,
 #        side of the cable (+1/-1 along that axis), plate thickness, cable diameter, slot centre gap, face-to-cable gap)
 ZIPS = {
-    'zip_servo': ('wrist_carriage', (-32.0, -19.0, Z_CP0), 'y', 'z', -1, CP_T, 3.5, 5.5, 0.2),
     'zip_chain_post_1': ('chain_post', ((CHAIN_X0 + CHAIN_X1) / 2, CP_Y0, 165.0), 'z', 'y', -1, CHAIN_POST_T, 7.0, 10.0, 0.5),
     'zip_chain_post_2': ('chain_post', ((CHAIN_X0 + CHAIN_X1) / 2, CP_Y0, 192.0), 'z', 'y', -1, CHAIN_POST_T, 7.0, 10.0, 0.5),
     'zip_end_plate': ('end_plate', ((EP_X0 + EP_X1) / 2, EP_Y1, 98.0), 'z', 'y', 1, EP_T, 6.0, 8.0, 0.1),
@@ -578,7 +593,7 @@ ZIPS = {
 }
 HARNESS_D = 6.0                   # wrist harness: stepper 4 + hall 3 + camera (USB) wires
 HARNESS_LIFT = 0.3                # harness above the top arm's upper edge
-ARM_TIES_X = (26.0, 56.0)         # ties round the top arm's upper web, through the lightening slot
+ARM_TIES_X = (36.0, 56.0)         # ties round the top arm's upper web, through the lightening slot
 
 def arm_top_edge():
     """Upper straight edge of the top arm (level pose): start point, unit direction, outward unit normal (x-z)."""
@@ -612,7 +627,8 @@ def harness_paths():
         'cable_wrist_hall': (2.5, [(E, (HALL_POS[0], 33.8, Z_SH0 - 10.3)), (E, (HALL_POS[0], 37.6, Z_SH0 - 10.3)),     # out of the boss bottom, clear of the flag
                                    (E, (88.0, 37.6, Z_SH0 - 10.3)), (E, (HALL_LEAD_HOLE[0], HALL_LEAD_HOLE[1], Z_SH0 - 7.5)),
                                    (E, (HALL_LEAD_HOLE[0], HALL_LEAD_HOLE[1], Z_SH1 + 2.5)), (E, J)]),
-        'cable_wrist_stepper': (4.0, [(E, (MAG_X, MAG_Y + N11_SQ / 2 + 2.4, 92.0)), (E, (89.5, MAG_Y + N11_SQ / 2 + 2.4, 86.0)), (E, J)]),   # VERIFY: lead exit side of the NEMA11
+        'cable_wrist_stepper': (4.0, [(E, (MAG_X, MAG_Y + N11_SQ / 2 + 1.5, Z_SH1 + N11_LEAD_Z)), (E, (95.0, MAG_Y + N11_SQ / 2 + 2.4, Z_SH1 + 24.0)),
+                                      (E, (89.5, MAG_Y + N11_SQ / 2 + 2.4, 86.0)), (E, J)]),   # leads out of the motor's lead boss (turned to +y)   # VERIFY: lead exit side of the NEMA11
     }
 
 def arm_tie(x):
@@ -628,12 +644,22 @@ def bought():
     B = {}
     B['mgn12h_block'] = box(-BLK_L / 2, -BLK_W / 2, Z_BLOCK_FACE, BLK_L / 2, BLK_W / 2, Z_BLOCK_FACE + BLK_H).cut(
         box(-BLK_L / 2 - 1, -6.2, Z_BLOCK_FACE + 4.8, BLK_L / 2 + 1, 6.2, Z_BLOCK_FACE + BLK_H + 1))     # rail channel (rail base 5 mm inside)
-    B['servo_case'] = box(SERVO_X0, CASE_TOP_Y - SERVO_CASE_H, Z_PIVOT_TOP - SERVO_W / 2, SERVO_X1, CASE_TOP_Y, Z_PIVOT_TOP + SERVO_W / 2)
+    ci, cs, ch = SERVO_COVER
+    case = box(SERVO_X0, CASE_TOP_Y - SERVO_CASE_H, Z_PIVOT_TOP - SERVO_W / 2, SERVO_X1, CASE_TOP_Y - ch, Z_PIVOT_TOP + SERVO_W / 2)
+    case = case.fuse(box(SERVO_X0 + ci, CASE_TOP_Y - ch, Z_PIVOT_TOP - SERVO_W / 2 + cs, SERVO_X1, CASE_TOP_Y, Z_PIVOT_TOP + SERVO_W / 2 - cs))
+    for r, top in SERVO_BOSSES:
+        case = case.fuse(cyl((0, CASE_TOP_Y - 0.01, Z_PIVOT_TOP), r, top + 0.01, 'y'))
+    B['servo_case'] = case.removeSplitter()
     B['servo_tabs'] = box(SERVO_XC - SERVO_TAB_LEN / 2, SP_Y0 - SERVO_TAB_THK, Z_PIVOT_TOP - SERVO_W / 2,
                           SERVO_XC + SERVO_TAB_LEN / 2, SP_Y0, Z_PIVOT_TOP + SERVO_W / 2)
-    B['servo_spline'] = cyl((0, CASE_TOP_Y, Z_PIVOT_TOP), 3.0, HORN_FACE_ABOVE_TOP - 2.0, 'y')
-    B['servo_horn'] = cyl((0, HORN_FACE_Y - 2.0, Z_PIVOT_TOP), HORN_D / 2, 2.0, 'y')
-    B['nema11'] = box(MAG_X - N11_SQ / 2, MAG_Y - N11_SQ / 2, Z_SH1, MAG_X + N11_SQ / 2, MAG_Y + N11_SQ / 2, Z_SH1 + N11_LEN)
+    b_top = CASE_TOP_Y + SERVO_BOSSES[-1][1]
+    B['servo_spline'] = cyl((0, b_top, Z_PIVOT_TOP), SERVO_SPLINE[0], SERVO_SPLINE[1] - SERVO_BOSSES[-1][1], 'y')
+    reach, hw, at = HORN_ARM
+    B['servo_horn'] = cyl((0, HORN_FACE_Y - HORN_T, Z_PIVOT_TOP), HORN_HUB_R, HORN_T, 'y').fuse(
+        box(0, HORN_FACE_Y - at, Z_PIVOT_TOP - hw, reach, HORN_FACE_Y, Z_PIVOT_TOP + hw)).removeSplitter()   # arm along the top arm
+    B['nema11'] = box(MAG_X - N11_SQ / 2, MAG_Y - N11_SQ / 2, Z_SH1, MAG_X + N11_SQ / 2, MAG_Y + N11_SQ / 2, Z_SH1 + N11_LEN).fuse(
+        box(MAG_X - N11_LEAD_BOSS[0] / 2, MAG_Y + N11_SQ / 2 - 0.01, Z_SH1 + N11_LEAD_BOSS[2], MAG_X + N11_LEAD_BOSS[0] / 2,
+            MAG_Y + N11_SQ / 2 + N11_LEAD_BOSS[1], Z_SH1 + N11_LEAD_BOSS[3])).removeSplitter()   # lead exit boss, turned to +y
     B['nema11_pilot'] = cyl((MAG_X, MAG_Y, Z_SH1), N11_PILOT_D / 2, -N11_PILOT_H)
     sh = cyl((MAG_X, MAG_Y, Z_SH1), N11_SHAFT_D / 2, -N11_SHAFT_LEN)
     B['nema11_shaft'] = sh.cut(box(MAG_X + N11_SHAFT_FLAT - N11_SHAFT_D / 2, MAG_Y - 3, Z_SH1 - N11_SHAFT_LEN - 1, MAG_X + 3, MAG_Y + 3, Z_SH1 + 1))
@@ -647,18 +673,63 @@ def bought():
     for nm, (x, z) in {'shim_BT': (R_ARM, Z_PIVOT_TOP), 'shim_BL': (R_ARM, Z_PIVOT_BOT), 'shim_AL': (0.0, Z_PIVOT_BOT)}.items():
         B[nm] = cyl((x, ARM_Y1, z), SHIM_OD / 2, SHIM_T, 'y').cut(cyl((x, ARM_Y1 - 1, z), 2.1, SHIM_T + 2, 'y'))
     B['x_belt'] = box(CP_X0 - 30, XB_Y0, X_BELT_Z - BELT_T / 2, CP_X1 + 30, XB_Y1, X_BELT_Z + BELT_T / 2)
+    # DRV5023 hall switch (TO-92 UA body 4.0 x 1.5 x 3, leads down) in its pocket, and the 3 x 2 flag magnet in the hub
+    hz = Z_SH0 - 9.0 + TO92_H
+    hy = HALL_POS[1] - 3.2 + TOL_PRESS / 2
+    B['hall_drv5023'] = box(HALL_POS[0] - 2.0, hy, hz - 3.0, HALL_POS[0] + 2.0, hy + 1.5, hz).fuse(
+        [box(HALL_POS[0] + dx - 0.2, hy + 0.55, hz - 6.5, HALL_POS[0] + dx + 0.2, hy + 0.95, hz - 3.0) for dx in (-1.27, 0.0, 1.27)])
+    zf = H_MID + MAG_H + (Z_SH1 - N11_SHAFT_LEN + 12.5 - H_MID - MAG_H) - 4.0
+    B['flag_magnet_3x2'] = cyl((MAG_X, MAG_Y + 9.7 - 0.2, zf), 1.5, -2.0, 'y')
     for k, spec in ZIPS.items():
         B[k] = zip_tie(spec[1], *spec[2:])
     for i, x in enumerate(ARM_TIES_X):
         B['zip_arm_%d' % (i + 1)] = arm_tie(x)
     return B
 
+# =============================================================================
+# 6b. VENDOR MODELS (real STEP files in vendor/, used in the exported model and in the detailed checks)
+# =============================================================================
+import os as _os
+VENDOR_DIR = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'vendor')
+_VCACHE = {}
+
+def vendor(fname, solids=None):
+    """A copy of a vendor STEP (optionally only some of its solids, by index)."""
+    if fname not in _VCACHE:
+        _VCACHE[fname] = Part.read(_os.path.join(VENDOR_DIR, fname))
+    s = _VCACHE[fname]
+    if solids is not None:
+        s = Part.makeCompound([s.Solids[i] for i in solids])
+    return s.copy()
+
+def placed(s, rows, t):
+    """Apply the rotation rows (3 x 3, new = rows * old) and then the translation t."""
+    (a, b, c), (d, e, f), (g, h, i) = rows
+    s.transformShape(App.Matrix(a, b, c, 0, d, e, f, 0, g, h, i, 0, 0, 0, 0, 1))
+    s.translate(V(*t))
+    return s
+
+def detailed():
+    """Vendor shapes for some bought parts, module coordinates, level pose. None = covered by another vendor shape."""
+    D = {}
+    # MG996R: vendor x = along the case (spline at x 30.8), y = across (centre 10), z = up from the case bottom (tab face 32.5)
+    D['servo_case'] = placed(vendor('mg996r.step', [0]), ((1, 0, 0), (0, 0, 1), (0, -1, 0)), (-30.8, SP_Y0 - 32.5, Z_PIVOT_TOP + 10.0))
+    D['servo_tabs'] = None
+    # horn: vendor y = along the arm, z = up (hub top 3.82 = outer face), x = across
+    D['servo_horn'] = placed(vendor('servo_horn_25t_aluminium.step'), ((0, 1, 0), (0, 0, 1), (1, 0, 0)), (0, HORN_FACE_Y - 3.82, Z_PIVOT_TOP))
+    # NEMA11: vendor z up from the mounting face, leads on -y: turned 180 deg so they point +y; body only (leads are drawn as cable)
+    keep = Part.makeBox(28.4, 28.4, 33.0, V(-14.2, -14.2, 0.0)).fuse([Part.makeBox(28.4, 4.0, 33.0, V(-14.2, -18.0, 0.0)),
+                                                                      Part.makeCylinder(N11_PILOT_D / 2 + 0.05, 2.05, V(0, 0, -2.05))])
+    body = vendor('11HS12-0674S.step', [1]).common(keep)          # body, pilot and lead boss (drops a 0.5 mm ring in front of the face that the datasheet does not show)
+    D['nema11'] = placed(body, ((-1, 0, 0), (0, -1, 0), (0, 0, 1)), (MAG_X, MAG_Y, Z_SH1))
+    return D
 GROUP = {'wrist_carriage': 'xcar', 'x_belt_riser': 'xcar', 'x_belt_clamp': 'xcar', 'chain_post': 'xcar',
          'arm_top': 'armT', 'arm_bottom': 'armB', 'end_plate': 'end', 'shelf': 'end', 'wrist_hub': 'wrist',
          'mgn12h_block': 'xcar', 'servo_case': 'xcar', 'servo_tabs': 'xcar', 'servo_spline': 'armT', 'servo_horn': 'armT',
          'nema11': 'end', 'nema11_pilot': 'end', 'nema11_shaft': 'wrist', 'electromagnet': 'wrist', 'camera_board': 'end',
          'camera_lens': 'end', 'brg_AL': 'armB', 'brg_BT': 'armT', 'brg_BL': 'armB', 'x_belt': 'xcar',
          'spacer_AL': 'xcar', 'spacer_BT': 'end', 'spacer_BL': 'end', 'shim_BT': 'end', 'shim_BL': 'end', 'shim_AL': 'xcar'}
+GROUP.update({'hall_drv5023': 'end', 'flag_magnet_3x2': 'wrist'})
 GROUP.update({k: GROUP[spec[0]] for k, spec in ZIPS.items()})
 GROUP.update({'zip_arm_%d' % (i + 1): 'armT' for i in range(len(ARM_TIES_X))})
 

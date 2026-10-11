@@ -21,8 +21,8 @@ HEAD = {'cap': {2: (3.8, 2.0), 2.5: (4.5, 2.5), 3: (5.5, 3.0), 4: (7.0, 4.0), 5:
         'csk': {3: (6.0, 1.7), 4: (8.0, 2.3), 5: (10.0, 2.8)},
         'pan': {2: (3.8, 1.6), 3.5: (7.0, 2.4), 4: (8.0, 2.8)}}
 NUT = {'hex': {2: (4.0, 1.6), 2.5: (5.0, 2.0), 3: (5.5, 2.4), 4: (7.0, 3.2), 5: (8.0, 4.0)},
-       'nyloc': {3: (5.5, 4.0), 4: (7.0, 5.0), 5: (8.0, 5.0)}}
-WASHER = {3: (7.0, 0.5), 4: (9.0, 0.8), 5: (10.0, 1.0)}
+       'nyloc': {2: (4.0, 3.0), 3: (5.5, 4.0), 4: (7.0, 5.0), 5: (8.0, 5.0)}}
+WASHER = {2: (6.0, 0.8), 3: (7.0, 0.5), 4: (9.0, 0.8), 5: (10.0, 1.0)}   # M2: DIN 9021 large washer (covers the 4.5 servo tab hole)
 INSERT_L, INSERT_D = 5.7, 4.0                  # Ruthex RX-M3x5.7 (drawn solid: its thread is what the screw engages)
 TNUT_W, TNUT_L, TNUT_T, TNUT_DEPTH = 5.8, 9.5, 3.5, 1.8   # 2020 drop-in T-nut, under the 1.8 mm slot lips
 
@@ -148,8 +148,8 @@ def wrist_fasteners():
                    insert=('wm_x_belt_riser', ztop - zris), note='belt clamp into the riser'))
     for i, (x, z) in enumerate(W.SERVO_TAB_HOLES):
         y0 = W.SP_Y0 - W.SERVO_TAB_THK
-        L.append(F('wm_f_servo%d' % i, 'cap', 3, 14, (x, y0, z), (0, 1, 0), 'xcar', ('nut', None, 4.0, None), extra=('wm_servo_tabs',),
-                   nut=('nyloc', W.SP_Y1 - y0), nut_washer=True, note='servo tabs, washer + nyloc on the +y side'))
+        L.append(F('wm_f_servo%d' % i, 'cap', 2, 12, (x, y0, z), (0, 1, 0), 'xcar', ('nut', None, 3.0, None), extra=('wm_servo_tabs', 'wm_servo_case'),
+                   nut=('nyloc', W.SP_Y1 - y0), head_washer=True, note='servo tabs: M2x12, large washer under the head (4.5 tab hole), nyloc on the +y side (no washer: a longer screw would reach the horn)'))
     L.append(F('wm_f_pivotA', 'cap', 4, 30, (0, W.SP_Y0, W.Z_PIVOT_BOT), (0, 1, 0), 'xcar', ('nut', None, 5.0, None),
                extra=('wm_spacer_AL', 'wm_brg_AL', 'wm_shim_AL'), nut=('nyloc', W.EP_Y0 - W.SP_Y0),
                note='lower A pivot: boss, spacer, bearing, shim, nyloc'))
@@ -158,10 +158,8 @@ def wrist_fasteners():
         L.append(F('wm_f_pivotB%d' % i, 'cap', 4, 20, (W.R_ARM, y0, z), (0, 1, 0), 'end', ('nut', None, 5.0, None), head_washer=True,
                    extra=('wm_spacer_B', 'wm_brg_B', 'wm_shim_B'), nut=('nyloc', W.EP_Y1 - y0),
                    note='B pivots: washer, spacer, bearing, shim, end plate, nyloc'))
-    for i, ang in enumerate((45.0, 225.0)):
-        a = math.radians(ang)
-        L.append(F('wm_f_horn%d' % i, 'button', 3, 10, (9.0 * math.cos(a), W.ARM_Y1, W.Z_PIVOT_TOP + 9.0 * math.sin(a)), (0, -1, 0), 'armT',
-                   ('through', 'wm_servo_horn', 1.8, None), note='top arm to the disc horn (horn holes threaded)'))
+    L.append(F('wm_f_horn0', 'button', 3, 10, (W.HORN_SCREW_R, W.ARM_Y1, W.Z_PIVOT_TOP), (0, -1, 0), 'armT',
+               ('through', 'wm_servo_horn', 1.8, None), note='top arm to the horn arm (M3 tapped hole at r 24, VERIFY)'))
     L.append(F('wm_f_spline', 'button', 3, 6, (0, W.HORN_FACE_Y, W.Z_PIVOT_TOP), (0, -1, 0), 'armT', ('blind', 'wm_servo_spline', 3.0, 5.0),
                extra=('wm_servo_horn',), note='horn centre screw into the servo spline'))
     for i, (x, y) in enumerate(W.FOOT_SCREWS):

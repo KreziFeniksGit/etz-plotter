@@ -39,7 +39,7 @@ try:
 
     out = os.path.join(HERE, 'out')
     for tag, pose in (('parked', (F.PYC0, F.PXB0, W.H_MAX, 0.0)), ('working', (250.0, 400.0, 5.0, 90.0))):
-        parts = A.world(*pose, fasteners=True)
+        parts = A.world(*pose, fasteners=True, detail=True)          # real vendor models where we have them
         doc, top = make_doc('ETZ_plotter_' + tag, parts)
         ImportGui.export([top], os.path.join(out, 'ETZ_plotter_%s.step' % tag))
         doc.saveAs(os.path.join(out, 'ETZ_plotter_%s.FCStd' % tag))

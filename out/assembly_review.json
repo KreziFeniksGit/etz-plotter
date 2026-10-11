@@ -2,7 +2,7 @@
  "static_park": {},
  "cable_paths_through_parts": "none",
  "footprint_parked_outside_zones": "none",
- "fasteners_count": 133,
+ "fasteners_count": 132,
  "fastener_clips_at_rest": "none",
  "fastener_engagement_problems": "none",
  "fastener_engagement": {
@@ -57,24 +57,24 @@
    "engagement_mm": 5.4
   },
   "wm_f_servo0": {
-   "screw": "M3 x 14 ISO 4762",
+   "screw": "M2 x 12 ISO 4762",
    "into": "nut",
-   "engagement_mm": 4.0
+   "engagement_mm": 3.0
   },
   "wm_f_servo1": {
-   "screw": "M3 x 14 ISO 4762",
+   "screw": "M2 x 12 ISO 4762",
    "into": "nut",
-   "engagement_mm": 4.0
+   "engagement_mm": 3.0
   },
   "wm_f_servo2": {
-   "screw": "M3 x 14 ISO 4762",
+   "screw": "M2 x 12 ISO 4762",
    "into": "nut",
-   "engagement_mm": 4.0
+   "engagement_mm": 3.0
   },
   "wm_f_servo3": {
-   "screw": "M3 x 14 ISO 4762",
+   "screw": "M2 x 12 ISO 4762",
    "into": "nut",
-   "engagement_mm": 4.0
+   "engagement_mm": 3.0
   },
   "wm_f_pivotA": {
    "screw": "M4 x 30 ISO 4762",
@@ -94,17 +94,12 @@
   "wm_f_horn0": {
    "screw": "M3 x 10 ISO 7380",
    "into": "through",
-   "engagement_mm": 2.0
-  },
-  "wm_f_horn1": {
-   "screw": "M3 x 10 ISO 7380",
-   "into": "through",
-   "engagement_mm": 2.0
+   "engagement_mm": 3.5
   },
   "wm_f_spline": {
    "screw": "M3 x 6 ISO 7380",
    "into": "blind",
-   "engagement_mm": 4.0
+   "engagement_mm": 3.16
   },
   "wm_f_shelf0": {
    "screw": "M3 x 10 ISO 4762",
@@ -674,6 +669,9 @@
  },
  "fastener_sweep_poses": 16,
  "fastener_sweep": "none",
+ "detailed_static_park": "none",
+ "detailed_fastener_clips": "none",
+ "detailed_sweep": "none",
  "sweep_poses": 54,
  "sweep": "none",
  "worst_outside_polygon_mm": [
