@@ -1,0 +1,10 @@
+#!/bin/sh
+# Run a script with FreeCAD's bundled Python (FreeCAD + Part importable).  Linux / macOS.
+# Uses $FREECAD_DIR (the folder that contains bin/ and lib/), else the usual places.
+for F in "$FREECAD_DIR" "$HOME/tools/freecad/squashfs-root/usr" /home/claude/tools/freecad/squashfs-root/usr \
+         /usr/lib/freecad /opt/freecad/usr "/Applications/FreeCAD.app/Contents/Resources"; do
+  [ -n "$F" ] || continue
+  if [ -x "$F/bin/python" ]; then PYTHONPATH="$F/lib:$PYTHONPATH" exec "$F/bin/python" "$@"; fi
+done
+if command -v python3 >/dev/null && [ -d /usr/lib/freecad/lib ]; then PYTHONPATH="/usr/lib/freecad/lib:$PYTHONPATH" exec python3 "$@"; fi
+echo "FreeCAD not found: run tools/setup_freecad_linux.sh or set FREECAD_DIR" >&2; exit 1

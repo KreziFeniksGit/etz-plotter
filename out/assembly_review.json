@@ -1,0 +1,1143 @@
+{
+ "static_park": {},
+ "cable_paths_through_parts": "none",
+ "footprint_parked_outside_zones": "none",
+ "fasteners_count": 133,
+ "fastener_clips_at_rest": "none",
+ "fastener_engagement_problems": "none",
+ "fastener_engagement": {
+  "wm_f_block0": {
+   "screw": "M3 x 6 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 3.5
+  },
+  "wm_f_block1": {
+   "screw": "M3 x 6 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 3.5
+  },
+  "wm_f_block2": {
+   "screw": "M3 x 6 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 3.5
+  },
+  "wm_f_block3": {
+   "screw": "M3 x 6 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 3.5
+  },
+  "wm_f_riser0": {
+   "screw": "M3 x 10 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 4.0
+  },
+  "wm_f_riser1": {
+   "screw": "M3 x 10 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 4.0
+  },
+  "wm_f_post0": {
+   "screw": "M3 x 10 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 4.0
+  },
+  "wm_f_post1": {
+   "screw": "M3 x 10 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 4.0
+  },
+  "wm_f_clamp0": {
+   "screw": "M3 x 10 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 5.4
+  },
+  "wm_f_clamp1": {
+   "screw": "M3 x 10 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 5.4
+  },
+  "wm_f_servo0": {
+   "screw": "M3 x 14 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 4.0
+  },
+  "wm_f_servo1": {
+   "screw": "M3 x 14 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 4.0
+  },
+  "wm_f_servo2": {
+   "screw": "M3 x 14 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 4.0
+  },
+  "wm_f_servo3": {
+   "screw": "M3 x 14 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 4.0
+  },
+  "wm_f_pivotA": {
+   "screw": "M4 x 30 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 5.0
+  },
+  "wm_f_pivotB0": {
+   "screw": "M4 x 20 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 5.0
+  },
+  "wm_f_pivotB1": {
+   "screw": "M4 x 20 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 5.0
+  },
+  "wm_f_horn0": {
+   "screw": "M3 x 10 ISO 7380",
+   "into": "through",
+   "engagement_mm": 2.0
+  },
+  "wm_f_horn1": {
+   "screw": "M3 x 10 ISO 7380",
+   "into": "through",
+   "engagement_mm": 2.0
+  },
+  "wm_f_spline": {
+   "screw": "M3 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "wm_f_shelf0": {
+   "screw": "M3 x 10 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 5.7
+  },
+  "wm_f_shelf1": {
+   "screw": "M3 x 10 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 5.7
+  },
+  "wm_f_n11_0": {
+   "screw": "M2.5 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 2.0
+  },
+  "wm_f_n11_1": {
+   "screw": "M2.5 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 2.0
+  },
+  "wm_f_n11_2": {
+   "screw": "M2.5 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 2.0
+  },
+  "wm_f_n11_3": {
+   "screw": "M2.5 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 2.0
+  },
+  "wm_f_cam0": {
+   "screw": "M2 x 12 pan head",
+   "into": "nut",
+   "engagement_mm": 1.6
+  },
+  "wm_f_cam1": {
+   "screw": "M2 x 12 pan head",
+   "into": "nut",
+   "engagement_mm": 1.6
+  },
+  "wm_f_cam2": {
+   "screw": "M2 x 12 pan head",
+   "into": "nut",
+   "engagement_mm": 1.6
+  },
+  "wm_f_cam3": {
+   "screw": "M2 x 12 pan head",
+   "into": "nut",
+   "engagement_mm": 1.6
+  },
+  "wm_f_magnet": {
+   "screw": "M3 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 3.5
+  },
+  "wm_f_xchain0": {
+   "screw": "M3 x 12 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 2.4
+  },
+  "wm_f_xchain1": {
+   "screw": "M3 x 12 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 2.4
+  },
+  "f_yblock0": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 3.0
+  },
+  "f_yblock1": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 3.0
+  },
+  "f_yblock2": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 3.0
+  },
+  "f_yblock3": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 3.0
+  },
+  "f_socket_px": {
+   "screw": "M5 x 10 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.0
+  },
+  "f_socket_mx": {
+   "screw": "M5 x 10 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.0
+  },
+  "f_socket_py": {
+   "screw": "M5 x 10 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.0
+  },
+  "f_socket_my": {
+   "screw": "M5 x 10 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.0
+  },
+  "f_yclamp0": {
+   "screw": "M3 x 14 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 4.96
+  },
+  "f_yclamp1": {
+   "screw": "M3 x 14 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 4.96
+  },
+  "f_ychain0": {
+   "screw": "M3 x 20 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 2.4
+  },
+  "f_ychain1": {
+   "screw": "M3 x 20 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 2.4
+  },
+  "f_xmotor0": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_xmotor1": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_xmotor2": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_xmotor3": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_xmount0": {
+   "screw": "M5 x 16 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.2
+  },
+  "f_xmount1": {
+   "screw": "M5 x 16 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.2
+  },
+  "f_xswitch0": {
+   "screw": "M2 x 10 pan head",
+   "into": "self",
+   "engagement_mm": 4.25
+  },
+  "f_xswitch1": {
+   "screw": "M2 x 10 pan head",
+   "into": "self",
+   "engagement_mm": 4.25
+  },
+  "f_bracket_top_h": {
+   "screw": "M5 x 8 ISO 7380",
+   "into": "tnut",
+   "engagement_mm": 3.2
+  },
+  "f_bracket_top_v": {
+   "screw": "M5 x 8 ISO 7380",
+   "into": "tnut",
+   "engagement_mm": 3.2
+  },
+  "f_bracket_bot_h": {
+   "screw": "M5 x 8 ISO 7380",
+   "into": "tnut",
+   "engagement_mm": 3.2
+  },
+  "f_bracket_bot_v": {
+   "screw": "M5 x 8 ISO 7380",
+   "into": "tnut",
+   "engagement_mm": 3.2
+  },
+  "f_xrail00": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xrail01": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xrail02": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xrail03": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xrail04": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xrail05": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xrail06": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xrail07": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xrail08": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xrail09": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_xidler_end": {
+   "screw": "M5 x 12 ISO 4762",
+   "into": "tapped",
+   "engagement_mm": 9.25
+  },
+  "f_xidler_axle": {
+   "screw": "M5 x 18 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 4.0
+  },
+  "f_xchain_fix0": {
+   "screw": "M3 x 10 ISO 7380",
+   "into": "tnut",
+   "engagement_mm": 3.5
+  },
+  "f_xchain_fix1": {
+   "screw": "M3 x 10 ISO 7380",
+   "into": "tnut",
+   "engagement_mm": 3.5
+  },
+  "f_yidler_axle": {
+   "screw": "M5 x 18 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 4.0
+  },
+  "f_ybeam_end": {
+   "screw": "M5 x 12 ISO 7380",
+   "into": "tapped",
+   "engagement_mm": 6.25
+  },
+  "f_yidler_wood0": {
+   "screw": "wood screw 4x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 8.0
+  },
+  "f_yidler_wood1": {
+   "screw": "wood screw 4x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 8.0
+  },
+  "f_yswitch0": {
+   "screw": "M2 x 10 pan head",
+   "into": "self",
+   "engagement_mm": 4.25
+  },
+  "f_yswitch1": {
+   "screw": "M2 x 10 pan head",
+   "into": "self",
+   "engagement_mm": 4.25
+  },
+  "f_ymotor0": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_ymotor1": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_ymotor2": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_ymotor3": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_ymotor_wood0": {
+   "screw": "wood screw 4x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 8.0
+  },
+  "f_ymotor_wood1": {
+   "screw": "wood screw 4x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 8.0
+  },
+  "f_beam0": {
+   "screw": "M5 x 20 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.5
+  },
+  "f_beam1": {
+   "screw": "M5 x 20 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.5
+  },
+  "f_beam2": {
+   "screw": "M5 x 20 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.5
+  },
+  "f_beam3": {
+   "screw": "M5 x 20 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.5
+  },
+  "f_yrail00": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail01": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail02": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail03": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail04": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail05": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail06": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail07": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail08": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail09": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail10": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail11": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail12": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail13": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail14": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_yrail15": {
+   "screw": "M3 x 8 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 2.7
+  },
+  "f_foot0": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 7.5
+  },
+  "f_foot1": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 7.5
+  },
+  "f_foot2": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 7.5
+  },
+  "f_foot3": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 7.5
+  },
+  "f_eb_bot0": {
+   "screw": "M3 x 16 ISO 10642",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_eb_top0": {
+   "screw": "M3 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 4.4
+  },
+  "f_eb_bot1": {
+   "screw": "M3 x 16 ISO 10642",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_eb_top1": {
+   "screw": "M3 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 4.4
+  },
+  "f_eb_bot2": {
+   "screw": "M3 x 16 ISO 10642",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_eb_top2": {
+   "screw": "M3 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 4.4
+  },
+  "f_eb_bot3": {
+   "screw": "M3 x 16 ISO 10642",
+   "into": "blind",
+   "engagement_mm": 4.0
+  },
+  "f_eb_top3": {
+   "screw": "M3 x 6 ISO 7380",
+   "into": "blind",
+   "engagement_mm": 4.4
+  },
+  "f_panel0": {
+   "screw": "wood screw 3.5x50 (pan head)",
+   "into": "wood",
+   "engagement_mm": 10.0
+  },
+  "f_panel1": {
+   "screw": "wood screw 3.5x50 (pan head)",
+   "into": "wood",
+   "engagement_mm": 10.0
+  },
+  "f_panel2": {
+   "screw": "wood screw 3.5x50 (pan head)",
+   "into": "wood",
+   "engagement_mm": 10.0
+  },
+  "f_panel3": {
+   "screw": "wood screw 3.5x50 (pan head)",
+   "into": "wood",
+   "engagement_mm": 10.0
+  },
+  "f_pcb0": {
+   "screw": "M2 x 6 pan head",
+   "into": "self",
+   "engagement_mm": 4.5
+  },
+  "f_pcb1": {
+   "screw": "M2 x 6 pan head",
+   "into": "self",
+   "engagement_mm": 4.5
+  },
+  "f_bbtray0": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 9.0
+  },
+  "f_bbtray1": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 9.0
+  },
+  "f_bbtray2": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 9.0
+  },
+  "f_bbtray3": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 9.0
+  },
+  "f_battray0": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 9.0
+  },
+  "f_battray1": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 9.0
+  },
+  "f_battray2": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 9.0
+  },
+  "f_battray3": {
+   "screw": "wood screw 3.5x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 9.0
+  },
+  "f_guide0": {
+   "screw": "wood screw 3.5x25 (pan head)",
+   "into": "wood",
+   "engagement_mm": 11.0
+  },
+  "f_guide1": {
+   "screw": "wood screw 3.5x25 (pan head)",
+   "into": "wood",
+   "engagement_mm": 11.0
+  },
+  "f_guide2": {
+   "screw": "wood screw 3.5x25 (pan head)",
+   "into": "wood",
+   "engagement_mm": 11.0
+  },
+  "f_guide3": {
+   "screw": "wood screw 3.5x25 (pan head)",
+   "into": "wood",
+   "engagement_mm": 11.0
+  }
+ },
+ "fastener_sweep_poses": 16,
+ "fastener_sweep": "none",
+ "sweep_poses": 54,
+ "sweep": "none",
+ "worst_outside_polygon_mm": [
+  [
+   0.0,
+   "plywood_base"
+  ],
+  [
+   376.0,
+   435.0,
+   40.0,
+   0.0
+  ]
+ ],
+ "lowest_over_field_h5": [
+  [
+   29.4,
+   "wm_camera_lens"
+  ],
+  [
+   124.0,
+   292.0,
+   5.0,
+   90.0
+  ]
+ ],
+ "x_chain_bend_x": [
+  395.2,
+  466.7
+ ],
+ "y_chain_bend_y": [
+  249.7,
+  417.7
+ ],
+ "dfm_frame": {
+  "y_beam_riser_40": {
+   "size": [
+    24.0,
+    24.0,
+    11.8
+   ],
+   "fits_220": true,
+   "volume_cm3": 5.66,
+   "mass_g": 4.3,
+   "min_wall": 5.2,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "y_motor_mount": {
+   "size": [
+    22.5,
+    54.0,
+    55.5
+   ],
+   "fits_220": true,
+   "volume_cm3": 14.82,
+   "mass_g": 11.3,
+   "min_wall": 3.91,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0.2,
+   "bridges": [
+    [
+     0.2,
+     0.3,
+     [
+      4.2,
+      23.0,
+      5.0
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "y_idler_bracket": {
+   "size": [
+    94.0,
+    40.0,
+    42.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 18.05,
+   "mass_g": 13.8,
+   "min_wall": 2.4,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 1.2,
+   "bridges": [
+    [
+     1.2,
+     4.8,
+     [
+      -19.0,
+      10.0,
+      24.9
+     ]
+    ],
+    [
+     1.2,
+     4.8,
+     [
+      -19.0,
+      10.0,
+      16.9
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "y_carriage": {
+   "size": [
+    80.8,
+    60.8,
+    35.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 58.38,
+   "mass_g": 44.5,
+   "min_wall": 2.97,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 4.0,
+   "bridges": [
+    [
+     4.0,
+     12.6,
+     [
+      -25.6,
+      17.0,
+      6.5
+     ]
+    ],
+    [
+     4.0,
+     12.6,
+     [
+      -25.6,
+      5.0,
+      6.5
+     ]
+    ],
+    [
+     2.4,
+     8.9,
+     [
+      8.0,
+      10.0,
+      10.0
+     ]
+    ],
+    [
+     2.4,
+     8.9,
+     [
+      8.0,
+      -10.0,
+      10.0
+     ]
+    ],
+    [
+     2.4,
+     8.9,
+     [
+      -10.0,
+      12.0,
+      10.0
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "y_belt_spacer": {
+   "size": [
+    15.5,
+    22.0,
+    4.4
+   ],
+   "fits_220": true,
+   "volume_cm3": 1.4,
+   "mass_g": 1.1,
+   "min_wall": 2.78,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "y_belt_clamp": {
+   "size": [
+    15.5,
+    22.0,
+    3.5
+   ],
+   "fits_220": true,
+   "volume_cm3": 1.09,
+   "mass_g": 0.8,
+   "min_wall": 2.78,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "post_cap": {
+   "size": [
+    21.0,
+    21.0,
+    10.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 1.76,
+   "mass_g": 1.3,
+   "min_wall": 4.0,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "x_motor_mount": {
+   "size": [
+    69.0,
+    70.0,
+    21.5
+   ],
+   "fits_220": true,
+   "volume_cm3": 33.52,
+   "mass_g": 25.5,
+   "min_wall": 2.81,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 9.3,
+   "bridges": [
+    [
+     9.3,
+     46.3,
+     [
+      24.5,
+      25.0,
+      10.5
+     ]
+    ],
+    [
+     9.3,
+     46.3,
+     [
+      24.5,
+      -24.5,
+      10.5
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "x_idler_bracket": {
+   "size": [
+    25.2,
+    38.0,
+    29.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 7.12,
+   "mass_g": 5.4,
+   "min_wall": 3.0,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 9.3,
+   "bridges": [
+    [
+     9.3,
+     46.3,
+     [
+      0.0,
+      -7.0,
+      3.0
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "y_chain_guide": {
+   "size": [
+    38.0,
+    208.0,
+    25.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 92.15,
+   "mass_g": 70.2,
+   "min_wall": 2.4,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 7.0,
+   "bridges": [
+    [
+     7.0,
+     259.0,
+     [
+      6.0,
+      60.5,
+      14.0
+     ]
+    ],
+    [
+     7.0,
+     259.0,
+     [
+      -6.0,
+      60.5,
+      14.0
+     ]
+    ],
+    [
+     7.0,
+     224.0,
+     [
+      6.0,
+      8.0,
+      14.0
+     ]
+    ],
+    [
+     7.0,
+     224.0,
+     [
+      6.0,
+      -42.0,
+      14.0
+     ]
+    ],
+    [
+     7.0,
+     224.0,
+     [
+      -6.0,
+      8.0,
+      14.0
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "control_panel": {
+   "size": [
+    66.0,
+    96.0,
+    40.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 56.31,
+   "mass_g": 42.9,
+   "min_wall": 2.78,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 3.0,
+   "bridges": [
+    [
+     3.0,
+     36.0,
+     [
+      31.0,
+      0.5,
+      37.0
+     ]
+    ],
+    [
+     3.0,
+     29.3,
+     [
+      -31.0,
+      -15.5,
+      24.6
+     ]
+    ],
+    [
+     3.0,
+     21.7,
+     [
+      -31.0,
+      27.5,
+      24.6
+     ]
+    ],
+    [
+     3.0,
+     21.7,
+     [
+      -31.0,
+      7.5,
+      24.6
+     ]
+    ],
+    [
+     2.5,
+     17.5,
+     [
+      -26.8,
+      30.5,
+      27.0
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "breadboard_tray": {
+   "size": [
+    89.1,
+    81.5,
+    9.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 21.97,
+   "mass_g": 16.7,
+   "min_wall": 2.4,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "battery_tray": {
+   "size": [
+    63.6,
+    113.6,
+    12.4
+   ],
+   "fits_220": true,
+   "volume_cm3": 19.26,
+   "mass_g": 14.7,
+   "min_wall": 2.4,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  }
+ }
+}

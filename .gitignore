@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.stl
+*.FCBak
+out/gui_stdout.txt
+out/export_log.txt

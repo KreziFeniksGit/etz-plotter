@@ -1,0 +1,7 @@
+*.bat text eol=crlf
+fcpy text eol=lf
+fcgui text eol=lf
+*.sh text eol=lf
+*.step -diff linguist-generated
+*.FCStd binary
+*.png binary

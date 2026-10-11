@@ -1,0 +1,361 @@
+{
+ "fillet_skips": [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0
+ ],
+ "valid": {
+  "wrist_carriage": [
+   true,
+   1
+  ],
+  "x_belt_riser": [
+   true,
+   1
+  ],
+  "x_belt_clamp": [
+   true,
+   1
+  ],
+  "chain_post": [
+   true,
+   1
+  ],
+  "arm_top": [
+   true,
+   1
+  ],
+  "arm_bottom": [
+   true,
+   1
+  ],
+  "end_plate": [
+   true,
+   1
+  ],
+  "shelf": [
+   true,
+   1
+  ],
+  "wrist_hub": [
+   true,
+   1
+  ]
+ },
+ "interference": "none",
+ "min_gap_mm": {
+  "arm_top | wrist_carriage": 1.5,
+  "arm_bottom | wrist_carriage": 0.5,
+  "servo_horn | wrist_carriage": 3.5,
+  "arm_top | x_belt_riser": 11.96,
+  "arm_bottom | shelf": 0.5,
+  "arm_top | end_plate": 0.8,
+  "arm_bottom | end_plate": 0.8,
+  "arm_top | arm_bottom": 17.03,
+  "servo_case | wrist_carriage": 0.36,
+  "arm_top | servo_case": 6.0,
+  "wrist_hub | shelf": 0.8,
+  "electromagnet | shelf": 17.08,
+  "end_plate | wrist_carriage": 41.68,
+  "spacer_AL | arm_bottom": 0.3,
+  "spacer_BT | arm_top": 0.3,
+  "spacer_BL | arm_bottom": 0.3,
+  "shim_BT | arm_top": 1.06,
+  "shim_BL | arm_bottom": 1.06,
+  "shim_AL | arm_bottom": 1.06
+ },
+ "lowest_z_at_h5": {
+  "camera_lens": 29.4,
+  "camera_board": 40.4,
+  "shelf": 36.0,
+  "wrist_hub": 20.0,
+  "end_plate": 50.0,
+  "arm_bottom": 51.6
+ },
+ "dfm": {
+  "wrist_carriage": {
+   "orientation": "block face down, servo plate up",
+   "qty": 1,
+   "size": [
+    60.0,
+    52.5,
+    74.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 32.96,
+   "mass_g": 25.1,
+   "min_wall": 2.5,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 2.2,
+   "bridges": [
+    [
+     2.2,
+     9.9,
+     [
+      20.0,
+      -6.2,
+      7.0
+     ]
+    ],
+    [
+     2.2,
+     9.9,
+     [
+      -0.0,
+      -6.2,
+      7.0
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "x_belt_riser": {
+   "orientation": "standing on its bottom face",
+   "qty": 1,
+   "size": [
+    26.0,
+    13.5,
+    15.9
+   ],
+   "fits_220": true,
+   "volume_cm3": 5.22,
+   "mass_g": 4.0,
+   "min_wall": 2.73,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 4.0,
+   "bridges": [
+    [
+     4.0,
+     12.6,
+     [
+      4.0,
+      -2.2,
+      6.5
+     ]
+    ],
+    [
+     4.0,
+     12.6,
+     [
+      -4.0,
+      -2.2,
+      6.5
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "x_belt_clamp": {
+   "orientation": "grooved face up",
+   "qty": 1,
+   "size": [
+    26.0,
+    13.5,
+    3.5
+   ],
+   "fits_220": true,
+   "volume_cm3": 1.12,
+   "mass_g": 0.9,
+   "min_wall": 3.05,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "chain_post": {
+   "orientation": "lying on its -y face",
+   "qty": 1,
+   "size": [
+    22.0,
+    69.0,
+    37.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 10.1,
+   "mass_g": 7.7,
+   "min_wall": 2.56,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 4.0,
+   "bridges": [
+    [
+     4.0,
+     56.0,
+     [
+      0.0,
+      -32.5,
+      26.1
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "arm_top": {
+   "orientation": "flat, horn face down",
+   "qty": 1,
+   "size": [
+    103.8,
+    31.3,
+    6.5
+   ],
+   "fits_220": true,
+   "volume_cm3": 11.04,
+   "mass_g": 8.4,
+   "min_wall": 2.5,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "arm_bottom": {
+   "orientation": "flat",
+   "qty": 1,
+   "size": [
+    96.2,
+    16.2,
+    6.5
+   ],
+   "fits_220": true,
+   "volume_cm3": 6.31,
+   "mass_g": 4.8,
+   "min_wall": 2.5,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "end_plate": {
+   "orientation": "-y face on the bed",
+   "qty": 1,
+   "size": [
+    31.0,
+    59.5,
+    11.7
+   ],
+   "fits_220": true,
+   "volume_cm3": 7.01,
+   "mass_g": 5.3,
+   "min_wall": 2.5,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "shelf": {
+   "orientation": "stepper face (top) down",
+   "qty": 1,
+   "size": [
+    103.0,
+    36.0,
+    14.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 14.02,
+   "mass_g": 10.7,
+   "min_wall": 2.42,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0.6,
+   "bridges": [
+    [
+     0.6,
+     1.2,
+     [
+      -2.3,
+      -10.7,
+      5.0
+     ]
+    ],
+    [
+     0.6,
+     1.2,
+     [
+      -6.7,
+      -10.7,
+      5.0
+     ]
+    ],
+    [
+     0.1,
+     0.0,
+     [
+      -4.5,
+      -12.3,
+      8.5
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "wrist_hub": {
+   "orientation": "shaft end down",
+   "qty": 1,
+   "size": [
+    14.0,
+    16.7,
+    22.5
+   ],
+   "fits_220": true,
+   "volume_cm3": 3.2,
+   "mass_g": 2.4,
+   "min_wall": 2.5,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 6.3,
+   "bridges": [
+    [
+     6.3,
+     22.9,
+     [
+      0.0,
+      1.4,
+      20.0
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  }
+ },
+ "clearances": {
+  "M3 bolt hole": 3.25,
+  "M4 bolt hole (pivots)": 4.25,
+  "M2 camera hole": 2.25,
+  "NEMA11 screw hole (M2.5 +0.2)": 2.7,
+  "NEMA11 pilot hole (22 +0.2)": 22.2,
+  "684ZZ seat (9 +0.12, press)": 9.12,
+  "bearing shoulder hole (4 + 2x0.4 + 1.5)": 6.3,
+  "D-bore on stepper shaft (5 +0.12, press)": 5.12,
+  "servo window (case + 0.4 each side)": 0.4,
+  "arm to end plate gap (washer)": 0.8,
+  "heat-set insert hole": 4.0,
+  "TO-92 pocket (+0.12)": 4.22
+ }
+}
