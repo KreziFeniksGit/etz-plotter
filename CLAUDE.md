@@ -31,7 +31,7 @@ Design rules Egor requires: `docs/design_rules.md`.
 | `wrist/review.py` | Wrist interference sweep + DFM -> `wrist/out/review.json`, `wrist/out/*.step` |
 | `frame/frame.py` | Base, Y axis, Y carriage, post, boom, X axis, panel, trays, electronics; layout parameters at the top |
 | `frame/chains.py` | X and Y cable chains (built per pose), `y_chain_guide` |
-| `frame/cables.py` | Cable harness tubes (paths per group) |
+| `frame/cables.py` | Cable harness tubes (paths per group); `wrist_harness()` rebuilds the wrist harness per pose from `W.harness_paths()` |
 | `frame/fasteners.py` | Every screw / nut / washer / insert / T-nut, placed per group; `bom()` |
 | `assembly.py` | `world(PYC, PXB, h, wrist_deg, fasteners=...)` places everything; all whole-device checks -> `out/assembly_review.json`, `out/fastener_bom.csv` |
 | `export_gui.py` | Coloured, grouped STEP + FCStd (parked and working pose) and `out/printed/*.step` (print orientation) - needs the FreeCAD GUI |
@@ -40,7 +40,7 @@ Design rules Egor requires: `docs/design_rules.md`.
 | `tolerance/coupons.py` | 11 tolerance test coupons -> `tolerance/out/*.step`; `tolerance/README.md` = how to test |
 | `verify_step.py` | Re-import a STEP and count parts/solids |
 | `components.csv` | Every bought component, why it was chosen, CAD data |
-| `wiring.md` | Power, stop button, Pico 2 pin map, harnesses, driver currents |
+| `wiring.md` | Power, stop button, ESP32-S3 pin map, harnesses, driver currents |
 
 Coordinates: X along the 600 mm side (zone 1 x 0..350, field from x 350), Y along 500, Z up from the table, mm.
 Y-carriage parts are built at PYC0 = 40 and moved by (0, PYC-40, 0); wrist parts are built in module coordinates
@@ -68,6 +68,8 @@ Full check and export after a change (about 15 minutes in total):
   tree need `export_gui.py` run inside FreeCAD (it ends with `os._exit(0)`).
 - DFM on engraved text is very slow: coupons are checked with `LABELS = False`; check compounds per solid.
 - Tessellating many detailed STEP files at fine tolerance runs out of memory: use 0.25-0.3 for renders.
+- Zip ties: `zip_pair` slots sit either side of the cable (cable runs along 'along'); a tie entry in `W.ZIPS` / `frame.ZIPS`
+  cuts the slots (`zip_slots`) and places the tie (`zip_tie`) from one line, so they always match.
 - `fillet_all()` fillets every concave/convex edge; very small features may fail to fillet (logged in `FILLET_LOG`).
 - FreeCAD 1.1: a failed `makeFillet` can damage the shape it was called on, and can return a broken solid that
   passes `isValid()`. `_fillet()` works on a copy and uses `check(True)`; never call `makeFillet` in `fillet_all` directly.

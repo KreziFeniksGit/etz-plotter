@@ -88,6 +88,7 @@ EB = (246.0, 110.0, 326.0, 210.0)         # electronics board
 # bought-part data
 NEMA17 = dict(sq=42.3, L=40.0, chamfer=4.0, hole=31.0, pilot=22.0, pilot_h=2.0, shaft=5.0, shaft_L=23.0, flat=4.5)   # 17HS16-2004S1
 D2F = dict(L=12.8, W=5.8, H=6.5, hole_pitch=6.5)          # Omron D2F-01L
+ESP32_BOARD = (25.5, 62.7)                # ESP32-S3-DevKitC-1 (N16R8) board, x by y. VERIFY on the board you have (clones differ)
 
 PARTS = {}      # name -> (shape, group, kind, colour)
 COL = {'printed': (0.12, 0.55, 0.52), 'printed2': (0.85, 0.47, 0.13), 'alu': (0.80, 0.82, 0.84), 'steel': (0.70, 0.72, 0.75),
@@ -269,7 +270,6 @@ def y_motor_mount():
             cut.append(cyl((x0 - 1, py + a * 15.5, pz + b * 15.5), (3.0 + TOL_MOTOR) / 2, 6.0, 'x'))
     for yy in (py - 16.0, py + 16.0):                       # wood screws 4 mm, slots along Y for belt tension
         cut.append(slot((187.0, yy - 5.0, Z_PLY1 - 1), (187.0, yy + 5.0, Z_PLY1 - 1), bolt(4) / 2, 6.0))
-    cut.append(zip_pair((x0 - 1, py, pz + 18.0), 'y', 'x', 6.0, gap=10.0))           # motor cable
     return cut_all(body, cut)
 
 IDLER_WOOD = [(160.0, 10.0), (223.0, 4.75)]       # 4 mm wood screws (the second clears the beam end plate's x 218)
@@ -289,7 +289,6 @@ def y_idler_bracket():
            cyl((160.0, 10.0, Z_PLY1 - 1), bolt(4) / 2, 6.0), cyl((IDLER_WOOD[1][0], IDLER_WOOD[1][1], Z_PLY1 - 1), bolt(4) / 2, 6.0)]
     for zz in (40.0 + Y_RISER - D2F['hole_pitch'] / 2 + 0.5, 40.0 + Y_RISER + D2F['hole_pitch'] / 2 + 0.5):   # M2 self-tapping into the post
         cut.append(cyl((236.01, 4.5, zz), W.M2_PILOT / 2, -5.0, 'x'))       # M2x10 self-tapping: 4.2 mm in the post
-    cut.append(zip_pair((175.0, 30.0, Z_PLY1 + 20.0), 'z', 'x', 6.0, gap=8.0))      # through the 4 mm plate
     return cut_all(body, cut)
 
 def y_beam_riser(y):
@@ -323,6 +322,9 @@ def y_static():
 # =============================================================================
 Y_CLAMP = [(179.4, PYC0 + 5.0), (179.4, PYC0 + 17.0)]
 Y_CHAIN_SLOT = ((235.5, PYC0 + 12.0), (235.5, PYC0 + 24.0))   # Y chain moving end link: M3 + nut under the plate, any hole spacing
+# zip ties (same layout as W.ZIPS): the Y carriage bundle across the carriage top
+ZIPS = {'zip_tie_ycar': ('y_carriage', (230.0, PYC0 - 9.0, Z_YC1), 'y', 'z', 1, Z_YC1 - Z_YC0, 7.0, 10.0, 1.0)}
+POST_TIES_Z = (105.0, 120.0)             # ties round the 2020 post and the bundle on its -y face (below the X motor mount arms)
 ZT = Y_BELT_Z + GT2_PD / 2               # upper Y belt strand
 
 def y_carriage():
@@ -356,7 +358,7 @@ def y_carriage():
         cut.append(cyl((x, y, Z_YC0 - 0.01), INSERT_D / 2, INSERT_DEPTH))
     (ax, ay), (bx, by) = Y_CHAIN_SLOT
     cut.append(slot((ax, ay, Z_YC0 - 1), (bx, by, Z_YC0 - 1), bolt(3) / 2, Z_YC1 - Z_YC0 + 2))
-    cut.append(zip_pair((230.0, PYC0, Z_YC0 - 1), 'y', 'z', 12.0, gap=10.0))
+    cut.append(W.zip_slots(ZIPS['zip_tie_ycar']))                                   # Y carriage bundle on its way to the Y chain
     return cut_all(body, cut)
 
 def y_belt_spacer():
@@ -413,7 +415,6 @@ def x_motor_mount():
         cut.append(cyl((199.0, PYC0 + 21.0, zc), (8.5 + 2 * TOL_MOVE) / 2, fy - PYC0, 'y'))
     for yy in (PYC0 + 19.0 - D2F['hole_pitch'] / 2, PYC0 + 19.0 + D2F['hole_pitch'] / 2):    # X home switch, M2 self-tapping
         cut.append(cyl((210.0, yy, 129.5), W.M2_PILOT / 2, -9.0, 'x'))
-    cut.append(zip_pair((150.0, fy - 5.0, 190.0), 'x', 'y', 6.0, gap=8.0))
     return cut_all(body, cut)
 
 def x_idler_bracket():
@@ -437,6 +438,14 @@ def ycar_items():
     add('y_belt_clamp', y_belt_clamp(), G)
     add('post_2020_%d' % POST_L, profile2020((POST_C[0], POST_C[1], Z_POST0), 'z', Z_POST1 - Z_POST0), G, 'bought', 'alu')
     add('post_cap', post_cap(), G)
+    for k, spec in ZIPS.items():
+        add(k, W.zip_tie(spec[1], *spec[2:]), G, 'bought', 'black')
+    for i, z in enumerate(POST_TIES_Z):          # round the post and the bundle beside it (x 207, y -14 from the post centre)
+        x0, x1, y0, y1, t = POST_C[0] - 10.0, 207.0 + 3.5, POST_C[1] - 14.0 - 3.5, POST_C[1] + 10.0, W.TIE_T
+        ring = box(x0 - t, y0 - t, z - W.TIE_W / 2, x1 + t, y1 + t, z + W.TIE_W / 2).cut(box(x0, y0, z - 2, x1, y1, z + 2))
+        hu, hw, hv = W.TIE_HEAD
+        head = box(x0 - t - hw, POST_C[1] - hv / 2, z - hu / 2, x0 - t, POST_C[1] + hv / 2, z + hu / 2)
+        add('zip_tie_post_%d' % (i + 1), ring.fuse(head).removeSplitter(), G, 'bought', 'black')
     add('boom_2020_270', profile2020((BOOM_X0, PYC0, (Z_BOOM0 + Z_BOOM1) / 2), 'x', BOOM_X1 - BOOM_X0), G, 'bought', 'alu')
     add('corner_bracket_top', corner_bracket(True), G, 'bought', 'steel')
     add('corner_bracket_bottom', corner_bracket(False), G, 'bought', 'steel')
@@ -553,7 +562,8 @@ def panel_items():
     for i, (x, y) in enumerate(((EB[0] + 4, EB[1] + 4), (EB[2] - 4, EB[1] + 4), (EB[0] + 4, EB[3] - 4), (EB[2] - 4, EB[3] - 4))):
         add('standoff_m3x10_%d' % (i + 1), cyl((x, y, Z_PLY1), 2.75, 10.0), kind='bought', colour='steel')     # solid: the check measures thread engagement
     zt = z + 1.6
-    add('pico2', box(EB[0] + 8, EB[1] + 8, zt + 8.5, EB[0] + 29, EB[1] + 59, zt + 9.5), kind='bought', colour='green')
+    add('esp32_s3_devkitc1', box(EB[0] + 5, EB[1] + 5, zt + 8.5, EB[0] + 5 + ESP32_BOARD[0], EB[1] + 5 + ESP32_BOARD[1], zt + 10.1),
+        kind='bought', colour='board')      # on female headers; USB ports at the -y end
     for i, nm in enumerate(('pololu_5v_d36v28f5', 'pololu_6v_d36v28f6')):
         x = EB[0] + 36.0 + i * 24.0
         add(nm, box(x, EB[1] + 60, zt, x + 17.8, EB[1] + 80.3, zt + 6.0), kind='bought', colour='board')

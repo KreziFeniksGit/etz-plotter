@@ -32,13 +32,14 @@ def branch(name, kind):
         return 'Y_carriage_and_X_axis'
     if name.startswith('wm_'):
         return 'Wrist_module'
-    if name.startswith(('cable_chain', 'cable_')):
+    if name.startswith(('cable_chain', 'cable_', 'zip_tie_')):
         return 'Cables_and_chains'
     return 'Electronics_and_controls'
 
 WM_COLOUR = {'servo_case': 'servo', 'servo_tabs': 'servo', 'servo_spline': 'white', 'servo_horn': 'steel', 'nema11': 'motor',
              'nema11_pilot': 'motor', 'nema11_shaft': 'steel', 'electromagnet': 'copper', 'camera_board': 'board', 'camera_lens': 'black',
              'mgn12h_block': 'steel'}
+WM_COLOUR.update({k: 'black' for k in W.GROUP if k.startswith('zip_')})
 
 _FRAME = None
 _WM = None
@@ -74,6 +75,7 @@ def world(PYC=F.PYC0, PXB=F.PXB0, h=W.H_MAX, wrist_deg=0.0, field=True, cables=T
     out['cable_chain_y'] = (yc, 'chainY', 'bought', 'chain')
     if cables:
         out.update(CB.harness(PYC, PXB))
+        out.update(CB.wrist_harness(PYC, PXB, h, wrist_deg))
     if fasteners:
         fp, _ = FA.placed(PYC, PXB, h, wrist_deg)
         out.update(fp)
@@ -91,6 +93,7 @@ ALLOWED = [
     ('wm_mgn12h_block', 'x_rail_mgn12_250'), ('y_block_mgn12h', 'y_rail_mgn12_400'),
     ('x_home_switch_d2f', 'wm_wrist_carriage'), ('y_home_switch_d2f', 'y_carriage'),
     ('battery_strap', 'battery_4s_2200'), ('battery_strap', 'battery_tray'), ('cable_chain_y', 'y_carriage'), ('cable_chain_y', 'y_chain_guide'), ('cable_chain_x', 'wm_chain_post'), ('cable_chain_x', 'boom_2020'), ('cable_chain', 'cable_'),
+    ('wm_zip_', 'cable_'), ('zip_tie_', 'cable_'), ('cable_wrist_', 'cable_wrist_'),
     ('led_', 'control_panel'), ('estop', 'control_panel'), ('start_button', 'control_panel'), ('header_', 'control_panel'),
     ('header_', 'connector_pcb'), ('standoff', 'perfboard'), ('standoff', 'plywood'),
 ] + [tuple('wm_' + x for x in p) for p in [

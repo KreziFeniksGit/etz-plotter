@@ -9,6 +9,7 @@ Wiring of each harness: see wiring.md (same names).
 """
 import FreeCAD as App
 import Part
+import wrist_module as W
 
 V = App.Vector
 
@@ -30,6 +31,8 @@ def tube(pts, d):
 # up the chain post's -y face (zip ties at z 165 and 192), over the post plate, into the X chain's moving end
 WRIST = {
     'cable_wrist_bundle': (7.0, [(13, -28.5, 142), (13, -28.5, 211), (6, -14, 216.5), (0, 0, 216.5), (5, 0, 216.5)]),
+    # servo lead: out of the case's far end (VERIFY exit position), up beside it, under the carriage plate (tie), to the bundle
+    'cable_wrist_servo': (3.5, [(-31.8, -12, 117), (-32, -12, 131.05), (-32, -26.5, 131.05), (2, -26.8, 131.05), (13, -28.5, 142)]),
 }
 # ---------------------------------------------------------------- Y carriage (moves in Y)
 YCAR = {
@@ -54,6 +57,17 @@ BASE = {
     # Y home switch -> board
     'cable_y_home': (3.0, [(239, 9, 44), (239, 9, 22), (239, 30, 18), (239, 100, 18), (242, 106, 31), (262, 116, 31)]),
 }
+
+def wrist_harness(PYC, PXB, h, wrist_deg=0.0):
+    """Wrist harness tubes for one pose: each path point moves with its own group (end, top arm, carriage)."""
+    out = {}
+    for k, (d, pts) in W.harness_paths().items():
+        P = []
+        for g, p in pts:
+            q = W.pose(Part.Vertex(V(*p)), g, h, wrist_deg).Point
+            P.append((q.x + PXB, q.y + PYC, q.z))
+        out[k] = (tube(P, d), 'wm_cable', 'cable', 'cable')
+    return out
 
 def harness(PYC, PXB):
     out = {}

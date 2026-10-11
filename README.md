@@ -8,7 +8,7 @@ Coordinates: X along the 600 mm side of the polygon, Y along the 500 mm side, Z 
 **Print files:** `out/printed/` has all 22 printed designs (13 frame parts + 9 wrist module parts) in print orientation, as STEP (PrusaSlicer, OrcaSlicer, Bambu Studio and Cura 5.x open STEP).
 `y_beam_riser_x4` is printed four times.
 
-**Wiring:** `wiring.md` (power, stop button, Pico 2 pins, every harness, driver currents).
+**Wiring:** `wiring.md` (power, stop button, ESP32-S3 pins, every harness, driver currents).
 
 **Tolerance tests:** `tolerance/` has 11 test coupons (STEP) and `tolerance/README.md` says how to test each one and which
 constant to change. Print them before the real parts.

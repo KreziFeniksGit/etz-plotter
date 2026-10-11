@@ -17,14 +17,14 @@ MASS_G = {                     # bought parts, grams (datasheet or typical)
     'wm_servo_case': 60, 'wm_servo_tabs': 0, 'wm_servo_spline': 0, 'wm_servo_horn': 8,
     'wm_electromagnet': 35, 'wm_camera_board': 8, 'wm_camera_lens': 4,
     'battery_4s_2200': 230, 'estop_22mm_latching': 60, 'start_button_16mm': 10, 'breadboard_400': 45,
-    'perfboard_100x80': 30, 'pico2': 4, 'pololu_5v_d36v28f5': 3, 'pololu_6v_d36v28f6': 3,
+    'perfboard_100x80': 30, 'esp32_s3_devkitc1': 10, 'pololu_5v_d36v28f5': 3, 'pololu_6v_d36v28f6': 3,
     'corner_bracket_top': 20, 'corner_bracket_bottom': 20, 'x_pulley_gt2_20t': 10, 'y_pulley_gt2_20t': 10,
     'x_idler_gt2_20t': 10, 'y_idler_gt2_20t': 10, 'x_belt_gt2': 4, 'y_belt_gt2': 5,
 }
 PREFIX_G = {'tmc2209': 5, 'rubber_foot': 5, 'standoff': 1, 'led_': 1, 'header_': 1, 'battery_strap': 3,
             'wm_brg': 3, 'wm_spacer': 0.2, 'wm_shim': 0.1, 'connector_pcb': 3, 'x_home': 2, 'y_home': 2}
 EXTRA = [  # (group, grams, x, y, z) screws, nuts, wires not in the CAD; y relative to PYC for moving groups
-    ('wm_end', 10, 100, 20, 70),                                 # wrist-internal wires (x relative to PXB); screws are modelled
+    # the wrist-internal wires are modelled now (cable_wrist_*); screws are modelled
 ]
 
 def grams(name, shape, kind, col):

@@ -28,5 +28,5 @@ Source: the short version of the unified technical task (VsOSh informatics, robo
 - The device starts every run parked in the placement zone, so homing switches are enough.
 - The wrist (rotation of the held checker 0..360) is needed for the final.
 - Stack of 5 is 25 mm: the lift needs 5..40 mm magnet face height.
-- GRBL / G-code / printer boards are banned; our firmware runs on a Pico 2 (no radio).
+- GRBL / G-code / printer boards are banned; our own firmware runs on an ESP32-S3 with the radio never started.
 - Open: ask the organisers whether a self-designed PCB carrying plug-in TMC2209 modules counts as "own control electronics" (it should); check the V-pin voltage of connectors A and B in the full text.

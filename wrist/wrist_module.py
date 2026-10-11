@@ -195,18 +195,57 @@ def prism_z(pts, z0, z1):
     w = Part.makePolygon([V(x, y, z0) for x, y in pts] + [V(pts[0][0], pts[0][1], z0)])
     return Part.Face(w).extrude(V(0, 0, z1 - z0))
 
+def _across(along, axis):
+    return [k for k in 'xyz' if k not in (along, axis)][0]
+
 def zip_pair(c, along, axis, h, gap=ZIP_GAP):
-    """Two rounded zip-tie slots, centres c +- gap/2 along 'along', through 'axis' for depth h."""
-    a = AX[along]
+    """Two rounded zip-tie slots for a cable running along 'along' over a plate pierced along 'axis' (depth h).
+    The slots sit on either side of the cable (centres c +- gap/2 across it); each slot is long along the
+    cable (the tie's width) and narrow across it (the tie's thickness), so the tie wraps the cable."""
+    a, n = AX[along], AX[_across(along, axis)]
     out = None
     for s in (-1, 1):
-        p = V(*c) + a * (s * gap / 2)
-        # slot long side across 'along', short side along 'along'
-        other = [k for k in 'xyz' if k not in (along, axis)][0]
-        half = AX[other] * ((ZIP_W - ZIP_T) / 2)
+        p = V(*c) + n * (s * gap / 2)
+        half = a * ((ZIP_W - ZIP_T) / 2)
         sl = slot(p - half, p + half, ZIP_T / 2, h, axis)
         out = sl if out is None else out.fuse(sl)
     return out
+
+TIE_W, TIE_T = 2.5, 1.0           # zip tie band (2.5 x 1.0 fits the 3.0 x 1.8 slot)
+TIE_HEAD = (4.0, 3.0, 4.5)        # lock head: along the cable, out from the band, along the band
+
+def _frame(u, w):
+    """Matrix taking local (u along the cable, v across it, w out of the face toward the cable) to world."""
+    v = w.cross(u)
+    return App.Matrix(u.x, v.x, w.x, 0, u.y, v.y, w.y, 0, u.z, v.z, w.z, 0, 0, 0, 0, 1)
+
+def _ring(v0, v1, w0, w1, t, wid):
+    """Rectangular band of thickness t around the box v0..v1 x w0..w1 (local v, w), width wid along u."""
+    outer = Part.makeBox(wid, v1 - v0 + 2 * t, w1 - w0 + 2 * t, V(-wid / 2, v0 - t, w0 - t))
+    inner = Part.makeBox(wid + 2, v1 - v0, w1 - w0, V(-wid / 2 - 1, v0, w0))
+    return outer.cut(inner)
+
+def zip_tie_at(c, u, w, plate_t, cable_d, gap, lift=0.0):
+    """A closed zip tie: down one slot, across the back of the plate (thickness plate_t), up the other slot
+    and over the cable. c = point on the cable-side face between the slots, u = cable direction,
+    w = unit normal of that face toward the cable, gap = slot centre distance, lift = face-to-cable gap."""
+    band = _ring(-gap / 2 + TIE_T / 2, gap / 2 - TIE_T / 2, -plate_t, lift + cable_d, TIE_T, TIE_W)
+    hu, hw, hv = TIE_HEAD
+    head = Part.makeBox(hu, hw, hv, V(-hu / 2, gap / 2 + TIE_T / 2, max(0.1, lift + cable_d / 2 - hv / 2)))   # beside the cable, clear of the face
+    s = band.fuse(head).removeSplitter()
+    s.transformShape(_frame(u, w))
+    s.translate(V(*c))
+    return s
+
+def zip_tie(c, along, axis, sign, plate_t, cable_d, gap, lift=0.0):
+    """zip_tie_at for a face normal to 'axis'; sign = +1/-1: the cable is on the +axis / -axis side."""
+    return zip_tie_at(c, AX[along], AX[axis] * sign, plate_t, cable_d, gap, lift)
+
+def zip_slots(spec):
+    """The zip_pair matching a ZIPS entry (through the whole plate)."""
+    _, c, along, axis, sign, plate_t, cable_d, gap, lift = spec
+    start = V(*c) - AX[axis] * (plate_t + 1.0 if sign > 0 else 1.0)
+    return zip_pair(start, along, axis, plate_t + 2.0, gap)
 
 def is_line(e):
     try:
@@ -349,7 +388,7 @@ def wrist_carriage():
     for x, z in SERVO_TAB_HOLES:                    # M3 bolt + nyloc; servo tab holes (4.5) give the play
         cut.append(cyl((x, SP_Y0 - 1, z), bolt(3) / 2, SP_T + 2, 'y'))
     cut.append(cyl((0.0, SP_Y0 - 1, Z_PIVOT_BOT), bolt(4) / 2, ARM_Y0 - SP_Y0 + 2, 'y'))   # M4 pivot bolt
-    cut.append(zip_pair((-26.0, SP_Y0 - 1, Z_PIVOT_BOT + 3.0), 'x', 'y', SP_T + 2))        # servo cable
+    cut.append(zip_slots(ZIPS['zip_servo']))                                              # servo lead under the plate
     return cut_all(body, cut)
 
 def x_belt_riser():
@@ -395,8 +434,8 @@ def chain_post():
                      (yb, Z_CP1 + INSERT_DEPTH + WALL_MIN + 10.5 - CHAIN_POST_T)], CHAIN_X0, CHAIN_X1)   # 45 deg foot gusset
     body = fillet_all(tidy(foot.fuse([post, top, brace, lower])))
     cut = [cyl((x, y, Z_CP1 - 0.01), INSERT_D / 2, INSERT_DEPTH) for x, y in CHAIN_MOUNT]
-    for zc in (165.0, 192.0):
-        cut.append(zip_pair(((CHAIN_X0 + CHAIN_X1) / 2, CP_Y0 - 1, zc), 'z', 'y', CHAIN_POST_T + 2, gap=10.0))
+    for k in ('zip_chain_post_1', 'zip_chain_post_2'):
+        cut.append(zip_slots(ZIPS[k]))
     cut.append(slot((CHAIN_PLATE_X0 + 4.0, 0.0, z0 - 1), (CHAIN_PLATE_X1 - 4.0, 0.0, z0 - 1), bolt(3) / 2, CHAIN_PLATE_T + 2))
     return cut_all(body, cut)
 
@@ -474,10 +513,11 @@ def end_plate():
     body = fillet_all(tidy(plate.fuse(foot)))
     cut = [cyl((R_ARM, EP_Y0 - 1, z), bolt(4) / 2, EP_T + 2, 'y') for z in (Z_PIVOT_TOP, Z_PIVOT_BOT)]
     cut += [cyl((x, y, Z_SH1 - 0.01), INSERT_D / 2, INSERT_DEPTH) for x, y in FOOT_SCREWS]  # inserts; M3x10 comes up through the shelf
-    cut.append(zip_pair(((EP_X0 + EP_X1) / 2, EP_Y0 - 1, 100.0), 'z', 'y', EP_T + 2, gap=8.0))
+    cut.append(zip_slots(ZIPS['zip_end_plate']))                                          # wrist harness, between the pivot nuts
     return cut_all(body, cut)
 
 HALL_POS = (MAG_X, MAG_Y + 9.7 + 0.8 + 3.2)     # 0.8 mm from the flag magnet to the sensor face
+HALL_LEAD_HOLE = (86.0, 35.0)                    # hall leads come up through the shelf here (beside the end plate, clear of the stepper)
 CAM_POSTS = [(CAM_X + a * CAM_HOLE_PITCH / 2, MAG_Y + b * CAM_HOLE_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
 
 def shelf():
@@ -500,12 +540,13 @@ def shelf():
     cut.append(cyl((CAM_X, MAG_Y, Z_SH0 - 1), 5.0, SH_T + 2))                  # camera cable pass
     for x, y in FOOT_SCREWS:
         cut.append(cyl((x, y, Z_SH0 - 1), bolt(3) / 2, SH_T + 2))
-    # TO-92 pocket (press), flat face toward the hub flag, rounded pocket corners
-    cut.append(rbox(HALL_POS[0] - (TO92_W + TOL_PRESS) / 2, HALL_POS[1] - 3.2 - 1.0, Z_SH0 - 9.0 - 1.0,
-                    HALL_POS[0] + (TO92_W + TOL_PRESS) / 2, HALL_POS[1] - 3.2 + TO92_T + TOL_PRESS, Z_SH0 - 9.0 + TO92_H, 0.4, 'z'))
-    cut.append(cyl((HALL_POS[0], HALL_POS[1] - 2.4, Z_SH0 - 9.0 + TO92_H - 0.5), 1.0, SH_T + 9.0))   # lead hole
-    cut.append(zip_pair((66.0, SH_Y0 + 5.0, Z_SH0 - 1), 'x', 'z', SH_T + 2))                      # stepper cable
-    cut.append(zip_pair((CAM_X + 4.0, SH_Y0 + 4.0, Z_SH0 - 1), 'x', 'z', SH_T + 2))               # camera cable
+    # TO-92 pocket (press, from below, leads down), flat face toward the hub flag, rounded pocket corners
+    pocket = rbox(HALL_POS[0] - (TO92_W + TOL_PRESS) / 2, HALL_POS[1] - 3.2 - 1.0, Z_SH0 - 9.0 - 1.0,
+                  HALL_POS[0] + (TO92_W + TOL_PRESS) / 2, HALL_POS[1] - 3.2 + TO92_T + TOL_PRESS, Z_SH0 - 9.0 + TO92_H, 0.4, 'z')
+    ztop = Z_SH0 - 9.0 + TO92_H
+    cut.append(tidy(pocket.makeFillet(0.3, [e for e in pocket.Edges if abs(e.BoundBox.ZMin - ztop) < 1e-6 and abs(e.BoundBox.ZMax - ztop) < 1e-6])))   # rounded pocket roof
+    cut.append(cyl((HALL_LEAD_HOLE[0], HALL_LEAD_HOLE[1], Z_SH0 - 1), 1.5, SH_T + 2))   # hall leads up (the sensor sits leads-down in its pocket)
+    cut.append(zip_slots(ZIPS['zip_camera']))                                             # camera cable
     return cut_all(body, cut)
 
 def wrist_hub():
@@ -523,6 +564,63 @@ def wrist_hub():
     cut.append(cyl((MAG_X, MAG_Y + 9.7 + 0.01, z1 - 4.0), (3.0 + TOL_PRESS) / 2, -2.2, 'y'))   # 3 x 2 magnet, press
     return cut_all(body, cut)
 
+# =============================================================================
+# 5b. ZIP TIES AND THE WRIST HARNESS
+# =============================================================================
+# name: (part, point on the cable-side face between the slots, cable direction, plate normal axis,
+#        side of the cable (+1/-1 along that axis), plate thickness, cable diameter, slot centre gap, face-to-cable gap)
+ZIPS = {
+    'zip_servo': ('wrist_carriage', (-32.0, -19.0, Z_CP0), 'y', 'z', -1, CP_T, 3.5, 5.5, 0.2),
+    'zip_chain_post_1': ('chain_post', ((CHAIN_X0 + CHAIN_X1) / 2, CP_Y0, 165.0), 'z', 'y', -1, CHAIN_POST_T, 7.0, 10.0, 0.5),
+    'zip_chain_post_2': ('chain_post', ((CHAIN_X0 + CHAIN_X1) / 2, CP_Y0, 192.0), 'z', 'y', -1, CHAIN_POST_T, 7.0, 10.0, 0.5),
+    'zip_end_plate': ('end_plate', ((EP_X0 + EP_X1) / 2, EP_Y1, 98.0), 'z', 'y', 1, EP_T, 6.0, 8.0, 0.1),
+    'zip_camera': ('shelf', (CAM_X, 30.0, Z_SH1), 'y', 'z', 1, SH_T, 3.5, 5.5, 0.1),
+}
+HARNESS_D = 6.0                   # wrist harness: stepper 4 + hall 3 + camera (USB) wires
+HARNESS_LIFT = 0.3                # harness above the top arm's upper edge
+ARM_TIES_X = (26.0, 56.0)         # ties round the top arm's upper web, through the lightening slot
+
+def arm_top_edge():
+    """Upper straight edge of the top arm (level pose): start point, unit direction, outward unit normal (x-z)."""
+    a = math.asin((ARM_TOP_BOSS_R - ARM_BOSS_R) / R_ARM)
+    pa = V(-ARM_TOP_BOSS_R * math.sin(a), 0, Z_PIVOT_TOP + ARM_TOP_BOSS_R * math.cos(a))
+    pb = V(R_ARM - ARM_BOSS_R * math.sin(a), 0, Z_PIVOT_TOP + ARM_BOSS_R * math.cos(a))
+    d = pb - pa
+    d.normalize()
+    return pa, d, V(-math.sin(a), 0, math.cos(a))
+
+def arm_harness_point(x):
+    """Harness centre above the top arm's upper edge at x (level pose)."""
+    pa, d, n = arm_top_edge()
+    p = pa + d * ((x - pa.x) / d.x)
+    return p + n * (HARNESS_LIFT + HARNESS_D / 2) + V(0, (ARM_Y0 + ARM_Y1) / 2, 0)
+
+# wrist harness paths, level pose, module coordinates: (group the point moves with, point). Built per pose in
+# frame/cables.py. The leads meet at J beside the stepper, the bundle climbs the end plate's +y face between the
+# pivot nuts, crosses its top edge, rides the top arm's upper edge (2 ties), leaves the arm beyond the carriage
+# plate and passes under the X block to the chain post bundle. Magnet leads (they turn with the wrist) are not drawn.
+J = (84.0, 36.5, 84.0)                         # junction; everything stays at y < 39.9 (parked inside zone 2)
+def harness_paths():
+    E, A, X = 'end', 'armT', 'xcar'
+    return {
+        'cable_wrist_harness': (HARNESS_D, [(E, J), (E, (80.0, 35.4, 90.0)), (E, (80.0, 35.4, 106.0)), (E, (87.5, 35.4, 113.0)),
+                                            (E, (87.5, 35.4, 132.0)), (E, (82.0, 29.6, 133.5)),
+                                            (A, tuple(arm_harness_point(74.0))), (A, tuple(arm_harness_point(32.0))),
+                                            (X, (31.7, 8.0, 136.5)), (X, (31.7, -27.6, 136.5)), (X, (13.0, -28.5, 142.0))]),
+        'cable_wrist_camera': (3.5, [(E, (CAM_X, MAG_Y, 61.3)), (E, (CAM_X, MAG_Y, 69.35)), (E, (CAM_X, 35.5, 69.35)),
+                                     (E, (133.0, 37.1, 71.2)), (E, (92.0, 37.1, 71.2)), (E, J)]),     # over the camera screw head
+        'cable_wrist_hall': (2.5, [(E, (HALL_POS[0], 33.8, Z_SH0 - 10.3)), (E, (HALL_POS[0], 37.6, Z_SH0 - 10.3)),     # out of the boss bottom, clear of the flag
+                                   (E, (88.0, 37.6, Z_SH0 - 10.3)), (E, (HALL_LEAD_HOLE[0], HALL_LEAD_HOLE[1], Z_SH0 - 7.5)),
+                                   (E, (HALL_LEAD_HOLE[0], HALL_LEAD_HOLE[1], Z_SH1 + 2.5)), (E, J)]),
+        'cable_wrist_stepper': (4.0, [(E, (MAG_X, MAG_Y + N11_SQ / 2 + 2.4, 92.0)), (E, (89.5, MAG_Y + N11_SQ / 2 + 2.4, 86.0)), (E, J)]),   # VERIFY: lead exit side of the NEMA11
+    }
+
+def arm_tie(x):
+    """Zip tie round the top arm's upper web (through the lightening slot) and the harness on its edge."""
+    pa, d, n = arm_top_edge()
+    p = pa + d * ((x - pa.x) / d.x) + V(0, (ARM_Y0 + ARM_Y1) / 2, 0)
+    web = (p.z - (Z_PIVOT_TOP + 3.0 - 0.2)) / n.z + TIE_W / 2 * abs(d.z)     # down to just under the web (slot top z +3)
+    return zip_tie_at(p, d, n, web, HARNESS_D, ARM_T + TIE_T + 0.2, HARNESS_LIFT)
 # =============================================================================
 # 6. BOUGHT PARTS AS SIMPLE SOLIDS (interference checks, viewer)
 # =============================================================================
@@ -549,6 +647,10 @@ def bought():
     for nm, (x, z) in {'shim_BT': (R_ARM, Z_PIVOT_TOP), 'shim_BL': (R_ARM, Z_PIVOT_BOT), 'shim_AL': (0.0, Z_PIVOT_BOT)}.items():
         B[nm] = cyl((x, ARM_Y1, z), SHIM_OD / 2, SHIM_T, 'y').cut(cyl((x, ARM_Y1 - 1, z), 2.1, SHIM_T + 2, 'y'))
     B['x_belt'] = box(CP_X0 - 30, XB_Y0, X_BELT_Z - BELT_T / 2, CP_X1 + 30, XB_Y1, X_BELT_Z + BELT_T / 2)
+    for k, spec in ZIPS.items():
+        B[k] = zip_tie(spec[1], *spec[2:])
+    for i, x in enumerate(ARM_TIES_X):
+        B['zip_arm_%d' % (i + 1)] = arm_tie(x)
     return B
 
 GROUP = {'wrist_carriage': 'xcar', 'x_belt_riser': 'xcar', 'x_belt_clamp': 'xcar', 'chain_post': 'xcar',
@@ -557,6 +659,8 @@ GROUP = {'wrist_carriage': 'xcar', 'x_belt_riser': 'xcar', 'x_belt_clamp': 'xcar
          'nema11': 'end', 'nema11_pilot': 'end', 'nema11_shaft': 'wrist', 'electromagnet': 'wrist', 'camera_board': 'end',
          'camera_lens': 'end', 'brg_AL': 'armB', 'brg_BT': 'armT', 'brg_BL': 'armB', 'x_belt': 'xcar',
          'spacer_AL': 'xcar', 'spacer_BT': 'end', 'spacer_BL': 'end', 'shim_BT': 'end', 'shim_BL': 'end', 'shim_AL': 'xcar'}
+GROUP.update({k: GROUP[spec[0]] for k, spec in ZIPS.items()})
+GROUP.update({'zip_arm_%d' % (i + 1): 'armT' for i in range(len(ARM_TIES_X))})
 
 PRINTED = {
     # name: (builder, (axis, degrees) to print orientation, how it lies, qty)

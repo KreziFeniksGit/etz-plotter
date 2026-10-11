@@ -15,17 +15,17 @@ Wrist,Stepper motor,StepperOnline 11HS12-0674S (NEMA11 28 x 28 x 31.5),1,14,"7 N
 Wrist,Home sensor,TI DRV5023 hall switch (TO-92) + 3 x 2 mm neodymium magnet,1,1.5,"Contactless, no wear; replaces the discontinued A3144",
 Gripper,Electromagnet,P20/15 holding electromagnet 5 V (about 25 N),1,6,"Runs from the 5 V rail; checker is 7 g with an M8 washer inside","d20 x 15, M3 thread on top (VERIFY depth)"
 Gripper,Switch,AO3400 logic-level MOSFET (or IRLZ44N) + 1N5819 flyback diode,1,1,"Switches the magnet from a 3.3 V pin",
-Control,Controller,Raspberry Pi Pico 2 (RP2350; NOT the Pico 2 W),1,5,"No radio at all, so the Wi-Fi/Bluetooth rule is met by design; PIO makes clean step pulses; 3 ADC for connector A",
+Control,Controller,Espressif ESP32-S3-DevKitC-1-N16R8 (ESP32-S3: 16 MB flash, 8 MB octal PSRAM),1,10,"Egor's choice. Has Wi-Fi/Bluetooth: the rule needs them OFF, so the firmware never starts the radio. RMT/MCPWM make the step pulses; ADC1 for connector A and the battery; 24 free GPIO after strapping/flash/PSRAM pins","board 25.5 x 62.7 on female headers (ESP32_BOARD in frame.py; VERIFY on your board)"
 Control,Stepper driver,BIGTREETECH TMC2209 V1.3 module,4,5,"Silent StealthChop, UART current setting; same class as the allowed TMC2208",
 Power,Battery,4S LiPo 2200 mAh 25C+ with XT60 (14.8 V nominal),1,30,"Rule: drives from batteries on the device, nominal max 16 V; about 30 min of work per charge",
 Power,Charger,LiPo balance charger (e.g. ISDT 608AC or SkyRC B6 class),1,35,Needed if you do not have one,
-Power,Regulator 5 V,Pololu D36V28F5 (5 V 2.6 A),1,22,"Pico, magnet, connector C (5 V >= 200 mA); clean output; cheap alternative: MP1584 module set to 5 V",
-Power,Regulator 6 V,Pololu D36V28F6 (6 V 2.6 A),1,22,"Servo supply separate from logic so servo spikes do not reset the Pico; cheap alternative: XL4015 set to 6 V",
+Power,Regulator 5 V,Pololu D36V28F5 (5 V 2.6 A),1,22,"ESP32 board, magnet, connector C (5 V >= 200 mA); clean output; cheap alternative: MP1584 module set to 5 V",
+Power,Regulator 6 V,Pololu D36V28F6 (6 V 2.6 A),1,22,"Servo supply separate from logic so servo spikes do not reset the ESP32; cheap alternative: XL4015 set to 6 V",
 Power,Protection,Inline blade fuse 5 A + XT60 pigtail,1,3,,
 Rules,Stop button,"22 mm mushroom emergency stop, latching, with TWO NC contact blocks (XB2 / LAY37 type)",1,6,"Rule: latching stop that cuts all drive power. Block 1 cuts the drive bus (steppers, servo), block 2 the magnet 5 V. White STOP lettering on the cap (sticker or printed label; modelled as estop_label_STOP)",
 Rules,Start button,16 mm momentary push button,1,2,Rule: start button on the device,
 Rules,LEDs,5 mm green + 5 mm red LED with panel holders + resistors,2,0.5,"Rule: green = drives powered, red = program running",
-Rules,Connectors,Female headers 2.54 mm: 1x3 (A), 1x3 (B), 1x4 (C) on a perfboard strip,1,1,"Rule: connectors A/B/C; B needs a 5 V-tolerant input (divider) because the Pico is 3.3 V; C needs a level shifter",
+Rules,Connectors,Female headers 2.54 mm: 1x3 (A), 1x3 (B), 1x4 (C) on a perfboard strip,1,1,"Rule: connectors A/B/C; B needs a 5 V-tolerant input (divider) because the ESP32 is 3.3 V; C needs a level shifter",
 Rules,Breadboard,400-point solderless breadboard,1,3,Rule (final stage): at least 400 contacts next to the connectors,
 Base,Plywood,Birch plywood 12 mm 250 x 460,1,8,,
 Base,Feet,"Screw-on rubber feet 20 x 7 mm with steel washer (countersunk hole)",4,0.5,"Clean base (no glue); they sit 4 mm deep in 20 mm pockets under the plywood","FOOT_D, FOOT_H, FOOT_POCKET in frame.py"
@@ -33,9 +33,9 @@ Cables,Cable chain,"10 x 15 mm open cable chain R18 (outer 15 x 23), 1 m with en
 Fasteners,Heat-set inserts,Ruthex RX-M3x5.7,30,0.15,,"hole 4.0 mm, pocket 6.5 mm"
 Fasteners,Screws and nuts,"ISO 4762 / ISO 7380 M2, M2.5, M3, M4, M5 assortment; M3/M5 drop-in T-nuts",1,20,,
 Vision,Camera,Your choice (not chosen here),1,-,"Wrist module has a 32 x 32 board mount with M2 holes 28 mm; change CAM_* in the script",
-Electronics,Level shifter,BSS138 2-channel 3.3 V / 5 V module,1,1,Connector C is 5 V UART; the Pico is 3.3 V,
+Electronics,Level shifter,BSS138 2-channel 3.3 V / 5 V module,1,1,Connector C is 5 V UART; the ESP32 is 3.3 V,
 Electronics,Passives,"Resistors 220 R, 1 k, 1.5 k, 10 k, 15 k, 20 k, 22 k, 100 k; 100 uF 25 V x4; 10 nF; 2nd 1N5819",1,3,See wiring.md,
 Cables,Connectors,"JST-XH 2/3/4-pin kit, Dupont 3-pin, XT60 pair",1,6,Every harness unplugs at the board,
 Cables,Wire,"Silicone wire AWG16 (battery), AWG18 (drive bus), AWG24/26 multi-colour; 4-core AWG24 for steppers",1,8,,
-Cables,Zip ties,2.5 - 3 mm wide zip ties (100 pcs),1,2,Slots in the printed parts are 3 x 1.8 mm,
+Cables,Zip ties,2.5 - 3 mm wide zip ties (100 pcs),1,2,Slots in the printed parts are 3 x 1.8 mm; 10 ties are placed in the model (2.5 x 1.0 band),
 Fasteners,T-nuts,M3 drop-in T-nuts for 2020 (X chain fixed end on the boom),2,0.2,,
