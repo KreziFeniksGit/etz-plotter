@@ -87,7 +87,7 @@ Model v2 follows the design rules: parameters at the top of the script, separate
 - `wrist/out/review.json`: all review results. `wrist/out/*.png`: renders.
 - `components.csv`: every component of the device, with the reason it was chosen and the data used in the CAD.
 
-Run the model yourself: install FreeCAD 1.0 (Linux AppImage or Windows installer), then
+Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows installer), then
 `freecadcmd -c "exec(open('wrist_module.py').read())"`, or open the file in the FreeCAD GUI with Macro > Macros > Execute.
 
 ## Wrist module: design decisions

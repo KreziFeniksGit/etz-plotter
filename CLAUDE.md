@@ -48,7 +48,7 @@ Y-carriage parts are built at PYC0 = 40 and moved by (0, PYC-40, 0); wrist parts
 magnet face h 5..40 mm, wrist any angle. Groups: base, ycar, wm_xcar, wm_armT, wm_armB, wm_end, wm_wrist, chainX, chainY.
 
 ## Running things
-FreeCAD 1.0.x is the CAD kernel (OpenCascade). Scripts run with FreeCAD's own Python:
+FreeCAD 1.0.x or 1.1.x is the CAD kernel (OpenCascade); Egor's PC has 1.1. Scripts run with FreeCAD's own Python:
 - Windows: `fcpy.bat assembly.py`, GUI export `fcgui.bat export_gui.py` (finds `C:\Program Files\FreeCAD 1.*`,
   or set `FREECAD_DIR`). In subfolders: `..\fcpy.bat review.py`.
 - Linux / cloud: `./fcpy assembly.py`, `./fcgui export_gui.py` (offscreen Qt). If FreeCAD is missing (cloud
@@ -69,6 +69,8 @@ Full check and export after a change (about 15 minutes in total):
 - DFM on engraved text is very slow: coupons are checked with `LABELS = False`; check compounds per solid.
 - Tessellating many detailed STEP files at fine tolerance runs out of memory: use 0.25-0.3 for renders.
 - `fillet_all()` fillets every concave/convex edge; very small features may fail to fillet (logged in `FILLET_LOG`).
+- FreeCAD 1.1: a failed `makeFillet` can damage the shape it was called on, and can return a broken solid that
+  passes `isValid()`. `_fillet()` works on a copy and uses `check(True)`; never call `makeFillet` in `fillet_all` directly.
 - The matplotlib renders use a painter's algorithm, so some faces show through; fine for checks, not pretty.
 - Engagement for tapped holes ('self', 'tapped' targets) is measured by sampling, for solid targets by volume.
 

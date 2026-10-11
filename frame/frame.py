@@ -75,6 +75,10 @@ XI_C = (470.0, X_BELT_Z)                  # X idler axis
 PANEL = (95.0, 30.0, 160.0, 125.0, 55.0)  # x0, y0, x1, y1, top z
 ESTOP_C, START_C = (122.0, 62.0), (145.0, 95.0)
 LED_G, LED_R = (108.0, 108.0), (122.0, 108.0)
+STOP_TEXT = (8.0, 0.3)                    # 'STOP' on the stop button cap: letter height, thickness (cosmetic)
+FONT = next((f for f in ('C:/Windows/Fonts/arialbd.ttf', 'C:/Windows/Fonts/segoeuib.ttf',
+                         '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', '/System/Library/Fonts/Supplemental/Arial Bold.ttf')
+             if os.path.exists(f)), None)     # bold TTF for the label; the label is skipped if none is found
 CONN = {'A': (50.0, 3), 'B': (70.0, 3), 'C': (93.0, 4)}     # Y centre, pins (2.54 mm)
 BB = (95.0, 139.0)                        # breadboard corner
 BAT = (105.0, 34.0, 30.0)                 # 4S 2200 mAh pack, L x W x H
@@ -330,13 +334,14 @@ def y_carriage():
     pc = POST_C
     inner, wall = 10.0 + W.SOCKET_GAP, 5.0
     sock = box(pc[0] - inner - wall, pc[1] - inner - wall, Z_YC1, pc[0] + inner + wall, pc[1] + inner + wall, Z_YC1 + SOCKET_H)
-    body = tidy(plate.fuse(sock))
+    body = fillet_all(tidy(plate.fuse(sock)))         # socket-to-plate corner first: the block-screw counterbores cut through it
     pre = []
     for a in (-1, 1):
         for b in (-1, 1):
             x, y = YB_X + a * 10.0, PYC0 + b * 10.0
             pre.append(cyl((x, y, Z_YC0 - 1), bolt(3) / 2, 12.0))
-            pre.append(cyl((x, y, Z_YC1 - 5.0), (5.5 + 2 * TOL_MOVE) / 2, 5.0))     # heads sunk 5 mm (M3x8 gives 3 mm in the block)
+            # heads sunk 5 mm (M3x8 gives 3 mm in the block); the +x pair crosses the socket corner fillet, so it goes through it (no sliver)
+            pre.append(cyl((x, y, Z_YC1 - 5.0), (5.5 + 2 * TOL_MOVE) / 2, 5.0 + (W.FILLET_IN + 0.1 if a > 0 else 0.0)))
     body = fillet_all(cut_all(body, pre))
     body = body.cut(relief_pocket(pc[0] - inner, pc[1] - inner, pc[0] + inner, pc[1] + inner, Z_YC1, Z_YC1 + SOCKET_H + 1))
     cut = []
@@ -508,10 +513,25 @@ def battery_tray():
         cut.append(slot((x0 + 8.0, yy, Z_PLY1 - 1), (x1 - 8.0, yy, Z_PLY1 - 1), 1.6, 5.0))
     return cut_all(body, cut)
 
+def stop_label():
+    """White 'STOP' sticker on the stop button cap (cosmetic, reads from the front, -y)."""
+    faces = []
+    for ch in Part.makeWireString('STOP', FONT, STOP_TEXT[0], 0):
+        try:
+            faces.append(Part.Face(ch, 'Part::FaceMakerBullseye'))
+        except Exception:
+            pass
+    s = Part.makeCompound(faces).extrude(V(0, 0, STOP_TEXT[1]))
+    bb = s.BoundBox
+    s.translate(V(ESTOP_C[0] - (bb.XMin + bb.XMax) / 2, ESTOP_C[1] - (bb.YMin + bb.YMax) / 2, PANEL[4] + 22.0))
+    return s
+
 def panel_items():
     add('control_panel', control_panel(), colour='printed2')
     add('estop_22mm_latching', cyl((ESTOP_C[0], ESTOP_C[1], PANEL[4]), 20.0, 22.0).fuse(
         cyl((ESTOP_C[0], ESTOP_C[1], PANEL[4]), 13.5, -30.0)), kind='bought', colour='red')
+    if FONT:
+        add('estop_label_STOP', stop_label(), kind='bought', colour='white')
     add('start_button_16mm', cyl((START_C[0], START_C[1], PANEL[4]), 9.0, 6.0).fuse(
         cyl((START_C[0], START_C[1], PANEL[4]), 8.0, -22.0)), kind='bought', colour='green')
     add('led_green_5mm', cyl((LED_G[0], LED_G[1], PANEL[4] - 6.0), 2.5, 13.0), kind='bought', colour='green')

@@ -236,6 +236,15 @@ def tidy(shape):
         s = s.Solids[0]
     return s
 
+def _fillet(shape, r, edges):
+    """makeFillet on a copy that also rejects a broken result: in FreeCAD 1.1 a failed fillet can damage
+    the shape it was called on, and can return a broken solid without raising."""
+    src, c = shape.Edges, shape.copy()
+    idx = [next(i for i, e2 in enumerate(src) if e2.isSame(e)) for e in edges]
+    s = tidy(c.makeFillet(r, [c.Edges[i] for i in idx]))
+    s.check(True)                        # strict check: raises on a broken result (isValid() can miss it)
+    return s
+
 def fillet_all(shape, r_in=FILLET_IN, r_out=FILLET_OUT, min_len=2.0):
     """Fillet straight edges: internal corners r_in, external r_out. Edges the
     kernel refuses are retried with a smaller radius, then skipped (logged)."""
@@ -264,23 +273,27 @@ def fillet_all(shape, r_in=FILLET_IN, r_out=FILLET_OUT, min_len=2.0):
             return res
         es = find(es0)
         try:
-            out = tidy(out.makeFillet(r, es))
+            out = tidy(_fillet(out, r, es))
             continue
         except Exception:
             pass
         ok, bad = [], []
         for e in es:
             try:
-                out.makeFillet(r, ok + [e]); ok.append(e)
+                _fillet(out, r, ok + [e]); ok.append(e)
             except Exception:
                 bad.append(e)
         if ok:
-            out = tidy(out.makeFillet(r, ok))
-        for e0 in bad:                       # second try with half the radius
-            e = find([e0])
-            try:
-                out = tidy(out.makeFillet(r / 2, e))
-            except Exception:
+            out = tidy(_fillet(out, r, ok))
+        for e0 in bad:                       # retry one by one on the updated shape with smaller radii
+            for rr in (r, r * 0.8, r * 2 / 3, r / 2, r * 0.35, r * 0.25):
+                e = find([e0])
+                try:
+                    out = tidy(_fillet(out, rr, e))
+                    break
+                except Exception:
+                    pass
+            else:
                 skipped += 1
     FILLET_LOG.append(skipped)
     return tidy(out)

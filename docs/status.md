@@ -1,6 +1,6 @@
 # Project status and history
 
-Last update: 11 Oct 2026 (v2.3: repository set up for Claude Code, STEP-only outputs).
+Last update: 11 Oct 2026 (v2.4: STOP lettering on the stop button; FreeCAD 1.1 fillet fixes).
 
 ## Where we are
 The whole device is modelled in FreeCAD (Python scripts), checked and exported:
@@ -33,6 +33,7 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
 - v2.1 (11 Oct): real cable chains, cable tunnel risers, cable tubes, wiring.md, stability check.
 - v2.2 (11 Oct): every fastener modelled and checked (feet pockets, beam bolt counterbores, Y idler to y 12, X idler axle flipped, bracket holes, rail holes, rib, tray ears); tolerance coupons.
 - v2.3 (11 Oct): git repo + CLAUDE.md; STEP-only pipeline; Windows/Linux FreeCAD runners.
+- v2.4 (11 Oct): white raised 'STOP' lettering (8 mm, cosmetic) on the stop button cap. First run on Egor's PC (FreeCAD 1.1) showed the Y carriage built as an EMPTY shape: in 1.1 a failed fillet damages the input and can return a broken solid. `fillet_all` now fillets a copy, checks strictly and retries one edge at a time with smaller radii; the Y carriage socket corner is filleted before the block-screw counterbores (the +x pair now go through that fillet). All checks clean again on 1.1.
 
 ## Open items (in order)
 1. Egor prints the tolerance coupons A, C, D1, E1, F1 (then the rest) and reports which variant fits -> set the constants in `wrist/wrist_module.py` section 1, re-run everything, re-export.

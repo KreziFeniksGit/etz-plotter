@@ -22,7 +22,7 @@ Power,Charger,LiPo balance charger (e.g. ISDT 608AC or SkyRC B6 class),1,35,Need
 Power,Regulator 5 V,Pololu D36V28F5 (5 V 2.6 A),1,22,"Pico, magnet, connector C (5 V >= 200 mA); clean output; cheap alternative: MP1584 module set to 5 V",
 Power,Regulator 6 V,Pololu D36V28F6 (6 V 2.6 A),1,22,"Servo supply separate from logic so servo spikes do not reset the Pico; cheap alternative: XL4015 set to 6 V",
 Power,Protection,Inline blade fuse 5 A + XT60 pigtail,1,3,,
-Rules,Stop button,"22 mm mushroom emergency stop, latching, with TWO NC contact blocks (XB2 / LAY37 type)",1,6,"Rule: latching stop that cuts all drive power. Block 1 cuts the drive bus (steppers, servo), block 2 the magnet 5 V",
+Rules,Stop button,"22 mm mushroom emergency stop, latching, with TWO NC contact blocks (XB2 / LAY37 type)",1,6,"Rule: latching stop that cuts all drive power. Block 1 cuts the drive bus (steppers, servo), block 2 the magnet 5 V. White STOP lettering on the cap (sticker or printed label; modelled as estop_label_STOP)",
 Rules,Start button,16 mm momentary push button,1,2,Rule: start button on the device,
 Rules,LEDs,5 mm green + 5 mm red LED with panel holders + resistors,2,0.5,"Rule: green = drives powered, red = program running",
 Rules,Connectors,Female headers 2.54 mm: 1x3 (A), 1x3 (B), 1x4 (C) on a perfboard strip,1,1,"Rule: connectors A/B/C; B needs a 5 V-tolerant input (divider) because the Pico is 3.3 V; C needs a level shifter",
