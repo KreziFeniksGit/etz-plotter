@@ -51,15 +51,15 @@
   "arm_top | wrist_carriage": 1.5,
   "arm_bottom | wrist_carriage": 0.5,
   "servo_horn | wrist_carriage": 5.81,
-  "arm_top | x_belt_riser": 11.96,
+  "arm_top | x_belt_riser": 7.38,
   "arm_bottom | shelf": 0.5,
   "arm_top | end_plate": 0.8,
   "arm_bottom | end_plate": 0.8,
   "arm_top | arm_bottom": 17.03,
   "servo_case | wrist_carriage": 0.36,
   "arm_top | servo_case": 6.74,
-  "wrist_hub | shelf": 0.8,
-  "electromagnet | shelf": 17.08,
+  "wrist_hub | shelf": 5.39,
+  "electromagnet | shelf": 21.74,
   "end_plate | wrist_carriage": 41.88,
   "spacer_AL | arm_bottom": 0.3,
   "spacer_BT | arm_top": 0.3,
@@ -138,14 +138,14 @@
    "orientation": "standing on its bottom face",
    "qty": 1,
    "size": [
-    26.0,
+    42.0,
     13.5,
     15.9
    ],
    "fits_220": true,
-   "volume_cm3": 5.22,
-   "mass_g": 4.0,
-   "min_wall": 2.73,
+   "volume_cm3": 8.57,
+   "mass_g": 6.5,
+   "min_wall": 2.5,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -155,7 +155,7 @@
      4.0,
      12.6,
      [
-      4.0,
+      -4.0,
       -2.2,
       6.5
      ]
@@ -164,7 +164,7 @@
      4.0,
      12.6,
      [
-      -4.0,
+      -12.0,
       -2.2,
       6.5
      ]
@@ -177,14 +177,14 @@
    "orientation": "grooved face up",
    "qty": 1,
    "size": [
-    26.0,
+    42.0,
     13.5,
     3.5
    ],
    "fits_220": true,
-   "volume_cm3": 1.12,
-   "mass_g": 0.9,
-   "min_wall": 3.05,
+   "volume_cm3": 1.8,
+   "mass_g": 1.4,
+   "min_wall": 2.9,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -292,24 +292,14 @@
     14.0
    ],
    "fits_220": true,
-   "volume_cm3": 14.05,
-   "mass_g": 10.7,
+   "volume_cm3": 13.58,
+   "mass_g": 10.3,
    "min_wall": 2.42,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 0.7,
-   "bridges": [
-    [
-     0.7,
-     3.5,
-     [
-      -4.5,
-      -10.8,
-      5.0
-     ]
-    ]
-   ],
+   "widest_bridge_mm": 0,
+   "bridges": [],
    "sharp_internal_edges": [],
    "n_sharp": 0
   },
@@ -318,12 +308,12 @@
    "qty": 1,
    "size": [
     14.0,
-    16.7,
+    14.0,
     22.5
    ],
    "fits_220": true,
-   "volume_cm3": 3.2,
-   "mass_g": 2.4,
+   "volume_cm3": 3.01,
+   "mass_g": 2.3,
    "min_wall": 2.5,
    "thin_samples": 0,
    "thin_examples": [],
@@ -335,7 +325,7 @@
      22.9,
      [
       0.0,
-      1.4,
+      0.0,
       20.0
      ]
     ]
@@ -355,7 +345,6 @@
   "D-bore on stepper shaft (5 +0.12, press)": 5.12,
   "servo window (case + 0.4 each side)": 0.4,
   "arm to end plate gap (washer)": 0.8,
-  "heat-set insert hole": 4.0,
-  "TO-92 pocket (+0.12)": 4.22
+  "heat-set insert hole": 4.0
  }
 }

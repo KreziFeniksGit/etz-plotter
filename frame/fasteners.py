@@ -204,11 +204,14 @@ def frame_fasteners():
                    extra=('cable_chain_y',), nut=('hex', 4.5 + (Fr.Z_YC1 - Fr.Z_YC0)), note='Y chain moving end link, nut under the carriage'))
     fy = P0 + Fr.XM_FACE_DY
     for i, (a, b) in enumerate(((-1, -1), (1, -1), (-1, 1), (1, 1))):
-        L.append(F('f_xmotor%d' % i, 'cap', 3, 8, (Fr.XM_C[0] + 15.5 * a, fy - 4.0, Fr.XM_C[1] + 15.5 * b), (0, 1, 0), 'ycar',
+        L.append(F('f_xmotor%d' % i, 'cap', 3, 10, (Fr.XM_C[0] + 15.5 * a, fy - Fr.XM_T, Fr.XM_C[1] + 15.5 * b), (0, 1, 0), 'ycar',
                    ('blind', 'x_motor_17HS16', 3.0, 4.5), note='X motor (thread depth 4.5)'))
-    for i, zc in enumerate((186.0, 136.5)):
-        L.append(F('f_xmount%d' % i, 'cap', 5, 16, (199.0, P0 + 21.0, zc), (0, -1, 0), 'ycar', ('tnut', None, 3.0, None),
+    for i, (x, zc) in enumerate(Fr.XM_POST_BOLTS):
+        L.append(F('f_xmount%d' % i, 'cap', 5, 16, (x, P0 + 21.0, zc), (0, -1, 0), 'ycar', ('tnut', None, 3.0, None),
                    tnut=(11.0, (0, 0, 1), 'post_2020'), note='X motor mount to the post (+y slot), heads in the counterbore'))
+    for i, (y, zc) in enumerate(Fr.XM_SIDE_BOLTS):
+        L.append(F('f_xmount_side%d' % i, 'cap', 5, 12, (Fr.XM_CHEEK_X0, y, zc), (1, 0, 0), 'ycar', ('tnut', None, 3.0, None),
+                   tnut=(Fr.POST_C[0] - 10.0 - Fr.XM_CHEEK_X0, (0, 0, 1), 'post_2020'), note='X motor mount cheek to the post (-x slot)'))
     for i, s in enumerate((-1, 1)):
         L.append(F('f_xswitch%d' % i, 'pan', 2, 10, (209.0 + Fr.D2F['W'], P0 + 19.0 + s * Fr.D2F['hole_pitch'] / 2, 129.5), (-1, 0, 0), 'ycar',
                    ('self', 'x_motor_mount', 3.5, None), extra=('x_home_switch',), note='X home switch, M2 self-tapping'))
@@ -225,16 +228,26 @@ def frame_fasteners():
                    note='X rail to the boom (bottom slot)'))
     L.append(F('f_xidler_end', 'cap', 5, 12, (Fr.BOOM_X1 + 3.0, P0, Fr.X_BELT_Z), (-1, 0, 0), 'ycar', ('tapped', 'boom_2020', 6.0, None),
                note='X idler bracket into the tapped boom end (tap M5)'))
-    L.append(F('f_xidler_axle', 'button', 5, 18, (Fr.XI_C[0], P0 + Fr.XB_DY0 - 0.5, Fr.X_BELT_Z), (0, 1, 0), 'ycar', ('nut', None, 4.0, None),
-               extra=('x_idler_gt2', 'x_idler_bracket'), nut=('hex', Fr.XB_DY1 + 5.0 - Fr.XB_DY0 + 0.5),
-               note='X idler axle: head between boom and idler, nut outside the slotted plate'))
+    L.append(F('f_xidler_axle', 'button', 5, 30, (Fr.XI_C[0], P0 + Fr.XB_DY0 - 0.5, Fr.X_BELT_Z), (0, 1, 0), 'ycar', ('nut', None, 4.7, None),
+               extra=('x_idler_gt2', 'x_idler_bracket', 'x_idler_slider'), nut=('nyloc', Fr.XI_SLIDER[3] - Fr.XB_DY0 + 0.5),
+               note='X idler axle: head between boom and idler (fit it before the bracket goes on the boom), nyloc outside the slider, snug'))
+    xh = Fr.XI_SLIDER[0] - 25.0                          # M3x25: the tip touches the slider's -x end as assembled
+    L.append(F('f_xidler_push', 'cap', 3, 25, (xh, P0 + Fr.XI_PUSH[0], Fr.XI_PUSH[1]), (1, 0, 0), 'ycar', ('insert', None, 4.0, None),
+               extra=('x_idler_slider',), insert=('x_idler_bracket', Fr.XI_LUG_X[0] - xh), nut=('hex', Fr.XI_LUG_X[0] - xh - 2.4),
+               note='X belt tension: pushes the idler slider toward +x; hex nut locks it on the lug'))
     for i, x in enumerate((235.0, 245.0)):
         L.append(F('f_xchain_fix%d' % i, 'button', 3, 10, (x, P0, Fr.Z_BOOM1 + 4.5), (0, 0, -1), 'ycar', ('tnut', None, 2.5, None),
                    extra=('cable_chain_x',), tnut=(4.5, (1, 0, 0), 'boom_2020'), note='X chain fixed end link on the boom top'))
     # ---------------- base
     py, pz = Fr.YI_C
-    L.append(F('f_yidler_axle', 'cap', 5, 18, (176.0, py, pz), (1, 0, 0), 'base', ('nut', None, 4.0, None), extra=('y_idler_gt2',),
-               nut=('hex', Fr.Y_BELT_X0 + 6.5 - 176.0), note='Y idler axle (cantilever)'))
+    sx0 = Fr.YI_SLIDER[0]
+    L.append(F('f_yidler_axle', 'cap', 5, 25, (sx0, py, pz), (1, 0, 0), 'base', ('nut', None, 3.7, None),
+               extra=('y_idler_gt2', 'y_idler_bracket', 'y_idler_slider'), nut=('hex', Fr.Y_BELT_X0 + 6.5 - sx0),
+               note='Y idler axle through the slider and the slotted plate (cantilever), nut snug'))
+    ly = Fr.YI_LUG_Y[1]
+    L.append(F('f_yidler_push', 'cap', 3, 16, (Fr.YI_PUSH_X, ly + 4.0, pz), (0, -1, 0), 'base', ('insert', None, 4.0, None),
+               extra=('y_idler_slider',), insert=('y_idler_bracket', 4.0), nut=('hex', 4.0 - 2.4),
+               note='Y belt tension: pushes the idler slider toward -y; hex nut locks it on the lug'))
     L.append(F('f_ybeam_end', 'button', 5, 12, (Fr.YB_X, 4.0, Fr.Z_YB1 - 10.0), (0, 1, 0), 'base', ('tapped', 'y_beam_2020', 5.0, None),
                note='Y idler bracket into the tapped beam end (tap M5)'))
     for i, (x, y) in enumerate(Fr.IDLER_WOOD):
@@ -245,11 +258,11 @@ def frame_fasteners():
         L.append(F('f_yswitch%d' % i, 'pan', 2, 10, (236.0 + Fr.D2F['W'], 4.5, zz), (-1, 0, 0), 'base', ('self', 'y_idler_bracket', 3.5, None),
                    extra=('y_home_switch',), note='Y home switch, M2 self-tapping'))
     for i, (a, b) in enumerate(((-1, -1), (1, -1), (-1, 1), (1, 1))):
-        L.append(F('f_ymotor%d' % i, 'cap', 3, 8, (Fr.YM_FACE + 4.0, Fr.YM_C[0] + 15.5 * a, Fr.YM_C[1] + 15.5 * b), (-1, 0, 0), 'base',
+        L.append(F('f_ymotor%d' % i, 'cap', 3, 10, (Fr.YM_FACE + Fr.YM_T, Fr.YM_C[0] + 15.5 * a, Fr.YM_C[1] + 15.5 * b), (-1, 0, 0), 'base',
                    ('blind', 'y_motor_17HS16', 3.0, 4.5), note='Y motor'))
-    for i, yy in enumerate((Fr.YM_C[0] - 16.0, Fr.YM_C[0] + 16.0)):
-        L.append(F('f_ymotor_wood%d' % i, 'pan', 4, 12, (187.0, yy, Fr.Z_PLY1 + 4.0), (0, 0, -1), 'base', ('wood', 'plywood_base', 6.0, None),
-                   note='Y motor mount to the plywood (tension slots)'))
+    for i, (x, yy) in enumerate(Fr.YM_WOOD):
+        L.append(F('f_ymotor_wood%d' % i, 'pan', 4, 12, (x, yy, Fr.Z_PLY1 + Fr.YM_BASE[2]), (0, 0, -1), 'base', ('wood', 'plywood_base', 6.0, None),
+                   note='Y motor mount to the plywood (fixed; screw it down before the motor goes on)'))
     for i, y in enumerate(Fr.BEAM_BOLTS_Y):
         z0 = Fr.Z_PLY0 + Fr.BEAM_CBORE
         L.append(F('f_beam%d' % i, 'cap', 5, 20, (Fr.YB_X, y, z0), (0, 0, 1), 'base', ('tnut', None, 3.0, None),

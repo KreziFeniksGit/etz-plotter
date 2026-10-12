@@ -35,7 +35,8 @@ Design rules Egor requires: `docs/design_rules.md`.
 | `frame/fasteners.py` | Every screw / nut / washer / insert / T-nut, placed per group; `bom()` |
 | `assembly.py` | `world(PYC, PXB, h, wrist_deg, fasteners=...)` places everything; all whole-device checks -> `out/assembly_review.json`, `out/fastener_bom.csv` |
 | `export_gui.py` | Coloured, grouped STEP + FCStd (parked and working pose) and `out/printed/*.step` (print orientation) - needs the FreeCAD GUI |
-| `tools/stability.py` | Masses, tipping, rail moments, sag -> `out/stability.json` |
+| `tools/stability.py` | Masses, tipping, rail moments, sag, backlash budget -> `out/stability.json` |
+| `tools/fea.py` | FEA (gmsh + CalculiX from FreeCAD) of the motor mounts, idler brackets, Y carriage -> `out/fea.json`; see `docs/stiffness_review.md` |
 | `tools/render_pose.py` | PNG render of any pose (crop optional) |
 | `tolerance/coupons.py` | 11 tolerance test coupons -> `tolerance/out/*.step`; `tolerance/README.md` = how to test |
 | `verify_step.py` | Re-import a STEP and count parts/solids |
@@ -60,7 +61,7 @@ Full check and export after a change (about 15 minutes in total):
 2. `./fcpy assembly.py` - static_park {}, cable_paths_through_parts none, fastener_clips_at_rest none,
    fastener_engagement_problems none, fastener_sweep none, sweep none, detailed_* none, worst_outside_polygon 0, parked in zones,
    every frame part DFM clean (thin 0, sharp 0, overhang 0).
-3. `./fcpy tools/stability.py`
+3. `./fcpy tools/fea.py` (all ok) then `./fcpy tools/stability.py`
 4. `./fcgui export_gui.py` then `./fcpy verify_step.py out/ETZ_plotter_parked.step`
 5. If tolerances changed: `cd tolerance && ../fcpy coupons.py`
 

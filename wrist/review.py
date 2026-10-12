@@ -160,7 +160,7 @@ R['clearances'] = {
     'NEMA11 screw hole (M2.5 +0.2)': W.N11_HOLE + W.TOL_MOTOR, 'NEMA11 pilot hole (22 +0.2)': W.N11_PILOT_D + W.TOL_MOTOR,
     '684ZZ seat (9 +0.12, press)': W.BRG_OD + W.TOL_PRESS, 'bearing shoulder hole (4 + 2x0.4 + 1.5)': W.BRG_ID + 2 * W.TOL_MOVE + 1.5,
     'D-bore on stepper shaft (5 +0.12, press)': W.N11_SHAFT_D + W.TOL_PRESS, 'servo window (case + 0.4 each side)': W.TOL_MOVE,
-    'arm to end plate gap (washer)': W.WASHER_T, 'heat-set insert hole': W.INSERT_D, 'TO-92 pocket (+0.12)': W.TO92_W + W.TOL_PRESS,
+    'arm to end plate gap (washer)': W.WASHER_T, 'heat-set insert hole': W.INSERT_D,
 }
 json.dump(R, open(os.path.join(OUT, 'review.json'), 'w'), indent=1, default=str)
 

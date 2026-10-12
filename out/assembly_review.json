@@ -2,7 +2,7 @@
  "static_park": {},
  "cable_paths_through_parts": "none",
  "footprint_parked_outside_zones": "none",
- "fasteners_count": 132,
+ "fasteners_count": 140,
  "fastener_clips_at_rest": "none",
  "fastener_engagement_problems": "none",
  "fastener_engagement": {
@@ -52,6 +52,11 @@
    "engagement_mm": 5.4
   },
   "wm_f_clamp1": {
+   "screw": "M3 x 10 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 5.4
+  },
+  "wm_f_clamp2": {
    "screw": "M3 x 10 ISO 4762",
    "into": "insert",
    "engagement_mm": 5.4
@@ -216,6 +221,11 @@
    "into": "insert",
    "engagement_mm": 4.96
   },
+  "f_yclamp2": {
+   "screw": "M3 x 14 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 4.96
+  },
   "f_ychain0": {
    "screw": "M3 x 20 ISO 7380",
    "into": "nut",
@@ -227,22 +237,22 @@
    "engagement_mm": 2.4
   },
   "f_xmotor0": {
-   "screw": "M3 x 8 ISO 4762",
+   "screw": "M3 x 10 ISO 4762",
    "into": "blind",
    "engagement_mm": 4.0
   },
   "f_xmotor1": {
-   "screw": "M3 x 8 ISO 4762",
+   "screw": "M3 x 10 ISO 4762",
    "into": "blind",
    "engagement_mm": 4.0
   },
   "f_xmotor2": {
-   "screw": "M3 x 8 ISO 4762",
+   "screw": "M3 x 10 ISO 4762",
    "into": "blind",
    "engagement_mm": 4.0
   },
   "f_xmotor3": {
-   "screw": "M3 x 8 ISO 4762",
+   "screw": "M3 x 10 ISO 4762",
    "into": "blind",
    "engagement_mm": 4.0
   },
@@ -253,6 +263,16 @@
   },
   "f_xmount1": {
    "screw": "M5 x 16 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.2
+  },
+  "f_xmount_side0": {
+   "screw": "M5 x 12 ISO 4762",
+   "into": "tnut",
+   "engagement_mm": 3.2
+  },
+  "f_xmount_side1": {
+   "screw": "M5 x 12 ISO 4762",
    "into": "tnut",
    "engagement_mm": 3.2
   },
@@ -342,9 +362,14 @@
    "engagement_mm": 9.25
   },
   "f_xidler_axle": {
-   "screw": "M5 x 18 ISO 7380",
+   "screw": "M5 x 30 ISO 7380",
    "into": "nut",
-   "engagement_mm": 4.0
+   "engagement_mm": 5.0
+  },
+  "f_xidler_push": {
+   "screw": "M3 x 25 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 5.7
   },
   "f_xchain_fix0": {
    "screw": "M3 x 10 ISO 7380",
@@ -357,9 +382,14 @@
    "engagement_mm": 3.5
   },
   "f_yidler_axle": {
-   "screw": "M5 x 18 ISO 4762",
+   "screw": "M5 x 25 ISO 4762",
    "into": "nut",
    "engagement_mm": 4.0
+  },
+  "f_yidler_push": {
+   "screw": "M3 x 16 ISO 4762",
+   "into": "insert",
+   "engagement_mm": 5.7
   },
   "f_ybeam_end": {
    "screw": "M5 x 12 ISO 7380",
@@ -387,34 +417,44 @@
    "engagement_mm": 4.25
   },
   "f_ymotor0": {
-   "screw": "M3 x 8 ISO 4762",
+   "screw": "M3 x 10 ISO 4762",
    "into": "blind",
    "engagement_mm": 4.0
   },
   "f_ymotor1": {
-   "screw": "M3 x 8 ISO 4762",
+   "screw": "M3 x 10 ISO 4762",
    "into": "blind",
    "engagement_mm": 4.0
   },
   "f_ymotor2": {
-   "screw": "M3 x 8 ISO 4762",
+   "screw": "M3 x 10 ISO 4762",
    "into": "blind",
    "engagement_mm": 4.0
   },
   "f_ymotor3": {
-   "screw": "M3 x 8 ISO 4762",
+   "screw": "M3 x 10 ISO 4762",
    "into": "blind",
    "engagement_mm": 4.0
   },
   "f_ymotor_wood0": {
    "screw": "wood screw 4x12 (pan head)",
    "into": "wood",
-   "engagement_mm": 8.0
+   "engagement_mm": 7.0
   },
   "f_ymotor_wood1": {
    "screw": "wood screw 4x12 (pan head)",
    "into": "wood",
-   "engagement_mm": 8.0
+   "engagement_mm": 7.0
+  },
+  "f_ymotor_wood2": {
+   "screw": "wood screw 4x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 7.0
+  },
+  "f_ymotor_wood3": {
+   "screw": "wood screw 4x12 (pan head)",
+   "into": "wood",
+   "engagement_mm": 7.0
   },
   "f_beam0": {
    "screw": "M5 x 20 ISO 4762",
@@ -727,29 +767,19 @@
   },
   "y_motor_mount": {
    "size": [
-    22.5,
+    44.0,
     54.0,
     55.5
    ],
    "fits_220": true,
-   "volume_cm3": 14.86,
-   "mass_g": 11.3,
-   "min_wall": 3.91,
+   "volume_cm3": 32.35,
+   "mass_g": 24.7,
+   "min_wall": 4.06,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 0.2,
-   "bridges": [
-    [
-     0.2,
-     0.3,
-     [
-      4.2,
-      23.0,
-      5.0
-     ]
-    ]
-   ],
+   "widest_bridge_mm": 0,
+   "bridges": [],
    "sharp_internal_edges": [],
    "n_sharp": 0
   },
@@ -760,9 +790,37 @@
     42.0
    ],
    "fits_220": true,
-   "volume_cm3": 18.09,
-   "mass_g": 13.8,
+   "volume_cm3": 23.02,
+   "mass_g": 17.5,
    "min_wall": 2.4,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 3.5,
+   "bridges": [
+    [
+     3.5,
+     28.7,
+     [
+      -18.9,
+      -9.8,
+      34.1
+     ]
+    ]
+   ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "y_idler_slider": {
+   "size": [
+    19.0,
+    17.0,
+    5.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 1.47,
+   "mass_g": 1.1,
+   "min_wall": 5.0,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -778,9 +836,9 @@
     35.0
    ],
    "fits_220": true,
-   "volume_cm3": 58.33,
+   "volume_cm3": 58.25,
    "mass_g": 44.4,
-   "min_wall": 2.97,
+   "min_wall": 2.73,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -790,8 +848,8 @@
      4.0,
      12.6,
      [
-      -25.6,
-      17.0,
+      -26.1,
+      25.5,
       6.5
      ]
     ],
@@ -799,8 +857,17 @@
      4.0,
      12.6,
      [
-      -25.6,
-      5.0,
+      -26.1,
+      15.0,
+      6.5
+     ]
+    ],
+    [
+     4.0,
+     12.6,
+     [
+      -26.1,
+      4.5,
       6.5
      ]
     ],
@@ -821,15 +888,6 @@
       -12.0,
       10.0
      ]
-    ],
-    [
-     1.4,
-     3.5,
-     [
-      -10.0,
-      10.9,
-      11.0
-     ]
     ]
    ],
    "sharp_internal_edges": [],
@@ -837,14 +895,14 @@
   },
   "y_belt_spacer": {
    "size": [
-    15.5,
-    22.0,
+    16.0,
+    30.0,
     4.4
    ],
    "fits_220": true,
-   "volume_cm3": 1.4,
-   "mass_g": 1.1,
-   "min_wall": 2.78,
+   "volume_cm3": 1.98,
+   "mass_g": 1.5,
+   "min_wall": 2.99,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -855,14 +913,14 @@
   },
   "y_belt_clamp": {
    "size": [
-    15.5,
-    22.0,
+    16.0,
+    30.0,
     3.5
    ],
    "fits_220": true,
-   "volume_cm3": 1.09,
-   "mass_g": 0.8,
-   "min_wall": 2.78,
+   "volume_cm3": 1.5,
+   "mass_g": 1.1,
+   "min_wall": 2.99,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -893,12 +951,12 @@
    "size": [
     69.0,
     70.0,
-    21.5
+    41.5
    ],
    "fits_220": true,
-   "volume_cm3": 33.56,
-   "mass_g": 25.6,
-   "min_wall": 2.81,
+   "volume_cm3": 51.97,
+   "mass_g": 39.6,
+   "min_wall": 2.68,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -921,6 +979,24 @@
       -24.5,
       10.5
      ]
+    ],
+    [
+     0.5,
+     7.1,
+     [
+      7.8,
+      -21.3,
+      17.5
+     ]
+    ],
+    [
+     0.5,
+     6.6,
+     [
+      7.8,
+      21.8,
+      17.5
+     ]
     ]
    ],
    "sharp_internal_edges": [],
@@ -928,14 +1004,14 @@
   },
   "x_idler_bracket": {
    "size": [
-    25.2,
-    38.0,
-    29.0
+    32.0,
+    48.0,
+    49.0
    ],
    "fits_220": true,
-   "volume_cm3": 7.12,
-   "mass_g": 5.4,
-   "min_wall": 3.0,
+   "volume_cm3": 23.24,
+   "mass_g": 17.7,
+   "min_wall": 2.73,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -945,12 +1021,48 @@
      9.3,
      46.3,
      [
-      0.0,
-      -7.0,
-      3.0
+      -4.0,
+      -12.0,
+      9.0
+     ]
+    ],
+    [
+     7.5,
+     91.8,
+     [
+      2.0,
+      20.2,
+      39.0
+     ]
+    ],
+    [
+     5.0,
+     32.5,
+     [
+      -8.5,
+      19.8,
+      32.0
      ]
     ]
    ],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "x_idler_slider": {
+   "size": [
+    14.0,
+    19.0,
+    9.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 2.16,
+   "mass_g": 1.6,
+   "min_wall": 2.5,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
    "sharp_internal_edges": [],
    "n_sharp": 0
   },

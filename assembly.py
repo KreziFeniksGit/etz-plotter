@@ -38,7 +38,7 @@ def branch(name, kind):
 
 WM_COLOUR = {'servo_case': 'servo', 'servo_tabs': 'servo', 'servo_spline': 'white', 'servo_horn': 'steel', 'nema11': 'motor',
              'nema11_pilot': 'motor', 'nema11_shaft': 'steel', 'electromagnet': 'copper', 'camera_board': 'board', 'camera_lens': 'black',
-             'mgn12h_block': 'steel', 'hall_drv5023': 'black', 'flag_magnet_3x2': 'steel'}
+             'mgn12h_block': 'steel'}
 WM_COLOUR.update({k: 'black' for k in W.GROUP if k.startswith('zip_')})
 
 _FRAME = None
@@ -280,6 +280,7 @@ def footprint(parts):
 PRINT_ORIENT = {'y_motor_mount': (V(1, 0, 0), 0), 'y_idler_bracket': (V(1, 0, 0), 0), 'y_carriage': (V(1, 0, 0), 0),
                 'y_belt_spacer': (V(1, 0, 0), 0), 'y_belt_clamp': (V(1, 0, 0), 0), 'post_cap': (V(1, 0, 0), 180),
                 'x_motor_mount': (V(1, 0, 0), -90), 'x_idler_bracket': (V(0, 1, 0), 90), 'control_panel': (V(1, 0, 0), 180),
+                'x_idler_slider': (V(1, 0, 0), 90), 'y_idler_slider': (V(0, 1, 0), 90),
                 'breadboard_tray': (V(1, 0, 0), 0), 'battery_tray': (V(1, 0, 0), 0), 'y_chain_guide': (V(1, 0, 0), 0), 'y_beam_riser': (V(1, 0, 0), 0)}
 
 def print_orient(name):

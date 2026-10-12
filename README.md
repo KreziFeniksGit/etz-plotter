@@ -5,13 +5,25 @@
 Tree: ETZ_plotter > Base_and_Y_axis, Y_carriage_and_X_axis, Wrist_module, Electronics_and_controls, Cables_and_chains, Fasteners, Field_reference.
 Coordinates: X along the 600 mm side of the polygon, Y along the 500 mm side, Z up from the table (mm).
 
-**Print files:** `out/printed/` has all 22 printed designs (13 frame parts + 9 wrist module parts) in print orientation, as STEP (PrusaSlicer, OrcaSlicer, Bambu Studio and Cura 5.x open STEP).
+**Print files:** `out/printed/` has all 24 printed designs (15 frame parts + 9 wrist module parts) in print orientation, as STEP (PrusaSlicer, OrcaSlicer, Bambu Studio and Cura 5.x open STEP).
 `y_beam_riser_x4` is printed four times.
 
 **Wiring:** `wiring.md` (power, stop button, ESP32-S3 pins, every harness, driver currents).
 
 **Tolerance tests:** `tolerance/` has 11 test coupons (STEP) and `tolerance/README.md` says how to test each one and which
 constant to change. Print them before the real parts.
+
+## Stiffness, backlash and open belts (v2.7)
+`docs/stiffness_review.md` has the whole review. FEA of the load-carrying printed parts (`tools/fea.py` -> `out/fea.json`,
+gmsh + CalculiX from FreeCAD): every part now moves its pulley or idler <= 0.04 mm and tilts it <= 0.11 deg under 50 N of belt pull.
+- **x_motor_mount:** 6 mm plate, top and bottom flanges, each arm also bolted (M5) to the post's -x face: pulley tilt 0.20 -> 0.025 deg.
+- **y_motor_mount:** 6 mm plate, base on both sides, 4 gussets, 4 fixed wood screws (no tension slots any more).
+- **x_idler_bracket** (the weakest part, 0.65 deg tilt -> 0.11): 12 mm end cap, a channel round an `x_idler_slider` pushed by an M3 screw in line with the axle.
+- **y_idler_bracket:** axle slot + `y_idler_slider` pushed by an M3 screw in a lug (3 mm travel).
+- **Open belts:** both ends clamp on the carriage (Y clamp 30 mm long with 3 screws, X clamp 42 mm with 3 screws), 6-9 teeth per end.
+  Tension is set at the idler sliders; the motors never move.
+- Backlash budget: 0.11 mm (Y) and 0.07 mm (X) on reversal (belt stretch, stepper, mounts, tooth clearance) against the 10 mm tolerance.
+- Print the load parts with 6 walls and >= 50 % infill.
 
 ## Fasteners (v2.2)
 All 133 fasteners are in the model (`Fasteners` in the tree): every screw with its head, nut, washer, heat-set insert or T-nut,
@@ -57,7 +69,7 @@ Results: no fastener clips any part at rest or in 16 poses against the moving pa
 - every printed part: walls >= 2.4 mm, no unrounded internal corner, no overhang > 45 deg, widest bridge 9.3 mm, fits 220 x 220.
 
 ## Stability and stiffness (`tools/stability.py`, results in `out/stability.json`)
-- Mass about 4.0 kg with all screws (base 2.56, Y carriage and boom 0.98, wrist module 0.43, chains 0.08).
+- Mass about 4.1 kg with all screws (base 2.61, Y carriage and boom 1.03, wrist module 0.42, chains 0.08; v2.7).
 - Tipping: the centre of mass stays at least 92 mm inside the feet. Tipping would need 31 m/s2 (3.2 g); the design acceleration is 2 m/s2.
 - Rail loads: worst moment 1.65 N m on the Y block against 37.5 N m rated (23x margin).
 - Sag of the magnet from the aluminium profiles: at most 0.16 mm. The printed socket and the corner brackets add more; calibration takes it out,
@@ -67,9 +79,9 @@ Results: no fastener clips any part at rest or in 16 poses against the moving pa
 with FreeCAD's python. `./fcpy tools/render_pose.py Y X h wrist out.png` renders any pose.
 
 **Frame parts (same rules as the wrist module):** y_carriage (post socket with round relief groove, block screws sunk 5 mm: fit them
-before the post; slot for the Y chain end), y_belt_spacer, y_belt_clamp (tooth grooves), y_motor_mount (tension slots), y_idler_bracket
-(Y home switch post), y_beam_riser x4 (tongues locate the beam in its slot), y_chain_guide, x_motor_mount (counterbored M5 into the post,
-X home switch), x_idler_bracket (slotted axle for X belt tension), post_cap, control_panel (stop, start, LEDs, connectors A/B/C),
+before the post; slot for the Y chain end), y_belt_spacer, y_belt_clamp (two belt ends, tooth grooves), y_motor_mount (fixed, gusseted), y_idler_bracket
+(idler slot, tension lug, Y home switch post), y_idler_slider, y_beam_riser x4 (tongues locate the beam in its slot), y_chain_guide, x_motor_mount (M5 into the post's +y and -x faces,
+X home switch), x_idler_bracket (slotted axle, tension lug), x_idler_slider, post_cap, control_panel (stop, start, LEDs, connectors A/B/C),
 breadboard_tray, battery_tray.
 
 **Screws:** `out/fastener_bom.csv` is the complete list (it replaces the screw lists further down where they differ). Zip ties are not modelled.
@@ -98,8 +110,8 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 - **The top arm bolts to a 25T aluminium single-arm horn**: centre screw into the spline plus one M3 into the horn's tapped hole at r 24, with the horn's arm lying along the top arm.
 - **Lightening slots** in both arms remove about 25 % of the web. The two flanges carry the bending, so stiffness hardly drops.
 - **Shelf and end plate are separate flat parts.** Both print flat, so the stepper and pivot holes are vertical, round and accurate. They join with two M3 screws into inserts in the end plate's foot pad, which sits clear of the pivot nut.
-- **The belt clamp** has half-round grooves at 2 mm pitch that take the belt teeth.
-- **The hall switch** sits leads-down in a press pocket 0.8 mm from the hub's flag magnet; its leads run under the shelf to a hole beside the end plate.
+- **The belt clamp** has half-round grooves at 2 mm pitch that take the belt teeth; it holds both ends of the open X belt (42 mm, 3 screws).
+- **No wrist home sensor** (Egor, 12 Oct): the hall switch and the hub's flag magnet were removed. Set the wrist to its mark by hand before power-up; the firmware counts the angle from there.
 - **MG996R servo**: M2 bolts with large washers through its 4.5 mm tab holes (M3 would leave only 2 mm of plastic to the window); shallow grooves take the ribs under its tabs.
 
 ## Tolerances used
@@ -133,7 +145,7 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 
 Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 
-**Bought parts:** MG996R servo + 25T aluminium arm horn, NEMA11 11HS12-0674S, P20/15 5 V magnet, DRV5023 hall switch + 3x2 magnet, 3x 684ZZ, 3x nylon spacer 4.2x7x3, 3x shim 4.2x7x0.8, camera, 10x Ruthex M3x5.7.
+**Bought parts:** MG996R servo + 25T aluminium arm horn, NEMA11 11HS12-0674S, P20/15 5 V magnet, 3x 684ZZ, 3x nylon spacer 4.2x7x3, 3x shim 4.2x7x0.8, camera, 10x Ruthex M3x5.7.
 
 **Screws:**
 - 4x M3x6 ISO4762: carriage to the rail block.
@@ -157,8 +169,8 @@ Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 7. Lower pivot A: M4x30 from the servo side, through the boss, spacer, bearing, shim and nyloc. Snug only: the arm must swing freely.
 8. Screw the shelf to the end plate (2x M3x10 from below). Mount the NEMA11 (4x M2.5x6 from below) and the camera.
 9. B pivots: M4x20 with washer and spacer from the arm side, then bearing, shim, end plate and nyloc.
-10. Press the hub onto the stepper shaft (D flat aligned), with the magnet screw already inside it, then screw on the electromagnet. Press the 3x2 magnet into the flag and the hall switch into its pocket.
-11. Route the cables (see wiring.md): camera cable tie on the shelf, hall leads under the shelf and up its hole, the harness tie on the end plate, two ties round the top arm, servo lead to the bundle, two ties on the chain post.
+10. Press the hub onto the stepper shaft (D flat aligned), with the magnet screw already inside it, then screw on the electromagnet.
+11. Route the cables (see wiring.md): camera cable tie on the shelf, the harness tie on the end plate, two ties round the top arm, servo lead to the bundle, two ties on the chain post.
 
 ## Measure before printing (marked VERIFY in the script)
 Servo (MG996R, taken from a third-party STEP model): tab face to cover top, case height, spline centre to case end, tab hole spacing (48.4), horn face height, horn screw hole thread. Magnet: thread depth. Camera: board size and hole spacing. Enter the measured values at the top of `wrist_module.py`; everything else follows.

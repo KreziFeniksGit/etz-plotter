@@ -46,7 +46,7 @@ octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop li
 | 13 | EN, all drivers (low = on) | 10 k pull-up to 3V3, so the drivers stay off while the ESP32 boots |
 | 14 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series; servo powered from the 6 V rail |
 | 21 | Magnet MOSFET gate (AO3400) | 100 R in series, 100 k gate to GND; 1N5819 across the magnet |
-| 38 | Wrist home (DRV5023 OUT) | open drain: 10 k pull-up to 3V3; sensor powered from 3V3 |
+| 38 | free (was the wrist hall sensor, dropped 12 Oct) | |
 | 39 | X home switch | to GND, internal pull-up; wire the NC contact so a broken wire reads as "pressed" |
 | 40 | Y home switch | same as X |
 | 41 | Start button | to GND, internal pull-up, debounce in software |
@@ -65,13 +65,13 @@ Connector pins on the panel (2.54 mm female headers):
 
 | Harness | From -> to | Conductors | Wire |
 |---|---|---|---|
-| `cable_wrist_bundle` | wrist devices -> up the chain post -> X chain | servo 3, NEMA11 4, magnet 2, hall 3 = 12, plus the camera's USB cable | 0.14-0.25 mm2 (AWG26-24) silicone; servo leads as supplied |
-| inside `cable_chain_x` | X chain, moving end -> fixed end | same 12 + USB | |
-| `cable_ycar_bundle` | X chain fixed end -> down the post (-y face) -> Y chain moving end | same 12 + USB | zip ties round the post and through the carriage |
+| `cable_wrist_bundle` | wrist devices -> up the chain post -> X chain | servo 3, NEMA11 4, magnet 2 = 9, plus the camera's USB cable | 0.14-0.25 mm2 (AWG26-24) silicone; servo leads as supplied |
+| inside `cable_chain_x` | X chain, moving end -> fixed end | same 9 + USB | |
+| `cable_ycar_bundle` | X chain fixed end -> down the post (-y face) -> Y chain moving end | same 9 + USB | zip ties round the post and through the carriage |
 | `cable_x_motor` | X motor -> Y chain moving end | 4 | AWG24, 4-core |
 | `cable_x_home` | X home switch -> joins the X motor cable | 2 | AWG26 |
-| inside `cable_chain_y` | Y chain, moving end -> fixed end | 18 + USB | |
-| `cable_y_chain_to_board` | Y chain fixed end -> electronics board | 18 | |
+| inside `cable_chain_y` | Y chain, moving end -> fixed end | 15 + USB | |
+| `cable_y_chain_to_board` | Y chain fixed end -> electronics board | 15 | |
 | `cable_y_motor` | Y motor -> corridor at x 189 -> under the beam at y 205 -> board | 4 | AWG24 |
 | `cable_battery` | battery XT60 -> corridor at x 184 -> control panel (fuse, stop) | 2 | AWG16 |
 | `cable_panel_to_board` | panel -> under the beam at y 60 -> board: drive bus 2 (AWG18), magnet 5 V via stop block 2 (2), green LED from the bus (in the panel), red LED 2, start 2, stop sense via drive bus, connectors A 3, B 3, C 4 | about 18 | AWG18 for power, AWG26 for signals |
@@ -82,7 +82,6 @@ Inside the wrist module (drawn, rebuilt for every lift pose):
 | Harness | From -> to | Ties |
 |---|---|---|
 | `cable_wrist_camera` | camera board -> up through the shelf hole -> along the shelf's +y edge -> junction J beside the stepper | 1 on the shelf (`wm_zip_camera`) |
-| `cable_wrist_hall` | DRV5023 (sits leads-down in its pocket) -> under the shelf -> up through the lead hole beside the end plate -> J | - |
 | `cable_wrist_stepper` | NEMA11 (+y side; VERIFY where the leads leave the motor) -> J | - |
 | `cable_wrist_harness` | J -> up the end plate's +y face between the pivot nuts -> over its top edge -> along the top arm's upper edge -> off the arm beyond the carriage plate -> under the X block -> `cable_wrist_bundle` | end plate (`wm_zip_end_plate`), 2 round the top arm's upper web through its lightening slot (`wm_zip_arm_1/2`) |
 | `cable_wrist_servo` | servo (far end of the case; VERIFY lead exit) -> up beside the case -> under the carriage plate -> bundle | 1 through the carriage plate (`wm_zip_servo`) |
@@ -90,14 +89,15 @@ Inside the wrist module (drawn, rebuilt for every lift pose):
 The harness rides on the arm, so between the end plate and the arm, and between the arm and the carriage, it only flexes a
 little when the arms swing (5 to 40 mm); every lift pose is checked for clashes. The magnet leads are not drawn: they turn
 with the wrist, so leave them a loose 2-turn coil from the magnet to J, and keep the wrist within one turn either way
-of home in the firmware (it homes every run). The camera USB cable follows the harness and goes straight to the laptop (not to the ESP32).
+of its start angle in the firmware. There is no wrist home sensor (dropped 12 Oct): set the wrist to its mark by hand
+before power-up; the firmware counts the angle from there and returns to it at the end of each run. The camera USB cable follows the harness and goes straight to the laptop (not to the ESP32).
 
 Other ties (drawn): two round the 2020 post and the bundle on its -y face (`zip_tie_post_1/2`), one through the Y carriage
 (`zip_tie_ycar`), two through the chain post (`wm_zip_chain_post_1/2`). Every tie slot pair sits on either side of its cable,
 so the tie goes down one slot, under the plate, up the other and round the cable.
 
 Connectors at the board: JST-XH 4-pin for each stepper, 3-pin Dupont for the servo, JST-XH 2-pin for the magnet and
-switches, JST-XH 3-pin for the hall sensor, XT60 on the power input. Unplugging the wrist module is then one plug row.
+switches, XT60 on the power input. Unplugging the wrist module is then one plug row.
 
 ## 4. Driver settings (UART)
 

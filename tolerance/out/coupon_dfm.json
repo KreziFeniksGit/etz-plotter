@@ -3,8 +3,8 @@
   "tests": "Ruthex M3 x 5.7 heat-set insert holes",
   "constant": "INSERT_D",
   "size_mm": [
-   56.0,
-   19.0,
+   56.3,
+   19.3,
    9.0
   ],
   "grams_petg_100pct": 11.7,
@@ -18,8 +18,8 @@
   "tests": "M2..M5 clearance holes printed vertical",
   "constant": "TOL_BOLT",
   "size_mm": [
-   58.0,
-   73.0,
+   58.5,
+   73.5,
    4.0
   ],
   "grams_petg_100pct": 20.5,
@@ -63,8 +63,8 @@
   "tests": "D-bore hub on the NEMA11 shaft, post cap pin in the 2020 centre hole",
   "constant": "TOL_PRESS",
   "size_mm": [
-   60.0,
-   44.0,
+   60.5,
+   44.5,
    13.0
   ],
   "grams_petg_100pct": 15.2,
@@ -78,8 +78,8 @@
   "tests": "NEMA17 pilot and M3 holes",
   "constant": "TOL_MOTOR",
   "size_mm": [
-   136.0,
-   51.0,
+   136.5,
+   51.5,
    3.0
   ],
   "grams_petg_100pct": 21.5,
@@ -93,8 +93,8 @@
   "tests": "NEMA11 pilot and M2.5 holes",
   "constant": "TOL_MOTOR",
   "size_mm": [
-   103.0,
-   40.0,
+   103.5,
+   40.5,
    3.0
   ],
   "grams_petg_100pct": 10.9,
@@ -108,11 +108,11 @@
   "tests": "DS3218 servo window, gap per side",
   "constant": "TOL_MOVE",
   "size_mm": [
-   135.0,
-   31.0,
+   136.5,
+   31.3,
    5.0
   ],
-  "grams_petg_100pct": 10.3,
+  "grams_petg_100pct": 10.4,
   "valid": true,
   "min_wall": 3.0,
   "widest_bridge_mm": 0,
@@ -123,8 +123,8 @@
   "tests": "nylon spacer shoulder hole, zip-tie slots, M2 self-tapping pilots",
   "constant": "SPACER_GAP / ZIP_SLOT / M2_PILOT",
   "size_mm": [
-   62.0,
-   40.0,
+   62.5,
+   40.5,
    7.5
   ],
   "grams_petg_100pct": 22.0,
@@ -138,8 +138,8 @@
   "tests": "stop button 22, start button 16, LED holder 6",
   "constant": "TOL_BOLT",
   "size_mm": [
-   94.0,
-   79.0,
+   94.5,
+   79.5,
    3.0
   ],
   "grams_petg_100pct": 21.0,
@@ -153,13 +153,28 @@
   "tests": "2020 post socket sleeves and beam riser tongues",
   "constant": "SOCKET_GAP / TOL_MOVE",
   "size_mm": [
-   86.6,
-   46.0,
+   86.9,
+   46.2,
    10.0
   ],
   "grams_petg_100pct": 15.6,
   "valid": true,
   "min_wall": 3.0,
+  "widest_bridge_mm": 0,
+  "steep_overhang_mm2": 0.0,
+  "n_sharp": 0
+ },
+ "tol_D1_press_bearing": {
+  "tests": "684ZZ seat",
+  "constant": "TOL_PRESS",
+  "size_mm": [
+   56.5,
+   26.5,
+   8.0
+  ],
+  "grams_petg_100pct": 13.0,
+  "valid": true,
+  "min_wall": 4.0,
   "widest_bridge_mm": 0,
   "steep_overhang_mm2": 0.0,
   "n_sharp": 0

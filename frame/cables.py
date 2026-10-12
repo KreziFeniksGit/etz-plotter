@@ -49,8 +49,8 @@ YCAR = {
 BASE = {
     # Y chain fixed end -> electronics board
     'cable_y_chain_to_board': (7.0, [(235.5, 218, 39.5), (235.5, 210, 39.5), (245, 203, 31), (262, 190, 31)]),
-    # Y motor (lead stub on its +y side, near the rear) -> down to the plywood -> corridor x 189.5 -> under the beam at y 205 -> board
-    'cable_y_motor': (5.0, [(137.2, 484.5, 45.0), (137.2, 484.5, 30.0), (137.2, 468.0, 18), (160, 440, 18), (160, 428, 18), (160, 412, 18), (189.5, 300, 18), (189.5, 205, 18), (225, 200, 18),
+    # Y motor (lead stub on its +y side, near the rear) -> down to the plywood -> beside the motor mount base (x < 152) -> corridor x 189.5 -> under the beam at y 205 -> board
+    'cable_y_motor': (5.0, [(135.2, 484.5, 45.0), (135.2, 484.5, 30.0), (135.2, 468.0, 18), (148.5, 420, 18), (149.5, 411.5, 18), (165, 411.5, 18), (189.5, 300, 18), (189.5, 205, 18), (225, 200, 18),
                             (240, 196, 31), (268, 180, 31)]),
     # battery -> corridor x 184 -> into the control panel (stop button)
     'cable_battery': (5.0, [(125, 301.5, 35), (125, 296, 33), (125, 294, 22), (184, 290, 22), (184, 100, 22), (166, 80, 22), (156, 80, 22)]),

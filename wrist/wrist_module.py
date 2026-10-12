@@ -19,7 +19,7 @@ Printed parts (each prints on its own without supports, then screws together):
   arm_top          driven by the servo horn
   arm_bottom       follower arm on a bearing
   end_plate        carries the two B pivots, foot flange bolts to the shelf
-  shelf            wrist stepper on top, camera and hall switch below
+  shelf            wrist stepper on top, camera below
   wrist_hub        joins the stepper shaft to the electromagnet
 """
 import math
@@ -93,8 +93,6 @@ MAG_D, MAG_H = 20.0, 15.0
 # camera board (your choice; change to match it)
 CAM_BOARD, CAM_HOLE_PITCH, CAM_HOLE = 32.0, 28.0, 2.0
 CAM_LENS_D = 12.0
-# TI DRV5023 hall switch, TO-92 (4.0 x 1.5 x 3 mm body)
-TO92_W, TO92_T, TO92_H = 4.1, 1.6, 5.0
 # GT2 6 mm belt
 BELT_W, BELT_T, BELT_PITCH = 6.0, 1.4, 2.0
 # zip ties 2.5 mm wide
@@ -154,7 +152,8 @@ FOOT_X0, FOOT_X1 = 59.0, 75.0     # pivot B nut starts at x 76
 X_BELT_Z = 162.0 - 12.73 / 2
 XB_Y0, XB_Y1 = 14.0, 20.0
 # belt riser and chain post footprints
-RS_X0, RS_X1 = CP_X0, -14.0
+RS_X0, RS_X1 = CP_X0, 2.0               # 42 mm: the open belt's two ends, 9 teeth each (x > -16 it overhangs the plate edge, above the arms)
+X_BELT_GAP = -19.0              # the two belt ends meet here (over the middle clamp screw)
 RS_Y0, RS_Y1 = 14.5, CP_Y_RISER
 CHAIN_X0, CHAIN_X1 = 4.0, 22.0
 
@@ -360,7 +359,7 @@ def cut_all(body, tools):
 # =============================================================================
 BLOCK_HOLES = [(a * BLK_HOLE_PITCH / 2, b * BLK_HOLE_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
 RISER_MOUNT = [(-31.0, 19.0), (-23.0, 19.0)]                # riser to carriage, inserts in the riser bottom
-CLAMP_SCREWS = [(RS_X0 + 5.0, 23.0), (RS_X1 - 5.0, 23.0)]   # clamp plate to riser, inserts in the riser top
+CLAMP_SCREWS = [(RS_X0 + 5.0, 23.0), (X_BELT_GAP, 23.0), (RS_X1 - 5.0, 23.0)]   # clamp plate to riser, inserts in the riser top
 CHAIN_MOUNT = [(9.5, -19.25), (16.5, -19.25)]               # chain post to carriage, inserts in the post foot
 SERVO_TAB_HOLES = [(SERVO_XC + a * SERVO_TAB_SPAN / 2, Z_PIVOT_TOP + b * SERVO_TAB_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
 
@@ -417,14 +416,15 @@ def x_belt_riser():
     return cut_all(body, cut)
 
 def x_belt_clamp():
-    """Plate pressing the belt onto the riser; half-round grooves at 2 mm pitch
-    take the belt teeth, so the belt cannot slip."""
+    """Plate pressing the belt onto the riser; half-round grooves at 2 mm pitch take the belt teeth.
+    The belt is an open length: its two ends meet over the middle screw (2 mm gap), 9 teeth each."""
     z0 = X_BELT_Z + BELT_T / 2 - 0.3            # 0.3 mm squeeze on the belt
     body = fillet_all(box(RS_X0, RS_Y0, z0, RS_X1, RS_Y1, z0 + 3.5))
     cut = [cyl((x, y, z0 - 1), bolt(3) / 2, 6) for x, y in CLAMP_SCREWS]
-    x = RS_X0 + 9.0
-    while x <= RS_X1 - 9.0:
-        cut.append(cyl((x, XB_Y0 - 0.5, z0), 0.6, BELT_W + 1.0, 'y'))
+    x = RS_X0 + 3.0                             # 3 mm from the ends: keeps the end walls >= 2.4
+    while x <= RS_X1 - 3.0 + 1e-6:
+        if abs(x - X_BELT_GAP) > 1.5:
+            cut.append(cyl((x, XB_Y0, z0), 0.6, BELT_W, 'y'))
         x += BELT_PITCH
     return cut_all(body, cut)
 
@@ -532,20 +532,17 @@ def end_plate():
     cut.append(zip_slots(ZIPS['zip_end_plate']))                                          # wrist harness, between the pivot nuts
     return cut_all(body, cut)
 
-HALL_POS = (MAG_X, MAG_Y + 9.7 + 0.8 + 3.2)     # 0.8 mm from the flag magnet to the sensor face
-HALL_LEAD_HOLE = (86.0, 35.0)                    # hall leads come up through the shelf here (beside the end plate, clear of the stepper)
 CAM_POSTS = [(CAM_X + a * CAM_HOLE_PITCH / 2, MAG_Y + b * CAM_HOLE_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
 
 def shelf():
-    """Wrist stepper on top, camera and hall switch below. Prints top face down
+    """Wrist stepper on top, camera below. Prints top face down
     (stepper face flat on the bed); the under-rib and posts grow up."""
     body = box(SH_X0, SH_Y0, Z_SH0, SH_X1, SH_Y1, Z_SH1)
     notch = box(SH_X0 - 1, ARM_Y0 - TOL_MOVE - 0.5, Z_SH0, EP_X1 + 1.0, ARM_Y1 + 0.5, Z_SH1 + 1)   # lower arm clears at full lift
     ny0, ny1 = ARM_Y0 - TOL_MOVE - 0.5, ARM_Y1 + 0.5                            # notch edges
     under = box(76.0, SH_Y0, Z_SH0 - 10.0, 81.0, ny0, Z_SH0).fuse(box(76.0, ny1, Z_SH0 - 10.0, 81.0, SH_Y1, Z_SH0))   # rib under the end plate, flush with the notch
     posts = [cyl((x, y, Z_SH0), 3.55, -4.0) for x, y in CAM_POSTS]             # 2.4 mm wall around the M2 hole
-    hall = box(HALL_POS[0] - 4.6, HALL_POS[1] - 3.2, Z_SH0 - 9.0, HALL_POS[0] + 4.6, HALL_POS[1] + 3.2, Z_SH0)
-    body = tidy(body.cut(notch).fuse([under, hall] + posts))
+    body = tidy(body.cut(notch).fuse([under] + posts))
     body = fillet_all(body)
     cut = [cyl((MAG_X, MAG_Y, Z_SH0 - 1), (N11_PILOT_D + TOL_MOTOR) / 2, SH_T + 2)]
     for a in (-1, 1):
@@ -556,28 +553,20 @@ def shelf():
     cut.append(cyl((CAM_X, MAG_Y, Z_SH0 - 1), 5.0, SH_T + 2))                  # camera cable pass
     for x, y in FOOT_SCREWS:
         cut.append(cyl((x, y, Z_SH0 - 1), bolt(3) / 2, SH_T + 2))
-    # TO-92 pocket (press, from below, leads down), flat face toward the hub flag, rounded pocket corners
-    pocket = rbox(HALL_POS[0] - (TO92_W + TOL_PRESS) / 2, HALL_POS[1] - 3.2 - 1.0, Z_SH0 - 9.0 - 1.0,
-                  HALL_POS[0] + (TO92_W + TOL_PRESS) / 2, HALL_POS[1] - 3.2 + TO92_T + TOL_PRESS, Z_SH0 - 9.0 + TO92_H, 0.4, 'z')
-    ztop = Z_SH0 - 9.0 + TO92_H
-    cut.append(tidy(pocket.makeFillet(0.3, [e for e in pocket.Edges if abs(e.BoundBox.ZMin - ztop) < 1e-6 and abs(e.BoundBox.ZMax - ztop) < 1e-6])))   # rounded pocket roof
-    cut.append(cyl((HALL_LEAD_HOLE[0], HALL_LEAD_HOLE[1], Z_SH0 - 1), 1.5, SH_T + 2))   # hall leads up (the sensor sits leads-down in its pocket)
     cut.append(zip_slots(ZIPS['zip_camera']))                                             # camera cable
     return cut_all(body, cut)
 
 def wrist_hub():
     """D-bore press fit on the stepper shaft; the magnet hangs on one M3 screw.
-    The flag carries a 3 x 2 magnet past the hall switch for homing."""
+    No home sensor (Egor, 12 Oct): the wrist angle counts from where it is at power-up."""
     z0, z1 = H_MID + MAG_H, Z_SH1 - N11_SHAFT_LEN + 12.5
     body = cyl((MAG_X, MAG_Y, z0), 7.0, z1 - z0)
-    flag = box(MAG_X - 4.25, MAG_Y + 5.0, z1 - 8.0, MAG_X + 4.25, MAG_Y + 9.7, z1)
-    body = fillet_all(tidy(body.fuse(flag)), r_out=0.6, min_len=2.0)
+    body = fillet_all(body, r_out=0.6, min_len=2.0)
     cut = [cyl((MAG_X, MAG_Y, z0 - 1), bolt(3) / 2, 4.0),
            cyl((MAG_X, MAG_Y, z0 + 2.5), (5.5 + 2 * TOL_MOVE) / 2, 4.0)]
     bore = cyl((MAG_X, MAG_Y, z0 + 6.5), (N11_SHAFT_D + TOL_PRESS) / 2, z1 - z0)
     flat = box(MAG_X + (N11_SHAFT_FLAT - N11_SHAFT_D / 2) + TOL_PRESS / 2, MAG_Y - 4, z0 + 6.4, MAG_X + 4, MAG_Y + 4, z1 + 1)
     cut.append(bore.cut(flat))
-    cut.append(cyl((MAG_X, MAG_Y + 9.7 + 0.01, z1 - 4.0), (3.0 + TOL_PRESS) / 2, -2.2, 'y'))   # 3 x 2 magnet, press
     return cut_all(body, cut)
 
 # =============================================================================
@@ -591,7 +580,7 @@ ZIPS = {
     'zip_end_plate': ('end_plate', ((EP_X0 + EP_X1) / 2, EP_Y1, 98.0), 'z', 'y', 1, EP_T, 6.0, 8.0, 0.1),
     'zip_camera': ('shelf', (CAM_X, 30.0, Z_SH1), 'y', 'z', 1, SH_T, 3.5, 5.5, 0.1),
 }
-HARNESS_D = 6.0                   # wrist harness: stepper 4 + hall 3 + camera (USB) wires
+HARNESS_D = 6.0                   # wrist harness: stepper 4 + camera (USB) wires
 HARNESS_LIFT = 0.3                # harness above the top arm's upper edge
 ARM_TIES_X = (36.0, 56.0)         # ties round the top arm's upper web, through the lightening slot
 
@@ -624,9 +613,6 @@ def harness_paths():
                                             (X, (31.7, 8.0, 136.5)), (X, (31.7, -27.6, 136.5)), (X, (13.0, -28.5, 142.0))]),
         'cable_wrist_camera': (3.5, [(E, (CAM_X, MAG_Y, 61.3)), (E, (CAM_X, MAG_Y, 69.35)), (E, (CAM_X, 35.5, 69.35)),
                                      (E, (133.0, 37.1, 71.2)), (E, (92.0, 37.1, 71.2)), (E, J)]),     # over the camera screw head
-        'cable_wrist_hall': (2.5, [(E, (HALL_POS[0], 33.8, Z_SH0 - 10.3)), (E, (HALL_POS[0], 37.6, Z_SH0 - 10.3)),     # out of the boss bottom, clear of the flag
-                                   (E, (88.0, 37.6, Z_SH0 - 10.3)), (E, (HALL_LEAD_HOLE[0], HALL_LEAD_HOLE[1], Z_SH0 - 7.5)),
-                                   (E, (HALL_LEAD_HOLE[0], HALL_LEAD_HOLE[1], Z_SH1 + 2.5)), (E, J)]),
         'cable_wrist_stepper': (4.0, [(E, (MAG_X, MAG_Y + N11_SQ / 2 + 1.5, Z_SH1 + N11_LEAD_Z)), (E, (95.0, MAG_Y + N11_SQ / 2 + 2.4, Z_SH1 + 24.0)),
                                       (E, (89.5, MAG_Y + N11_SQ / 2 + 2.4, 86.0)), (E, J)]),   # leads out of the motor's lead boss (turned to +y)   # VERIFY: lead exit side of the NEMA11
     }
@@ -672,14 +658,8 @@ def bought():
         B[nm] = cyl((x, ARM_Y1 - BRG_W, z), SPACER_OD / 2, -SPACER_L, 'y').cut(cyl((x, ARM_Y1, z), 2.1, -BRG_W - SPACER_L - 1, 'y'))
     for nm, (x, z) in {'shim_BT': (R_ARM, Z_PIVOT_TOP), 'shim_BL': (R_ARM, Z_PIVOT_BOT), 'shim_AL': (0.0, Z_PIVOT_BOT)}.items():
         B[nm] = cyl((x, ARM_Y1, z), SHIM_OD / 2, SHIM_T, 'y').cut(cyl((x, ARM_Y1 - 1, z), 2.1, SHIM_T + 2, 'y'))
-    B['x_belt'] = box(CP_X0 - 30, XB_Y0, X_BELT_Z - BELT_T / 2, CP_X1 + 30, XB_Y1, X_BELT_Z + BELT_T / 2)
-    # DRV5023 hall switch (TO-92 UA body 4.0 x 1.5 x 3, leads down) in its pocket, and the 3 x 2 flag magnet in the hub
-    hz = Z_SH0 - 9.0 + TO92_H
-    hy = HALL_POS[1] - 3.2 + TOL_PRESS / 2
-    B['hall_drv5023'] = box(HALL_POS[0] - 2.0, hy, hz - 3.0, HALL_POS[0] + 2.0, hy + 1.5, hz).fuse(
-        [box(HALL_POS[0] + dx - 0.2, hy + 0.55, hz - 6.5, HALL_POS[0] + dx + 0.2, hy + 0.95, hz - 3.0) for dx in (-1.27, 0.0, 1.27)])
-    zf = H_MID + MAG_H + (Z_SH1 - N11_SHAFT_LEN + 12.5 - H_MID - MAG_H) - 4.0
-    B['flag_magnet_3x2'] = cyl((MAG_X, MAG_Y + 9.7 - 0.2, zf), 1.5, -2.0, 'y')
+    B['x_belt'] = box(CP_X0 - 30, XB_Y0, X_BELT_Z - BELT_T / 2, CP_X1 + 30, XB_Y1, X_BELT_Z + BELT_T / 2).cut(
+        box(X_BELT_GAP - 1.0, XB_Y0 - 1, X_BELT_Z - 2, X_BELT_GAP + 1.0, XB_Y1 + 1, X_BELT_Z + 2))   # open belt: the two ends
     for k, spec in ZIPS.items():
         B[k] = zip_tie(spec[1], *spec[2:])
     for i, x in enumerate(ARM_TIES_X):
@@ -729,7 +709,6 @@ GROUP = {'wrist_carriage': 'xcar', 'x_belt_riser': 'xcar', 'x_belt_clamp': 'xcar
          'nema11': 'end', 'nema11_pilot': 'end', 'nema11_shaft': 'wrist', 'electromagnet': 'wrist', 'camera_board': 'end',
          'camera_lens': 'end', 'brg_AL': 'armB', 'brg_BT': 'armT', 'brg_BL': 'armB', 'x_belt': 'xcar',
          'spacer_AL': 'xcar', 'spacer_BT': 'end', 'spacer_BL': 'end', 'shim_BT': 'end', 'shim_BL': 'end', 'shim_AL': 'xcar'}
-GROUP.update({'hall_drv5023': 'end', 'flag_magnet_3x2': 'wrist'})
 GROUP.update({k: GROUP[spec[0]] for k, spec in ZIPS.items()})
 GROUP.update({'zip_arm_%d' % (i + 1): 'armT' for i in range(len(ARM_TIES_X))})
 

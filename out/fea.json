@@ -1,0 +1,151 @@
+{
+ "_settings": {
+  "E_MPa": 1500.0,
+  "nu": 0.38,
+  "belt_N_per_strand": 25.0,
+  "mesh_mm": 2.2,
+  "targets": {
+   "move_mm": 0.1,
+   "tilt_deg": 0.25,
+   "magnet_mm": 0.2,
+   "vm_MPa": 8.0
+  }
+ },
+ "y_motor_mount": {
+  "nodes": 38161,
+  "elements": 21598,
+  "held_nodes": 382,
+  "body_nodes": 1942,
+  "force_N": [
+   0.0,
+   -50.0,
+   -2.75
+  ],
+  "moment_Nmm": [
+   0.0,
+   -100.3,
+   0.0
+  ],
+  "move_mm": 0.0109,
+  "disp_mm": [
+   -0.0009,
+   -0.0109,
+   0.0005
+  ],
+  "tilt_deg": 0.014,
+  "max_von_mises_MPa": 1.35,
+  "move_after_creep_x2_mm": 0.022,
+  "ok": true
+ },
+ "x_motor_mount": {
+  "nodes": 61942,
+  "elements": 36371,
+  "held_nodes": 312,
+  "body_nodes": 2131,
+  "force_N": [
+   50.0,
+   0.56,
+   -2.75
+  ],
+  "moment_Nmm": [
+   -94.8,
+   0.0,
+   0.0
+  ],
+  "move_mm": 0.0123,
+  "disp_mm": [
+   0.0096,
+   -0.0077,
+   -0.0003
+  ],
+  "tilt_deg": 0.027,
+  "max_von_mises_MPa": 1.16,
+  "move_after_creep_x2_mm": 0.025,
+  "ok": true
+ },
+ "y_idler_bracket": {
+  "nodes": 29840,
+  "elements": 16635,
+  "held_nodes": 252,
+  "body_nodes": 843,
+  "force_N": [
+   0.0,
+   50.0,
+   0.0
+  ],
+  "moment_Nmm": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "move_mm": 0.0347,
+  "disp_mm": [
+   0.0012,
+   0.0347,
+   0.0019
+  ],
+  "tilt_deg": 0.033,
+  "max_von_mises_MPa": 3.56,
+  "move_after_creep_x2_mm": 0.069,
+  "ok": true
+ },
+ "x_idler_bracket": {
+  "nodes": 25302,
+  "elements": 14850,
+  "held_nodes": 79,
+  "body_nodes": 431,
+  "force_N": [
+   -50.0,
+   0.0,
+   0.0
+  ],
+  "moment_Nmm": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "move_mm": 0.0392,
+  "disp_mm": [
+   -0.0391,
+   0.001,
+   0.0018
+  ],
+  "tilt_deg": 0.11,
+  "max_von_mises_MPa": 6.48,
+  "move_after_creep_x2_mm": 0.078,
+  "ok": true
+ },
+ "y_carriage": {
+  "nodes": 78334,
+  "elements": 48218,
+  "held_nodes": 570,
+  "body_nodes": 3173,
+  "force_N": [
+   2.69,
+   2.69,
+   -13.21
+  ],
+  "moment_Nmm": [
+   -398.9,
+   1950.4,
+   316.3
+  ],
+  "move_mm": 0.001,
+  "disp_mm": [
+   0.0009,
+   -0.0,
+   0.0005
+  ],
+  "tilt_deg": 0.017,
+  "max_von_mises_MPa": 3.02,
+  "move_after_creep_x2_mm": 0.002,
+  "magnet_disp_mm": [
+   -0.0188,
+   0.016,
+   -0.1007
+  ],
+  "magnet_move_mm": 0.1037,
+  "carried_kg": 1.346,
+  "ok": true
+ }
+}

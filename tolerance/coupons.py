@@ -128,19 +128,16 @@ def coupon_C():
     return s
 
 # =============================================================================
-# D1. press fits in a plate: 684ZZ seat, 3 x 2 magnet, TO-92 hall sensor  -> TOL_PRESS
+# D1. press fit in a plate: 684ZZ seat  -> TOL_PRESS   (the hall sensor and its magnet were dropped, 12 Oct)
 # =============================================================================
 def coupon_D1():
-    w, h, t = 56.0, 50.0, 8.0
+    w, h, t = 56.0, 26.0, 8.0
     s = plate(w, h, t)
     cut = []
     for j, tol in enumerate(PRESS_T):
         x = 12.0 + 16.0 * j
-        cut.append(cyl((x, 38.0, t + 0.01), (W.BRG_OD + tol) / 2, -W.BRG_W - 0.01))          # bearing seat, 4 deep
-        cut.append(cyl((x, 38.0, -1), (W.SPACER_OD + 2 * W.SPACER_GAP) / 2, t + 2))             # shoulder hole as in the arms
-        cut.append(cyl((x, 24.0, t + 0.01), (3.0 + tol) / 2, -2.2))                             # 3 x 2 magnet
-        cut.append(rbox(x - (W.TO92_W + tol) / 2, 12.0 - (W.TO92_T + tol) / 2, -1,
-                        x + (W.TO92_W + tol) / 2, 12.0 + (W.TO92_T + tol) / 2, t + 1, 0.4, 'z'))   # TO-92, through (no sharp floor)
+        cut.append(cyl((x, 16.0, t + 0.01), (W.BRG_OD + tol) / 2, -W.BRG_W - 0.01))          # bearing seat, 4 deep
+        cut.append(cyl((x, 16.0, -1), (W.SPACER_OD + 2 * W.SPACER_GAP) / 2, t + 2))             # shoulder hole as in the arms
     s = cut_all(s, cut)
     for j, tol in enumerate(PRESS_T):
         s = engrave_top(s, '+' + fmt(tol), 12.0 + 16.0 * j, 4.5, t, 3.0)
@@ -285,7 +282,7 @@ COUPONS = {
     'tol_A_bolt_holes_vertical': (coupon_A, 'TOL_BOLT', 'M2..M5 clearance holes printed vertical'),
     'tol_B_bolt_holes_horizontal': (coupon_B, 'TOL_BOLT', 'M3..M5 clearance holes through a standing wall'),
     'tol_C_inserts': (coupon_C, 'INSERT_D', 'Ruthex M3 x 5.7 heat-set insert holes'),
-    'tol_D1_press_bearing_magnet_hall': (coupon_D1, 'TOL_PRESS', '684ZZ seat, 3 x 2 magnet pocket, TO-92 pocket'),
+    'tol_D1_press_bearing': (coupon_D1, 'TOL_PRESS', '684ZZ seat'),
     'tol_D2_press_dbore_pins': (coupon_D2, 'TOL_PRESS', 'D-bore hub on the NEMA11 shaft, post cap pin in the 2020 centre hole'),
     'tol_E1_nema17': (coupon_E1, 'TOL_MOTOR', 'NEMA17 pilot and M3 holes'),
     'tol_E2_nema11': (coupon_E2, 'TOL_MOTOR', 'NEMA11 pilot and M2.5 holes'),

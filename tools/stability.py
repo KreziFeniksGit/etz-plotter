@@ -129,6 +129,48 @@ def deflection(ms, PYC, PXB):
     return {'load_kg': round(m, 3), 'boom_sag_mm': round(boom_tip + boom_own, 3), 'post_tilt_sag_mm': round(post_tip, 3),
             'total_profile_sag_mm': round(boom_tip + boom_own + post_tip, 3), 'boom_side_flex_at_design_acc_mm': round(side, 4)}
 
+BELT_EA = 25000.0             # N, GT2 6 mm glass-cord belt, axial stiffness EA (typical published figure; steel cord is stiffer)
+STEP_TORQUE = 0.45           # N m holding torque, 17HS16-2004S1
+MG996R_PLAY_DEG = 1.0        # gear play at the servo output (typical for metal-gear hobby servos)   VERIFY: measure yours
+
+def backlash(ms):
+    """Lost motion at the magnet when an axis reverses at the design acceleration (mm): belt stretch on both
+    strands from the clamp to the motor pulley, stepper load angle, belt-to-pulley tooth clearance, and the
+    printed mounts (out/fea.json). Worst carriage position for the belt (clamp farthest from the motor)."""
+    fea = {}
+    p = os.path.join(HERE, 'out', 'fea.json')
+    if os.path.exists(p):
+        fea = json.load(open(p))
+    import wrist_module as W
+    loop = lambda a, b: 2 * abs(b - a) + math.pi * F.GT2_PD          # belt path length around both pulleys
+    m_y = total([x for x in ms if x[1] != 'base' and x[1] != 'chainY'])[0]
+    m_x = total([x for x in ms if x[1].startswith('wm_') or x[1] == 'chainX'])[0]
+    out = {}
+    # Y: clamp middle at PYC0 + 15 (park, farthest from the motor at y 443)
+    yc = F.Y_BELT_GAP
+    L1 = F.YM_C[0] - yc                                               # upper strand, clamp -> motor
+    L2 = loop(F.YI_C[0], F.YM_C[0]) - L1                              # the other way round, via the idler
+    # X: clamp middle at PXB + X_BELT_GAP, farthest from the motor (x 165) at PXB 435
+    xc = F.PXB_RANGE[1] + W.X_BELT_GAP
+    X1 = xc - F.XM_C[0]
+    X2 = loop(F.XM_C[0], F.XI_C[0]) - X1
+    for ax, m, a, b, mount in (('y', m_y, L1, L2, 'y_motor_mount'), ('x', m_x, X1, X2, 'x_motor_mount')):
+        Fd = m * ACC                                                  # N
+        k = BELT_EA / a + BELT_EA / b                                 # both strands act (pretensioned)
+        belt = Fd / k
+        lag = math.asin(min(1.0, Fd * F.GT2_PD / 2000.0 / STEP_TORQUE)) * 2 / math.pi * 1.8   # deg of shaft (load angle, sine torque curve)
+        motor = lag / 360.0 * math.pi * F.GT2_PD
+        mt = fea.get(mount, {}).get('move_mm', 0.0) * Fd / 50.0         # mount moves in proportion to the force change
+        teeth = 0.05                                                  # GT2 tooth clearance on reversal (profile is made for it)
+        out[ax] = {'moving_kg': round(m, 3), 'force_N': round(Fd, 2), 'belt_mm': round(belt, 4), 'stepper_mm': round(motor, 4),
+                   'mount_mm': round(mt, 4), 'tooth_clearance_mm': teeth, 'total_reversal_mm': round(2 * (belt + motor + mt) + teeth, 3)}
+    # wrist: servo gear play tilts the parallelogram: vertical only (the magnet stays level)
+    out['magnet_height_play_mm'] = round(W.R_ARM * math.radians(MG996R_PLAY_DEG), 2)
+    out['note'] = ('XY lost motion is ~0.1 mm per axis against the 10 mm placement tolerance. Keep it that way: GT2 pulleys '
+                   'with two grub screws (one on the shaft flat, Loctite 243), belts tensioned to ~25 N, a full homing each run. '
+                   'The servo play only changes the magnet height (it lands on the checker anyway).')
+    return out
+
 if __name__ == '__main__':
     R = {'design_acc_m_s2': ACC}
     worst_tip, worst_rail, worst_def = None, None, None
@@ -146,6 +188,7 @@ if __name__ == '__main__':
         gg = 'base' if g == 'base' else ('Y carriage + boom' if g == 'ycar' else ('wrist module' if g.startswith('wm_') else 'cable chains'))
         groups[gg] = round(groups.get(gg, 0) + m, 3)
     R['mass_by_group_kg'] = groups
+    R['backlash'] = backlash(masses(F.PYC0, F.PXB_RANGE[1], A.W.H_MIN, 0.0))
     R['min_tip_acc_m_s2'] = min(v['tips_at_m_s2'] for e in table for k, v in e['tipping'].items() if isinstance(v, dict))
     R['min_static_margin_mm'] = min(v['static_margin_mm'] for e in table for k, v in e['tipping'].items() if isinstance(v, dict))
     R['worst_rail_moment_Nm'] = max(e['rails']['worst_Nm'] for e in table)

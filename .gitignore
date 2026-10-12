@@ -4,3 +4,5 @@ __pycache__/
 *.FCBak
 out/gui_stdout.txt
 out/export_log.txt
+out/fea/
+out/*_log.txt

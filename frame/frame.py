@@ -10,7 +10,7 @@ PYC0 = 40 (Y carriage centre) and moved by (0, PYC - PYC0, 0).
 The wrist module (wrist/wrist_module.py) hangs under the X rail block at (PXB, PYC).
 
 Printed parts in this file: y_carriage, y_belt_spacer, y_belt_clamp, y_motor_mount,
-y_idler_bracket, x_motor_mount, x_idler_bracket, post_cap, control_panel,
+y_idler_bracket, y_idler_slider, x_motor_mount, x_idler_bracket, x_idler_slider, post_cap, control_panel,
 breadboard_tray, battery_tray.
 """
 import math, os, sys
@@ -51,8 +51,14 @@ Y_BELT_Z = 36.5 + Y_RISER                 # Y pulley axis height
 Y_BELT_X0, Y_BELT_X1 = 183.0, 189.0       # belt width (along X)
 GT2_PD = 12.73                            # 20T pitch diameter
 YM_C = (443.0, Y_BELT_Z)                  # Y motor axis (Y, Z)
-YM_FACE = 171.5                           # Y motor face (motor body on the -X side)
-YI_C = (12.0, Y_BELT_Z)                   # Y idler axis (y 12: the axle nut stays clear of the parked Y block, y >= 17.3)
+YM_FACE = 169.5                           # Y motor face (motor body on the -X side)
+YM_T = 6.0                                # Y motor plate thickness (pulley hub starts 1 mm in front of it)
+YI_C = (12.0, Y_BELT_Z)                   # Y idler axis as assembled (y 12: the axle nut stays clear of the parked Y block, y >= 17.3)
+YI_TRAVEL = 3.0                           # tension travel: the idler slides to y 9 (6 mm of belt = 3 teeth; the clamp sets the rest)
+YI_PLATE = (174.0, 180.0)                 # Y idler plate, x (axle slot in it)
+YI_SLIDER = (169.0, 3.0, 20.0, 37.0, 56.0)   # x0, y0, y1, z0, z1 of the Y idler slider (x1 = the plate)
+YI_LUG_Y = (22.0, 32.0)                   # lug the tension screw threads into (insert from its +y face)
+YI_PUSH_X = 170.5                         # tension screw line (along -y, at the axle height)
 # Y carriage
 YC_X0, YC_X1 = 165.0, 245.0
 YC_HALF_Y = 30.0
@@ -70,7 +76,22 @@ X_BELT_Z = 162.0
 XB_DY0, XB_DY1 = 14.0, 20.0               # belt width (along Y), relative to PYC
 XM_C = (165.0, X_BELT_Z)                  # X motor axis (X, Z)
 XM_FACE_DY = 31.5                         # motor face, relative to PYC
-XI_C = (470.0, X_BELT_Z)                  # X idler axis
+XM_T = 6.0                                # X motor plate thickness
+XM_ARMS_Z = ((176.0, 196.0), (126.0, 147.0))  # arms on the post (+y face) with cheeks on its -x face
+XM_CHEEK_X0 = 182.0                       # cheeks x 182..189 (on the post's -x face)
+XM_ARM_X0 = 184.0                         # arms x 184..209 (the motor screw heads at x 180.5 stay clear)
+XM_POST_BOLTS = [(199.0, 186.0), (199.0, 136.5)]   # (x, z) M5 into the post's +y slot
+XM_SIDE_BOLTS = [(PYC0, 186.0), (PYC0, 136.5)]     # (y, z) M5 into the post's -x slot
+XM_FLANGE = (140.0, 52.0 - PYC0, 5.0)     # top / bottom flanges behind the plate: x0, y0 (rel. PYC), thickness
+XI_C = (470.0, X_BELT_Z)                  # X idler axis as assembled (slot x 464..476)
+XI_SLOT = (464.0, 476.0)
+XI_PLATE_DY = (21.0, 27.0)                # idler side plate, y relative to PYC
+XI_SLIDER = (461.0, 475.0, 27.0, 36.0)    # x0, x1, y0, y1 (rel. PYC) of the X idler slider; z = XI_Z
+XI_Z = (155.0, 174.0)                     # slider: z 155 up (the wrist harness passes under the idler parts at X 380..410, z <= 154)
+XI_CAP_T = 12.0                           # end cap thickness (6 in v2.6: it bent under the belt pull)
+XI_TOP = (176.0, 182.0)                   # top flange over the slider: side plate + flange + lug + end wall make a stiff channel
+XI_LUG_X = (442.0, 452.0)                 # lug at the -x end of the side plate; the M3 push screw threads into it
+XI_PUSH = (31.5, X_BELT_Z)                # (y rel. PYC, z) of the push screw: in line with the axle, so the slider does not tilt
 # control panel and base items
 PANEL = (95.0, 30.0, 160.0, 125.0, 55.0)  # x0, y0, x1, y1, top z
 ESTOP_C, START_C = (122.0, 62.0), (145.0, 95.0)
@@ -273,42 +294,71 @@ def base_items():
 # =============================================================================
 # 4. Y AXIS (static)
 # =============================================================================
+YM_BASE = (152.0, 196.0, 5.0)             # base flange x0, x1, thickness (on the plywood, both sides of the plate)
+YM_WOOD = [(157.0, YM_C[0] - 12.0), (157.0, YM_C[0] + 12.0), (191.0, YM_C[0] - 12.0), (191.0, YM_C[0] + 12.0)]   # 4 mm wood screws, heads clear of the gussets
+
 def y_motor_mount():
-    """Vertical plate between the Y motor and its pulley, flange on the plywood
-    with slots for belt tension, two ribs clear of the belt."""
+    """Rigid stand for the Y motor: 6 mm plate between the motor and its pulley, a 5 mm base on both
+    sides with four fixed wood screws and four gussets (two each side) that make it a box.
+    No tension slots any more: the belt is an open length, tensioned at the Y idler (y_idler_slider).
+    The -x screws sit under the motor: screw the mount down first, then bolt the motor on from the
+    pulley side. Prints base down."""
     py, pz = YM_C
-    x0, x1 = YM_FACE, YM_FACE + 4.0
-    plate = box(x0, py - 27.0, Z_PLY1, x1, py + 27.0, pz + 24.0)
-    flange = box(x0, py - 27.0, Z_PLY1, 194.0, py + 27.0, Z_PLY1 + 4.0)
-    ribs = [prism_y([(x1, Z_PLY1 + 4.0), (x1 + 6.0, Z_PLY1 + 4.0), (x1, Z_PLY1 + 22.0)], py - 27.0, py - 23.0),
-            prism_y([(x1, Z_PLY1 + 4.0), (x1 + 16.0, Z_PLY1 + 4.0), (x1, Z_PLY1 + 30.0)], py + 23.0, py + 27.0)]
-    body = fillet_all(tidy(plate.fuse([flange] + ribs)))
-    cut = [cyl((x0 - 1, py, pz), (NEMA17['pilot'] + TOL_MOTOR) / 2, 6.0, 'x')]
+    x0, x1 = YM_FACE, YM_FACE + YM_T
+    bx0, bx1, bt = YM_BASE
+    ya, yb = py - 27.0, min(py + 27.0, PLY[3])            # plate width (the plywood ends at y 470)
+    zb = Z_PLY1 + bt
+    plate = box(x0, ya, Z_PLY1, x1, yb, pz + 24.0)
+    base = box(bx0, ya, Z_PLY1, bx1, yb, zb)
+    g = 4.5                                                # gusset thickness (1.35 mm clear of the motor body)
+    # motor side (-x): full triangles beside the motor body
+    gus = [prism_y([(x0, zb), (bx0, zb), (x0, pz + 16.0)], y0, y0 + g) for y0 in (ya, yb - g)]
+    # pulley side (+x): the +y one is free; the -y one keeps x <= 181.5 above z 36 (the belt runs at x 183..189 from z 39.4)
+    gus.append(prism_y([(x1, zb), (bx1, zb), (x1, pz + 16.0)], yb - g, yb))
+    gus.append(prism_y([(x1, zb), (bx1 - 2.0, zb), (Y_BELT_X0 - 1.5, 36.0), (Y_BELT_X0 - 1.5, pz + 10.0), (x1, pz + 16.0)], ya, ya + g))
+    body = fillet_all(tidy(plate.fuse([base] + gus)))
+    cut = [cyl((x0 - 1, py, pz), (NEMA17['pilot'] + TOL_MOTOR) / 2, YM_T + 2, 'x')]
     for a in (-1, 1):
         for b in (-1, 1):
-            cut.append(cyl((x0 - 1, py + a * 15.5, pz + b * 15.5), (3.0 + TOL_MOTOR) / 2, 6.0, 'x'))
-    for yy in (py - 16.0, py + 16.0):                       # wood screws 4 mm, slots along Y for belt tension
-        cut.append(slot((187.0, yy - 5.0, Z_PLY1 - 1), (187.0, yy + 5.0, Z_PLY1 - 1), bolt(4) / 2, 6.0))
+            cut.append(cyl((x0 - 1, py + a * 15.5, pz + b * 15.5), (3.0 + TOL_MOTOR) / 2, YM_T + 2, 'x'))
+    for x, y in YM_WOOD:
+        cut.append(cyl((x, y, Z_PLY1 - 1), bolt(4) / 2, bt + 2))
     return cut_all(body, cut)
 
 IDLER_WOOD = [(160.0, 10.0), (223.0, 4.75)]       # 4 mm wood screws (the second clears the beam end plate's x 218)
 
 def y_idler_bracket():
-    """Holds the Y idler on an M5 axle (cantilever), bolts to the beam end and the
-    plywood; carries the Y home switch."""
+    """Holds the Y idler and its tension slider, bolts to the beam end and the plywood; carries the
+    Y home switch. The idler axle (M5) runs in a slot along y; the slider on the -x face carries the
+    axle head, and an M3 screw in the lug pushes the slider (and the idler) toward -y: belt tension.
+    The belt pulls the idler toward the motor (+y), so the screw works in compression."""
     py, pz = YI_C
+    px0, px1 = YI_PLATE
+    sx0, sy0, sy1, sz0, sz1 = YI_SLIDER
     base = prism_z([(150.0, 0.0), (244.0, 0.0), (244.0, 10.0), (193.0, 10.0), (193.0, 20.0), (150.0, 20.0)], Z_PLY1, Z_PLY1 + 4.0)
-    plate = box(176.0, 0.0, Z_PLY1, 180.0, 40.0, Z_YC0 - 1.5)        # top stays 1.5 mm under the Y carriage
+    plate = box(px0, 0.0, Z_PLY1, px1, 40.0, Z_YC0 - 1.5)        # top stays 1.5 mm under the Y carriage
+    # lug on the plate's -x face, 45 deg underside (prints without support); the push screw insert goes in from its +y face
+    lug = prism_y([(px0, sz0 - 9.0), (sx0 - 3.0, sz0 - 1.0), (sx0 - 3.0, Z_YC0 - 1.5), (px0, Z_YC0 - 1.5)], YI_LUG_Y[0], YI_LUG_Y[1])   # top flush with the plate
     endp = box(192.0, 4.0, Z_PLY1, 218.0, 10.0, Z_YB1 - 3.5)          # top stays under the Y idler axle nut
-    spacer = cyl((180.0, py, pz), 5.1, 2.2, 'x')
+    spacer = slot((px1, py - YI_TRAVEL - 0.5, pz), (px1, py, pz), bolt(5) / 2 + WALL_MIN + 0.05, 2.2, 'x')   # bears on the idler's inner ring
     post = box(228.0, 0.0, Z_PLY1, 236.0, 10.0, 47.0 + Y_RISER)      # switch post
-    body = fillet_all(tidy(base.fuse([plate, endp, spacer, post])))
-    cut = [cyl((175.0, py, pz), bolt(5) / 2, 10.0, 'x'),                      # idler axle
+    body = fillet_all(tidy(base.fuse([plate, lug, endp, spacer, post])))
+    cut = [slot((px0 - 1, py - YI_TRAVEL - 0.5, pz), (px0 - 1, py, pz), bolt(5) / 2, px1 - px0 + 4.0, 'x'),   # idler axle slot
            cyl((YB_X, 3.0, Z_YB1 - 10.0), bolt(5) / 2, 8.0, 'y'),             # M5 into the beam end
-           cyl((160.0, 10.0, Z_PLY1 - 1), bolt(4) / 2, 6.0), cyl((IDLER_WOOD[1][0], IDLER_WOOD[1][1], Z_PLY1 - 1), bolt(4) / 2, 6.0)]
+           cyl((160.0, 10.0, Z_PLY1 - 1), bolt(4) / 2, 6.0), cyl((IDLER_WOOD[1][0], IDLER_WOOD[1][1], Z_PLY1 - 1), bolt(4) / 2, 6.0),
+           cyl((YI_PUSH_X, YI_LUG_Y[1] + 0.01, pz), INSERT_D / 2, -INSERT_DEPTH, 'y'),          # tension screw insert
+           cyl((YI_PUSH_X, YI_LUG_Y[1], pz), bolt(3) / 2, -(YI_LUG_Y[1] - YI_LUG_Y[0] + 1.0), 'y')]
     for zz in (40.0 + Y_RISER - D2F['hole_pitch'] / 2 + 0.5, 40.0 + Y_RISER + D2F['hole_pitch'] / 2 + 0.5):   # M2 self-tapping into the post
         cut.append(cyl((236.01, 4.5, zz), W.M2_PILOT / 2, -5.0, 'x'))       # M2x10 self-tapping: 4.2 mm in the post
     return cut_all(body, cut)
+
+def y_idler_slider(dy=0.0):
+    """Block on the -x face of the idler plate: the idler axle passes through it (head on its -x face);
+    the tension screw pushes its +y end. dy = how far it has moved toward -y (0 = as assembled)."""
+    py, pz = YI_C
+    sx0, sy0, sy1, sz0, sz1 = YI_SLIDER
+    s = fillet_all(box(sx0, sy0 - dy, sz0, YI_PLATE[0], sy1 - dy, sz1))
+    return s.cut(cyl((sx0 - 1, py - dy, pz), bolt(5) / 2, YI_PLATE[0] - sx0 + 2, 'x'))
 
 def y_beam_riser(y):
     """Block under the Y beam (one of four): lifts the beam 10 mm so cables cross under it.
@@ -330,16 +380,21 @@ def y_static():
     add('y_motor_17HS16', m['body'].fuse(m['shaft']), kind='bought', colour='motor')
     add('y_pulley_gt2_20t', gt2_pulley(YM_C, 'x', Y_BELT_X0 - 0.5), kind='bought', colour='steel')
     add('y_idler_gt2_20t', gt2_pulley(YI_C, 'x', Y_BELT_X0 - 0.5, toothed=False), kind='bought', colour='steel')
-    add('y_belt_gt2', belt_loop(YI_C, YM_C, 'x', Y_BELT_X0, Y_BELT_X1), kind='bought', colour='belt')
+    belt = belt_loop(YI_C, YM_C, 'x', Y_BELT_X0, Y_BELT_X1)         # open belt: its ends meet in the Y carriage clamp
+    belt = belt.cut(box(Y_BELT_X0 - 1, Y_BELT_GAP - 1.0, ZT - 1.5, Y_BELT_X1 + 1, Y_BELT_GAP + 1.0, ZT + 1.5))
+    add('y_belt_gt2', belt, kind='bought', colour='belt')
     add('y_motor_mount', y_motor_mount())
     add('y_idler_bracket', y_idler_bracket())
+    add('y_idler_slider', y_idler_slider())
     add('y_home_switch_d2f', d2f_switch((236.0, 1.5, 40.0 + Y_RISER - D2F['L'] / 2 + 3.5), 'z', '+y').fuse(
         box(236.0, 1.5, 40.0 + Y_RISER + D2F['L'] / 2 + 3.5, 236.0 + D2F['W'], 11.0, 40.0 + Y_RISER + D2F['L'] / 2 + 4.3)), kind='bought', colour='black')
 
 # =============================================================================
 # 5. Y CARRIAGE (group 'ycar')
 # =============================================================================
-Y_CLAMP = [(179.4, PYC0 + 5.0), (179.4, PYC0 + 17.0)]
+Y_CLAMP_BOX = (174.5, 190.5, PYC0, PYC0 + YC_HALF_Y)   # belt clamp and spacer, x0 x1 y0 y1 (to the carriage edge)
+Y_CLAMP = [(178.9, PYC0 + 4.5), (178.9, PYC0 + 15.0), (178.9, PYC0 + 25.5)]   # M3 into inserts in the carriage
+Y_BELT_GAP = PYC0 + 15.0                 # the two belt ends meet here (over the middle screw)
 Y_CHAIN_SLOT = ((235.5, PYC0 + 12.0), (235.5, PYC0 + 24.0))   # Y chain moving end link: M3 + nut under the plate, any hole spacing
 # zip ties (same layout as W.ZIPS): the Y carriage bundle across the carriage top
 ZIPS = {'zip_tie_ycar': ('y_carriage', (230.0, PYC0 - 9.0, Z_YC1), 'y', 'z', 1, Z_YC1 - Z_YC0, 7.0, 10.0, 1.0)}
@@ -381,20 +436,30 @@ def y_carriage():
     return cut_all(body, cut)
 
 def y_belt_spacer():
-    s = box(175.0, PYC0, ZT + 0.7, 190.5, PYC0 + 22.0, Z_YC0)
-    s = fillet_all(s)
+    """Block between the carriage and the upper Y strand (the belt is pressed against it)."""
+    x0, x1, y0, y1 = Y_CLAMP_BOX
+    s = fillet_all(box(x0, y0, ZT + 0.7, x1, y1, Z_YC0))
     return cut_all(s, [cyl((x, y, ZT), bolt(3) / 2, 10.0) for x, y in Y_CLAMP])
 
+def belt_grooves(a0, a1, gap, at, axis, t0, length):
+    """Half-round grooves (r 0.6) at the 2 mm belt pitch from a0 to a1 along the strand, none over the
+    belt-end gap; each groove runs across the belt ('axis') from t0. 'at' places the groove line."""
+    out = []
+    a = a0
+    while a <= a1 + 1e-6:
+        if abs(a - gap) > 1.5:
+            out.append(cyl(at(a, t0), 0.6, length, axis))
+        a += 2.0
+    return out
+
 def y_belt_clamp():
-    """Clamp plate under the upper Y strand; half-round grooves take the belt teeth."""
+    """Clamp plate under the upper Y strand. The belt is an open length: its two ends meet over the
+    middle screw (2 mm gap), each end held by 6 teeth in half-round grooves and two screws."""
+    x0, x1, y0, y1 = Y_CLAMP_BOX
     z1 = ZT - 0.7 + 0.3
-    s = fillet_all(box(175.0, PYC0, z1 - 3.5, 190.5, PYC0 + 22.0, z1))
+    s = fillet_all(box(x0, y0, z1 - 3.5, x1, y1, z1))
     cut = [cyl((x, y, z1 - 5), bolt(3) / 2, 7.0) for x, y in Y_CLAMP]
-    y = PYC0 + 3.0
-    while y <= PYC0 + 19.0:
-        if all(abs(y - yc) > 2.6 for _, yc in Y_CLAMP):
-            cut.append(cyl((Y_BELT_X0 - 0.5, y, z1), 0.6, 7.0, 'x'))
-        y += 2.0
+    cut += belt_grooves(y0 + 3.0, y1 - 3.0, Y_BELT_GAP, lambda a, t: (t, a, z1), 'x', Y_BELT_X0 - 0.5, Y_BELT_X1 - Y_BELT_X0 + 1.0)
     return cut_all(s, cut)
 
 def post_cap():
@@ -417,34 +482,86 @@ def corner_bracket(top):
     return b.cut(cyl((BOOM_X0 - 1, PYC0, zb + BRACKET_HOLE * s), 2.75, 5.0, 'x'))
 
 def x_motor_mount():
-    """Plate for the X motor behind the post, two arms bolted to the post's +Y slot
-    (counterbored M5), and a tab for the X home switch."""
-    fy = PYC0 + XM_FACE_DY
-    plate = box(140.0, fy - 4.0, 126.0, 209.0, fy, 196.0)
-    arms = []
-    for z0, z1 in ((176.0, 196.0), (126.0, 147.0)):
-        arms.append(box(184.0, PYC0 + 10.0, z0, 209.0, fy - 4.0, z1))
-    body = fillet_all(tidy(plate.fuse(arms)))
-    cut = [cyl((XM_C[0], fy + 1, XM_C[1]), (NEMA17['pilot'] + TOL_MOTOR) / 2, -6.0, 'y')]
+    """X motor plate behind the post. Each arm wraps the post corner: one M5 into the post's +y slot
+    (counterbored) and one into its -x slot (the cheek), so the mount cannot rock about the post
+    (v2.6 had one bolt per arm on one face). 6 mm plate with top and bottom flanges (an open box)
+    carries the belt pull to the arms. Tab for the X home switch. Prints with the plate on the bed."""
+    P0 = PYC0
+    fy = P0 + XM_FACE_DY
+    py0 = fy - XM_T
+    px0 = POST_C[0] - 10.0                       # post -x face
+    fx0, fdy, ft = XM_FLANGE
+    plate = box(140.0, py0, 126.0, 209.0, fy, 196.0)
+    parts = []
+    for z0, z1 in XM_ARMS_Z:
+        parts.append(box(XM_ARM_X0, P0 + 10.0, z0, 209.0, py0, z1))        # arm on the post's +y face
+        parts.append(box(XM_CHEEK_X0, P0 - 10.0, z0, px0, P0 + 14.0, z1))  # cheek on its -x face (joins the arm)
+    parts.append(box(fx0, P0 + fdy, 196.0 - ft, XM_ARM_X0, py0, 196.0))  # top flange
+    parts.append(box(fx0, P0 + fdy, 126.0, XM_ARM_X0, py0, 126.0 + ft))  # bottom flange
+    body = fillet_all(tidy(plate.fuse(parts)))
+    # the inside corner round the post's edge: keep the post's envelope clear, with a round relief groove (no sharp corner)
+    body = body.cut(box(px0, P0 - 11.0, 120.0, 210.0, P0 + 10.0, 200.0).fuse(cyl((px0, P0 + 10.0, 120.0), 1.0, 80.0)))
+    cut = [cyl((XM_C[0], fy + 1, XM_C[1]), (NEMA17['pilot'] + TOL_MOTOR) / 2, -(XM_T + 2), 'y')]
     for a in (-1, 1):
         for b in (-1, 1):
-            cut.append(cyl((XM_C[0] + a * 15.5, fy + 1, XM_C[1] + b * 15.5), (3.0 + TOL_MOTOR) / 2, -6.0, 'y'))
-    for zc in (186.0, 136.5):
-        cut.append(cyl((199.0, PYC0 + 9.0, zc), bolt(5) / 2, fy - PYC0, 'y'))
-        cut.append(cyl((199.0, PYC0 + 21.0, zc), (8.5 + 2 * TOL_MOVE) / 2, fy - PYC0, 'y'))
-    for yy in (PYC0 + 19.0 - D2F['hole_pitch'] / 2, PYC0 + 19.0 + D2F['hole_pitch'] / 2):    # X home switch, M2 self-tapping
+            cut.append(cyl((XM_C[0] + a * 15.5, fy + 1, XM_C[1] + b * 15.5), (3.0 + TOL_MOTOR) / 2, -(XM_T + 2), 'y'))
+    for x, zc in XM_POST_BOLTS:
+        cut.append(cyl((x, P0 + 9.0, zc), bolt(5) / 2, fy - P0, 'y'))
+        cut.append(cyl((x, P0 + 21.0, zc), (8.5 + 2 * TOL_MOVE) / 2, fy - P0, 'y'))
+    for y, zc in XM_SIDE_BOLTS:
+        cut.append(cyl((XM_CHEEK_X0 - 1, y, zc), bolt(5) / 2, px0 - XM_CHEEK_X0 + 2, 'x'))
+    for yy in (P0 + 19.0 - D2F['hole_pitch'] / 2, P0 + 19.0 + D2F['hole_pitch'] / 2):    # X home switch, M2 self-tapping
         cut.append(cyl((210.0, yy, 129.5), W.M2_PILOT / 2, -9.0, 'x'))
     return cut_all(body, cut)
 
 def x_idler_bracket():
-    """End cap on the boom with a slotted side plate for the X idler axle (belt tension)."""
-    ep = box(BOOM_X1, PYC0 - 12.0, Z_BOOM0 - 2.0, BOOM_X1 + 6.0, PYC0 + 26.0, Z_BOOM1 + 2.0)
-    side = box(456.0, PYC0 + XB_DY1 + 1.0, Z_BOOM0 - 2.0, BOOM_X1 + 6.0, PYC0 + XB_DY1 + 5.0, Z_BOOM1 + 2.0)
-    body = fillet_all(tidy(ep.fuse(side)))
-    cut = [cyl((BOOM_X1 - 1, PYC0, X_BELT_Z), bolt(5) / 2, 8.0, 'x'),
-           cyl((BOOM_X1 + 3.0, PYC0, X_BELT_Z), (8.5 + 2 * TOL_MOVE) / 2, 4.0, 'x'),
-           slot((XI_C[0] - 4.0, PYC0 + XB_DY1, X_BELT_Z), (XI_C[0] + 4.0, PYC0 + XB_DY1, X_BELT_Z), bolt(5) / 2, 7.0, 'y')]
+    """End cap on the boom with a 6 mm side plate for the X idler. The idler axle runs in a slot along x;
+    the slider on the outside of the side plate carries it, and an M3 screw in the lug at the plate's -x end
+    pushes the slider toward +x, in line with the axle: belt tension. The belt pulls the slider back onto the
+    screw (compression). v2.6 held the belt only by the friction of the axle nut on a 4 mm plate.
+    Prints end cap down."""
+    P0 = PYC0
+    z0, z1 = XI_Z
+    py0, py1 = P0 + XI_PLATE_DY[0], P0 + XI_PLATE_DY[1]
+    zt = XI_TOP[1]
+    ys = P0 + XI_SLIDER[3]
+    ep = box(BOOM_X1, P0 - 12.0, Z_BOOM0 - 2.0, BOOM_X1 + XI_CAP_T, py0, Z_BOOM1 + 2.0)
+    side = box(XI_LUG_X[0], py0, z0, BOOM_X1 + XI_CAP_T, py1, zt)
+    lug = box(XI_LUG_X[0], py1, z0, XI_LUG_X[1], ys, zt)
+    top = box(XI_LUG_X[0], py1, XI_TOP[0], BOOM_X1 + XI_CAP_T, ys, zt)
+    wall = box(BOOM_X1, py1, z0, BOOM_X1 + XI_CAP_T, ys, zt)              # end wall: also stops the slider after 4 mm
+    floor = box(XI_LUG_X[0], py1, z0, XI_SLIDER[0] - 2.0, ys, z0 + 5.0)   # short bottom flange at the lug (the slider never goes -x)
+    r = W.FILLET_IN                                                  # end cap to side plate corner, filleted by hand
+    cove = box(BOOM_X1 - r, py0 - r, z0, BOOM_X1, py0, Z_BOOM1 + 2.0).cut(cyl((BOOM_X1 - r, py0 - r, z0 - 1), r, 30.0))
+    body = fillet_all(tidy(ep.fuse([side, lug, top, wall, floor, cove])))
+    yp, zp = P0 + XI_PUSH[0], XI_PUSH[1]
+    cut = [cyl((BOOM_X1 - 1, P0, X_BELT_Z), bolt(5) / 2, 8.0, 'x'),
+           cyl((BOOM_X1 + 3.0, P0, X_BELT_Z), (8.5 + 2 * TOL_MOVE) / 2, XI_CAP_T, 'x'),   # head 3 mm from the boom, deep counterbore
+           slot((XI_SLOT[0], py0 - 1, X_BELT_Z), (XI_SLOT[1], py0 - 1, X_BELT_Z), bolt(5) / 2, py1 - py0 + 2, 'y'),
+           cyl((XI_LUG_X[0] - 0.01, yp, zp), INSERT_D / 2, INSERT_DEPTH, 'x'),             # push screw insert
+           cyl((XI_LUG_X[0], yp, zp), bolt(3) / 2, XI_LUG_X[1] - XI_LUG_X[0] + 1.0, 'x')]
     return cut_all(body, cut)
+
+def x_idler_slider():
+    """Block on the outside of the X idler side plate: the axle passes through it (nyloc outside);
+    the push screw bears on its -x end."""
+    P0 = PYC0
+    x0, x1, y0, y1 = XI_SLIDER
+    s = fillet_all(box(x0, P0 + y0, XI_Z[0], x1, P0 + y1, XI_Z[1]))
+    return s.cut(cyl((XI_C[0], P0 + y0 - 1, X_BELT_Z), bolt(5) / 2, y1 - y0 + 2, 'y'))
+
+# FEA (tools/fea.py): mesh nodes held by what each part carries
+def y_idler_held(x, y, z):
+    """axle stack at mid-travel (head/slider face, spacer face, slot sides) and the tension screw insert"""
+    py, pz = YI_C
+    lug = YI_LUG_Y[0] - 0.05 <= y <= YI_LUG_Y[1] + 0.05 and math.hypot(x - YI_PUSH_X, z - pz) <= INSERT_D / 2 + 0.05
+    return math.hypot(y - (py - YI_TRAVEL / 2), z - pz) <= 4.0 or lug
+
+def x_idler_held(x, y, z):
+    """axle stack (slot sides, faces under the slider) and the push screw insert in the lug"""
+    if math.hypot(x - XI_C[0], z - X_BELT_Z) <= 4.0:
+        return True
+    return XI_LUG_X[0] - 0.05 <= x <= XI_LUG_X[1] + 0.05 and math.hypot(y - (PYC0 + XI_PUSH[0]), z - XI_PUSH[1]) <= INSERT_D / 2 + 0.05
 
 def ycar_items():
     G = 'ycar'
@@ -473,9 +590,12 @@ def ycar_items():
     add('x_motor_17HS16', m['body'].fuse(m['shaft']), G, 'bought', 'motor')
     add('x_pulley_gt2_20t', gt2_pulley(XM_C, 'y', PYC0 + XB_DY0 - 0.5), G, 'bought', 'steel')
     add('x_idler_gt2_20t', gt2_pulley(XI_C, 'y', PYC0 + XB_DY0 - 0.5, toothed=False), G, 'bought', 'steel')
-    add('x_belt_gt2', belt_loop(XM_C, XI_C, 'y', PYC0 + XB_DY0, PYC0 + XB_DY1), G, 'bought', 'belt')
+    gx = PXB0 + W.X_BELT_GAP                     # open belt: its ends meet in the wrist carriage clamp (drawn at the parked X)
+    add('x_belt_gt2', belt_loop(XM_C, XI_C, 'y', PYC0 + XB_DY0, PYC0 + XB_DY1).cut(
+        box(gx - 1.0, PYC0 + XB_DY0 - 1, X_BELT_Z - GT2_PD / 2 - 1.5, gx + 1.0, PYC0 + XB_DY1 + 1, X_BELT_Z - GT2_PD / 2 + 1.5)), G, 'bought', 'belt')
     add('x_motor_mount', x_motor_mount(), G)
     add('x_idler_bracket', x_idler_bracket(), G)
+    add('x_idler_slider', x_idler_slider(), G)
     add('x_home_switch_d2f', d2f_switch((209.0, PYC0 + 19.0 - D2F['L'] / 2, 126.5), 'y', '+x').fuse(
         box(209.0 + D2F['H'] - 0.5, PYC0 + 14.0, 131.5, 217.0, PYC0 + 24.0, 132.5)), G, 'bought', 'black')
 

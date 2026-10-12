@@ -3,8 +3,8 @@ Motion X/Y,Stepper motor,StepperOnline 17HS16-2004S1 (NEMA17 42x42x40),2,10,"45 
 Motion X/Y,Linear rail,MGN12H block on MGN12 rail: 400 mm (Y) and 250 mm (X),2,18,"Static moment rating 37-38 Nm vs 1.4 Nm worst load (margin 21x); good clones are fine at this load","block 27 x 45.4, M3 20 x 20, H 13 mm"
 Motion X/Y,Profile,2020 B-type profile (6 mm slot): 400 / 270 / 140 mm,3,4,"Standard, cheap, takes M3/M5 T-nuts for the rails and brackets",
 Motion X/Y,Corner bracket,2020 cast corner bracket 20x20x20,2,1,Boom to post joint,
-Motion X/Y,Belt,GT2 6 mm (Gates PowerGrip if available; fibreglass generic OK),2 m,5,"Gates belts stretch less; 6 mm width matches the pulleys",
-Motion X/Y,Pulley,GT2 20T 5 mm bore 6 mm belt,2,2,"20T gives 40 mm per turn: 100 mm/s = 150 rpm",
+Motion X/Y,Belt,GT2 6 mm open belt (Gates PowerGrip if available; fibreglass generic OK),2 m,5,"Gates belts stretch less; 6 mm width matches the pulleys. Open length, both ends clamped on the carriage (not a closed loop)","cut Y about 0.92 m, X about 0.67 m; tension about 25 N per strand at the idler sliders (docs/stiffness_review.md)"
+Motion X/Y,Pulley,GT2 20T 5 mm bore 6 mm belt (two grub screws),2,2,"20T gives 40 mm per turn: 100 mm/s = 150 rpm. Two grub screws, one on the shaft flat (Loctite 243): no slip = no backlash",
 Motion X/Y,Idler,GT2 20T toothless idler 5 mm bore (with bearings),2,2,,
 Motion X/Y,Home switch,Omron D2F-01L microswitch with lever,2,3,"Repeatability better than the generic KW10; small",
 Lift (Z),Servo,TowerPro MG996R (metal gear) + 25T aluminium single-arm horn,1,8,"Egor's choice (replaced the DS3218). About 11 kg cm at 6 V vs 1.9 needed; dead band about 5 us = roughly 0.6 mm height resolution (DS3218 was 0.4); genuine TowerPro preferred, clones vary","from vendor/mg996r.step: case 40.4 x 20 x 40.2, tab holes 48.4 x 10 (4.5), tab face to cover top 7.7, spline 9.6 from the case end; horn: vendor/servo_horn_25t_aluminium.step (hub 14.8, M3 holes at r 20 and 24). VERIFY with calipers"
@@ -12,7 +12,6 @@ Lift (Z),Bearing,684ZZ (4 x 9 x 4; shielded),3,0.7,"Parallelogram pivots without
 Lift (Z),Spacer,Nylon round spacer 4.2 x 7 x 3 mm,3,0.1,Clamps only the bearing inner ring through the arm shoulder,
 Lift (Z),Shim washer,Shim washer 4.2 x 7 x 0.8 mm,3,0.1,"Gap between inner ring and end plate/nut; OD 7 stays off the outer ring",
 Wrist,Stepper motor,StepperOnline 11HS12-0674S (NEMA11 28 x 28 x 31.5),1,14,"7 Ncm; a checker needs almost nothing; light (0.11 kg) on the moving end","M2.5 holes 23 mm square; pilot 22; shaft 5 mm with flat"
-Wrist,Home sensor,TI DRV5023 hall switch (TO-92) + 3 x 2 mm neodymium magnet,1,1.5,"Contactless, no wear; replaces the discontinued A3144",
 Gripper,Electromagnet,P20/15 holding electromagnet 5 V (about 25 N),1,6,"Runs from the 5 V rail; checker is 7 g with an M8 washer inside","d20 x 15, M3 thread on top (VERIFY depth)"
 Gripper,Switch,AO3400 logic-level MOSFET (or IRLZ44N) + 1N5819 flyback diode,1,1,"Switches the magnet from a 3.3 V pin",
 Control,Controller,Espressif ESP32-S3-DevKitC-1-N16R8 (ESP32-S3: 16 MB flash, 8 MB octal PSRAM),1,10,"Egor's choice. Has Wi-Fi/Bluetooth: the rule needs them OFF, so the firmware never starts the radio. RMT/MCPWM make the step pulses; ADC1 for connector A and the battery; 24 free GPIO after strapping/flash/PSRAM pins","board 25.5 x 62.7 on female headers (ESP32_BOARD in frame.py; VERIFY on your board)"

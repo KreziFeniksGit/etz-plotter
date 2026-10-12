@@ -1,10 +1,11 @@
 # Project status and history
 
-Last update: 11 Oct 2026 (v2.6: real vendor models, MG996R fitted, better electronics models).
+Last update: 12 Oct 2026 (v2.7: stiffness/backlash review with FEA, stiffer motor mounts, idler tensioners, open belts; hall sensor removed).
 
 ## Where we are
 The whole device is modelled in FreeCAD (Python scripts), checked and exported:
-- 22 printed parts (13 frame + 9 wrist module), all pass the DFM rules, STEP in `out/printed/`.
+- 24 printed parts (15 frame + 9 wrist module), all pass the DFM rules, STEP in `out/printed/`.
+- FEA of the load-carrying printed parts (`tools/fea.py`, `out/fea.json`) and a backlash budget: `docs/stiffness_review.md`.
 - Whole device STEP + FCStd in two poses (parked, working), coloured, grouped tree.
 - Real cable chains (rebuilt per pose), cable harness tubes, wiring map (`wiring.md`).
 - All 133 fasteners modelled and checked (`frame/fasteners.py`, `out/fastener_bom.csv`).
@@ -21,11 +22,12 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
 ## Decisions (and why)
 - Cartesian XY plotter (the earlier SCARA arm was dropped). Approved by Egor on 10 Oct.
 - Y: 2020 beam on 4 printed risers (10 mm cable tunnel), MGN12 400 rail, NEMA17 + GT2. Post 2020 x 130 in a printed socket; boom 2020 x 270 with 2 corner brackets; X: MGN12 250 under the boom.
-- Wrist module: MG996R servo (Egor's choice, 11 Oct; was DS3218) with a 25T aluminium arm horn drives an 80 mm parallelogram (magnet face 5..40 mm, level), NEMA11 rotates the magnet (0..360), hall homing, P20/15 electromagnet, camera on the shelf.
+- Wrist module: MG996R servo (Egor's choice, 11 Oct; was DS3218) with a 25T aluminium arm horn drives an 80 mm parallelogram (magnet face 5..40 mm, level), NEMA11 rotates the magnet (0..360), no wrist home sensor (Egor, 12 Oct: the hall switch was dropped; the wrist is set to its mark by hand before power-up), P20/15 electromagnet, camera on the shelf.
 - X travel PXB 292..435 (magnet x 397..540, cells 397..537). Park at Y 40, X 292.
 - Controller ESP32-S3-DevKitC-1 N16R8 (Egor's choice, 11 Oct; replaced the Pico 2). It has Wi-Fi/BT, which the rules require OFF: the firmware never starts the radio. TMC2209 x4 over UART, 4S 2200 LiPo, Pololu 5 V and 6 V regulators, E-stop with 2 NC blocks (drive bus + magnet 5 V).
 - No encoders: tolerance 10 mm vs ~1.6 mm calibrated, >10x torque margin, homing every run, StallGuard can detect stalls.
 - Outputs are STEP only (never STL) - Egor's standing instruction.
+- Belts are open lengths clamped at both ends on the carriage (Egor, 12 Oct), tensioned at idler sliders with M3 screws; the motors are fixed. Load parts printed with 6 walls, >= 50 % infill.
 
 ## Version history
 - v1 (10 Oct): own prism kernel, first plotter model, viewer artifact (outdated).
@@ -36,6 +38,7 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
 - v2.4 (11 Oct): white raised 'STOP' lettering (8 mm, cosmetic) on the stop button cap. First run on Egor's PC (FreeCAD 1.1) showed the Y carriage built as an EMPTY shape: in 1.1 a failed fillet damages the input and can return a broken solid. `fillet_all` now fillets a copy, checks strictly and retries one edge at a time with smaller radii; the Y carriage socket corner is filleted before the block-screw counterbores (the +x pair now go through that fillet). All checks clean again on 1.1.
 - v2.5 (11 Oct): zip ties and wrist cables. The zip-tie slot pairs were turned 90 deg (a tie could not wrap the cable): `zip_pair` now puts the slots either side of the cable. 10 ties modelled (`W.ZIPS`, `frame.ZIPS`, post ties, 2 round the top arm). Wrist harness drawn and rebuilt per pose (`W.harness_paths`, `cables.wrist_harness`): camera, hall, stepper leads -> end plate -> top arm -> under the X block; servo lead under the carriage plate. Hall lead hole moved: it came up under the stepper; the sensor now sits leads-down and its leads run under the shelf to a hole beside the end plate. All wrist cables stay inside zone 2 when parked (y < 79.9). Spare tie slots with no cable removed (Y motor mount, Y idler bracket, X motor mount). Controller switched to the ESP32-S3-DevKitC-1 N16R8 (Egor): board in the model, new pin map in wiring.md (avoids strapping, flash, PSRAM and USB pins).
 - v2.6 (11 Oct): Egor's STEP models in `vendor/` (MG996R, 25T aluminium arm horn, 11HS12-0674S, 17HS16-2004S1; 684 open bearing and MGN12 meshes kept for reference). Export uses them; `world(detail=True)` and `assembly.py` `detailed_*` checks re-check with them. MG996R fitted from its model: case 40.4 x 20, tab holes 48.4 apart (M2 bolts + large washers, M3 left 2 mm of plastic), rib grooves under the tabs, servo plate moved to y 3.56 so the arm stays at y 20, lead exits at the spline end. Top arm: centre screw + one M3 into the horn at r 24 (lightening slot starts at x 31, arm ties at x 36/56). Y motor turned so its lead stub points +y (it hit the battery). TMC2209s were drawn 10 mm wide at 11 mm pitch (real 15.3): now a 2 x 2 grid on female headers. Generated models: ESP32 board with module, USB-C and headers; regulators; DRV5023 body; flag magnet.
+- v2.7 (12 Oct): Egor's review request (sag, bending, backlash, open belts; photos of the motor mounts). New `tools/fea.py` (gmsh + CalculiX): x_idler_bracket failed (0.65 deg idler tilt, 14 MPa) and x_motor_mount was borderline (0.2 deg). x_motor_mount: 6 mm plate, flanges, arms also bolted to the post's -x face (0.025 deg). y_motor_mount: 6 mm plate, base both sides, 4 gussets, 4 fixed screws, no slots. Both idlers on sliders pushed by an M3 screw in a lug. The X side plate and slider sit above z 155: the wrist harness passed through the old plate at X 380..400 (the sweep never sampled there). Open belts: Y clamp 30 mm / 3 screws, X clamp 42 mm / 3 screws, ends meet over the middle screw. Backlash budget 0.11 mm (Y), 0.07 mm (X) (`stability.json`). Y motor cable rerouted round the new base. Hall sensor, flag magnet, their pocket, lead and coupon D1 pockets removed (Egor); D1 is now `tol_D1_press_bearing`.
 
 ## Open items (in order)
 1. Egor prints the tolerance coupons A, C, D1, E1, F1 (then the rest) and reports which variant fits -> set the constants in `wrist/wrist_module.py` section 1, re-run everything, re-export.
