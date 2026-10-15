@@ -116,45 +116,45 @@
    "into": "insert",
    "engagement_mm": 5.7
   },
-  "wm_f_n11_0": {
-   "screw": "M2.5 x 6 ISO 7380",
+  "wm_f_n17p_0": {
+   "screw": "M3 x 8 ISO 7380",
    "into": "blind",
-   "engagement_mm": 2.0
+   "engagement_mm": 4.0
   },
-  "wm_f_n11_1": {
-   "screw": "M2.5 x 6 ISO 7380",
+  "wm_f_n17p_1": {
+   "screw": "M3 x 8 ISO 7380",
    "into": "blind",
-   "engagement_mm": 2.0
+   "engagement_mm": 4.0
   },
-  "wm_f_n11_2": {
-   "screw": "M2.5 x 6 ISO 7380",
+  "wm_f_n17p_2": {
+   "screw": "M3 x 8 ISO 7380",
    "into": "blind",
-   "engagement_mm": 2.0
+   "engagement_mm": 4.0
   },
-  "wm_f_n11_3": {
-   "screw": "M2.5 x 6 ISO 7380",
+  "wm_f_n17p_3": {
+   "screw": "M3 x 8 ISO 7380",
    "into": "blind",
-   "engagement_mm": 2.0
+   "engagement_mm": 4.0
   },
   "wm_f_cam0": {
-   "screw": "M2 x 12 pan head",
-   "into": "nut",
-   "engagement_mm": 1.6
+   "screw": "M2 x 6 pan head",
+   "into": "self",
+   "engagement_mm": 4.5
   },
   "wm_f_cam1": {
-   "screw": "M2 x 12 pan head",
-   "into": "nut",
-   "engagement_mm": 1.6
+   "screw": "M2 x 6 pan head",
+   "into": "self",
+   "engagement_mm": 4.5
   },
   "wm_f_cam2": {
-   "screw": "M2 x 12 pan head",
-   "into": "nut",
-   "engagement_mm": 1.6
+   "screw": "M2 x 6 pan head",
+   "into": "self",
+   "engagement_mm": 4.5
   },
   "wm_f_cam3": {
-   "screw": "M2 x 12 pan head",
-   "into": "nut",
-   "engagement_mm": 1.6
+   "screw": "M2 x 6 pan head",
+   "into": "self",
+   "engagement_mm": 4.5
   },
   "wm_f_magnet": {
    "screw": "M3 x 6 ISO 7380",
@@ -721,7 +721,7 @@
   ],
   [
    376.0,
-   435.0,
+   430.0,
    40.0,
    0.0
   ]
@@ -733,14 +733,14 @@
   ],
   [
    124.0,
-   292.0,
+   287.0,
    5.0,
    90.0
   ]
  ],
  "x_chain_bend_x": [
-  395.2,
-  466.7
+  392.7,
+  464.2
  ],
  "y_chain_bend_y": [
   249.7,

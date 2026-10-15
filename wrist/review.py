@@ -22,7 +22,7 @@ ALLOWED = {frozenset(p) for p in [
     ('servo_tabs', 'servo_plate'), ('servo_horn', 'arm_top'), ('servo_spline', 'servo_horn'), ('servo_case', 'servo_spline'),
     ('x_belt', 'x_belt_clamp'),              # 0.3 mm squeeze is the design
     ('brg_AL', 'arm_bottom'), ('brg_BL', 'arm_bottom'), ('brg_BT', 'arm_top'),
-    ('nema11_shaft', 'wrist_hub'), ('nema11_pilot', 'nema11'), ('nema11_shaft', 'nema11_pilot'),
+    ('nema17p_shaft', 'wrist_hub'), ('nema17p_pilot', 'nema17p'), ('nema17p_shaft', 'nema17p_pilot'),
     ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'), ('servo_case', 'servo_tabs'), ('x_belt', 'x_belt_riser'), ('spacer_AL', 'brg_AL'), ('spacer_BT', 'brg_BT'), ('spacer_BL', 'brg_BL'), ('shim_BT', 'brg_BT'), ('shim_BL', 'brg_BL'), ('shim_AL', 'brg_AL'), ('shim_BT', 'end_plate'), ('shim_BL', 'end_plate'), ('spacer_AL', 'wrist_carriage'),
 ]}
 allsol = dict(parts); allsol.update(bought)
@@ -59,7 +59,8 @@ def gap(a, b, h):
 GAPS = [('arm_top', 'wrist_carriage'), ('arm_bottom', 'wrist_carriage'), ('servo_horn', 'wrist_carriage'), ('arm_top', 'x_belt_riser'), ('arm_bottom', 'shelf'),
         ('arm_top', 'end_plate'), ('arm_bottom', 'end_plate'), ('arm_top', 'arm_bottom'), ('servo_case', 'wrist_carriage'),
         ('arm_top', 'servo_case'), ('wrist_hub', 'shelf'), ('electromagnet', 'shelf'), ('end_plate', 'wrist_carriage'),
-        ('spacer_AL', 'arm_bottom'), ('spacer_BT', 'arm_top'), ('spacer_BL', 'arm_bottom'), ('shim_BT', 'arm_top'), ('shim_BL', 'arm_bottom'), ('shim_AL', 'arm_bottom')]
+        ('spacer_AL', 'arm_bottom'), ('spacer_BT', 'arm_top'), ('spacer_BL', 'arm_bottom'), ('shim_BT', 'arm_top'), ('shim_BL', 'arm_bottom'), ('shim_AL', 'arm_bottom'),
+        ('arm_bottom', 'nema17p'), ('arm_top', 'nema17p'), ('end_plate', 'nema17p')]
 R['min_gap_mm'] = {}
 for a, b in GAPS:
     R['min_gap_mm']['%s | %s' % (a, b)] = min(gap(a, b, h) for h in (5.0, 22.5, 40.0))
@@ -156,10 +157,10 @@ R['dfm'] = dfm
 
 # ------------------------------------------------------------------ clearance table
 R['clearances'] = {
-    'M3 bolt hole': W.bolt(3), 'M4 bolt hole (pivots)': W.bolt(4), 'M2 camera hole': 2 + W.TOL_BOLT,
-    'NEMA11 screw hole (M2.5 +0.2)': W.N11_HOLE + W.TOL_MOTOR, 'NEMA11 pilot hole (22 +0.2)': W.N11_PILOT_D + W.TOL_MOTOR,
+    'M3 bolt hole': W.bolt(3), 'M4 bolt hole (pivots)': W.bolt(4), 'M2 camera pilot (self-tapping, blind)': W.M2_PILOT,
+    'NEMA17 pancake screw hole (M3 +0.2)': W.N17P_HOLE + W.TOL_MOTOR, 'NEMA17 pancake pilot hole (22 +0.2)': W.N17P_PILOT_D + W.TOL_MOTOR,
     '684ZZ seat (9 +0.12, press)': W.BRG_OD + W.TOL_PRESS, 'bearing shoulder hole (4 + 2x0.4 + 1.5)': W.BRG_ID + 2 * W.TOL_MOVE + 1.5,
-    'D-bore on stepper shaft (5 +0.12, press)': W.N11_SHAFT_D + W.TOL_PRESS, 'servo window (case + 0.4 each side)': W.TOL_MOVE,
+    'D-bore on stepper shaft (5 +0.12, press)': W.N17P_SHAFT_D + W.TOL_PRESS, 'servo window (case + 0.4 each side)': W.TOL_MOVE,
     'arm to end plate gap (washer)': W.WASHER_T, 'heat-set insert hole': W.INSERT_D,
 }
 json.dump(R, open(os.path.join(OUT, 'review.json'), 'w'), indent=1, default=str)
@@ -196,7 +197,7 @@ def render(items, path, az, el, title):
 def scene(h, w=0.0):
     items = []
     for k, s in allsol.items():
-        c = COL['printed'] if k in parts else (COL['dark'] if k in ('nema11', 'servo_case', 'camera_board') else COL['bought'])
+        c = COL['printed'] if k in parts else (COL['dark'] if k in ('nema17p', 'servo_case', 'camera_board') else COL['bought'])
         items.append((tri(W.pose(s, W.GROUP[k], h, w)), c))
     return items
 if '--norender' not in sys.argv:

@@ -46,7 +46,7 @@ Design rules Egor requires: `docs/design_rules.md`.
 
 Coordinates: X along the 600 mm side (zone 1 x 0..350, field from x 350), Y along 500, Z up from the table, mm.
 Y-carriage parts are built at PYC0 = 40 and moved by (0, PYC-40, 0); wrist parts are built in module coordinates
-(x from PXB, y from PYC, absolute z) and moved by `W.pose()` then (PXB, PYC, 0). Travel: PYC 40..376, PXB 292..435,
+(x from PXB, y from PYC, absolute z) and moved by `W.pose()` then (PXB, PYC, 0). Travel: PYC 40..376, PXB 287..430,
 magnet face h 5..40 mm, wrist any angle. Groups: base, ycar, wm_xcar, wm_armT, wm_armB, wm_end, wm_wrist, chainX, chainY.
 
 ## Running things

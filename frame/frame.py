@@ -27,9 +27,9 @@ V = App.Vector
 # =============================================================================
 # 1. LAYOUT PARAMETERS
 # =============================================================================
-PYC0, PXB0 = 40.0, 292.0                  # parked Y carriage centre, parked wrist pivot X (magnet at x 397, first cell column)
+PYC0, PXB0 = 40.0, 287.0                  # parked Y carriage centre, parked wrist pivot X (magnet at x 397, first cell column)
 PYC_RANGE = (40.0, 376.0)
-PXB_RANGE = (292.0, 435.0)                 # 292: wrist carriage clears the Y carriage (x 245); magnet x 397..540 covers the cells (397..537)
+PXB_RANGE = (287.0, 430.0)                 # = magnet x 397..540 - W.MAG_X (110): covers the cells (397..537); at 287 the wrist carriage is 2 mm clear of the Y carriage (x 245)
 # base
 Z_FOOT, Z_PLY = 3.0, 12.0                 # rubber feet height, plywood thickness
 Z_PLY0, Z_PLY1 = Z_FOOT, Z_FOOT + Z_PLY
@@ -140,17 +140,27 @@ def add(name, shape, group='base', kind='printed', colour='printed'):
 # =============================================================================
 # 2. BOUGHT-PART BUILDERS
 # =============================================================================
+# 2020 V-slot (OpenBuilds geometry, as in bd_warehouse's VSlotLinearRailProfile): one slot drawn on the +x face,
+# (depth from the centre, half width). Mouth 9.16 at the face, 45 deg V down to the 6.25 throat at 1.455 deep,
+# lips end 1.8 below the face (drop-in T-nuts sit under them), cavity 11 wide, floor 6.1 below the face.
+# Centre hole 4.2 (tapped M5 at the ends). Corner radius 1.5.   VERIFY on the profile you buy (Soberizavod / others)
+VSLOT_GROOVE = [(3.69, 0.0), (3.9, 0.21), (3.9, 2.8393), (6.5607, 5.5), (8.2, 5.5), (8.2, 3.125), (8.545, 3.125), (10.0, 4.58)]
+VSLOT_CORNER_R, VSLOT_HOLE_D = 1.5, 4.2
+VSLOT_LIP = 1.8                           # face to the underside of the slot lips
+
 def profile2020(p0, axis, length):
-    """2020 aluminium profile (6 mm slots, 4.2 centre hole) from p0 along +axis."""
+    """2020 V-slot aluminium profile (6 mm slot opening, V-groove, 4.2 centre hole) from p0 along +axis."""
     s = Part.makeBox(20, 20, length, V(-10, -10, 0))
+    s = s.makeFillet(VSLOT_CORNER_R, [e for e in s.Edges if abs(e.Length - length) < 1e-6])
+    half = VSLOT_GROOVE + [(11.0, 4.58)]
+    pts = half + [(u, -v) for u, v in reversed(half) if v > 0]
+    groove = Part.Face(Part.makePolygon([V(u, v, -1) for u, v in pts] + [V(pts[0][0], pts[0][1], -1)])).extrude(V(0, 0, length + 2))
     for ang in (0, 90, 180, 270):
-        sl = Part.makeBox(6.2, 6.0, length + 2, V(-3.1, 4.0, -1))
-        sl.rotate(V(0, 0, 0), V(0, 0, 1), ang)
-        s = s.cut(sl)
-    s = s.cut(Part.makeCylinder(2.1, length + 2, V(0, 0, -1)))
-    s = s.makeFillet(0.5, [e for e in s.Edges if abs(e.Length - length) < 1e-6 and
-                           max(abs(e.Vertexes[0].Point.x), abs(e.Vertexes[0].Point.y)) > 9.9 and
-                           abs(abs(e.Vertexes[0].Point.x) - 10) < 1e-6 and abs(abs(e.Vertexes[0].Point.y) - 10) < 1e-6])
+        g = groove.copy()
+        g.rotate(V(0, 0, 0), V(0, 0, 1), ang)
+        s = s.cut(g)
+    s = s.cut(Part.makeCylinder(VSLOT_HOLE_D / 2, length + 2, V(0, 0, -1)))
+    s = s.removeSplitter()
     if axis == 'x':
         s.rotate(V(0, 0, 0), V(0, 1, 0), 90)
     elif axis == 'y':
@@ -470,7 +480,8 @@ def post_cap():
 BRACKET_HOLE = 11.0     # hole centre from the corner, on each leg (M5)   VERIFY on your bracket
 
 def corner_bracket(top):
-    """Cast 2020 corner bracket (20 x 20 x 20, 3 mm legs, two side walls), one 5.5 hole per leg."""
+    """Cast 2020 corner bracket (Soberizavod 20x20 slot 6 T01; 20 x 20 x 20, 3 mm legs, two side walls), one 5.5 hole per leg.
+    Its legs sit flat on the V-slot faces; VERIFY the hole position and whether it has keys for the slot."""
     zb = Z_BOOM1 if top else Z_BOOM0
     s = 1 if top else -1
     h = box(BOOM_X0, PYC0 - 10, min(zb, zb + 3 * s), BOOM_X0 + 20, PYC0 + 10, max(zb, zb + 3 * s))

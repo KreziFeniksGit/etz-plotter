@@ -13,7 +13,7 @@ MASS_G = {                     # bought parts, grams (datasheet or typical)
     'y_beam_2020': 200, 'post_2020_130': 65, 'boom_2020_270': 135,          # 2020: 0.5 kg/m
     'y_rail_mgn12_400': 260, 'x_rail_mgn12_250': 163,                         # 0.65 kg/m
     'y_block_mgn12h': 47, 'wm_mgn12h_block': 47,
-    'y_motor_17HS16': 280, 'x_motor_17HS16': 280, 'wm_nema11': 110, 'wm_nema11_pilot': 0, 'wm_nema11_shaft': 0,
+    'y_motor_17HS16': 280, 'x_motor_17HS16': 280, 'wm_nema17p': 140, 'wm_nema17p_pilot': 0, 'wm_nema17p_shaft': 0,
     'wm_servo_case': 55, 'wm_servo_tabs': 0, 'wm_servo_spline': 0, 'wm_servo_horn': 8,
     'wm_electromagnet': 35, 'wm_camera_board': 8, 'wm_camera_lens': 4,
     'battery_4s_2200': 230, 'estop_22mm_latching': 60, 'start_button_16mm': 10, 'breadboard_400': 45,
@@ -150,7 +150,7 @@ def backlash(ms):
     yc = F.Y_BELT_GAP
     L1 = F.YM_C[0] - yc                                               # upper strand, clamp -> motor
     L2 = loop(F.YI_C[0], F.YM_C[0]) - L1                              # the other way round, via the idler
-    # X: clamp middle at PXB + X_BELT_GAP, farthest from the motor (x 165) at PXB 435
+    # X: clamp middle at PXB + X_BELT_GAP, farthest from the motor (x 165) at PXB 430
     xc = F.PXB_RANGE[1] + W.X_BELT_GAP
     X1 = xc - F.XM_C[0]
     X2 = loop(F.XM_C[0], F.XI_C[0]) - X1
@@ -171,11 +171,34 @@ def backlash(ms):
                    'The servo play only changes the magnet height (it lands on the checker anyway).')
     return out
 
+MG996R_STALL_NM = 1.08       # N m stall torque at 6 V (11 kg cm, datasheet; 0.92 at 4.8 V)
+SERVO_LIFT_ACC = 2.0         # m/s^2 vertical acceleration of the end when the servo lifts
+
+def servo_torque(ms, PXB):
+    """Torque the MG996R needs to hold / lift the parallelogram, arms level (worst case, cos = 1).
+    Virtual work: everything on the end plate (shelf, stepper, hub, magnet, camera, their screws) rises R_ARM dtheta;
+    each arm rises by its centre of mass distance from its pivot A. The wrist harness counts at half the arm length."""
+    import wrist_module as W
+    R = W.R_ARM / 1000.0
+    m_end = sum(x[2] for x in ms if x[1] in ('wm_end', 'wm_wrist'))
+    t = m_end * (G + SERVO_LIFT_ACC) * R
+    for g in ('wm_armT', 'wm_armB'):
+        for x in ms:
+            if x[1] == g:
+                t += x[2] * (G + SERVO_LIFT_ACC) * (x[3][0] - PXB) / 1000.0
+    m_cab = sum(x[2] for x in ms if x[1] == 'wm_cable')
+    t += m_cab * G * R / 2
+    motor = MASS_G['wm_nema17p'] / 1000.0
+    return {'end_mass_kg': round(m_end, 3), 'wrist_stepper_kg': motor, 'needed_Nm': round(t, 3),
+            'stall_6V_Nm': MG996R_STALL_NM, 'stall_margin': round(MG996R_STALL_NM / t, 1),
+            'load_vs_stall_pct': round(100 * t / MG996R_STALL_NM, 1),
+            'note': 'keep the steady load under ~30-40 % of stall for a long servo life (hobby servo rule of thumb)'}
+
 if __name__ == '__main__':
     R = {'design_acc_m_s2': ACC}
     worst_tip, worst_rail, worst_def = None, None, None
     table = []
-    for p in [(40.0, 292.0, 40.0, 0.0), (376.0, 435.0, 5.0, 0.0), (40.0, 435.0, 5.0, 0.0), (376.0, 292.0, 40.0, 0.0), (208.0, 345.0, 22.5, 0.0)]:
+    for p in [(40.0, 287.0, 40.0, 0.0), (376.0, 430.0, 5.0, 0.0), (40.0, 430.0, 5.0, 0.0), (376.0, 287.0, 40.0, 0.0), (208.0, 340.0, 22.5, 0.0)]:
         ms = masses(*p)
         t = tipping(ms)
         r = rail_loads(ms, p[0], p[1])
@@ -189,6 +212,7 @@ if __name__ == '__main__':
         groups[gg] = round(groups.get(gg, 0) + m, 3)
     R['mass_by_group_kg'] = groups
     R['backlash'] = backlash(masses(F.PYC0, F.PXB_RANGE[1], A.W.H_MIN, 0.0))
+    R['servo_lift'] = servo_torque(masses(F.PYC0, F.PXB0, A.W.H_MID, 0.0), F.PXB0)
     R['min_tip_acc_m_s2'] = min(v['tips_at_m_s2'] for e in table for k, v in e['tipping'].items() if isinstance(v, dict))
     R['min_static_margin_mm'] = min(v['static_margin_mm'] for e in table for k, v in e['tipping'].items() if isinstance(v, dict))
     R['worst_rail_moment_Nm'] = max(e['rails']['worst_Nm'] for e in table)

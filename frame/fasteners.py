@@ -24,7 +24,7 @@ NUT = {'hex': {2: (4.0, 1.6), 2.5: (5.0, 2.0), 3: (5.5, 2.4), 4: (7.0, 3.2), 5: 
        'nyloc': {2: (4.0, 3.0), 3: (5.5, 4.0), 4: (7.0, 5.0), 5: (8.0, 5.0)}}
 WASHER = {2: (6.0, 0.8), 3: (7.0, 0.5), 4: (9.0, 0.8), 5: (10.0, 1.0)}   # M2: DIN 9021 large washer (covers the 4.5 servo tab hole)
 INSERT_L, INSERT_D = 5.7, 4.0                  # Ruthex RX-M3x5.7 (drawn solid: its thread is what the screw engages)
-TNUT_W, TNUT_L, TNUT_T, TNUT_DEPTH = 5.8, 9.5, 3.5, 1.8   # 2020 drop-in T-nut, under the 1.8 mm slot lips
+TNUT_W, TNUT_L, TNUT_T, TNUT_DEPTH = 5.8, 9.5, 3.5, 1.8   # 2020 V-slot drop-in T-nut, under the lips (frame.VSLOT_LIP = 1.8); fits the 11 mm cavity
 
 def _perp(d):
     a = V(1, 0, 0) if abs(d.x) < 0.9 else V(0, 1, 0)
@@ -165,14 +165,13 @@ def wrist_fasteners():
     for i, (x, y) in enumerate(W.FOOT_SCREWS):
         L.append(F('wm_f_shelf%d' % i, 'cap', 3, 10, (x, y, W.Z_SH0), (0, 0, 1), 'end', ('insert', None, 4.0, None),
                    insert=('wm_end_plate', W.SH_T), note='shelf to end plate foot, from below'))
-    for i in range(4):
-        a, b = (-1, 1)[i % 2], (-1, 1)[i // 2]
-        L.append(F('wm_f_n11_%d' % i, 'button', 2.5, 6, (W.MAG_X + a * W.N11_HOLE_PITCH / 2, W.MAG_Y + b * W.N11_HOLE_PITCH / 2, W.Z_SH0), (0, 0, 1),
-                   'end', ('blind', 'wm_nema11', 1.8, 2.5), note='NEMA11 from below (motor thread depth VERIFY, about 2.5)'))
-    zb = W.Z_SH0 - 4.0 - 1.6
+    for i, (x, y) in enumerate(W.MOTOR_HOLES):
+        L.append(F('wm_f_n17p_%d' % i, 'button', 3, 8, (x, y, W.Z_SH0), (0, 0, 1), 'end', ('blind', 'wm_nema17p', 3.0, 4.5),
+                   note='wrist stepper (NEMA17 pancake) from below (motor thread depth VERIFY, about 4.5)'))
+    zb = W.Z_SH0 - W.CAM_POST_H - 1.6
     for i, (x, y) in enumerate(W.CAM_POSTS):
-        L.append(F('wm_f_cam%d' % i, 'pan', 2, 12, (x, y, W.Z_SH1), (0, 0, -1), 'end', ('nut', None, 1.6, None), extra=('wm_camera_board',),
-                   nut=('hex', W.Z_SH1 - zb), note='camera board, nut under the board'))
+        L.append(F('wm_f_cam%d' % i, 'pan', 2, 6, (x, y, zb), (0, 0, 1), 'end', ('self', 'wm_shelf', 3.5, None), extra=('wm_camera_board',),
+                   note='camera board, M2 self-tapping from below into the shelf posts'))
     L.append(F('wm_f_magnet', 'button', 3, 6, (W.MAG_X, W.MAG_Y, W.H_MID + W.MAG_H + 2.5), (0, 0, -1), 'wrist', ('blind', 'wm_electromagnet', 3.0, 4.0),
                note='magnet on the hub (magnet thread depth VERIFY)'))
     for i, x in enumerate((10.0, 20.0)):
@@ -352,5 +351,5 @@ def bom():
         if f.insert:
             add('Ruthex M3 x 5.7 heat-set insert', f.note)
         if f.tnut:
-            add('M%g drop-in T-nut for 2020 (6 mm slot)' % f.dia, f.note)
+            add('M%g drop-in T-nut for 2020 V-slot (6 mm slot)' % f.dia, f.note)
     return [(k, q, '; '.join(u)) for k, (q, u) in rows.items()]

@@ -144,7 +144,7 @@ def coupon_D1():
     return s
 
 # =============================================================================
-# D2. D-bore hubs on the NEMA11 shaft and post-cap pins for the 2020 centre hole  -> TOL_PRESS
+# D2. D-bore hubs on the wrist stepper shaft (NEMA17 pancake) and post-cap pins for the 2020 centre hole  -> TOL_PRESS
 # =============================================================================
 def coupon_D2():
     w, h, t = 60.0, 44.0, 3.0
@@ -158,8 +158,8 @@ def coupon_D2():
     cut = []
     for j, tol in enumerate(PRESS_T):
         x = 12.0 + 18.0 * j
-        bore = cyl((x, 30.0, -1), (W.N11_SHAFT_D + tol) / 2, t + 12)
-        flat = box(x + (W.N11_SHAFT_FLAT - W.N11_SHAFT_D / 2) + tol / 2, 26.0, -2, x + 4, 34.0, t + 13)
+        bore = cyl((x, 30.0, -1), (W.N17P_SHAFT_D + tol) / 2, t + 12)
+        flat = box(x + (W.N17P_SHAFT_FLAT - W.N17P_SHAFT_D / 2) + tol / 2, 26.0, -2, x + 4, 34.0, t + 13)
         cut.append(bore.cut(flat))
     s = cut_all(s, cut)
     for j, tol in enumerate(PRESS_T):
@@ -189,7 +189,7 @@ def coupon_E1():
     return _motor_coupon(44.0, 22.0, 31.0, 3.0)                 # NEMA17 17HS16: pilot 22, M3 on 31
 
 def coupon_E2():
-    return _motor_coupon(33.0, W.N11_PILOT_D, W.N11_HOLE_PITCH, W.N11_HOLE)   # NEMA11: pilot 22, M2.5 on 23
+    return _motor_coupon(44.0, W.N17P_PILOT_D, W.N17P_HOLE_PITCH, W.N17P_HOLE)   # wrist NEMA17 pancake 17HS4023S: pilot 22, M3 on 31 (same pattern as E1: try it on the pancake itself)
 
 # =============================================================================
 # F1. servo window frames  -> TOL_MOVE (per side)
@@ -283,10 +283,10 @@ COUPONS = {
     'tol_B_bolt_holes_horizontal': (coupon_B, 'TOL_BOLT', 'M3..M5 clearance holes through a standing wall'),
     'tol_C_inserts': (coupon_C, 'INSERT_D', 'Ruthex M3 x 5.7 heat-set insert holes'),
     'tol_D1_press_bearing': (coupon_D1, 'TOL_PRESS', '684ZZ seat'),
-    'tol_D2_press_dbore_pins': (coupon_D2, 'TOL_PRESS', 'D-bore hub on the NEMA11 shaft, post cap pin in the 2020 centre hole'),
+    'tol_D2_press_dbore_pins': (coupon_D2, 'TOL_PRESS', 'D-bore hub on the wrist stepper (NEMA17 pancake) shaft, post cap pin in the 2020 V-slot centre hole'),
     'tol_E1_nema17': (coupon_E1, 'TOL_MOTOR', 'NEMA17 pilot and M3 holes'),
-    'tol_E2_nema11': (coupon_E2, 'TOL_MOTOR', 'NEMA11 pilot and M2.5 holes'),
-    'tol_F1_servo_window': (coupon_F1, 'TOL_MOVE', 'DS3218 servo window, gap per side'),
+    'tol_E2_nema17_pancake': (coupon_E2, 'TOL_MOTOR', 'wrist NEMA17 pancake (17HS4023S) pilot and M3 holes'),
+    'tol_F1_servo_window': (coupon_F1, 'TOL_MOVE', 'MG996R servo window, gap per side'),
     'tol_F2_profile_socket_tongue': (coupon_F2, 'SOCKET_GAP / TOL_MOVE', '2020 post socket sleeves and beam riser tongues'),
     'tol_F3_spacer_ziptie_pilot': (coupon_F3, 'SPACER_GAP / ZIP_SLOT / M2_PILOT', 'nylon spacer shoulder hole, zip-tie slots, M2 self-tapping pilots'),
     'tol_G_panel_holes': (coupon_G, 'TOL_BOLT', 'stop button 22, start button 16, LED holder 6'),

@@ -36,8 +36,8 @@ def branch(name, kind):
         return 'Cables_and_chains'
     return 'Electronics_and_controls'
 
-WM_COLOUR = {'servo_case': 'servo', 'servo_tabs': 'servo', 'servo_spline': 'white', 'servo_horn': 'steel', 'nema11': 'motor',
-             'nema11_pilot': 'motor', 'nema11_shaft': 'steel', 'electromagnet': 'copper', 'camera_board': 'board', 'camera_lens': 'black',
+WM_COLOUR = {'servo_case': 'servo', 'servo_tabs': 'servo', 'servo_spline': 'white', 'servo_horn': 'steel', 'nema17p': 'motor',
+             'nema17p_pilot': 'motor', 'nema17p_shaft': 'steel', 'electromagnet': 'copper', 'camera_board': 'board', 'camera_lens': 'black',
              'mgn12h_block': 'steel'}
 WM_COLOUR.update({k: 'black' for k in W.GROUP if k.startswith('zip_')})
 
@@ -112,15 +112,15 @@ ALLOWED = [
     ('wm_mgn12h_block', 'x_rail_mgn12_250'), ('y_block_mgn12h', 'y_rail_mgn12_400'),
     ('x_home_switch_d2f', 'wm_wrist_carriage'), ('y_home_switch_d2f', 'y_carriage'),
     ('battery_strap', 'battery_4s_2200'), ('battery_strap', 'battery_tray'), ('cable_chain_y', 'y_carriage'), ('cable_chain_y', 'y_chain_guide'), ('cable_chain_x', 'wm_chain_post'), ('cable_chain_x', 'boom_2020'), ('cable_chain', 'cable_'),
-    ('wm_zip_', 'cable_'), ('zip_tie_', 'cable_'), ('cable_wrist_', 'cable_wrist_'), ('cable_wrist_stepper', 'wm_nema11'), ('cable_wrist_servo', 'wm_servo_case'),
+    ('wm_zip_', 'cable_'), ('zip_tie_', 'cable_'), ('cable_wrist_', 'cable_wrist_'), ('cable_wrist_stepper', 'wm_nema17p'), ('cable_wrist_servo', 'wm_servo_case'),
     ('led_', 'control_panel'), ('estop', 'control_panel'), ('start_button', 'control_panel'), ('header_', 'control_panel'),
     ('header_', 'connector_pcb'), ('standoff', 'perfboard'), ('standoff', 'plywood'),
 ] + [tuple('wm_' + x for x in p) for p in [
     ('servo_tabs', 'wrist_carriage'), ('servo_horn', 'arm_top'), ('servo_spline', 'servo_horn'), ('servo_case', 'servo_spline'),
-    ('brg_AL', 'arm_bottom'), ('brg_BL', 'arm_bottom'), ('brg_BT', 'arm_top'), ('nema11_shaft', 'wrist_hub'), ('nema11_pilot', 'nema11'),
-    ('nema11_shaft', 'nema11_pilot'), ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'), ('servo_case', 'servo_tabs'),
+    ('brg_AL', 'arm_bottom'), ('brg_BL', 'arm_bottom'), ('brg_BT', 'arm_top'), ('nema17p_shaft', 'wrist_hub'), ('nema17p_pilot', 'nema17p'),
+    ('nema17p_shaft', 'nema17p_pilot'), ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'), ('servo_case', 'servo_tabs'),
     ('spacer_AL', 'brg_AL'), ('spacer_BT', 'brg_BT'), ('spacer_BL', 'brg_BL'), ('shim_BT', 'brg_BT'), ('shim_BL', 'brg_BL'),
-    ('shim_AL', 'brg_AL'), ('nema11', 'nema11_shaft'), ('shim_BT', 'end_plate'), ('shim_BL', 'end_plate'), ('spacer_AL', 'wrist_carriage')]]
+    ('shim_AL', 'brg_AL'), ('nema17p', 'nema17p_shaft'), ('shim_BT', 'end_plate'), ('shim_BL', 'end_plate'), ('spacer_AL', 'wrist_carriage')]]
 
 def allowed(a, b):
     for p, q in ALLOWED:
@@ -319,10 +319,10 @@ def lowest_over_field(parts):
 def poses_full():
     out = []
     for PYC in (40.0, 124.0, 208.0, 292.0, 376.0):
-        for PXB in (292.0, 328.0, 364.0, 400.0, 435.0):
+        for PXB in (287.0, 323.0, 359.0, 395.0, 430.0):
             for h in (5.0, 40.0):
                 out.append((PYC, PXB, h, 90.0 if h == 5.0 else 0.0))
-    out += [(376.0, 435.0, 22.5, 180.0), (40.0, 292.0, 22.5, -180.0), (40.0, 435.0, 5.0, 180.0), (376.0, 292.0, 40.0, -90.0)]
+    out += [(376.0, 430.0, 22.5, 180.0), (40.0, 287.0, 22.5, -180.0), (40.0, 430.0, 5.0, 180.0), (376.0, 287.0, 40.0, -90.0)]
     return out
 
 if __name__ == '__main__':
@@ -352,7 +352,7 @@ if __name__ == '__main__':
     R['fastener_engagement_problems'] = bad or 'none'
     R['fastener_engagement'] = eng
     fsweep = {}
-    fposes = [p for p in poses if p[0] in (40.0, 376.0) and p[1] in (292.0, 435.0)] + poses[-4:]
+    fposes = [p for p in poses if p[0] in (40.0, 376.0) and p[1] in F.PXB_RANGE] + poses[-4:]
     for p in fposes:
         hits = fastener_check(world(*p, field=False, fasteners=True), only_moving=True)
         if hits:
@@ -364,7 +364,7 @@ if __name__ == '__main__':
     R['detailed_static_park'] = collisions(wd) or 'none'
     R['detailed_fastener_clips'] = fastener_check(wd) or 'none'
     dsweep = {}
-    for p in [(40.0, 292.0, 5.0, 90.0), (40.0, 292.0, 40.0, 0.0), (376.0, 435.0, 5.0, 180.0), (376.0, 435.0, 40.0, -90.0)]:
+    for p in [(40.0, 287.0, 5.0, 90.0), (40.0, 287.0, 40.0, 0.0), (376.0, 430.0, 5.0, 180.0), (376.0, 430.0, 40.0, -90.0)]:
         hits = collisions(world(*p, field=False, detail=True), only_moving=True)
         if hits:
             dsweep[str(p)] = hits

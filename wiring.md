@@ -41,7 +41,7 @@ octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop li
 | 15 / 16 | UART2 TX / RX -> TMC2209 PDN_UART bus | 1 k from TX to the bus, RX direct; driver addresses 0..3 set with MS1/MS2 |
 | 4 / 5 | X STEP / DIR | step pulses from the RMT or MCPWM peripheral |
 | 6 / 7 | Y STEP / DIR | |
-| 8 / 9 | Wrist STEP / DIR | NEMA11 |
+| 8 / 9 | Wrist STEP / DIR | wrist NEMA17 pancake 17HS4023S |
 | 11 / 12 | Spare driver STEP / DIR | 4th TMC2209, fitted as a spare |
 | 13 | EN, all drivers (low = on) | 10 k pull-up to 3V3, so the drivers stay off while the ESP32 boots |
 | 14 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series; servo powered from the 6 V rail |
@@ -65,7 +65,7 @@ Connector pins on the panel (2.54 mm female headers):
 
 | Harness | From -> to | Conductors | Wire |
 |---|---|---|---|
-| `cable_wrist_bundle` | wrist devices -> up the chain post -> X chain | servo 3, NEMA11 4, magnet 2 = 9, plus the camera's USB cable | 0.14-0.25 mm2 (AWG26-24) silicone; servo leads as supplied |
+| `cable_wrist_bundle` | wrist devices -> up the chain post -> X chain | servo 3, wrist stepper 4, magnet 2 = 9, plus the camera's USB cable | 0.14-0.25 mm2 (AWG26-24) silicone; servo leads as supplied |
 | inside `cable_chain_x` | X chain, moving end -> fixed end | same 9 + USB | |
 | `cable_ycar_bundle` | X chain fixed end -> down the post (-y face) -> Y chain moving end | same 9 + USB | zip ties round the post and through the carriage |
 | `cable_x_motor` | X motor -> Y chain moving end | 4 | AWG24, 4-core |
@@ -81,8 +81,8 @@ Inside the wrist module (drawn, rebuilt for every lift pose):
 
 | Harness | From -> to | Ties |
 |---|---|---|
-| `cable_wrist_camera` | camera board -> up through the shelf hole -> along the shelf's +y edge -> junction J beside the stepper | 1 on the shelf (`wm_zip_camera`) |
-| `cable_wrist_stepper` | NEMA11 (+y side; VERIFY where the leads leave the motor) -> J | - |
+| `cable_wrist_camera` | camera board -> up through the shelf hole -> tied on the shelf -> up beside the stepper's +x side -> over the motor top -> junction J beside the end plate | 1 on the shelf (`wm_zip_camera`) |
+| `cable_wrist_stepper` | NEMA17 pancake: plug-in 4-wire cable in its 6-pin JST-PH socket, socket turned to +x (VERIFY which side yours has) -> up and over the motor top -> J | - |
 | `cable_wrist_harness` | J -> up the end plate's +y face between the pivot nuts -> over its top edge -> along the top arm's upper edge -> off the arm beyond the carriage plate -> under the X block -> `cable_wrist_bundle` | end plate (`wm_zip_end_plate`), 2 round the top arm's upper web through its lightening slot (`wm_zip_arm_1/2`) |
 | `cable_wrist_servo` | servo (far end of the case; VERIFY lead exit) -> up beside the case -> under the carriage plate -> bundle | 1 through the carriage plate (`wm_zip_servo`) |
 
@@ -105,8 +105,8 @@ switches, XT60 on the power input. Unplugging the wrist module is then one plug 
 |---|---|---|---|---|
 | 0 | X 17HS16-2004S1 | 0.9 A | 16 | StealthChop |
 | 1 | Y 17HS16-2004S1 | 0.9 A | 16 | StealthChop |
-| 2 | Wrist 11HS12-0674S | 0.45 A | 16 | StealthChop |
+| 2 | Wrist 17HS4023S (NEMA17 pancake, rated 0.7 A) | 0.6 A | 16 | StealthChop |
 | 3 | spare | off | | |
 
 At 16 microsteps a GT2 20T pulley gives 80 steps per mm; 100 mm/s is 8 kHz step rate, easy for the ESP32-S3's RMT / MCPWM step generation.
-The currents are about half the rated values: the load is tiny and the motors stay cool on the battery.
+The X/Y currents are about half the rated values: the load is tiny and the motors stay cool on the battery. The wrist pancake runs at 0.6 A (rated 0.7): it is a small motor, so it needs most of its current for its ~13 N cm.

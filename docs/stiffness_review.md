@@ -63,7 +63,7 @@ prevents it:
 - a slack belt: tension as above, re-check after the first hour of running (PETG and the belt settle);
 - missed steps (a crash): homing every run, StallGuard can detect it.
 The MG996R's gear play (about 1 deg, VERIFY on yours) moves the magnet only up and down by about 1.4 mm; the parallelogram keeps it
-level and it lands on the checker anyway. The wrist rotation is direct-drive (NEMA11 on a D-shaft), no gear play.
+level and it lands on the checker anyway. The wrist rotation is direct-drive (NEMA17 pancake on a D-shaft since v2.8; was a NEMA11), no gear play.
 
 ## Ready-made parts looked at
 | Option | Verdict |

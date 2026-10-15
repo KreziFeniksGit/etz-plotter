@@ -24,6 +24,9 @@ import frame as F
 import wrist_module as W
 
 OUT = os.path.join(HERE, 'out', 'fea')
+if not OUT.isascii():                     # gmsh / CalculiX cannot open non-ASCII paths (e.g. 'Рабочий стол' on Windows)
+    import tempfile
+    OUT = os.path.join(tempfile.gettempdir(), 'etz_fea')
 os.makedirs(OUT, exist_ok=True)
 FCBIN = os.path.dirname(sys.executable)
 EXE = '.exe' if os.name == 'nt' else ''
@@ -204,7 +207,7 @@ def case_x_idler():
 
 _CARRIED = None
 def carried():
-    """mass and centre of mass of everything the post carries (worst reach: X at 435, magnet low)"""
+    """mass and centre of mass of everything the post carries (worst reach: X at its far end, magnet low)"""
     global _CARRIED
     if _CARRIED is None:
         import stability as S

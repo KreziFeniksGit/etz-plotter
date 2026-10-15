@@ -121,31 +121,31 @@
   "held_nodes": 570,
   "body_nodes": 3173,
   "force_N": [
-   2.69,
-   2.69,
-   -13.21
+   2.76,
+   2.76,
+   -13.53
   ],
   "moment_Nmm": [
-   -398.9,
-   1950.4,
-   316.3
+   -399.0,
+   2048.7,
+   336.3
   ],
-  "move_mm": 0.001,
+  "move_mm": 0.0011,
   "disp_mm": [
    0.0009,
-   -0.0,
-   0.0005
+   -0.0001,
+   0.0006
   ],
-  "tilt_deg": 0.017,
-  "max_von_mises_MPa": 3.02,
+  "tilt_deg": 0.018,
+  "max_von_mises_MPa": 3.15,
   "move_after_creep_x2_mm": 0.002,
   "magnet_disp_mm": [
-   -0.0188,
-   0.016,
-   -0.1007
+   -0.0197,
+   0.0172,
+   -0.1056
   ],
-  "magnet_move_mm": 0.1037,
-  "carried_kg": 1.346,
+  "magnet_move_mm": 0.1088,
+  "carried_kg": 1.38,
   "ok": true
  }
 }

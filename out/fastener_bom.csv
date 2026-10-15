@@ -11,21 +11,20 @@ M4 x 20 ISO 4762,2,"B pivots: washer, spacer, bearing, shim, end plate, nyloc"
 M4 washer ISO 7089 (9 x 0.8),2,"B pivots: washer, spacer, bearing, shim, end plate, nyloc"
 M3 x 10 ISO 7380,3,"top arm to the horn arm (M3 tapped hole at r 24, VERIFY); X chain fixed end link on the boom top"
 M3 x 6 ISO 7380,6,horn centre screw into the servo spline; magnet on the hub (magnet thread depth VERIFY); board on the standoff
-M2.5 x 6 ISO 7380,4,"NEMA11 from below (motor thread depth VERIFY, about 2.5)"
-M2 x 12 pan head,4,"camera board, nut under the board"
-M2 hex ISO 4032 nut,4,"camera board, nut under the board"
+M3 x 8 ISO 7380,4,"wrist stepper (NEMA17 pancake) from below (motor thread depth VERIFY, about 4.5)"
+M2 x 6 pan head,6,"camera board, M2 self-tapping from below into the shelf posts; connector board, M2 self-tapping"
 M3 x 12 ISO 4762,2,X chain moving end link on the chain post
 M3 hex ISO 4032 nut,6,"X chain moving end link on the chain post; Y chain moving end link, nut under the carriage; X belt tension: pushes the idler slider toward +x; hex nut locks it on the lug; Y belt tension: pushes the idler slider toward -y; hex nut locks it on the lug"
 M3 x 8 ISO 4762,30,"Y carriage to the Y block, heads sunk 5; X rail to the boom (bottom slot); Y rail to the beam (top slot)"
 M5 x 10 ISO 4762,4,"post in its socket, T-nut in the post slot"
-M5 drop-in T-nut for 2020 (6 mm slot),16,"post in its socket, T-nut in the post slot; X motor mount to the post (+y slot), heads in the counterbore; X motor mount cheek to the post (-x slot); corner bracket; Y beam through plywood and riser, from below"
+M5 drop-in T-nut for 2020 V-slot (6 mm slot),16,"post in its socket, T-nut in the post slot; X motor mount to the post (+y slot), heads in the counterbore; X motor mount cheek to the post (-x slot); corner bracket; Y beam through plywood and riser, from below"
 M3 x 14 ISO 4762,3,Y belt clamp + spacer into the carriage
 M3 x 20 ISO 7380,2,"Y chain moving end link, nut under the carriage"
 M5 x 16 ISO 4762,2,"X motor mount to the post (+y slot), heads in the counterbore"
 M5 x 12 ISO 4762,3,X motor mount cheek to the post (-x slot); X idler bracket into the tapped boom end (tap M5)
 M2 x 10 pan head,4,"X home switch, M2 self-tapping; Y home switch, M2 self-tapping"
 M5 x 8 ISO 7380,4,corner bracket
-M3 drop-in T-nut for 2020 (6 mm slot),28,X rail to the boom (bottom slot); X chain fixed end link on the boom top; Y rail to the beam (top slot)
+M3 drop-in T-nut for 2020 V-slot (6 mm slot),28,X rail to the boom (bottom slot); X chain fixed end link on the boom top; Y rail to the beam (top slot)
 M5 x 30 ISO 7380,1,"X idler axle: head between boom and idler (fit it before the bracket goes on the boom), nyloc outside the slider, snug"
 M5 nyloc ISO 10511 nut,1,"X idler axle: head between boom and idler (fit it before the bracket goes on the boom), nyloc outside the slider, snug"
 M3 x 25 ISO 4762,1,X belt tension: pushes the idler slider toward +x; hex nut locks it on the lug
@@ -38,5 +37,4 @@ M5 x 20 ISO 4762,4,"Y beam through plywood and riser, from below"
 wood screw 3.5x12 (pan head),12,"rubber foot, from below; breadboard tray; battery tray"
 M3 x 16 ISO 10642,4,"standoff from below (countersunk, flush)"
 wood screw 3.5x50 (pan head),4,control panel through its bosses into the plywood
-M2 x 6 pan head,2,"connector board, M2 self-tapping"
 wood screw 3.5x25 (pan head),4,Y chain guide (heads sunk under the chain)

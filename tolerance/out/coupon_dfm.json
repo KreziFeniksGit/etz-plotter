@@ -60,7 +60,7 @@
   "n_sharp": 0
  },
  "tol_D2_press_dbore_pins": {
-  "tests": "D-bore hub on the NEMA11 shaft, post cap pin in the 2020 centre hole",
+  "tests": "D-bore hub on the wrist stepper (NEMA17 pancake) shaft, post cap pin in the 2020 V-slot centre hole",
   "constant": "TOL_PRESS",
   "size_mm": [
    60.5,
@@ -89,23 +89,8 @@
   "steep_overhang_mm2": 0.0,
   "n_sharp": 0
  },
- "tol_E2_nema11": {
-  "tests": "NEMA11 pilot and M2.5 holes",
-  "constant": "TOL_MOTOR",
-  "size_mm": [
-   103.5,
-   40.5,
-   3.0
-  ],
-  "grams_petg_100pct": 10.9,
-  "valid": true,
-  "min_wall": 3.0,
-  "widest_bridge_mm": 0,
-  "steep_overhang_mm2": 0.0,
-  "n_sharp": 0
- },
  "tol_F1_servo_window": {
-  "tests": "DS3218 servo window, gap per side",
+  "tests": "MG996R servo window, gap per side",
   "constant": "TOL_MOVE",
   "size_mm": [
    136.5,
@@ -175,6 +160,21 @@
   "grams_petg_100pct": 13.0,
   "valid": true,
   "min_wall": 4.0,
+  "widest_bridge_mm": 0,
+  "steep_overhang_mm2": 0.0,
+  "n_sharp": 0
+ },
+ "tol_E2_nema17_pancake": {
+  "tests": "wrist NEMA17 pancake (17HS4023S) pilot and M3 holes",
+  "constant": "TOL_MOTOR",
+  "size_mm": [
+   136.5,
+   51.5,
+   3.0
+  ],
+  "grams_petg_100pct": 21.5,
+  "valid": true,
+  "min_wall": 3.0,
   "widest_bridge_mm": 0,
   "steep_overhang_mm2": 0.0,
   "n_sharp": 0

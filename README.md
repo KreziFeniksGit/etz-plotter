@@ -13,6 +13,15 @@ Coordinates: X along the 600 mm side of the polygon, Y along the 500 mm side, Z 
 **Tolerance tests:** `tolerance/` has 11 test coupons (STEP) and `tolerance/README.md` says how to test each one and which
 constant to change. Print them before the real parts.
 
+## V-slot frame and NEMA17 pancake wrist (v2.8)
+- **2020 V-slot** everywhere (Y beam 400, post 130, boom 270): OpenBuilds section, 6 mm slot opening with the V-groove. The drop-in
+  T-nuts, beam riser tongues, rails, socket and Soberizavod slot-6 cast brackets (T01) all still fit; the fastener check passes.
+- **Wrist stepper = NEMA17 pancake 17HS4023S** (42 x 42 x 23, 0.7 A, ~13 N cm, 0.14 kg), on 4x M3x8 from under the shelf.
+  To clear the lower arm and the end plate, the magnet axis moved +5 mm in X (to 110 from the servo axis) and -2.5 mm in Y,
+  so **X travel is now pivot X 287..430** (the magnet still reaches X 397..540). The camera moved to x 147 and screws on from below.
+  Picture: `out/render_wrist_nema17_pancake.png`.
+- Servo lift: 0.23 N m needed with the heavier motor = 21 % of the MG996R's stall torque at 6 V.
+
 ## Stiffness, backlash and open belts (v2.7)
 `docs/stiffness_review.md` has the whole review. FEA of the load-carrying printed parts (`tools/fea.py` -> `out/fea.json`,
 gmsh + CalculiX from FreeCAD): every part now moves its pulley or idler <= 0.04 mm and tilts it <= 0.11 deg under 50 N of belt pull.
@@ -26,7 +35,7 @@ gmsh + CalculiX from FreeCAD): every part now moves its pulley or idler <= 0.04 
 - Print the load parts with 6 walls and >= 50 % infill.
 
 ## Fasteners (v2.2)
-All 133 fasteners are in the model (`Fasteners` in the tree): every screw with its head, nut, washer, heat-set insert or T-nut,
+All 140 fasteners are in the model (`Fasteners` in the tree): every screw with its head, nut, washer, heat-set insert or T-nut,
 341 solids. `out/fastener_bom.csv` is the complete list with quantities. The check (`assembly.py`) found and fixed these:
 - **Rubber feet:** a 3 mm foot cannot hold a screw. Now screw-on feet 20 x 7 mm sit 4 mm deep in pockets under the plywood
   (20 mm Forstner bit) and stick out 3 mm, so nothing else moves. Wood screw 3.5x12 from below.
@@ -58,12 +67,12 @@ Results: no fastener clips any part at rest or in 16 poses against the moving pa
   cross under the beam (at y 60 and y 205) to the electronics board. Before this, nothing could reach the board without crossing the
   Y carriage's path. The post is 10 mm shorter (130 mm), so the boom height is unchanged.
 - The cable bundles are modelled as tubes (`cable_*`), so the collision check sees them.
-- **X travel is now pivot X 292..435** (magnet X 397..540, the cells need 397..537). Park X is 292. Raising the Y axis left the
+- **X travel was pivot X 292..435** (v2.2; 287..430 since v2.8) (magnet X 397..540, the cells need 397..537). Raising the Y axis left the
   wrist carriage 3 mm into the Y carriage at the old minimum (256).
 
 ## Whole-device check (`assembly.py`, results in `out/assembly_review.json`)
 - no clash between any two parts at rest, and no cable passes through a part;
-- no collision in 54 poses: Y 40/124/208/292/376 x X 292/328/364/400/435 x face height 5/40 mm, plus wrist +-90/180, chains and cables included;
+- no collision in 54 poses: Y 40/124/208/292/376 x X 287/323/359/395/430 x face height 5/40 mm, plus wrist +-90/180, chains and cables included;
 - every pose stays inside the 600 x 500 polygon; parked device inside zones 1+2, feet only in zone 1;
 - lowest part over the field at face height 5 mm: camera lens at 29.4 mm (clears a 5-stack);
 - every printed part: walls >= 2.4 mm, no unrounded internal corner, no overhang > 45 deg, widest bridge 9.3 mm, fits 220 x 220.
@@ -98,7 +107,7 @@ Model v2 follows the design rules: parameters at the top of the script, separate
 - `wrist/out/*.step`: the wrist parts in print orientation (the same files are in `out/printed/`). `wrist/out/wrist_module_assembly.step`: the whole module with the bought parts.
 - `wrist/out/review.json`: all review results. `wrist/out/*.png`: renders.
 - `components.csv`: every component of the device, with the reason it was chosen and the data used in the CAD.
-- `vendor/`: real models of bought parts (MG996R, 25T aluminium arm horn, 11HS12-0674S, 17HS16-2004S1; the 684 bearing and MGN12 meshes are kept for reference only). The exported STEP/FCStd use them; the fast checks use simple shapes sized from them, and `assembly.py` also re-checks with the real models (`detailed_*` results).
+- `vendor/`: real models of bought parts (MG996R, 25T aluminium arm horn, 17HS16-2004S1; 11HS12-0674S is no longer used; no model of the 17HS4023S pancake yet; the 684 bearing and MGN12 meshes are kept for reference only). The exported STEP/FCStd use them; the fast checks use simple shapes sized from them, and `assembly.py` also re-checks with the real models (`detailed_*` results).
 
 Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows installer), then
 `freecadcmd -c "exec(open('wrist_module.py').read())"`, or open the file in the FreeCAD GUI with Macro > Macros > Execute.
@@ -117,8 +126,8 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 ## Tolerances used
 | Feature | Size |
 |---|---|
-| M3 / M4 / M2 clearance holes | 3.25 / 4.25 / 2.25 (+0.25) |
-| NEMA11 screw holes, pilot | 2.7, 22.2 (+0.2) |
+| M3 / M4 clearance holes | 3.25 / 4.25 (+0.25); camera M2 self-tapping pilots 1.8 |
+| Wrist NEMA17 pancake screw holes, pilot | 3.2, 22.2 (+0.2) |
 | 684ZZ press seat | 9.12 (+0.12) |
 | D-bore on the stepper shaft | 5.12 with flat at 4.62 (+0.12) |
 | Servo window | case +0.4 per side |
@@ -145,7 +154,7 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 
 Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 
-**Bought parts:** MG996R servo + 25T aluminium arm horn, NEMA11 11HS12-0674S, P20/15 5 V magnet, 3x 684ZZ, 3x nylon spacer 4.2x7x3, 3x shim 4.2x7x0.8, camera, 10x Ruthex M3x5.7.
+**Bought parts:** MG996R servo + 25T aluminium arm horn, NEMA17 pancake 17HS4023S, P20/15 5 V magnet, 3x 684ZZ, 3x nylon spacer 4.2x7x3, 3x shim 4.2x7x0.8, camera, 10x Ruthex M3x5.7.
 
 **Screws:**
 - 4x M3x6 ISO4762: carriage to the rail block.
@@ -154,8 +163,8 @@ Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 - 2x M4x20 ISO4762 + washer + nyloc: B pivots.
 - 2x M3x10: belt riser. 2x M3x10: chain post. 2x M3x8: belt clamp. 2x M3x12 + nut: X chain end on the post.
 - 2x M3x10: shelf to end plate.
-- 4x M2.5x6 ISO7380: NEMA11.
-- 4x M2x12 + nut: camera.
+- 4x M3x8 ISO7380: wrist NEMA17 pancake, from below the shelf.
+- 4x M2x6 self-tapping (pan head): camera board, from below into the shelf posts.
 - 1x M3x6 or M3x8 ISO7380: magnet. Use the length that suits the magnet's thread depth.
 - 1x M3x10 ISO7380: top arm to the horn (r 24 hole, tapped M3 in the horn: VERIFY).
 
@@ -167,10 +176,10 @@ Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 5. Press the bearings into both arms from the end-plate side (flush).
 6. Set the servo to its centre pulse (1500 us), fit the horn with the arm level, and screw the top arm to it.
 7. Lower pivot A: M4x30 from the servo side, through the boss, spacer, bearing, shim and nyloc. Snug only: the arm must swing freely.
-8. Screw the shelf to the end plate (2x M3x10 from below). Mount the NEMA11 (4x M2.5x6 from below) and the camera.
+8. Screw the shelf to the end plate (2x M3x10 from below). Mount the NEMA17 pancake (4x M3x8 from below, connector toward +x, away from the end plate) and the camera (4x M2x6 self-tapping from below).
 9. B pivots: M4x20 with washer and spacer from the arm side, then bearing, shim, end plate and nyloc.
 10. Press the hub onto the stepper shaft (D flat aligned), with the magnet screw already inside it, then screw on the electromagnet.
 11. Route the cables (see wiring.md): camera cable tie on the shelf, the harness tie on the end plate, two ties round the top arm, servo lead to the bundle, two ties on the chain post.
 
 ## Measure before printing (marked VERIFY in the script)
-Servo (MG996R, taken from a third-party STEP model): tab face to cover top, case height, spline centre to case end, tab hole spacing (48.4), horn face height, horn screw hole thread. Magnet: thread depth. Camera: board size and hole spacing. Enter the measured values at the top of `wrist_module.py`; everything else follows.
+Wrist stepper 17HS4023S: body height (23), shaft length (20..24; the hub takes up to 23), screw thread depth (4.5), which side the connector is on. Servo (MG996R, taken from a third-party STEP model): tab face to cover top, case height, spline centre to case end, tab hole spacing (48.4), horn face height, horn screw hole thread. Magnet: thread depth. Camera: board size and hole spacing. Enter the measured values at the top of `wrist_module.py`; everything else follows.

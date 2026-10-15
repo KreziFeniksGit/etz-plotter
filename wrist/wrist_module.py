@@ -81,13 +81,14 @@ HORN_SCREW_R = 24.0
 BRG_ID, BRG_OD, BRG_W = 4.0, 9.0, 4.0
 SPACER_OD, SPACER_L = 7.0, 3.0      # nylon round spacer 4.2 x 7 x 3 (reaches the inner ring through the arm shoulder)
 SHIM_OD, SHIM_T = 7.0, 0.8          # shim washer 4.2 x 7 x 0.8 between inner ring and end plate
-# StepperOnline 11HS12-0674S (NEMA11, 28 x 28 x 31.5)
-N11_SQ, N11_LEN = 28.2, 31.5
-N11_HOLE_PITCH, N11_HOLE = 23.0, 2.5
-N11_PILOT_D, N11_PILOT_H = 22.0, 2.0
-N11_SHAFT_D, N11_SHAFT_FLAT, N11_SHAFT_LEN = 5.0, 4.5, 20.0
-N11_LEAD_BOSS = (12.0, 3.0, 22.5, 29.5)   # leads leave a boss on one side near the rear (vendor/11HS12-0674S.step): width, height, z from..to above the face
-N11_LEAD_Z = 27.1                        # lead height above the mounting face
+# NEMA17 pancake 17HS4023S (42 x 42 x 23; replaced the NEMA11 11HS12-0674S, Egor 15 Oct). Datasheet values,
+# sellers differ: VERIFY body height, shaft length, thread depth and the connector side with calipers.
+N17P_SQ, N17P_LEN = 42.3, 23.0
+N17P_CORNER_R = 2.5                      # rounded/chamfered body corners
+N17P_HOLE_PITCH, N17P_HOLE = 31.0, 3.0   # M3 on a 31 mm square, thread depth about 4.5 (VERIFY)
+N17P_PILOT_D, N17P_PILOT_H = 22.0, 2.0
+N17P_SHAFT_D, N17P_SHAFT_FLAT, N17P_SHAFT_LEN = 5.0, 4.5, 20.0   # D-shaft; listings say 20..24 (VERIFY: the hub takes 18..22.5)
+N17P_CONN = (16.0, 6.0, 9.0, 16.0)       # 6-pin JST-PH socket on the +x side face: width, out from the face, z from..to above the mounting face (VERIFY)
 # electromagnet P20/15, 5 V, M3 thread on top
 MAG_D, MAG_H = 20.0, 15.0
 # camera board (your choice; change to match it)
@@ -106,8 +107,9 @@ R_ARM = 80.0                    # parallelogram arm length
 Z_PIVOT_TOP, Z_PIVOT_BOT = 117.0, 77.0
 H_MID = 22.5                    # magnet face height with the arms level
 H_MIN, H_MAX = 5.0, 40.0        # single checker on the field .. carry height over a 5-stack
-MAG_X, MAG_Y = 105.0, 21.0      # magnet axis relative to pivot A
-CAM_X = 141.0
+MAG_X, MAG_Y = 110.0, 18.5      # magnet axis relative to pivot A. x 110: the 42 mm pancake motor clears the lower arm's
+                                # B boss (x <= 87.5); y 18.5: its +y side stays at y < 40 (parked inside zone 2)
+CAM_X = 147.0                     # camera posts clear the motor screw heads under the shelf (x 125.5)
 
 # carriage plate (top face = block mounting face)
 CP_T = 6.0
@@ -140,12 +142,12 @@ WASHER_T = 0.8                  # M4 washer between arm and end plate = moving g
 EP_Y0 = ARM_Y1 + WASHER_T
 EP_T = 5.0
 EP_Y1 = EP_Y0 + EP_T
-EP_X0, EP_X1 = 70.0, 90.0
+EP_X0, EP_X1 = 70.0, 87.0          # 87: 1.85 mm clear of the pancake motor (x 88.85)
 SH_T = 4.0
 Z_SH1 = 67.5                    # shelf top = wrist stepper mounting face
 Z_SH0 = Z_SH1 - SH_T
-SH_X0, SH_X1 = 58.0, 161.0
-SH_Y0, SH_Y1 = 3.0, 39.0
+SH_X0, SH_X1 = 58.0, 168.0
+SH_Y0, SH_Y1 = -3.0, 39.0         # the pancake motor spans y -2.65..39.65
 FOOT_T = INSERT_DEPTH + 2.5     # foot pad on the -x side of the pivot nut, holds two inserts
 FOOT_X0, FOOT_X1 = 59.0, 75.0     # pivot B nut starts at x 76
 # X belt lower strand (pulley axis z 162, 20T pitch dia 12.73), belt width along y
@@ -533,6 +535,9 @@ def end_plate():
     return cut_all(body, cut)
 
 CAM_POSTS = [(CAM_X + a * CAM_HOLE_PITCH / 2, MAG_Y + b * CAM_HOLE_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
+CAM_POST_H = 4.0                 # posts under the shelf, board screwed to them from below
+CAM_PILOT_DEPTH = 5.5            # blind M2 pilot: leaves 2.5 mm of shelf above it
+MOTOR_HOLES = [(MAG_X + a * N17P_HOLE_PITCH / 2, MAG_Y + b * N17P_HOLE_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
 
 def shelf():
     """Wrist stepper on top, camera below. Prints top face down
@@ -541,15 +546,14 @@ def shelf():
     notch = box(SH_X0 - 1, ARM_Y0 - TOL_MOVE - 0.5, Z_SH0, EP_X1 + 1.0, ARM_Y1 + 0.5, Z_SH1 + 1)   # lower arm clears at full lift
     ny0, ny1 = ARM_Y0 - TOL_MOVE - 0.5, ARM_Y1 + 0.5                            # notch edges
     under = box(76.0, SH_Y0, Z_SH0 - 10.0, 81.0, ny0, Z_SH0).fuse(box(76.0, ny1, Z_SH0 - 10.0, 81.0, SH_Y1, Z_SH0))   # rib under the end plate, flush with the notch
-    posts = [cyl((x, y, Z_SH0), 3.55, -4.0) for x, y in CAM_POSTS]             # 2.4 mm wall around the M2 hole
+    posts = [cyl((x, y, Z_SH0), 3.55, -CAM_POST_H) for x, y in CAM_POSTS]      # 2.4+ mm wall around the M2 pilot
     body = tidy(body.cut(notch).fuse([under] + posts))
     body = fillet_all(body)
-    cut = [cyl((MAG_X, MAG_Y, Z_SH0 - 1), (N11_PILOT_D + TOL_MOTOR) / 2, SH_T + 2)]
-    for a in (-1, 1):
-        for b in (-1, 1):
-            cut.append(cyl((MAG_X + a * N11_HOLE_PITCH / 2, MAG_Y + b * N11_HOLE_PITCH / 2, Z_SH0 - 1), (N11_HOLE + TOL_MOTOR) / 2, SH_T + 2))
-    for x, y in CAM_POSTS:
-        cut.append(cyl((x, y, Z_SH0 - 5), (CAM_HOLE + TOL_BOLT) / 2, SH_T + 7))
+    cut = [cyl((MAG_X, MAG_Y, Z_SH0 - 1), (N17P_PILOT_D + TOL_MOTOR) / 2, SH_T + 2)]
+    for x, y in MOTOR_HOLES:
+        cut.append(cyl((x, y, Z_SH0 - 1), (N17P_HOLE + TOL_MOTOR) / 2, SH_T + 2))
+    for x, y in CAM_POSTS:                                                     # M2 self-tapping from below, blind (the motor sits above)
+        cut.append(cyl((x, y, Z_SH0 - CAM_POST_H - 0.01), M2_PILOT / 2, CAM_PILOT_DEPTH))
     cut.append(cyl((CAM_X, MAG_Y, Z_SH0 - 1), 5.0, SH_T + 2))                  # camera cable pass
     for x, y in FOOT_SCREWS:
         cut.append(cyl((x, y, Z_SH0 - 1), bolt(3) / 2, SH_T + 2))
@@ -559,13 +563,14 @@ def shelf():
 def wrist_hub():
     """D-bore press fit on the stepper shaft; the magnet hangs on one M3 screw.
     No home sensor (Egor, 12 Oct): the wrist angle counts from where it is at power-up."""
-    z0, z1 = H_MID + MAG_H, Z_SH1 - N11_SHAFT_LEN + 12.5
+    z0, z1 = H_MID + MAG_H, Z_SH1 - N17P_SHAFT_LEN + 12.5      # 12.5 mm of shaft in the hub
+    assert Z_SH1 - N17P_SHAFT_LEN >= z0 + 7.0, 'shaft too long for the hub: it would reach the magnet screw'
     body = cyl((MAG_X, MAG_Y, z0), 7.0, z1 - z0)
     body = fillet_all(body, r_out=0.6, min_len=2.0)
     cut = [cyl((MAG_X, MAG_Y, z0 - 1), bolt(3) / 2, 4.0),
            cyl((MAG_X, MAG_Y, z0 + 2.5), (5.5 + 2 * TOL_MOVE) / 2, 4.0)]
-    bore = cyl((MAG_X, MAG_Y, z0 + 6.5), (N11_SHAFT_D + TOL_PRESS) / 2, z1 - z0)
-    flat = box(MAG_X + (N11_SHAFT_FLAT - N11_SHAFT_D / 2) + TOL_PRESS / 2, MAG_Y - 4, z0 + 6.4, MAG_X + 4, MAG_Y + 4, z1 + 1)
+    bore = cyl((MAG_X, MAG_Y, z0 + 6.5), (N17P_SHAFT_D + TOL_PRESS) / 2, z1 - z0)
+    flat = box(MAG_X + (N17P_SHAFT_FLAT - N17P_SHAFT_D / 2) + TOL_PRESS / 2, MAG_Y - 4, z0 + 6.4, MAG_X + 4, MAG_Y + 4, z1 + 1)
     cut.append(bore.cut(flat))
     return cut_all(body, cut)
 
@@ -603,18 +608,22 @@ def arm_harness_point(x):
 # frame/cables.py. The leads meet at J beside the stepper, the bundle climbs the end plate's +y face between the
 # pivot nuts, crosses its top edge, rides the top arm's upper edge (2 ties), leaves the arm beyond the carriage
 # plate and passes under the X block to the chain post bundle. Magnet leads (they turn with the wrist) are not drawn.
-J = (84.0, 36.5, 84.0)                         # junction; everything stays at y < 39.9 (parked inside zone 2)
+J = (80.0, 35.4, 94.0)                         # junction beside the end plate, above the motor top; everything stays at y < 39.9 (parked inside zone 2)
+MOTOR_TOP = Z_SH1 + N17P_LEN
 def harness_paths():
     E, A, X = 'end', 'armT', 'xcar'
+    cx = MAG_X + N17P_SQ / 2 + N17P_CONN[1]           # outer face of the motor connector
     return {
-        'cable_wrist_harness': (HARNESS_D, [(E, J), (E, (80.0, 35.4, 90.0)), (E, (80.0, 35.4, 106.0)), (E, (87.5, 35.4, 113.0)),
+        'cable_wrist_harness': (HARNESS_D, [(E, J), (E, (80.0, 35.4, 106.0)), (E, (87.5, 35.4, 113.0)),
                                             (E, (87.5, 35.4, 132.0)), (E, (82.0, 29.6, 133.5)),
                                             (A, tuple(arm_harness_point(74.0))), (A, tuple(arm_harness_point(32.0))),
                                             (X, (31.7, 8.0, 136.5)), (X, (31.7, -27.6, 136.5)), (X, (13.0, -28.5, 142.0))]),
+        # camera: up through the shelf, tied on it, up beside the motor's +x face and over its top to J
         'cable_wrist_camera': (3.5, [(E, (CAM_X, MAG_Y, 61.3)), (E, (CAM_X, MAG_Y, 69.35)), (E, (CAM_X, 35.5, 69.35)),
-                                     (E, (133.0, 37.1, 71.2)), (E, (92.0, 37.1, 71.2)), (E, J)]),     # over the camera screw head
-        'cable_wrist_stepper': (4.0, [(E, (MAG_X, MAG_Y + N11_SQ / 2 + 1.5, Z_SH1 + N11_LEAD_Z)), (E, (95.0, MAG_Y + N11_SQ / 2 + 2.4, Z_SH1 + 24.0)),
-                                      (E, (89.5, MAG_Y + N11_SQ / 2 + 2.4, 86.0)), (E, J)]),   # leads out of the motor's lead boss (turned to +y)   # VERIFY: lead exit side of the NEMA11
+                                     (E, (cx + 1.0, 36.5, 72.0)), (E, (cx + 1.0, 36.5, MOTOR_TOP + 2.0)), (E, (92.0, 36.5, MOTOR_TOP + 2.0)), (E, J)]),
+        # stepper: plug in the connector on the motor's +x face (VERIFY which side yours has), cable up and over the motor top to J
+        'cable_wrist_stepper': (4.0, [(E, (cx + 2.1, MAG_Y, Z_SH1 + (N17P_CONN[2] + N17P_CONN[3]) / 2)), (E, (cx + 2.0, MAG_Y + 6.0, MOTOR_TOP - 2.0)),
+                                      (E, (cx - 4.0, 30.0, MOTOR_TOP + 2.5)), (E, (95.0, 31.0, MOTOR_TOP + 2.5)), (E, (88.0, 35.4, J[2])), (E, J)]),
     }
 
 def arm_tie(x):
@@ -643,12 +652,13 @@ def bought():
     reach, hw, at = HORN_ARM
     B['servo_horn'] = cyl((0, HORN_FACE_Y - HORN_T, Z_PIVOT_TOP), HORN_HUB_R, HORN_T, 'y').fuse(
         box(0, HORN_FACE_Y - at, Z_PIVOT_TOP - hw, reach, HORN_FACE_Y, Z_PIVOT_TOP + hw)).removeSplitter()   # arm along the top arm
-    B['nema11'] = box(MAG_X - N11_SQ / 2, MAG_Y - N11_SQ / 2, Z_SH1, MAG_X + N11_SQ / 2, MAG_Y + N11_SQ / 2, Z_SH1 + N11_LEN).fuse(
-        box(MAG_X - N11_LEAD_BOSS[0] / 2, MAG_Y + N11_SQ / 2 - 0.01, Z_SH1 + N11_LEAD_BOSS[2], MAG_X + N11_LEAD_BOSS[0] / 2,
-            MAG_Y + N11_SQ / 2 + N11_LEAD_BOSS[1], Z_SH1 + N11_LEAD_BOSS[3])).removeSplitter()   # lead exit boss, turned to +y
-    B['nema11_pilot'] = cyl((MAG_X, MAG_Y, Z_SH1), N11_PILOT_D / 2, -N11_PILOT_H)
-    sh = cyl((MAG_X, MAG_Y, Z_SH1), N11_SHAFT_D / 2, -N11_SHAFT_LEN)
-    B['nema11_shaft'] = sh.cut(box(MAG_X + N11_SHAFT_FLAT - N11_SHAFT_D / 2, MAG_Y - 3, Z_SH1 - N11_SHAFT_LEN - 1, MAG_X + 3, MAG_Y + 3, Z_SH1 + 1))
+    h = N17P_SQ / 2
+    body = rbox(MAG_X - h, MAG_Y - h, Z_SH1, MAG_X + h, MAG_Y + h, Z_SH1 + N17P_LEN, N17P_CORNER_R, 'z')
+    cw, co, cz0, cz1 = N17P_CONN
+    B['nema17p'] = body.fuse(box(MAG_X + h - 0.01, MAG_Y - cw / 2, Z_SH1 + cz0, MAG_X + h + co, MAG_Y + cw / 2, Z_SH1 + cz1)).removeSplitter()   # connector, +x
+    B['nema17p_pilot'] = cyl((MAG_X, MAG_Y, Z_SH1), N17P_PILOT_D / 2, -N17P_PILOT_H)
+    sh = cyl((MAG_X, MAG_Y, Z_SH1), N17P_SHAFT_D / 2, -N17P_SHAFT_LEN)
+    B['nema17p_shaft'] = sh.cut(box(MAG_X + N17P_SHAFT_FLAT - N17P_SHAFT_D / 2, MAG_Y - 3, Z_SH1 - N17P_SHAFT_LEN - 1, MAG_X + 3, MAG_Y + 3, Z_SH1 + 1))
     B['electromagnet'] = cyl((MAG_X, MAG_Y, H_MID), MAG_D / 2, MAG_H)
     B['camera_board'] = box(CAM_X - CAM_BOARD / 2, MAG_Y - CAM_BOARD / 2, Z_SH0 - 4.0 - 1.6, CAM_X + CAM_BOARD / 2, MAG_Y + CAM_BOARD / 2, Z_SH0 - 4.0)
     B['camera_lens'] = cyl((CAM_X, MAG_Y, Z_SH0 - 5.6), CAM_LENS_D / 2, -11.0)
@@ -697,16 +707,12 @@ def detailed():
     D['servo_tabs'] = None
     # horn: vendor y = along the arm, z = up (hub top 3.82 = outer face), x = across
     D['servo_horn'] = placed(vendor('servo_horn_25t_aluminium.step'), ((0, 1, 0), (0, 0, 1), (1, 0, 0)), (0, HORN_FACE_Y - 3.82, Z_PIVOT_TOP))
-    # NEMA11: vendor z up from the mounting face, leads on -y: turned 180 deg so they point +y; body only (leads are drawn as cable)
-    keep = Part.makeBox(28.4, 28.4, 33.0, V(-14.2, -14.2, 0.0)).fuse([Part.makeBox(28.4, 4.0, 33.0, V(-14.2, -18.0, 0.0)),
-                                                                      Part.makeCylinder(N11_PILOT_D / 2 + 0.05, 2.05, V(0, 0, -2.05))])
-    body = vendor('11HS12-0674S.step', [1]).common(keep)          # body, pilot and lead boss (drops a 0.5 mm ring in front of the face that the datasheet does not show)
-    D['nema11'] = placed(body, ((-1, 0, 0), (0, -1, 0), (0, 0, 1)), (MAG_X, MAG_Y, Z_SH1))
+    # wrist stepper 17HS4023S: no vendor model yet (the simple shape is used); drop a STEP in vendor/ and place it here
     return D
 GROUP = {'wrist_carriage': 'xcar', 'x_belt_riser': 'xcar', 'x_belt_clamp': 'xcar', 'chain_post': 'xcar',
          'arm_top': 'armT', 'arm_bottom': 'armB', 'end_plate': 'end', 'shelf': 'end', 'wrist_hub': 'wrist',
          'mgn12h_block': 'xcar', 'servo_case': 'xcar', 'servo_tabs': 'xcar', 'servo_spline': 'armT', 'servo_horn': 'armT',
-         'nema11': 'end', 'nema11_pilot': 'end', 'nema11_shaft': 'wrist', 'electromagnet': 'wrist', 'camera_board': 'end',
+         'nema17p': 'end', 'nema17p_pilot': 'end', 'nema17p_shaft': 'wrist', 'electromagnet': 'wrist', 'camera_board': 'end',
          'camera_lens': 'end', 'brg_AL': 'armB', 'brg_BT': 'armT', 'brg_BL': 'armB', 'x_belt': 'xcar',
          'spacer_AL': 'xcar', 'spacer_BT': 'end', 'spacer_BL': 'end', 'shim_BT': 'end', 'shim_BL': 'end', 'shim_AL': 'xcar'}
 GROUP.update({k: GROUP[spec[0]] for k, spec in ZIPS.items()})
