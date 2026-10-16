@@ -43,13 +43,13 @@ distance you command.
 
 | Bought | Qty |
 |---|---|
-| Plywood 12 mm 250 x 460 + 4 rubber feet | 1 |
+| Plywood 6 mm 250 x 460 + 4 rubber feet 20 x 10 | 1 |
 | 2020 V-slot 400 mm (Y beam) | 1 |
 | MGN12 rail 400 + MGN12H block | 1 |
 | NEMA17 17HS16-2004S1 | 1 |
 | GT2 20T pulley, GT2 20T toothless idler, GT2 6 mm belt ~0.92 m | 1 each |
 | Omron D2F-01L home switch | 1 |
-| Screws: M5x20 + M5 T-nuts (beam), M3x8 + M3 T-nuts (rail), M3x8 (carriage to block), M3x10 (motor), M5x25 + nut (idler axle), M3x16 + nut (tension), M3x14 + inserts (belt clamp), M5x12 (idler bracket, tap the beam end M5), wood screws 4x12 and 3.5x12 | see `out/fastener_bom.csv` |
+| Screws: M5x20 + M5 T-nuts (beam), M3x8 + M3 T-nuts (rail), M3x8 (carriage to block), M3x10 (motor), M5x25 + nut (idler axle), M3x16 + nut (tension), M3x14 + inserts (belt clamp), M5x12 (idler bracket, tap the beam end M5), wood screws 4x10 and 3.5x12 | see `out/fastener_bom.csv` |
 | Test electronics (on the breadboard, loose): ESP32-S3 board, 1x TMC2209, LiPo + 5 A fuse + XT60, 5 V regulator | 1 each |
 
 **Tests:**
@@ -109,7 +109,7 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 | 684ZZ bearings, nylon spacers 4.2x7x3, shim washers 4.2x7x0.8 | 3 each |
 | NEMA17 pancake 17HS4023S | 1 |
 | P20/15 electromagnet 5 V, AO3400 MOSFET, 1N5819 diode | 1 each |
-| Screws: M2x12 + washers + nylocs (servo tabs), M4x30 / M4x20 + nylocs + washers (pivots), M3x8 button (pancake), M3x6 button (horn centre, magnet), M3x10 button (arm to horn), M3x10 + inserts (shelf, chain post) | see `out/fastener_bom.csv` |
+| Screws: M2x8 self-tapping + large washers (servo tabs), M4x30 / M4x20 + nylocs + washers (pivots), M3x8 button (pancake), M3x6 button (horn centre), M3x8 set screw + insert (magnet stud), M3x10 button (arm to horn), M3x10 + inserts (shelf, chain post) | see `out/fastener_bom.csv` |
 | 6 V regulator, 3rd TMC2209 (wrist, 0.6 A) | 1 each |
 | A few test checkers | |
 
@@ -156,7 +156,7 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 | Bought | Qty |
 |---|---|
 | Cable chain 10x15 R18 (X 280 mm, Y 250 mm + end links) | 1 m |
-| M3x12 + nuts, M3x10 button + T-nuts, M3x20 button + nut, wood screws 3.5x25 | |
+| M3x12 + nuts, M3x10 button + T-nuts, M3x20 button + nut, wood screws 3.5x20 | |
 | Zip ties 2.5-3 mm, wires and JST connectors (`wiring.md`) | |
 
 **Tests:**
@@ -169,6 +169,24 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 1. Home, then visit a grid of points over the field (like the 5 x 5 grid in the model checks) and measure the error at each.
 2. Pick-and-place a full task: pick, turn, stack to 5, on battery only, for 30 minutes (battery runtime).
 3. Park check: it parks inside zones 1+2 and stays inside the 600 x 500 polygon.
+
+---
+
+## Order that matters (checked by `tools/assembly_sim.py`)
+The simulation builds the device in this order and checks every part, screw, nut, T-nut and insert can be fitted with
+normal tools (hex keys, a straight hex driver, Phillips stubby / precision drivers, a nut driver or spanner, the iron).
+These are the places where the order is not optional:
+- **Y carriage:** screw it to the Y block (4 screws, down through the notches in the socket) **before the post goes in**.
+- **Y and X idlers:** put the axle, idler and slider together on the bench first, then fit the unit (the X axle head sits between boom and idler).
+- **Rails:** drop the T-nuts in before the rail goes on; slide the block along the rail to reach the screws under it.
+- **Wrist:** screw the bare wrist carriage plate to the X block first (3 screws from below; the 4th block hole is not used: no tool can reach it past the servo plate),
+  then the riser, clamp, chain post, servo, arms, end plate, shelf and motor. Servo: M2 self-tapping screws from the tab side.
+- **Magnet:** melt the insert into the hub bottom, screw the M3x8 set screw in from below (4.5 mm in), spin the magnet on with
+  Loctite 243, then push the hub onto the motor shaft.
+- **Controller:** screw the perfboard to the standoffs, then plug the ESP32 in (it covers a standoff screw).
+- **Control panel:** fit the connector board through the two small windows in the +x wall (precision PH0 driver, 60 mm shaft), then screw the panel down.
+- **Plywood (6 mm):** beam bolts and feet go in from below; tip the board on its side.
+Not simulated: belts, cables, chains and zip ties (flexible, pushed aside by hand).
 
 ---
 

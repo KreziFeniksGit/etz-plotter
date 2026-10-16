@@ -89,26 +89,26 @@
     74.0
    ],
    "fits_220": true,
-   "volume_cm3": 33.07,
-   "mass_g": 25.2,
+   "volume_cm3": 32.86,
+   "mass_g": 25.0,
    "min_wall": 2.5,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 1.8,
+   "widest_bridge_mm": 5.0,
    "bridges": [
     [
-     1.8,
-     7.3,
+     5.0,
+     21.8,
      [
-      20.0,
-      -6.0,
-      7.0
+      0.0,
+      -4.3,
+      38.4
      ]
     ],
     [
      1.8,
-     7.3,
+     1.4,
      [
       -0.0,
       -6.0,
@@ -315,24 +315,14 @@
     22.5
    ],
    "fits_220": true,
-   "volume_cm3": 3.01,
+   "volume_cm3": 3.06,
    "mass_g": 2.3,
-   "min_wall": 2.5,
+   "min_wall": 4.44,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 6.3,
-   "bridges": [
-    [
-     6.3,
-     22.9,
-     [
-      0.0,
-      0.0,
-      20.0
-     ]
-    ]
-   ],
+   "widest_bridge_mm": 0,
+   "bridges": [],
    "sharp_internal_edges": [],
    "n_sharp": 0
   }

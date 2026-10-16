@@ -1,0 +1,12 @@
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+y_motor_mount {"nodes": 38161, "elements": 21598, "held_nodes": 382, "body_nodes": 1942, "force_N": [0.0, -50.0, -2.75], "moment_Nmm": [0.0, -100.3, 0.0], "move_mm": 0.0109, "disp_mm": [-0.0009, -0.0109, 0.0005], "tilt_deg": 0.014, "max_von_mises_MPa": 1.35, "move_after_creep_x2_mm": 0.022, "ok": true}
+x_motor_mount {"nodes": 61358, "elements": 36007, "held_nodes": 312, "body_nodes": 2123, "force_N": [50.0, 0.56, -2.75], "moment_Nmm": [-94.8, 0.0, 0.0], "move_mm": 0.0123, "disp_mm": [0.0096, -0.0077, -0.0003], "tilt_deg": 0.027, "max_von_mises_MPa": 1.21, "move_after_creep_x2_mm": 0.025, "ok": true}
+y_idler_bracket {"nodes": 29840, "elements": 16635, "held_nodes": 252, "body_nodes": 843, "force_N": [0.0, 50.0, 0.0], "moment_Nmm": [0.0, 0.0, 0.0], "move_mm": 0.0347, "disp_mm": [0.0012, 0.0347, 0.0019], "tilt_deg": 0.033, "max_von_mises_MPa": 3.56, "move_after_creep_x2_mm": 0.069, "ok": true}
+x_idler_bracket {"nodes": 25302, "elements": 14850, "held_nodes": 79, "body_nodes": 431, "force_N": [-50.0, 0.0, 0.0], "moment_Nmm": [0.0, 0.0, 0.0], "move_mm": 0.0392, "disp_mm": [-0.0391, 0.001, 0.0018], "tilt_deg": 0.11, "max_von_mises_MPa": 6.48, "move_after_creep_x2_mm": 0.078, "ok": true}
+y_carriage {"nodes": 79946, "elements": 49038, "held_nodes": 570, "body_nodes": 2774, "force_N": [2.75, 2.75, -13.51], "moment_Nmm": [-398.3, 2043.4, 335.4], "move_mm": 0.001, "disp_mm": [0.0009, -0.0001, 0.0006], "tilt_deg": 0.018, "max_von_mises_MPa": 3.17, "move_after_creep_x2_mm": 0.002, "magnet_disp_mm": [-0.0194, 0.0173, -0.1039], "magnet_move_mm": 0.1071, "carried_kg": 1.377, "ok": true}
+all ok

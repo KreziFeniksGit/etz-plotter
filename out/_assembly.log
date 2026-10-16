@@ -1,0 +1,62 @@
+{
+ "static_park": {},
+ "cable_paths_through_parts": "none",
+ "footprint_parked_outside_zones": "none",
+ "fasteners_count": 139,
+ "fastener_clips_at_rest": "none",
+ "fastener_engagement_problems": "none",
+ "fastener_sweep_poses": 16,
+ "fastener_sweep": "none",
+ "detailed_static_park": "none",
+ "detailed_fastener_clips": "none",
+ "detailed_sweep": "none",
+ "sweep_poses": 54,
+ "sweep": "none",
+ "worst_outside_polygon_mm": [
+  [
+   0.0,
+   "plywood_base"
+  ],
+  [
+   376.0,
+   430.0,
+   40.0,
+   0.0
+  ]
+ ],
+ "lowest_over_field_h5": [
+  [
+   29.4,
+   "wm_camera_lens"
+  ],
+  [
+   124.0,
+   287.0,
+   5.0,
+   90.0
+  ]
+ ],
+ "x_chain_bend_x": [
+  392.7,
+  464.2
+ ],
+ "y_chain_bend_y": [
+  249.7,
+  417.7
+ ]
+}
+y_beam_riser_40    size [24.0, 24.0, 11.8] min_wall 5.2 thin 0 bridge 0 overhang 0.0 sharp 0
+y_motor_mount      size [44.0, 54.0, 55.5] min_wall 4.06 thin 0 bridge 0 overhang 0.0 sharp 0
+y_idler_bracket    size [94.0, 40.0, 42.0] min_wall 2.4 thin 0 bridge 3.5 overhang 0.0 sharp 0
+y_idler_slider     size [19.0, 17.0, 5.0] min_wall 5.0 thin 0 bridge 0 overhang 0.0 sharp 0
+y_carriage         size [80.8, 60.8, 35.0] min_wall 2.73 thin 0 bridge 4.0 overhang 0.0 sharp 0
+y_belt_spacer      size [16.0, 30.0, 4.4] min_wall 2.99 thin 0 bridge 0 overhang 0.0 sharp 0
+y_belt_clamp       size [16.0, 30.0, 3.5] min_wall 2.99 thin 0 bridge 0 overhang 0.0 sharp 0
+post_cap           size [21.0, 21.0, 10.0] min_wall 4.0 thin 0 bridge 0 overhang 0.0 sharp 0
+x_motor_mount      size [69.0, 70.0, 41.5] min_wall 2.68 thin 0 bridge 9.3 overhang 0.0 sharp 0
+x_idler_bracket    size [32.0, 48.0, 49.0] min_wall 2.73 thin 0 bridge 9.3 overhang 0.0 sharp 0
+x_idler_slider     size [14.0, 19.0, 9.0] min_wall 2.5 thin 0 bridge 0 overhang 0.0 sharp 0
+y_chain_guide      size [38.0, 208.0, 25.0] min_wall 2.4 thin 0 bridge 7.0 overhang 0.0 sharp 0
+control_panel      size [66.0, 96.0, 40.0] min_wall 2.78 thin 0 bridge 3.0 overhang 0.0 sharp 0
+breadboard_tray    size [89.1, 81.5, 9.0] min_wall 2.4 thin 0 bridge 0 overhang 0.0 sharp 0
+battery_tray       size [63.6, 113.6, 12.4] min_wall 2.4 thin 0 bridge 0 overhang 0.0 sharp 0

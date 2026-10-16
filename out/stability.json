@@ -9,55 +9,55 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 4.14,
+    "mass_kg": 3.655,
     "com": [
-     224.2,
-     179.7,
-     66.6
+     225.5,
+     172.4,
+     74.5
     ],
     "-x": {
-     "static_margin_mm": 124.2,
-     "tips_at_m_s2": 88.4,
-     "safety_at_design_acc": 44.2
+     "static_margin_mm": 125.5,
+     "tips_at_m_s2": 79.3,
+     "safety_at_design_acc": 39.6
     },
     "+x": {
-     "static_margin_mm": 105.8,
-     "tips_at_m_s2": 75.3,
-     "safety_at_design_acc": 37.6
+     "static_margin_mm": 104.5,
+     "tips_at_m_s2": 66.0,
+     "safety_at_design_acc": 33.0
     },
     "-y": {
-     "static_margin_mm": 157.7,
-     "tips_at_m_s2": 31.1,
-     "safety_at_design_acc": 15.5
+     "static_margin_mm": 150.4,
+     "tips_at_m_s2": 26.2,
+     "safety_at_design_acc": 13.1
     },
     "+y": {
-     "static_margin_mm": 278.3,
-     "tips_at_m_s2": 54.9,
-     "safety_at_design_acc": 27.4
+     "static_margin_mm": 285.6,
+     "tips_at_m_s2": 49.8,
+     "safety_at_design_acc": 24.9
     }
    },
    "rails": {
     "y_block": {
-     "mass_kg": 1.513,
-     "MR_roll_Nm": 1.13,
+     "mass_kg": 1.511,
+     "MR_roll_Nm": 1.12,
      "MP_pitch_Nm": 0.46,
      "MY_yaw_Nm": 0.23
     },
     "x_block": {
-     "mass_kg": 0.455,
+     "mass_kg": 0.453,
      "MR_roll_Nm": 0.05,
      "MP_pitch_Nm": 0.28,
      "MY_yaw_Nm": 0.01
     },
-    "worst_Nm": 1.13,
-    "margin_vs_37_5": 33.2
+    "worst_Nm": 1.12,
+    "margin_vs_37_5": 33.5
    },
    "deflection": {
-    "load_kg": 0.496,
+    "load_kg": 0.493,
     "boom_sag_mm": 0.02,
     "post_tilt_sag_mm": 0.024,
     "total_profile_sag_mm": 0.044,
-    "boom_side_flex_at_design_acc_mm": 0.0016
+    "boom_side_flex_at_design_acc_mm": 0.0017
    }
   },
   {
@@ -68,42 +68,42 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 4.14,
+    "mass_kg": 3.655,
     "com": [
-     240.4,
-     303.9,
-     64.2
+     243.7,
+     313.0,
+     71.8
     ],
     "-x": {
-     "static_margin_mm": 140.4,
-     "tips_at_m_s2": 118.7,
-     "safety_at_design_acc": 59.3
+     "static_margin_mm": 143.7,
+     "tips_at_m_s2": 108.0,
+     "safety_at_design_acc": 54.0
     },
     "+x": {
-     "static_margin_mm": 89.6,
-     "tips_at_m_s2": 75.8,
-     "safety_at_design_acc": 37.9
+     "static_margin_mm": 86.3,
+     "tips_at_m_s2": 64.9,
+     "safety_at_design_acc": 32.4
     },
     "-y": {
-     "static_margin_mm": 281.9,
-     "tips_at_m_s2": 58.4,
-     "safety_at_design_acc": 29.2
+     "static_margin_mm": 291.0,
+     "tips_at_m_s2": 53.3,
+     "safety_at_design_acc": 26.6
     },
     "+y": {
-     "static_margin_mm": 154.1,
-     "tips_at_m_s2": 31.9,
-     "safety_at_design_acc": 16.0
+     "static_margin_mm": 145.0,
+     "tips_at_m_s2": 26.6,
+     "safety_at_design_acc": 13.3
     }
    },
    "rails": {
     "y_block": {
-     "mass_kg": 1.513,
+     "mass_kg": 1.511,
      "MR_roll_Nm": 1.78,
      "MP_pitch_Nm": 0.44,
      "MY_yaw_Nm": 0.36
     },
     "x_block": {
-     "mass_kg": 0.455,
+     "mass_kg": 0.453,
      "MR_roll_Nm": 0.05,
      "MP_pitch_Nm": 0.3,
      "MY_yaw_Nm": 0.01
@@ -112,10 +112,10 @@
     "margin_vs_37_5": 21.1
    },
    "deflection": {
-    "load_kg": 0.496,
-    "boom_sag_mm": 0.096,
+    "load_kg": 0.493,
+    "boom_sag_mm": 0.095,
     "post_tilt_sag_mm": 0.073,
-    "total_profile_sag_mm": 0.169,
+    "total_profile_sag_mm": 0.168,
     "boom_side_flex_at_design_acc_mm": 0.0134
    }
   },
@@ -127,42 +127,42 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 4.14,
+    "mass_kg": 3.655,
     "com": [
-     240.4,
-     179.7,
-     64.4
+     243.7,
+     172.4,
+     72.1
     ],
     "-x": {
-     "static_margin_mm": 140.4,
-     "tips_at_m_s2": 118.7,
-     "safety_at_design_acc": 59.3
+     "static_margin_mm": 143.7,
+     "tips_at_m_s2": 108.0,
+     "safety_at_design_acc": 54.0
     },
     "+x": {
-     "static_margin_mm": 89.6,
-     "tips_at_m_s2": 75.8,
-     "safety_at_design_acc": 37.9
+     "static_margin_mm": 86.3,
+     "tips_at_m_s2": 64.9,
+     "safety_at_design_acc": 32.4
     },
     "-y": {
-     "static_margin_mm": 157.7,
-     "tips_at_m_s2": 32.5,
-     "safety_at_design_acc": 16.3
+     "static_margin_mm": 150.4,
+     "tips_at_m_s2": 27.4,
+     "safety_at_design_acc": 13.7
     },
     "+y": {
-     "static_margin_mm": 278.3,
-     "tips_at_m_s2": 57.4,
-     "safety_at_design_acc": 28.7
+     "static_margin_mm": 285.6,
+     "tips_at_m_s2": 52.1,
+     "safety_at_design_acc": 26.0
     }
    },
    "rails": {
     "y_block": {
-     "mass_kg": 1.513,
+     "mass_kg": 1.511,
      "MR_roll_Nm": 1.78,
      "MP_pitch_Nm": 0.44,
      "MY_yaw_Nm": 0.36
     },
     "x_block": {
-     "mass_kg": 0.455,
+     "mass_kg": 0.453,
      "MR_roll_Nm": 0.05,
      "MP_pitch_Nm": 0.3,
      "MY_yaw_Nm": 0.01
@@ -171,10 +171,10 @@
     "margin_vs_37_5": 21.1
    },
    "deflection": {
-    "load_kg": 0.496,
-    "boom_sag_mm": 0.096,
+    "load_kg": 0.493,
+    "boom_sag_mm": 0.095,
     "post_tilt_sag_mm": 0.073,
-    "total_profile_sag_mm": 0.169,
+    "total_profile_sag_mm": 0.168,
     "boom_side_flex_at_design_acc_mm": 0.0134
    }
   },
@@ -186,55 +186,55 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 4.14,
+    "mass_kg": 3.655,
     "com": [
-     224.2,
-     303.9,
-     66.4
+     225.5,
+     313.0,
+     74.3
     ],
     "-x": {
-     "static_margin_mm": 124.2,
-     "tips_at_m_s2": 88.4,
-     "safety_at_design_acc": 44.2
+     "static_margin_mm": 125.5,
+     "tips_at_m_s2": 79.3,
+     "safety_at_design_acc": 39.6
     },
     "+x": {
-     "static_margin_mm": 105.8,
-     "tips_at_m_s2": 75.3,
-     "safety_at_design_acc": 37.6
+     "static_margin_mm": 104.5,
+     "tips_at_m_s2": 66.0,
+     "safety_at_design_acc": 33.0
     },
     "-y": {
-     "static_margin_mm": 281.9,
-     "tips_at_m_s2": 55.8,
-     "safety_at_design_acc": 27.9
+     "static_margin_mm": 291.0,
+     "tips_at_m_s2": 50.9,
+     "safety_at_design_acc": 25.5
     },
     "+y": {
-     "static_margin_mm": 154.1,
-     "tips_at_m_s2": 30.5,
-     "safety_at_design_acc": 15.3
+     "static_margin_mm": 145.0,
+     "tips_at_m_s2": 25.4,
+     "safety_at_design_acc": 12.7
     }
    },
    "rails": {
     "y_block": {
-     "mass_kg": 1.513,
-     "MR_roll_Nm": 1.13,
+     "mass_kg": 1.511,
+     "MR_roll_Nm": 1.12,
      "MP_pitch_Nm": 0.46,
      "MY_yaw_Nm": 0.23
     },
     "x_block": {
-     "mass_kg": 0.455,
+     "mass_kg": 0.453,
      "MR_roll_Nm": 0.05,
      "MP_pitch_Nm": 0.28,
      "MY_yaw_Nm": 0.01
     },
-    "worst_Nm": 1.13,
-    "margin_vs_37_5": 33.2
+    "worst_Nm": 1.12,
+    "margin_vs_37_5": 33.5
    },
    "deflection": {
-    "load_kg": 0.496,
+    "load_kg": 0.493,
     "boom_sag_mm": 0.02,
     "post_tilt_sag_mm": 0.024,
     "total_profile_sag_mm": 0.044,
-    "boom_side_flex_at_design_acc_mm": 0.0016
+    "boom_side_flex_at_design_acc_mm": 0.0017
    }
   },
   {
@@ -245,42 +245,42 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 4.14,
+    "mass_kg": 3.655,
     "com": [
-     230.4,
-     242.0,
-     65.4
+     232.4,
+     243.0,
+     73.2
     ],
     "-x": {
-     "static_margin_mm": 130.4,
-     "tips_at_m_s2": 100.7,
-     "safety_at_design_acc": 50.3
+     "static_margin_mm": 132.4,
+     "tips_at_m_s2": 90.8,
+     "safety_at_design_acc": 45.4
     },
     "+x": {
-     "static_margin_mm": 99.6,
-     "tips_at_m_s2": 76.9,
-     "safety_at_design_acc": 38.5
+     "static_margin_mm": 97.6,
+     "tips_at_m_s2": 67.0,
+     "safety_at_design_acc": 33.5
     },
     "-y": {
-     "static_margin_mm": 220.0,
-     "tips_at_m_s2": 44.4,
-     "safety_at_design_acc": 22.2
+     "static_margin_mm": 221.0,
+     "tips_at_m_s2": 39.5,
+     "safety_at_design_acc": 19.7
     },
     "+y": {
-     "static_margin_mm": 216.0,
-     "tips_at_m_s2": 43.6,
-     "safety_at_design_acc": 21.8
+     "static_margin_mm": 215.0,
+     "tips_at_m_s2": 38.4,
+     "safety_at_design_acc": 19.2
     }
    },
    "rails": {
     "y_block": {
-     "mass_kg": 1.513,
+     "mass_kg": 1.511,
      "MR_roll_Nm": 1.37,
      "MP_pitch_Nm": 0.45,
      "MY_yaw_Nm": 0.28
     },
     "x_block": {
-     "mass_kg": 0.455,
+     "mass_kg": 0.453,
      "MR_roll_Nm": 0.05,
      "MP_pitch_Nm": 0.29,
      "MY_yaw_Nm": 0.01
@@ -289,7 +289,7 @@
     "margin_vs_37_5": 27.4
    },
    "deflection": {
-    "load_kg": 0.496,
+    "load_kg": 0.493,
     "boom_sag_mm": 0.038,
     "post_tilt_sag_mm": 0.039,
     "total_profile_sag_mm": 0.077,
@@ -298,25 +298,25 @@
   }
  ],
  "mass_by_group_kg": {
-  "base": 2.608,
+  "base": 2.124,
   "Y carriage + boom": 1.032,
-  "wrist module": 0.454,
+  "wrist module": 0.455,
   "cable chains": 0.078
  },
  "backlash": {
   "y": {
-   "moving_kg": 1.513,
-   "force_N": 3.03,
-   "belt_mm": 0.0268,
+   "moving_kg": 1.511,
+   "force_N": 3.02,
+   "belt_mm": 0.0267,
    "stepper_mm": 0.0054,
    "mount_mm": 0.0007,
    "tooth_clearance_mm": 0.05,
    "total_reversal_mm": 0.116
   },
   "x": {
-   "moving_kg": 0.496,
+   "moving_kg": 0.493,
    "force_N": 0.99,
-   "belt_mm": 0.0061,
+   "belt_mm": 0.006,
    "stepper_mm": 0.0018,
    "mount_mm": 0.0002,
    "tooth_clearance_mm": 0.05,
@@ -331,11 +331,11 @@
   "needed_Nm": 0.233,
   "stall_6V_Nm": 1.08,
   "stall_margin": 4.6,
-  "load_vs_stall_pct": 21.5,
+  "load_vs_stall_pct": 21.6,
   "note": "keep the steady load under ~30-40 % of stall for a long servo life (hobby servo rule of thumb)"
  },
- "min_tip_acc_m_s2": 30.5,
- "min_static_margin_mm": 89.6,
+ "min_tip_acc_m_s2": 25.4,
+ "min_static_margin_mm": 86.3,
  "worst_rail_moment_Nm": 1.78,
- "worst_sag_mm": 0.169
+ "worst_sag_mm": 0.168
 }

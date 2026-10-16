@@ -13,6 +13,20 @@ Coordinates: X along the 600 mm side of the polygon, Y along the 500 mm side, Z 
 **Tolerance tests:** `tolerance/` has 11 test coupons (STEP) and `tolerance/README.md` says how to test each one and which
 constant to change. Print them before the real parts.
 
+## Assembly simulation and 6 mm plywood (v2.9)
+`tools/assembly_sim.py` builds the device in order (`docs/print_test_order.md`, "Order that matters") and checks that every
+part can slide into place, every screw head can get in, a hex key or screwdriver reaches it, nuts can be held, T-nut slots are
+still open and the soldering iron reaches every insert (`out/assembly_sim.json`: 0 problems). It found six places a person
+could not assemble, now fixed:
+- **Y carriage:** the 4 block screw heads were partly under the post socket walls: vertical notches through the walls (y walls 6 mm).
+- **X motor mount:** two motor screw heads hit the cheeks: grooves in the cheeks.
+- **Wrist carriage:** two block screw heads were under the servo plate: a notch for one; the other hole is dropped (3 screws on the X block).
+- **Servo tabs:** the nylocs could not be held (servo case, boom): M2x8 self-tapping screws into the servo plate instead.
+- **Magnet:** its screw head could not pass the 5 mm shaft bore: an M3x8 set screw in a Ruthex insert in the hub, magnet spun on (Loctite 243).
+- **Control panel:** no room for a driver at the connector board screws: two 6 x 6 access windows in the +x wall.
+**6 mm plywood** (Egor's board): 20 x 10 rubber feet in 1 mm recesses keep the plywood top at z 15, so nothing above moved;
+beam bolt heads sunk 2 mm; all wood screws shortened so they bite 4..6 mm and none comes out underneath.
+
 ## V-slot frame and NEMA17 pancake wrist (v2.8)
 - **2020 V-slot** everywhere (Y beam 400, post 130, boom 270): OpenBuilds section, 6 mm slot opening with the V-groove. The drop-in
   T-nuts, beam riser tongues, rails, socket and Soberizavod slot-6 cast brackets (T01) all still fit; the fastener check passes.

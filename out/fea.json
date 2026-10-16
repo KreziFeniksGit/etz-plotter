@@ -38,10 +38,10 @@
   "ok": true
  },
  "x_motor_mount": {
-  "nodes": 61942,
-  "elements": 36371,
+  "nodes": 61358,
+  "elements": 36007,
   "held_nodes": 312,
-  "body_nodes": 2131,
+  "body_nodes": 2123,
   "force_N": [
    50.0,
    0.56,
@@ -59,7 +59,7 @@
    -0.0003
   ],
   "tilt_deg": 0.027,
-  "max_von_mises_MPa": 1.16,
+  "max_von_mises_MPa": 1.21,
   "move_after_creep_x2_mm": 0.025,
   "ok": true
  },
@@ -116,36 +116,36 @@
   "ok": true
  },
  "y_carriage": {
-  "nodes": 78334,
-  "elements": 48218,
+  "nodes": 79946,
+  "elements": 49038,
   "held_nodes": 570,
-  "body_nodes": 3173,
+  "body_nodes": 2774,
   "force_N": [
-   2.76,
-   2.76,
-   -13.53
+   2.75,
+   2.75,
+   -13.51
   ],
   "moment_Nmm": [
-   -399.0,
-   2048.7,
-   336.3
+   -398.3,
+   2043.4,
+   335.4
   ],
-  "move_mm": 0.0011,
+  "move_mm": 0.001,
   "disp_mm": [
    0.0009,
    -0.0001,
    0.0006
   ],
   "tilt_deg": 0.018,
-  "max_von_mises_MPa": 3.15,
+  "max_von_mises_MPa": 3.17,
   "move_after_creep_x2_mm": 0.002,
   "magnet_disp_mm": [
-   -0.0197,
-   0.0172,
-   -0.1056
+   -0.0194,
+   0.0173,
+   -0.1039
   ],
-  "magnet_move_mm": 0.1088,
-  "carried_kg": 1.38,
+  "magnet_move_mm": 0.1071,
+  "carried_kg": 1.377,
   "ok": true
  }
 }

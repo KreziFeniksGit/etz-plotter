@@ -147,7 +147,7 @@ def y_chain_guide():
             cut.append(t)
     for y in (250.0, 300.0, 350.0, 405.0):          # wood screws 3.5 mm, heads sunk 3 mm
         cut.append(cyl((xc, y, z0 - 1), (3.5 + 0.25) / 2, GUIDE_FLOOR + 2))
-        cut.append(cyl((xc, y, zf - 3.0), (7.0 + 2 * TOL_MOVE) / 2, 4.0))
+        cut.append(cyl((xc, y, zf - 2.5), (7.0 + 2 * TOL_MOVE) / 2, 4.0))      # head top 0.1 under the floor; 3.5x20 ends 0.5 above the plywood underside
     for y in (220.0, 231.0):                         # zip ties around the fixed end link: down a wall, under the floor, up the other wall
         for s in (-1, 1):
             xs = xc + s * (half_in + (wall + ear) / 2)

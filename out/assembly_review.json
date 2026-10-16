@@ -2,7 +2,7 @@
  "static_park": {},
  "cable_paths_through_parts": "none",
  "footprint_parked_outside_zones": "none",
- "fasteners_count": 140,
+ "fasteners_count": 139,
  "fastener_clips_at_rest": "none",
  "fastener_engagement_problems": "none",
  "fastener_engagement": {
@@ -17,11 +17,6 @@
    "engagement_mm": 3.5
   },
   "wm_f_block2": {
-   "screw": "M3 x 6 ISO 4762",
-   "into": "blind",
-   "engagement_mm": 3.5
-  },
-  "wm_f_block3": {
    "screw": "M3 x 6 ISO 4762",
    "into": "blind",
    "engagement_mm": 3.5
@@ -62,24 +57,24 @@
    "engagement_mm": 5.4
   },
   "wm_f_servo0": {
-   "screw": "M2 x 12 ISO 4762",
-   "into": "nut",
-   "engagement_mm": 3.0
+   "screw": "M2 x 8 pan head self-tapping",
+   "into": "self",
+   "engagement_mm": 4.75
   },
   "wm_f_servo1": {
-   "screw": "M2 x 12 ISO 4762",
-   "into": "nut",
-   "engagement_mm": 3.0
+   "screw": "M2 x 8 pan head self-tapping",
+   "into": "self",
+   "engagement_mm": 4.75
   },
   "wm_f_servo2": {
-   "screw": "M2 x 12 ISO 4762",
-   "into": "nut",
-   "engagement_mm": 3.0
+   "screw": "M2 x 8 pan head self-tapping",
+   "into": "self",
+   "engagement_mm": 4.75
   },
   "wm_f_servo3": {
-   "screw": "M2 x 12 ISO 4762",
-   "into": "nut",
-   "engagement_mm": 3.0
+   "screw": "M2 x 8 pan head self-tapping",
+   "into": "self",
+   "engagement_mm": 4.75
   },
   "wm_f_pivotA": {
    "screw": "M4 x 30 ISO 4762",
@@ -137,27 +132,27 @@
    "engagement_mm": 4.0
   },
   "wm_f_cam0": {
-   "screw": "M2 x 6 pan head",
+   "screw": "M2 x 6 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.5
   },
   "wm_f_cam1": {
-   "screw": "M2 x 6 pan head",
+   "screw": "M2 x 6 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.5
   },
   "wm_f_cam2": {
-   "screw": "M2 x 6 pan head",
+   "screw": "M2 x 6 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.5
   },
   "wm_f_cam3": {
-   "screw": "M2 x 6 pan head",
+   "screw": "M2 x 6 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.5
   },
   "wm_f_magnet": {
-   "screw": "M3 x 6 ISO 7380",
+   "screw": "M3 x 8 ISO 4026 set screw",
    "into": "blind",
    "engagement_mm": 3.5
   },
@@ -202,14 +197,14 @@
    "engagement_mm": 3.0
   },
   "f_socket_py": {
-   "screw": "M5 x 10 ISO 4762",
+   "screw": "M5 x 12 ISO 4762",
    "into": "tnut",
-   "engagement_mm": 3.0
+   "engagement_mm": 3.5
   },
   "f_socket_my": {
-   "screw": "M5 x 10 ISO 4762",
+   "screw": "M5 x 12 ISO 4762",
    "into": "tnut",
-   "engagement_mm": 3.0
+   "engagement_mm": 3.5
   },
   "f_yclamp0": {
    "screw": "M3 x 14 ISO 4762",
@@ -277,12 +272,12 @@
    "engagement_mm": 3.2
   },
   "f_xswitch0": {
-   "screw": "M2 x 10 pan head",
+   "screw": "M2 x 10 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.25
   },
   "f_xswitch1": {
-   "screw": "M2 x 10 pan head",
+   "screw": "M2 x 10 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.25
   },
@@ -397,22 +392,22 @@
    "engagement_mm": 6.25
   },
   "f_yidler_wood0": {
-   "screw": "wood screw 4x12 (pan head)",
+   "screw": "wood screw 4x10 (pan head)",
    "into": "wood",
-   "engagement_mm": 8.0
+   "engagement_mm": 6.0
   },
   "f_yidler_wood1": {
-   "screw": "wood screw 4x12 (pan head)",
+   "screw": "wood screw 4x10 (pan head)",
    "into": "wood",
-   "engagement_mm": 8.0
+   "engagement_mm": 6.0
   },
   "f_yswitch0": {
-   "screw": "M2 x 10 pan head",
+   "screw": "M2 x 10 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.25
   },
   "f_yswitch1": {
-   "screw": "M2 x 10 pan head",
+   "screw": "M2 x 10 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.25
   },
@@ -437,24 +432,24 @@
    "engagement_mm": 4.0
   },
   "f_ymotor_wood0": {
-   "screw": "wood screw 4x12 (pan head)",
+   "screw": "wood screw 4x10 (pan head)",
    "into": "wood",
-   "engagement_mm": 7.0
+   "engagement_mm": 5.0
   },
   "f_ymotor_wood1": {
-   "screw": "wood screw 4x12 (pan head)",
+   "screw": "wood screw 4x10 (pan head)",
    "into": "wood",
-   "engagement_mm": 7.0
+   "engagement_mm": 5.0
   },
   "f_ymotor_wood2": {
-   "screw": "wood screw 4x12 (pan head)",
+   "screw": "wood screw 4x10 (pan head)",
    "into": "wood",
-   "engagement_mm": 7.0
+   "engagement_mm": 5.0
   },
   "f_ymotor_wood3": {
-   "screw": "wood screw 4x12 (pan head)",
+   "screw": "wood screw 4x10 (pan head)",
    "into": "wood",
-   "engagement_mm": 7.0
+   "engagement_mm": 5.0
   },
   "f_beam0": {
    "screw": "M5 x 20 ISO 4762",
@@ -559,25 +554,25 @@
   "f_foot0": {
    "screw": "wood screw 3.5x12 (pan head)",
    "into": "wood",
-   "engagement_mm": 7.5
+   "engagement_mm": 4.5
   },
   "f_foot1": {
    "screw": "wood screw 3.5x12 (pan head)",
    "into": "wood",
-   "engagement_mm": 7.5
+   "engagement_mm": 4.5
   },
   "f_foot2": {
    "screw": "wood screw 3.5x12 (pan head)",
    "into": "wood",
-   "engagement_mm": 7.5
+   "engagement_mm": 4.5
   },
   "f_foot3": {
    "screw": "wood screw 3.5x12 (pan head)",
    "into": "wood",
-   "engagement_mm": 7.5
+   "engagement_mm": 4.5
   },
   "f_eb_bot0": {
-   "screw": "M3 x 16 ISO 10642",
+   "screw": "M3 x 10 ISO 10642",
    "into": "blind",
    "engagement_mm": 4.0
   },
@@ -587,7 +582,7 @@
    "engagement_mm": 4.4
   },
   "f_eb_bot1": {
-   "screw": "M3 x 16 ISO 10642",
+   "screw": "M3 x 10 ISO 10642",
    "into": "blind",
    "engagement_mm": 4.0
   },
@@ -597,7 +592,7 @@
    "engagement_mm": 4.4
   },
   "f_eb_bot2": {
-   "screw": "M3 x 16 ISO 10642",
+   "screw": "M3 x 10 ISO 10642",
    "into": "blind",
    "engagement_mm": 4.0
   },
@@ -607,7 +602,7 @@
    "engagement_mm": 4.4
   },
   "f_eb_bot3": {
-   "screw": "M3 x 16 ISO 10642",
+   "screw": "M3 x 10 ISO 10642",
    "into": "blind",
    "engagement_mm": 4.0
   },
@@ -617,94 +612,94 @@
    "engagement_mm": 4.4
   },
   "f_panel0": {
-   "screw": "wood screw 3.5x50 (pan head)",
+   "screw": "wood screw 3.5x45 (pan head)",
    "into": "wood",
-   "engagement_mm": 10.0
+   "engagement_mm": 5.0
   },
   "f_panel1": {
-   "screw": "wood screw 3.5x50 (pan head)",
+   "screw": "wood screw 3.5x45 (pan head)",
    "into": "wood",
-   "engagement_mm": 10.0
+   "engagement_mm": 5.0
   },
   "f_panel2": {
-   "screw": "wood screw 3.5x50 (pan head)",
+   "screw": "wood screw 3.5x45 (pan head)",
    "into": "wood",
-   "engagement_mm": 10.0
+   "engagement_mm": 5.0
   },
   "f_panel3": {
-   "screw": "wood screw 3.5x50 (pan head)",
+   "screw": "wood screw 3.5x45 (pan head)",
    "into": "wood",
-   "engagement_mm": 10.0
+   "engagement_mm": 5.0
   },
   "f_pcb0": {
-   "screw": "M2 x 6 pan head",
+   "screw": "M2 x 6 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.5
   },
   "f_pcb1": {
-   "screw": "M2 x 6 pan head",
+   "screw": "M2 x 6 pan head self-tapping",
    "into": "self",
    "engagement_mm": 4.5
   },
   "f_bbtray0": {
-   "screw": "wood screw 3.5x12 (pan head)",
+   "screw": "wood screw 3.5x8 (pan head)",
    "into": "wood",
-   "engagement_mm": 9.0
+   "engagement_mm": 5.0
   },
   "f_bbtray1": {
-   "screw": "wood screw 3.5x12 (pan head)",
+   "screw": "wood screw 3.5x8 (pan head)",
    "into": "wood",
-   "engagement_mm": 9.0
+   "engagement_mm": 5.0
   },
   "f_bbtray2": {
-   "screw": "wood screw 3.5x12 (pan head)",
+   "screw": "wood screw 3.5x8 (pan head)",
    "into": "wood",
-   "engagement_mm": 9.0
+   "engagement_mm": 5.0
   },
   "f_bbtray3": {
-   "screw": "wood screw 3.5x12 (pan head)",
+   "screw": "wood screw 3.5x8 (pan head)",
    "into": "wood",
-   "engagement_mm": 9.0
+   "engagement_mm": 5.0
   },
   "f_battray0": {
-   "screw": "wood screw 3.5x12 (pan head)",
+   "screw": "wood screw 3.5x8 (pan head)",
    "into": "wood",
-   "engagement_mm": 9.0
+   "engagement_mm": 5.0
   },
   "f_battray1": {
-   "screw": "wood screw 3.5x12 (pan head)",
+   "screw": "wood screw 3.5x8 (pan head)",
    "into": "wood",
-   "engagement_mm": 9.0
+   "engagement_mm": 5.0
   },
   "f_battray2": {
-   "screw": "wood screw 3.5x12 (pan head)",
+   "screw": "wood screw 3.5x8 (pan head)",
    "into": "wood",
-   "engagement_mm": 9.0
+   "engagement_mm": 5.0
   },
   "f_battray3": {
-   "screw": "wood screw 3.5x12 (pan head)",
+   "screw": "wood screw 3.5x8 (pan head)",
    "into": "wood",
-   "engagement_mm": 9.0
+   "engagement_mm": 5.0
   },
   "f_guide0": {
-   "screw": "wood screw 3.5x25 (pan head)",
+   "screw": "wood screw 3.5x20 (pan head)",
    "into": "wood",
-   "engagement_mm": 11.0
+   "engagement_mm": 5.5
   },
   "f_guide1": {
-   "screw": "wood screw 3.5x25 (pan head)",
+   "screw": "wood screw 3.5x20 (pan head)",
    "into": "wood",
-   "engagement_mm": 11.0
+   "engagement_mm": 5.5
   },
   "f_guide2": {
-   "screw": "wood screw 3.5x25 (pan head)",
+   "screw": "wood screw 3.5x20 (pan head)",
    "into": "wood",
-   "engagement_mm": 11.0
+   "engagement_mm": 5.5
   },
   "f_guide3": {
-   "screw": "wood screw 3.5x25 (pan head)",
+   "screw": "wood screw 3.5x20 (pan head)",
    "into": "wood",
-   "engagement_mm": 11.0
+   "engagement_mm": 5.5
   }
  },
  "fastener_sweep_poses": 16,
@@ -836,8 +831,8 @@
     35.0
    ],
    "fits_220": true,
-   "volume_cm3": 58.25,
-   "mass_g": 44.4,
+   "volume_cm3": 58.39,
+   "mass_g": 44.5,
    "min_wall": 2.73,
    "thin_samples": 0,
    "thin_examples": [],
@@ -869,24 +864,6 @@
       -26.1,
       4.5,
       6.5
-     ]
-    ],
-    [
-     2.4,
-     8.9,
-     [
-      -10.0,
-      12.0,
-      10.0
-     ]
-    ],
-    [
-     2.4,
-     8.9,
-     [
-      -10.0,
-      -12.0,
-      10.0
      ]
     ]
    ],
@@ -954,8 +931,8 @@
     41.5
    ],
    "fits_220": true,
-   "volume_cm3": 51.97,
-   "mass_g": 39.6,
+   "volume_cm3": 51.7,
+   "mass_g": 39.4,
    "min_wall": 2.68,
    "thin_samples": 0,
    "thin_examples": [],
@@ -982,19 +959,19 @@
     ],
     [
      0.5,
-     7.1,
+     5.5,
      [
       7.8,
-      -21.3,
+      -22.9,
       17.5
      ]
     ],
     [
      0.5,
-     6.6,
+     4.5,
      [
       7.8,
-      21.8,
+      23.9,
       17.5
      ]
     ]
@@ -1073,8 +1050,8 @@
     25.0
    ],
    "fits_220": true,
-   "volume_cm3": 92.15,
-   "mass_g": 70.2,
+   "volume_cm3": 92.23,
+   "mass_g": 70.3,
    "min_wall": 2.4,
    "thin_samples": 0,
    "thin_examples": [],
@@ -1137,8 +1114,8 @@
     40.0
    ],
    "fits_220": true,
-   "volume_cm3": 56.31,
-   "mass_g": 42.9,
+   "volume_cm3": 56.1,
+   "mass_g": 42.7,
    "min_wall": 2.78,
    "thin_samples": 0,
    "thin_examples": [],
@@ -1182,12 +1159,12 @@
      ]
     ],
     [
-     2.5,
-     17.5,
+     3.0,
+     12.0,
      [
-      -26.8,
+      31.0,
       30.5,
-      27.0
+      33.5
      ]
     ]
    ],

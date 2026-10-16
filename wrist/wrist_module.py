@@ -386,21 +386,33 @@ def wrist_carriage():
     wz0, wz1 = Z_PIVOT_TOP - SERVO_W / 2 - TOL_MOVE, Z_PIVOT_TOP + SERVO_W / 2 + TOL_MOVE
     q = (wx1 - wx0) / 4
     qz = q * 1.02                                  # roof a hair steeper than 45 deg, so rounding never tips it over the limit
-    win = prism_y([(wx0, wz1), (wx0, wz0), (wx0 + q, wz0 - qz), (wx0 + 2 * q, wz0), (wx0 + 3 * q, wz0 - qz), (wx1, wz0), (wx1, wz1)],
-                  SP_Y0 - 1, SP_Y1 + 1)
+    # under the (-10, +10) block screw notch the roof is cut flat (5.9 mm bridge) so no sliver is left between them
+    # (flat bottom 5.9 mm wide = a short bridge in print; its sides at 1.05:1, steeper than 45 deg)
+    xa, xb, zb, k, sl = BLOCK_HOLES[1][0] - 2.95, BLOCK_HOLES[1][0] + 2.95, wz0 - 6.0, 1.05, qz / q
+    A, B = wz0 - qz - sl * (wx0 + q), wz0 + sl * (wx0 + 2 * q)          # roof lines left / right of the middle peak
+    xl = (zb + k * xa - A) / (sl + k)
+    xr = (B - zb + k * xb) / (sl + k)
+    assert wx0 + q < xl < xa and xb < xr < wx0 + 3 * q
+    win = prism_y([(wx0, wz1), (wx0, wz0), (wx0 + q, wz0 - qz), (xl, A + sl * xl), (xa, zb), (xb, zb), (xr, B - sl * xr),
+                   (wx0 + 3 * q, wz0 - qz), (wx1, wz0), (wx1, wz1)], SP_Y0 - 1, SP_Y1 + 1)
     # round the window's corners on the tool itself (r 0.5 keeps 0.35 mm around the case corners)
     win = win.makeFillet(0.5, [e for e in win.Edges if is_line(e) and abs(e.Length - (SP_T + 2)) < 1e-6
                                and _concave(win, e) is False])
     body = fillet_all(body)
     body = cut_all(body, [win])
     cut = []
-    for x, y in BLOCK_HOLES:                       # M3x6 from below, heads sunk
+    for x, y in BLOCK_HOLES[:3]:                   # M3x6 from below, heads sunk (the 4th hole is not used, see below)
         cut.append(cyl((x, y, Z_CP0 - 1), bolt(3) / 2, CP_T + 2))
         cut.append(cyl((x, y, Z_CP0 - 1), (5.5 + 2 * TOL_MOVE) / 2, 1 + BLOCK_SINK))
     for x, y in RISER_MOUNT + CHAIN_MOUNT:          # M3 from below into inserts in the add-on parts
         cut.append(cyl((x, y, Z_CP0 - 1), bolt(3) / 2, CP_T + 2))
-    for x, z in SERVO_TAB_HOLES:                    # M2 bolt + large washer + nyloc (M3 would leave only 2 mm to the window)
-        cut.append(cyl((x, SP_Y0 - 1, z), bolt(SERVO_BOLT) / 2, SP_T + 2, 'y'))
+    # assembly: the (-10, +10) block screw head overlaps the servo plate by 1.3 mm, so the plate has a vertical notch for
+    # the screw and the key; the window roof is cut flat over it (no sliver, see the window above). The (+10, +10) hole cannot get one (the servo
+    # tab screw is 3.6 mm away), so that block hole stays empty: the X block is held by 3 screws.
+    xn, rn = BLOCK_HOLES[1][0], 2.95
+    cut.append(cyl((xn, BLOCK_HOLES[1][1], SP_Z0 - 1), rn, Z_CP0 - SP_Z0 + 1.01))
+    for x, z in SERVO_TAB_HOLES:                    # M2 self-tapping + large washer from the tab side (a nut on the +y side
+        cut.append(cyl((x, SP_Y0 - 1, z), M2_PILOT / 2, SP_T + 2, 'y'))   # could not be held: servo case and boom around it)
     for x in (SERVO_X0 - SERVO_TAB_RIB[0] - TOL_MOVE, SERVO_X1 - TOL_MOVE):   # grooves for the ribs under the servo tabs
         g = box(x, SP_Y0 - 1, Z_PIVOT_TOP - SERVO_TAB_RIB[2] / 2 - TOL_MOVE, x + SERVO_TAB_RIB[0] + 2 * TOL_MOVE,
                 SP_Y0 + SERVO_TAB_RIB[1] + TOL_MOVE, Z_PIVOT_TOP + SERVO_TAB_RIB[2] / 2 + TOL_MOVE)
@@ -561,14 +573,16 @@ def shelf():
     return cut_all(body, cut)
 
 def wrist_hub():
-    """D-bore press fit on the stepper shaft; the magnet hangs on one M3 screw.
+    """D-bore press fit on the stepper shaft; the magnet hangs on an M3 x 8 set screw (stud) in a heat-set insert
+    in the hub's bottom (a screw head could not get in: the 5 mm shaft bore is above it). Insert in, stud in from
+    below (4.5 mm in the insert), magnet spun onto the stud by hand with Loctite 243, then the hub goes on the shaft.
     No home sensor (Egor, 12 Oct): the wrist angle counts from where it is at power-up."""
     z0, z1 = H_MID + MAG_H, Z_SH1 - N17P_SHAFT_LEN + 12.5      # 12.5 mm of shaft in the hub
     assert Z_SH1 - N17P_SHAFT_LEN >= z0 + 7.0, 'shaft too long for the hub: it would reach the magnet screw'
     body = cyl((MAG_X, MAG_Y, z0), 7.0, z1 - z0)
     body = fillet_all(body, r_out=0.6, min_len=2.0)
-    cut = [cyl((MAG_X, MAG_Y, z0 - 1), bolt(3) / 2, 4.0),
-           cyl((MAG_X, MAG_Y, z0 + 2.5), (5.5 + 2 * TOL_MOVE) / 2, 4.0)]
+    cut = [cyl((MAG_X, MAG_Y, z0 - 0.01), INSERT_D / 2, 5.81),         # insert pocket, opens into the shaft bore with a 45 deg cone
+           Part.makeCone(INSERT_D / 2, 3.0, 1.0, V(MAG_X, MAG_Y, z0 + 5.8))]
     bore = cyl((MAG_X, MAG_Y, z0 + 6.5), (N17P_SHAFT_D + TOL_PRESS) / 2, z1 - z0)
     flat = box(MAG_X + (N17P_SHAFT_FLAT - N17P_SHAFT_D / 2) + TOL_PRESS / 2, MAG_Y - 4, z0 + 6.4, MAG_X + 4, MAG_Y + 4, z1 + 1)
     cut.append(bore.cut(flat))

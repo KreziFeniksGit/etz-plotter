@@ -1,0 +1,2929 @@
+{
+ "steps": [
+  {
+   "step": "1 base: plywood and rubber feet",
+   "parts": [
+    "plywood_base",
+    "rubber_foot_1",
+    "rubber_foot_2",
+    "rubber_foot_3",
+    "rubber_foot_4"
+   ],
+   "fasteners": {
+    "f_foot0": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_foot1": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_foot2": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_foot3": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "1 base: Y beam risers",
+   "parts": [
+    "y_beam_riser_40",
+    "y_beam_riser_140",
+    "y_beam_riser_280",
+    "y_beam_riser_380"
+   ],
+   "fasteners": {},
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "1 base: Y beam",
+   "parts": [
+    "y_beam_2020"
+   ],
+   "fasteners": {
+    "f_beam0": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    },
+    "f_beam1": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    },
+    "f_beam2": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    },
+    "f_beam3": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    2.5
+   ]
+  },
+  {
+   "step": "1 base: Y rail with its block",
+   "parts": [
+    "y_rail_mgn12_400",
+    "y_block_mgn12h"
+   ],
+   "fasteners": {
+    "f_yrail00": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "pose": [
+      208.0,
+      287.0,
+      40.0,
+      0.0
+     ]
+    },
+    "f_yrail01": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "pose": [
+      208.0,
+      287.0,
+      40.0,
+      0.0
+     ]
+    },
+    "f_yrail02": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail03": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail04": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail05": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail06": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail07": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail08": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail09": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail10": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail11": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail12": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail13": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail14": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yrail15": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "1 base: Y motor mount",
+   "parts": [
+    "y_motor_mount"
+   ],
+   "fasteners": {
+    "f_ymotor_wood0": {
+     "entry": null,
+     "tool": [
+      "long Phillips"
+     ]
+    },
+    "f_ymotor_wood1": {
+     "entry": null,
+     "tool": [
+      "long Phillips"
+     ]
+    },
+    "f_ymotor_wood2": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_ymotor_wood3": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "1 base: Y motor with pulley",
+   "parts": [
+    "y_motor_17HS16",
+    "y_pulley_gt2_20t"
+   ],
+   "fasteners": {
+    "f_ymotor0": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_ymotor1": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_ymotor2": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_ymotor3": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    }
+   },
+   "insert": [
+    [
+     -1.0,
+     0.0,
+     0.0
+    ],
+    41.5
+   ]
+  },
+  {
+   "step": "1 bench: Y idler unit",
+   "parts": [
+    "y_idler_gt2_20t",
+    "y_idler_bracket",
+    "y_idler_slider"
+   ],
+   "fasteners": {
+    "f_yidler_axle": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ],
+     "spanner_hits": "{'y_idler_bracket'}",
+     "nut": {
+      "path_free": true,
+      "socket": "y_idler_bracket",
+      "spanner": true
+     }
+    },
+    "f_yidler_push": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'y_idler_bracket'}",
+     "nut": {
+      "path_free": false,
+      "socket": "y_idler_bracket",
+      "spanner": true
+     }
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "1 base: fit the Y idler unit",
+   "parts": [],
+   "fasteners": {
+    "f_ybeam_end": {
+     "entry": null,
+     "tool": [
+      "straight 3 hex driver",
+      "L hex key 3"
+     ]
+    },
+    "f_yidler_wood0": {
+     "entry": null,
+     "tool": [
+      "long Phillips"
+     ]
+    },
+    "f_yidler_wood1": {
+     "entry": null,
+     "tool": [
+      "long Phillips"
+     ]
+    }
+   },
+   "insert": [
+    [
+     -1.0,
+     0.0,
+     0.0
+    ],
+    155.5
+   ]
+  },
+  {
+   "step": "1 base: Y home switch",
+   "parts": [
+    "y_home_switch_d2f"
+   ],
+   "fasteners": {
+    "f_yswitch0": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    },
+    "f_yswitch1": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    10.0
+   ]
+  },
+  {
+   "step": "1 base: Y carriage on the block",
+   "parts": [
+    "y_carriage"
+   ],
+   "fasteners": {
+    "f_yblock0": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver"
+     ]
+    },
+    "f_yblock1": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_yblock2": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver"
+     ]
+    },
+    "f_yblock3": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_ychain0": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ],
+     "spanner_hits": "{'y_block_mgn12h', 'y_idler_bracket'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
+    },
+    "f_ychain1": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ],
+     "spanner_hits": "{'y_block_mgn12h', 'y_idler_bracket', 'f_ychain0_nut'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "1 base: Y belt spacer and clamp",
+   "parts": [
+    "y_belt_spacer",
+    "y_belt_clamp"
+   ],
+   "fasteners": {
+    "f_yclamp0": {
+     "entry": null,
+     "tool": [
+      "L hex key 2.5"
+     ]
+    },
+    "f_yclamp1": {
+     "entry": null,
+     "tool": [
+      "L hex key 2.5"
+     ]
+    },
+    "f_yclamp2": {
+     "entry": null,
+     "tool": [
+      "L hex key 2.5"
+     ]
+    }
+   },
+   "insert": [
+    [
+     -1.0,
+     0.0,
+     0.0
+    ],
+    41.5
+   ]
+  },
+  {
+   "step": "2 X: post in the socket",
+   "parts": [
+    "post_2020_130"
+   ],
+   "fasteners": {
+    "f_socket_px": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    },
+    "f_socket_mx": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    },
+    "f_socket_py": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    },
+    "f_socket_my": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    26.5
+   ]
+  },
+  {
+   "step": "2 X: boom",
+   "parts": [
+    "boom_2020_270"
+   ],
+   "fasteners": {
+    "f_xchain_fix0": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "f_xchain_fix1": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    47.5
+   ]
+  },
+  {
+   "step": "2 X: corner brackets",
+   "parts": [
+    "corner_bracket_top",
+    "corner_bracket_bottom"
+   ],
+   "fasteners": {
+    "f_bracket_top_h": {
+     "entry": null,
+     "tool": [
+      "straight 3 hex driver",
+      "L hex key 3"
+     ]
+    },
+    "f_bracket_top_v": {
+     "entry": null,
+     "tool": [
+      "straight 3 hex driver",
+      "L hex key 3"
+     ]
+    },
+    "f_bracket_bot_h": {
+     "entry": null,
+     "tool": [
+      "L hex key 3"
+     ]
+    },
+    "f_bracket_bot_v": {
+     "entry": null,
+     "tool": [
+      "straight 3 hex driver",
+      "L hex key 3"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     1.0,
+     0.0
+    ],
+    20.5
+   ]
+  },
+  {
+   "step": "2 X: post cap",
+   "parts": [
+    "post_cap"
+   ],
+   "fasteners": {},
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    7.0
+   ]
+  },
+  {
+   "step": "2 X: X rail with its block",
+   "parts": [
+    "x_rail_mgn12_250",
+    "wm_mgn12h_block"
+   ],
+   "fasteners": {
+    "f_xrail00": {
+     "entry": null,
+     "tool": [
+      "L hex key 2.5"
+     ]
+    },
+    "f_xrail01": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "pose": [
+      40.0,
+      430.0,
+      40.0,
+      0.0
+     ]
+    },
+    "f_xrail02": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "pose": [
+      40.0,
+      430.0,
+      40.0,
+      0.0
+     ]
+    },
+    "f_xrail03": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_xrail04": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_xrail05": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_xrail06": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_xrail07": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_xrail08": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_xrail09": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    20.5
+   ]
+  },
+  {
+   "step": "2 X: X motor mount",
+   "parts": [
+    "x_motor_mount"
+   ],
+   "fasteners": {
+    "f_xmount0": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    },
+    "f_xmount1": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    },
+    "f_xmount_side0": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    },
+    "f_xmount_side1": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    }
+   },
+   "insert": [
+    [
+     -1.0,
+     0.0,
+     0.0
+    ],
+    22.0
+   ]
+  },
+  {
+   "step": "2 X: X motor with pulley",
+   "parts": [
+    "x_motor_17HS16",
+    "x_pulley_gt2_20t"
+   ],
+   "fasteners": {
+    "f_xmotor0": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_xmotor1": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_xmotor2": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "f_xmotor3": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     1.0,
+     0.0
+    ],
+    25.0
+   ]
+  },
+  {
+   "step": "2 X: X home switch",
+   "parts": [
+    "x_home_switch_d2f"
+   ],
+   "fasteners": {
+    "f_xswitch0": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    },
+    "f_xswitch1": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    70.0
+   ]
+  },
+  {
+   "step": "2 bench: X idler unit",
+   "parts": [
+    "x_idler_gt2_20t",
+    "x_idler_bracket",
+    "x_idler_slider"
+   ],
+   "fasteners": {
+    "f_xidler_axle": {
+     "entry": null,
+     "tool": [
+      "straight 3 hex driver",
+      "L hex key 3"
+     ],
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
+    },
+    "f_xidler_push": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "nut": {
+      "path_free": false,
+      "socket": "x_idler_bracket",
+      "spanner": true
+     }
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "2 X: fit the X idler unit",
+   "parts": [],
+   "fasteners": {
+    "f_xidler_end": {
+     "entry": null,
+     "tool": [
+      "straight 4 hex driver",
+      "L hex key 4"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    23.5
+   ]
+  },
+  {
+   "step": "3 X: wrist carriage plate on the X block",
+   "parts": [
+    "wm_wrist_carriage"
+   ],
+   "fasteners": {
+    "wm_f_block0": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_block1": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_block2": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "3 X: belt riser, clamp, chain post",
+   "parts": [
+    "wm_x_belt_riser",
+    "wm_x_belt_clamp",
+    "wm_chain_post"
+   ],
+   "fasteners": {
+    "wm_f_riser0": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_riser1": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_post0": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_post1": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_clamp0": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_clamp1": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_clamp2": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_xchain0": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'wm_chain_post'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
+    },
+    "wm_f_xchain1": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'wm_chain_post', 'wm_f_xchain0_nut'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    40.0
+   ]
+  },
+  {
+   "step": "3 X: servo",
+   "parts": [
+    "wm_servo_case",
+    "wm_servo_tabs",
+    "wm_servo_spline"
+   ],
+   "fasteners": {
+    "wm_f_servo0": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    },
+    "wm_f_servo1": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    },
+    "wm_f_servo2": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    },
+    "wm_f_servo3": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "3 X: lower arm with bearings",
+   "parts": [
+    "wm_arm_bottom",
+    "wm_brg_AL",
+    "wm_brg_BL"
+   ],
+   "fasteners": {},
+   "insert": [
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    38.5
+   ]
+  },
+  {
+   "step": "3 X: lower pivot spacer and shim",
+   "parts": [
+    "wm_spacer_AL",
+    "wm_shim_AL"
+   ],
+   "fasteners": {
+    "wm_f_pivotA": {
+     "entry": null,
+     "tool": [
+      "straight 3 hex driver",
+      "L hex key 3"
+     ],
+     "spanner_hits": "{'y_carriage', 'wm_x_belt_riser', 'plywood_base', 'wm_wrist_carriage'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     1.0,
+     0.0
+    ],
+    8.5
+   ]
+  },
+  {
+   "step": "3 X: horn",
+   "parts": [
+    "wm_servo_horn"
+   ],
+   "fasteners": {
+    "wm_f_spline": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    }
+   },
+   "insert": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    28.0
+   ]
+  },
+  {
+   "step": "3 X: top arm with bearing",
+   "parts": [
+    "wm_arm_top",
+    "wm_brg_BT"
+   ],
+   "fasteners": {
+    "wm_f_horn0": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     1.0,
+     0.0
+    ],
+    8.5
+   ]
+  },
+  {
+   "step": "3 X: end pivots spacers and shims",
+   "parts": [
+    "wm_spacer_BT",
+    "wm_spacer_BL",
+    "wm_shim_BT",
+    "wm_shim_BL"
+   ],
+   "fasteners": {},
+   "insert": [
+    [
+     0.0,
+     1.0,
+     0.0
+    ],
+    8.5
+   ]
+  },
+  {
+   "step": "3 X: end plate",
+   "parts": [
+    "wm_end_plate"
+   ],
+   "fasteners": {
+    "wm_f_pivotB0": {
+     "entry": null,
+     "tool": [
+      "straight 3 hex driver",
+      "L hex key 3"
+     ],
+     "spanner_hits": "{'wm_end_plate'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
+    },
+    "wm_f_pivotB1": {
+     "entry": null,
+     "tool": [
+      "straight 3 hex driver",
+      "L hex key 3"
+     ],
+     "spanner_hits": "{'wm_end_plate', 'wm_f_pivotB0_nut'}",
+     "nut": {
+      "path_free": true,
+      "socket": "wm_end_plate",
+      "spanner": true
+     }
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "3 X: shelf",
+   "parts": [
+    "wm_shelf"
+   ],
+   "fasteners": {
+    "wm_f_shelf0": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    },
+    "wm_f_shelf1": {
+     "entry": null,
+     "tool": [
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    16.0
+   ]
+  },
+  {
+   "step": "3 X: wrist motor",
+   "parts": [
+    "wm_nema17p",
+    "wm_nema17p_pilot",
+    "wm_nema17p_shaft"
+   ],
+   "fasteners": {
+    "wm_f_n17p_0": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "wm_f_n17p_1": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "wm_f_n17p_2": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "wm_f_n17p_3": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    20.5
+   ]
+  },
+  {
+   "step": "3 X: magnet screwed to the hub",
+   "parts": [
+    "wm_wrist_hub",
+    "wm_electromagnet"
+   ],
+   "fasteners": {
+    "wm_f_magnet": {
+     "entry": null,
+     "tool": [
+      "hex key 1.5 from below, before the magnet goes on (stud)"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "3 X: hub pushed onto the wrist motor shaft",
+   "parts": [],
+   "fasteners": {},
+   "insert": [
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    7.0
+   ]
+  },
+  {
+   "step": "3 X: camera",
+   "parts": [
+    "wm_camera_board",
+    "wm_camera_lens"
+   ],
+   "fasteners": {
+    "wm_f_cam0": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    },
+    "wm_f_cam1": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    },
+    "wm_f_cam2": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    },
+    "wm_f_cam3": {
+     "entry": null,
+     "tool": [
+      "precision Phillips",
+      "stubby Phillips bit"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    7.0
+   ]
+  },
+  {
+   "step": "4 bench: controller board",
+   "parts": [
+    "perfboard_100x80",
+    "header_esp32_l_1x22",
+    "header_esp32_r_1x22",
+    "pololu_5v_d36v28f5",
+    "pololu_6v_d36v28f6",
+    "tmc2209_1",
+    "header_tmc1a_1x8",
+    "header_tmc1b_1x8",
+    "tmc2209_2",
+    "header_tmc2a_1x8",
+    "header_tmc2b_1x8",
+    "tmc2209_3",
+    "header_tmc3a_1x8",
+    "header_tmc3b_1x8",
+    "tmc2209_4",
+    "header_tmc4a_1x8",
+    "header_tmc4b_1x8"
+   ],
+   "fasteners": {},
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "4 base: standoffs",
+   "parts": [
+    "standoff_m3x10_1",
+    "standoff_m3x10_2",
+    "standoff_m3x10_3",
+    "standoff_m3x10_4"
+   ],
+   "fasteners": {
+    "f_eb_bot0": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "f_eb_bot1": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "f_eb_bot2": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "f_eb_bot3": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "4 base: fit the controller board",
+   "parts": [],
+   "fasteners": {
+    "f_eb_top0": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "f_eb_top1": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "f_eb_top2": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    },
+    "f_eb_top3": {
+     "entry": null,
+     "tool": [
+      "straight 2 hex driver",
+      "L hex key 2"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "4 base: plug the ESP32 board in",
+   "parts": [
+    "esp32_s3_devkitc1",
+    "esp32_s3_wroom1",
+    "esp32_usb_c_1",
+    "esp32_usb_c_2"
+   ],
+   "fasteners": {},
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "4 bench: control panel",
+   "parts": [
+    "control_panel",
+    "estop_22mm_latching",
+    "estop_label_STOP",
+    "start_button_16mm",
+    "led_green_5mm",
+    "led_red_5mm",
+    "connector_pcb",
+    "header_A_3pin",
+    "header_B_3pin",
+    "header_C_4pin"
+   ],
+   "fasteners": {
+    "f_pcb0": {
+     "entry": null,
+     "tool": [
+      "precision Phillips"
+     ]
+    },
+    "f_pcb1": {
+     "entry": null,
+     "tool": [
+      "precision Phillips"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "4 base: fit the control panel",
+   "parts": [],
+   "fasteners": {
+    "f_panel0": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_panel1": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_panel2": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_panel3": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    43.0
+   ]
+  },
+  {
+   "step": "4 base: battery tray and battery",
+   "parts": [
+    "battery_tray",
+    "battery_4s_2200"
+   ],
+   "fasteners": {
+    "f_battray0": {
+     "entry": null,
+     "tool": [
+      "long Phillips"
+     ]
+    },
+    "f_battray1": {
+     "entry": null,
+     "tool": [
+      "long Phillips"
+     ]
+    },
+    "f_battray2": {
+     "entry": null,
+     "tool": [
+      "long Phillips"
+     ]
+    },
+    "f_battray3": {
+     "entry": null,
+     "tool": [
+      "long Phillips"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "4 base: breadboard tray and breadboard",
+   "parts": [
+    "breadboard_tray",
+    "breadboard_400"
+   ],
+   "fasteners": {
+    "f_bbtray0": {
+     "entry": null,
+     "tool": [
+      "long Phillips"
+     ]
+    },
+    "f_bbtray1": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_bbtray2": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_bbtray3": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    1.0
+   ]
+  },
+  {
+   "step": "5 cables: Y chain guide",
+   "parts": [
+    "y_chain_guide"
+   ],
+   "fasteners": {
+    "f_guide0": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_guide1": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_guide2": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    },
+    "f_guide3": {
+     "entry": null,
+     "tool": [
+      "stubby Phillips",
+      "long Phillips"
+     ]
+    }
+   },
+   "insert": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    13.0
+   ]
+  },
+  {
+   "step": "5 cables: chains",
+   "parts": [],
+   "fasteners": {}
+  }
+ ],
+ "problems": [],
+ "unassigned_parts": [],
+ "fasteners_without_parts": [],
+ "fastener_plan": {
+  "wm_f_block0": [
+   "machine",
+   21,
+   [
+    "wm_mgn12h_block",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_block1": [
+   "machine",
+   21,
+   [
+    "wm_mgn12h_block",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_block2": [
+   "machine",
+   21,
+   [
+    "wm_mgn12h_block",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_riser0": [
+   "machine",
+   22,
+   [
+    "wm_wrist_carriage",
+    "wm_x_belt_riser"
+   ]
+  ],
+  "wm_f_riser1": [
+   "machine",
+   22,
+   [
+    "wm_wrist_carriage",
+    "wm_x_belt_riser"
+   ]
+  ],
+  "wm_f_post0": [
+   "machine",
+   22,
+   [
+    "wm_chain_post",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_post1": [
+   "machine",
+   22,
+   [
+    "wm_chain_post",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_clamp0": [
+   "machine",
+   22,
+   [
+    "wm_x_belt_clamp",
+    "wm_x_belt_riser"
+   ]
+  ],
+  "wm_f_clamp1": [
+   "machine",
+   22,
+   [
+    "wm_x_belt_clamp",
+    "wm_x_belt_riser"
+   ]
+  ],
+  "wm_f_clamp2": [
+   "machine",
+   22,
+   [
+    "wm_x_belt_clamp",
+    "wm_x_belt_riser"
+   ]
+  ],
+  "wm_f_servo0": [
+   "machine",
+   23,
+   [
+    "wm_servo_tabs",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_servo1": [
+   "machine",
+   23,
+   [
+    "wm_servo_tabs",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_servo2": [
+   "machine",
+   23,
+   [
+    "wm_servo_tabs",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_servo3": [
+   "machine",
+   23,
+   [
+    "wm_servo_tabs",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_pivotA": [
+   "machine",
+   25,
+   [
+    "wm_brg_AL",
+    "wm_shim_AL",
+    "wm_spacer_AL",
+    "wm_wrist_carriage"
+   ]
+  ],
+  "wm_f_pivotB0": [
+   "machine",
+   29,
+   [
+    "wm_brg_BT",
+    "wm_end_plate",
+    "wm_shim_BT",
+    "wm_spacer_BT"
+   ]
+  ],
+  "wm_f_pivotB1": [
+   "machine",
+   29,
+   [
+    "wm_brg_BL",
+    "wm_end_plate",
+    "wm_shim_BL",
+    "wm_spacer_BL"
+   ]
+  ],
+  "wm_f_horn0": [
+   "machine",
+   27,
+   [
+    "wm_arm_top",
+    "wm_servo_horn"
+   ]
+  ],
+  "wm_f_spline": [
+   "machine",
+   26,
+   [
+    "wm_servo_horn",
+    "wm_servo_spline"
+   ]
+  ],
+  "wm_f_shelf0": [
+   "machine",
+   30,
+   [
+    "wm_end_plate",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_shelf1": [
+   "machine",
+   30,
+   [
+    "wm_end_plate",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_n17p_0": [
+   "machine",
+   31,
+   [
+    "wm_nema17p",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_n17p_1": [
+   "machine",
+   31,
+   [
+    "wm_nema17p",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_n17p_2": [
+   "machine",
+   31,
+   [
+    "wm_nema17p",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_n17p_3": [
+   "machine",
+   31,
+   [
+    "wm_nema17p",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_cam0": [
+   "machine",
+   34,
+   [
+    "wm_camera_board",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_cam1": [
+   "machine",
+   34,
+   [
+    "wm_camera_board",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_cam2": [
+   "machine",
+   34,
+   [
+    "wm_camera_board",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_cam3": [
+   "machine",
+   34,
+   [
+    "wm_camera_board",
+    "wm_shelf"
+   ]
+  ],
+  "wm_f_magnet": [
+   "bench:hub",
+   32,
+   [
+    "wm_electromagnet",
+    "wm_wrist_hub"
+   ]
+  ],
+  "wm_f_xchain0": [
+   "machine",
+   22,
+   [
+    "wm_chain_post"
+   ]
+  ],
+  "wm_f_xchain1": [
+   "machine",
+   22,
+   [
+    "wm_chain_post"
+   ]
+  ],
+  "f_yblock0": [
+   "machine",
+   9,
+   [
+    "y_block_mgn12h",
+    "y_carriage"
+   ]
+  ],
+  "f_yblock1": [
+   "machine",
+   9,
+   [
+    "y_block_mgn12h",
+    "y_carriage"
+   ]
+  ],
+  "f_yblock2": [
+   "machine",
+   9,
+   [
+    "y_block_mgn12h",
+    "y_carriage"
+   ]
+  ],
+  "f_yblock3": [
+   "machine",
+   9,
+   [
+    "y_block_mgn12h",
+    "y_carriage"
+   ]
+  ],
+  "f_socket_px": [
+   "machine",
+   11,
+   [
+    "post_2020_130",
+    "y_carriage"
+   ]
+  ],
+  "f_socket_mx": [
+   "machine",
+   11,
+   [
+    "post_2020_130",
+    "y_carriage"
+   ]
+  ],
+  "f_socket_py": [
+   "machine",
+   11,
+   [
+    "post_2020_130",
+    "y_carriage"
+   ]
+  ],
+  "f_socket_my": [
+   "machine",
+   11,
+   [
+    "post_2020_130",
+    "y_carriage"
+   ]
+  ],
+  "f_yclamp0": [
+   "machine",
+   10,
+   [
+    "y_belt_clamp",
+    "y_belt_spacer",
+    "y_carriage"
+   ]
+  ],
+  "f_yclamp1": [
+   "machine",
+   10,
+   [
+    "y_belt_clamp",
+    "y_belt_spacer",
+    "y_carriage"
+   ]
+  ],
+  "f_yclamp2": [
+   "machine",
+   10,
+   [
+    "y_belt_clamp",
+    "y_belt_spacer",
+    "y_carriage"
+   ]
+  ],
+  "f_ychain0": [
+   "machine",
+   9,
+   [
+    "y_carriage"
+   ]
+  ],
+  "f_ychain1": [
+   "machine",
+   9,
+   [
+    "y_carriage"
+   ]
+  ],
+  "f_xmotor0": [
+   "machine",
+   17,
+   [
+    "x_motor_17HS16",
+    "x_motor_mount"
+   ]
+  ],
+  "f_xmotor1": [
+   "machine",
+   17,
+   [
+    "x_motor_17HS16",
+    "x_motor_mount"
+   ]
+  ],
+  "f_xmotor2": [
+   "machine",
+   17,
+   [
+    "x_motor_17HS16",
+    "x_motor_mount"
+   ]
+  ],
+  "f_xmotor3": [
+   "machine",
+   17,
+   [
+    "x_motor_17HS16",
+    "x_motor_mount"
+   ]
+  ],
+  "f_xmount0": [
+   "machine",
+   16,
+   [
+    "post_2020_130",
+    "x_motor_mount"
+   ]
+  ],
+  "f_xmount1": [
+   "machine",
+   16,
+   [
+    "post_2020_130",
+    "x_motor_mount"
+   ]
+  ],
+  "f_xmount_side0": [
+   "machine",
+   16,
+   [
+    "post_2020_130",
+    "x_motor_mount"
+   ]
+  ],
+  "f_xmount_side1": [
+   "machine",
+   16,
+   [
+    "post_2020_130",
+    "x_motor_mount"
+   ]
+  ],
+  "f_xswitch0": [
+   "machine",
+   18,
+   [
+    "x_home_switch_d2f",
+    "x_motor_mount"
+   ]
+  ],
+  "f_xswitch1": [
+   "machine",
+   18,
+   [
+    "x_home_switch_d2f",
+    "x_motor_mount"
+   ]
+  ],
+  "f_bracket_top_h": [
+   "machine",
+   13,
+   [
+    "boom_2020_270",
+    "corner_bracket_top"
+   ]
+  ],
+  "f_bracket_top_v": [
+   "machine",
+   13,
+   [
+    "corner_bracket_top",
+    "post_2020_130"
+   ]
+  ],
+  "f_bracket_bot_h": [
+   "machine",
+   13,
+   [
+    "boom_2020_270",
+    "corner_bracket_bottom"
+   ]
+  ],
+  "f_bracket_bot_v": [
+   "machine",
+   13,
+   [
+    "corner_bracket_bottom",
+    "post_2020_130"
+   ]
+  ],
+  "f_xrail00": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xrail01": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xrail02": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xrail03": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xrail04": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xrail05": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xrail06": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xrail07": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xrail08": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xrail09": [
+   "machine",
+   15,
+   [
+    "boom_2020_270",
+    "x_rail_mgn12_250"
+   ]
+  ],
+  "f_xidler_end": [
+   "machine",
+   20,
+   [
+    "boom_2020_270",
+    "x_idler_bracket"
+   ]
+  ],
+  "f_xidler_axle": [
+   "bench:xidler",
+   19,
+   [
+    "x_idler_bracket",
+    "x_idler_gt2_20t",
+    "x_idler_slider"
+   ]
+  ],
+  "f_xidler_push": [
+   "bench:xidler",
+   19,
+   [
+    "x_idler_bracket",
+    "x_idler_slider"
+   ]
+  ],
+  "f_xchain_fix0": [
+   "machine",
+   12,
+   [
+    "boom_2020_270"
+   ]
+  ],
+  "f_xchain_fix1": [
+   "machine",
+   12,
+   [
+    "boom_2020_270"
+   ]
+  ],
+  "f_yidler_axle": [
+   "bench:yidler",
+   6,
+   [
+    "y_idler_bracket",
+    "y_idler_gt2_20t",
+    "y_idler_slider"
+   ]
+  ],
+  "f_yidler_push": [
+   "bench:yidler",
+   6,
+   [
+    "y_idler_bracket",
+    "y_idler_slider"
+   ]
+  ],
+  "f_ybeam_end": [
+   "machine",
+   7,
+   [
+    "y_beam_2020",
+    "y_idler_bracket"
+   ]
+  ],
+  "f_yidler_wood0": [
+   "machine",
+   7,
+   [
+    "plywood_base",
+    "y_idler_bracket"
+   ]
+  ],
+  "f_yidler_wood1": [
+   "machine",
+   7,
+   [
+    "plywood_base",
+    "y_idler_bracket"
+   ]
+  ],
+  "f_yswitch0": [
+   "machine",
+   8,
+   [
+    "y_home_switch_d2f",
+    "y_idler_bracket"
+   ]
+  ],
+  "f_yswitch1": [
+   "machine",
+   8,
+   [
+    "y_home_switch_d2f",
+    "y_idler_bracket"
+   ]
+  ],
+  "f_ymotor0": [
+   "machine",
+   5,
+   [
+    "y_motor_17HS16",
+    "y_motor_mount"
+   ]
+  ],
+  "f_ymotor1": [
+   "machine",
+   5,
+   [
+    "y_motor_17HS16",
+    "y_motor_mount"
+   ]
+  ],
+  "f_ymotor2": [
+   "machine",
+   5,
+   [
+    "y_motor_17HS16",
+    "y_motor_mount"
+   ]
+  ],
+  "f_ymotor3": [
+   "machine",
+   5,
+   [
+    "y_motor_17HS16",
+    "y_motor_mount"
+   ]
+  ],
+  "f_ymotor_wood0": [
+   "machine",
+   4,
+   [
+    "plywood_base",
+    "y_motor_mount"
+   ]
+  ],
+  "f_ymotor_wood1": [
+   "machine",
+   4,
+   [
+    "plywood_base",
+    "y_motor_mount"
+   ]
+  ],
+  "f_ymotor_wood2": [
+   "machine",
+   4,
+   [
+    "plywood_base",
+    "y_motor_mount"
+   ]
+  ],
+  "f_ymotor_wood3": [
+   "machine",
+   4,
+   [
+    "plywood_base",
+    "y_motor_mount"
+   ]
+  ],
+  "f_beam0": [
+   "machine",
+   2,
+   [
+    "plywood_base",
+    "y_beam_2020",
+    "y_beam_riser_40"
+   ]
+  ],
+  "f_beam1": [
+   "machine",
+   2,
+   [
+    "plywood_base",
+    "y_beam_2020",
+    "y_beam_riser_140"
+   ]
+  ],
+  "f_beam2": [
+   "machine",
+   2,
+   [
+    "plywood_base",
+    "y_beam_2020",
+    "y_beam_riser_280"
+   ]
+  ],
+  "f_beam3": [
+   "machine",
+   2,
+   [
+    "plywood_base",
+    "y_beam_2020",
+    "y_beam_riser_380"
+   ]
+  ],
+  "f_yrail00": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail01": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail02": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail03": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail04": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail05": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail06": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail07": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail08": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail09": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail10": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail11": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail12": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail13": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail14": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_yrail15": [
+   "machine",
+   3,
+   [
+    "y_beam_2020",
+    "y_rail_mgn12_400"
+   ]
+  ],
+  "f_foot0": [
+   "machine",
+   0,
+   [
+    "plywood_base",
+    "rubber_foot_1"
+   ]
+  ],
+  "f_foot1": [
+   "machine",
+   0,
+   [
+    "plywood_base",
+    "rubber_foot_2"
+   ]
+  ],
+  "f_foot2": [
+   "machine",
+   0,
+   [
+    "plywood_base",
+    "rubber_foot_3"
+   ]
+  ],
+  "f_foot3": [
+   "machine",
+   0,
+   [
+    "plywood_base",
+    "rubber_foot_4"
+   ]
+  ],
+  "f_eb_bot0": [
+   "machine",
+   36,
+   [
+    "plywood_base",
+    "standoff_m3x10_1"
+   ]
+  ],
+  "f_eb_top0": [
+   "machine",
+   37,
+   [
+    "perfboard_100x80",
+    "standoff_m3x10_1"
+   ]
+  ],
+  "f_eb_bot1": [
+   "machine",
+   36,
+   [
+    "plywood_base",
+    "standoff_m3x10_2"
+   ]
+  ],
+  "f_eb_top1": [
+   "machine",
+   37,
+   [
+    "perfboard_100x80",
+    "standoff_m3x10_2"
+   ]
+  ],
+  "f_eb_bot2": [
+   "machine",
+   36,
+   [
+    "plywood_base",
+    "standoff_m3x10_3"
+   ]
+  ],
+  "f_eb_top2": [
+   "machine",
+   37,
+   [
+    "perfboard_100x80",
+    "standoff_m3x10_3"
+   ]
+  ],
+  "f_eb_bot3": [
+   "machine",
+   36,
+   [
+    "plywood_base",
+    "standoff_m3x10_4"
+   ]
+  ],
+  "f_eb_top3": [
+   "machine",
+   37,
+   [
+    "perfboard_100x80",
+    "standoff_m3x10_4"
+   ]
+  ],
+  "f_panel0": [
+   "machine",
+   40,
+   [
+    "control_panel",
+    "plywood_base"
+   ]
+  ],
+  "f_panel1": [
+   "machine",
+   40,
+   [
+    "control_panel",
+    "plywood_base"
+   ]
+  ],
+  "f_panel2": [
+   "machine",
+   40,
+   [
+    "control_panel",
+    "plywood_base"
+   ]
+  ],
+  "f_panel3": [
+   "machine",
+   40,
+   [
+    "control_panel",
+    "plywood_base"
+   ]
+  ],
+  "f_pcb0": [
+   "bench:panel",
+   39,
+   [
+    "connector_pcb",
+    "control_panel"
+   ]
+  ],
+  "f_pcb1": [
+   "bench:panel",
+   39,
+   [
+    "connector_pcb",
+    "control_panel"
+   ]
+  ],
+  "f_bbtray0": [
+   "machine",
+   42,
+   [
+    "breadboard_tray",
+    "plywood_base"
+   ]
+  ],
+  "f_bbtray1": [
+   "machine",
+   42,
+   [
+    "breadboard_tray",
+    "plywood_base"
+   ]
+  ],
+  "f_bbtray2": [
+   "machine",
+   42,
+   [
+    "breadboard_tray",
+    "plywood_base"
+   ]
+  ],
+  "f_bbtray3": [
+   "machine",
+   42,
+   [
+    "breadboard_tray",
+    "plywood_base"
+   ]
+  ],
+  "f_battray0": [
+   "machine",
+   41,
+   [
+    "battery_tray",
+    "plywood_base"
+   ]
+  ],
+  "f_battray1": [
+   "machine",
+   41,
+   [
+    "battery_tray",
+    "plywood_base"
+   ]
+  ],
+  "f_battray2": [
+   "machine",
+   41,
+   [
+    "battery_tray",
+    "plywood_base"
+   ]
+  ],
+  "f_battray3": [
+   "machine",
+   41,
+   [
+    "battery_tray",
+    "plywood_base"
+   ]
+  ],
+  "f_guide0": [
+   "machine",
+   43,
+   [
+    "plywood_base",
+    "y_chain_guide"
+   ]
+  ],
+  "f_guide1": [
+   "machine",
+   43,
+   [
+    "plywood_base",
+    "y_chain_guide"
+   ]
+  ],
+  "f_guide2": [
+   "machine",
+   43,
+   [
+    "plywood_base",
+    "y_chain_guide"
+   ]
+  ],
+  "f_guide3": [
+   "machine",
+   43,
+   [
+    "plywood_base",
+    "y_chain_guide"
+   ]
+  ]
+ }
+}

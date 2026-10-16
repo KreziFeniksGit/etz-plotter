@@ -38,6 +38,7 @@ Design rules Egor requires: `docs/design_rules.md`.
 | `tools/stability.py` | Masses, tipping, rail moments, sag, backlash budget -> `out/stability.json` |
 | `tools/fea.py` | FEA (gmsh + CalculiX from FreeCAD) of the motor mounts, idler brackets, Y carriage -> `out/fea.json`; see `docs/stiffness_review.md` |
 | `tools/render_pose.py` | PNG render of any pose (crop optional) |
+| `tools/assembly_sim.py` | Assembly simulation: build order, part insertion paths, screw entry, tool / nut / T-nut / iron access -> `out/assembly_sim.json` |
 | `tools/anim_export.py` | Meshes for the 3D build-steps page (`out/anim/`, artifact "ETZ Plotter Build Steps") |
 | `tolerance/coupons.py` | 11 tolerance test coupons -> `tolerance/out/*.step`; `tolerance/README.md` = how to test |
 | `verify_step.py` | Re-import a STEP and count parts/solids |
@@ -62,7 +63,7 @@ Full check and export after a change (about 15 minutes in total):
 2. `./fcpy assembly.py` - static_park {}, cable_paths_through_parts none, fastener_clips_at_rest none,
    fastener_engagement_problems none, fastener_sweep none, sweep none, detailed_* none, worst_outside_polygon 0, parked in zones,
    every frame part DFM clean (thin 0, sharp 0, overhang 0).
-3. `./fcpy tools/fea.py` (all ok) then `./fcpy tools/stability.py`
+3. `./fcpy tools/assembly_sim.py` (problems: 0), `./fcpy tools/fea.py` (all ok) then `./fcpy tools/stability.py`
 4. `./fcgui export_gui.py` then `./fcpy verify_step.py out/ETZ_plotter_parked.step`
 5. If tolerances changed: `cd tolerance && ../fcpy coupons.py`
 

@@ -31,13 +31,14 @@ PYC0, PXB0 = 40.0, 287.0                  # parked Y carriage centre, parked wri
 PYC_RANGE = (40.0, 376.0)
 PXB_RANGE = (287.0, 430.0)                 # = magnet x 397..540 - W.MAG_X (110): covers the cells (397..537); at 287 the wrist carriage is 2 mm clear of the Y carriage (x 245)
 # base
-Z_FOOT, Z_PLY = 3.0, 12.0                 # rubber feet height, plywood thickness
+Z_FOOT, Z_PLY = 9.0, 6.0                  # rubber feet (below the plywood), plywood thickness (Egor's board: 6 mm)
 Z_PLY0, Z_PLY1 = Z_FOOT, Z_FOOT + Z_PLY
 PLY = (90.0, 0.0, 340.0, 470.0)           # plywood outline (corner radius 10)
 FEET = [(100.0, 22.0), (330.0, 22.0), (100.0, 458.0), (330.0, 458.0)]
-FOOT_D, FOOT_H, FOOT_POCKET = 20.0, 7.0, 4.0     # screw-on rubber foot 20 x 7, sits 4 mm deep in a pocket: 3 mm below the plywood
+FOOT_D, FOOT_H, FOOT_POCKET = 20.0, 10.0, 1.0    # screw-on rubber foot 20 x 10 in a 1 mm locating recess: 9 mm below the 6 mm plywood
+                                                 # (keeps the plywood top, and so everything above it, at z 15 as before)
 FOOT_SCREW_SINK = 2.5                            # wood screw head recess inside the foot
-BEAM_CBORE = 7.5                                 # counterbore depth for the beam bolt heads (M5x20 socket cap)
+BEAM_CBORE = 2.0                                 # beam bolt heads sunk 2 mm in the 6 mm plywood (3 mm stick out; the feet are 9 mm)
 # Y axis
 YB_X = 205.0                              # Y beam / rail centre line
 YB_Y0, YB_Y1 = 10.0, 410.0                # 2020 beam and MGN12 rail, 400 mm
@@ -68,6 +69,7 @@ POST_C = (199.0, PYC0)
 POST_L = 140.0 - Y_RISER                  # post length keeps the boom at z 152..172
 Z_POST0, Z_POST1 = Z_YC1, Z_YC1 + POST_L
 SOCKET_H = 25.0
+SOCKET_WALL_X, SOCKET_WALL_Y = 5.0, 6.0   # post socket walls; the y walls are thicker: the block-screw notches cut into them
 # X axis (boom, rail)
 BOOM_X0, BOOM_X1 = 209.0, 479.0
 Z_BOOM0, Z_BOOM1 = 152.0, 172.0
@@ -285,7 +287,8 @@ def plywood():
         cut.append(cyl((x, y, Z_PLY0 - 1), (FOOT_D + 0.4) / 2, FOOT_POCKET + 1))
     for y in BEAM_BOLTS_Y:                                   # beam M5x20 from below: counterbore for the head, through the riser
         cut.append(cyl((YB_X, y, Z_PLY0 - 1), bolt(5) / 2, Z_PLY + 2))
-        cut.append(cyl((YB_X, y, Z_PLY0 - 1), (8.5 + 0.8) / 2, BEAM_CBORE + 1))
+        if BEAM_CBORE > 0:
+            cut.append(cyl((YB_X, y, Z_PLY0 - 1), (8.5 + 0.8) / 2, BEAM_CBORE + 1))
     for x, y in ((EB[0] + 4, EB[1] + 4), (EB[2] - 4, EB[1] + 4), (EB[0] + 4, EB[3] - 4), (EB[2] - 4, EB[3] - 4)):
         cut.append(cyl((x, y, Z_PLY0 - 1), bolt(3) / 2, Z_PLY + 2))
         cut.append(Part.makeCone(3.3, bolt(3) / 2, 1.7, V(x, y, Z_PLY0)))
@@ -418,8 +421,8 @@ def y_carriage():
     plate = box(YC_X0, PYC0 - YC_HALF_Y, Z_YC0, YC_X1, PYC0 + YC_HALF_Y, Z_YC1)
     plate = plate.makeFillet(5.0, [e for e in plate.Edges if abs(e.Length - (Z_YC1 - Z_YC0)) < 1e-6])
     pc = POST_C
-    inner, wall = 10.0 + W.SOCKET_GAP, 5.0
-    sock = box(pc[0] - inner - wall, pc[1] - inner - wall, Z_YC1, pc[0] + inner + wall, pc[1] + inner + wall, Z_YC1 + SOCKET_H)
+    inner, wx, wy = 10.0 + W.SOCKET_GAP, SOCKET_WALL_X, SOCKET_WALL_Y
+    sock = box(pc[0] - inner - wx, pc[1] - inner - wy, Z_YC1, pc[0] + inner + wx, pc[1] + inner + wy, Z_YC1 + SOCKET_H)
     body = fillet_all(tidy(plate.fuse(sock)))         # socket-to-plate corner first: the block-screw counterbores cut through it
     pre = []
     for a in (-1, 1):
@@ -430,14 +433,23 @@ def y_carriage():
             pre.append(cyl((x, y, Z_YC1 - 5.0), (5.5 + 2 * TOL_MOVE) / 2, 5.0 + (W.FILLET_IN + 0.1 if a > 0 else 0.0)))
     body = fillet_all(cut_all(body, pre))
     body = body.cut(relief_pocket(pc[0] - inner, pc[1] - inner, pc[0] + inner, pc[1] + inner, Z_YC1, Z_YC1 + SOCKET_H + 1))
+    # assembly: the block screw heads overlap the socket walls by up to 2.6 mm, so each gets a vertical notch
+    # through the wall from its counterbore to the socket top (the screw and the hex key come down through it)
+    rn = (5.5 + 2 * TOL_MOVE) / 2
+    notches = [cyl((YB_X + a * 10.0, PYC0 + b * 10.0, Z_YC1 - 5.0), rn, SOCKET_H + 6.0) for a in (-1, 1) for b in (-1, 1)]
+    zs = Z_YC1 + SOCKET_H / 2
+    for b in (-1, 1):                            # the -x notches cross the +-y socket bolt holes: join them (no sliver)
+        yi = pc[1] + b * inner                   # socket inner face: a round 2.95 deep recess round the bolt hole meets the notch
+        notches.append(cyl((pc[0], yi - b * 1.0, zs), 4.5, b * (rn - 0.2 + 1.0), 'y'))
+    body = fillet_all(cut_all(body, notches))
     cut = []
     zs = Z_YC1 + SOCKET_H / 2
     for d in ('x', 'y'):
         for s in (-1, 1):
             if d == 'x':
-                cut.append(cyl((pc[0] + s * (inner - 1), pc[1], zs), bolt(5) / 2, s * (wall + 2), 'x'))
+                cut.append(cyl((pc[0] + s * (inner - 1), pc[1], zs), bolt(5) / 2, s * (wx + 2), 'x'))
             else:
-                cut.append(cyl((pc[0], pc[1] + s * (inner - 1), zs), bolt(5) / 2, s * (wall + 2), 'y'))
+                cut.append(cyl((pc[0], pc[1] + s * (inner - 1), zs), bolt(5) / 2, s * (wy + 2), 'y'))
     for x, y in Y_CLAMP:
         cut.append(cyl((x, y, Z_YC0 - 0.01), INSERT_D / 2, INSERT_DEPTH))
     (ax, ay), (bx, by) = Y_CHAIN_SLOT
@@ -521,6 +533,8 @@ def x_motor_mount():
         cut.append(cyl((x, P0 + 21.0, zc), (8.5 + 2 * TOL_MOVE) / 2, fy - P0, 'y'))
     for y, zc in XM_SIDE_BOLTS:
         cut.append(cyl((XM_CHEEK_X0 - 1, y, zc), bolt(5) / 2, px0 - XM_CHEEK_X0 + 2, 'x'))
+    for b in (-1, 1):                            # assembly: the +x motor screw heads (x 180.5) pass the cheeks in a groove
+        cut.append(cyl((XM_C[0] + 15.5, P0 - 11.0, XM_C[1] + b * 15.5), 3.4, 27.0, 'y'))
     for yy in (P0 + 19.0 - D2F['hole_pitch'] / 2, P0 + 19.0 + D2F['hole_pitch'] / 2):    # X home switch, M2 self-tapping
         cut.append(cyl((210.0, yy, 129.5), W.M2_PILOT / 2, -9.0, 'x'))
     return cut_all(body, cut)
@@ -642,6 +656,8 @@ def control_panel():
     for y in (47.0, 96.0):
         cut.append(cyl((x0 + t + 5.0 + 0.01, y, 24.5), W.M2_PILOT / 2, -5.0, 'x'))
     cut.append(rbox(x1 - t - 1, 70.0, 18.0, x1 + 1, 84.0, 26.0, 1.0, 'x'))      # cable exit
+    for y in (47.0, 96.0):                       # assembly: screwdriver access to the connector board screws through the +x wall
+        cut.append(rbox(x1 - t - 1, y - 3.0, 21.5, x1 + 1, y + 3.0, 27.5, 1.0, 'x'))
     return cut_all(body, cut)
 
 BB_EARS = [(BB[0] + 6, BB[1] - 3.0 - 5.5), (BB[0] + 76.5, BB[1] - 3.0 - 5.5), (BB[0] + 6, BB[1] + 54.5 + 3.0 + 5.5), (BB[0] + 76.5, BB[1] + 54.5 + 3.0 + 5.5)]   # screw heads clear the tray wall

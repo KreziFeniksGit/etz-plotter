@@ -1,0 +1,59 @@
+{
+ "design_acc_m_s2": 2.0,
+ "mass_by_group_kg": {
+  "base": 2.124,
+  "Y carriage + boom": 1.032,
+  "wrist module": 0.455,
+  "cable chains": 0.078
+ },
+ "backlash": {
+  "y": {
+   "moving_kg": 1.511,
+   "force_N": 3.02,
+   "belt_mm": 0.0267,
+   "stepper_mm": 0.0054,
+   "mount_mm": 0.0007,
+   "tooth_clearance_mm": 0.05,
+   "total_reversal_mm": 0.116
+  },
+  "x": {
+   "moving_kg": 0.493,
+   "force_N": 0.99,
+   "belt_mm": 0.006,
+   "stepper_mm": 0.0018,
+   "mount_mm": 0.0002,
+   "tooth_clearance_mm": 0.05,
+   "total_reversal_mm": 0.066
+  },
+  "magnet_height_play_mm": 1.4,
+  "note": "XY lost motion is ~0.1 mm per axis against the 10 mm placement tolerance. Keep it that way: GT2 pulleys with two grub screws (one on the shaft flat, Loctite 243), belts tensioned to ~25 N, a full homing each run. The servo play only changes the magnet height (it lands on the checker anyway)."
+ },
+ "servo_lift": {
+  "end_mass_kg": 0.229,
+  "wrist_stepper_kg": 0.14,
+  "needed_Nm": 0.233,
+  "stall_6V_Nm": 1.08,
+  "stall_margin": 4.6,
+  "load_vs_stall_pct": 21.6,
+  "note": "keep the steady load under ~30-40 % of stall for a long servo life (hobby servo rule of thumb)"
+ },
+ "min_tip_acc_m_s2": 25.4,
+ "min_static_margin_mm": 86.3,
+ "worst_rail_moment_Nm": 1.78,
+ "worst_sag_mm": 0.168
+}
+(40.0, 287.0, 40.0, 0.0) mass 3.655 com [225.5, 172.4, 74.5] {'-x': (125.5, 79.3), '+x': (104.5, 66.0), '-y': (150.4, 26.2), '+y': (285.6, 49.8)}
+   rails {'y_block': {'mass_kg': 1.511, 'MR_roll_Nm': 1.12, 'MP_pitch_Nm': 0.46, 'MY_yaw_Nm': 0.23}, 'x_block': {'mass_kg': 0.453, 'MR_roll_Nm': 0.05, 'MP_pitch_Nm': 0.28, 'MY_yaw_Nm': 0.01}, 'worst_Nm': 1.12, 'margin_vs_37_5': 33.5} 
+   defl {'load_kg': 0.493, 'boom_sag_mm': 0.02, 'post_tilt_sag_mm': 0.024, 'total_profile_sag_mm': 0.044, 'boom_side_flex_at_design_acc_mm': 0.0017}
+(376.0, 430.0, 5.0, 0.0) mass 3.655 com [243.7, 313.0, 71.8] {'-x': (143.7, 108.0), '+x': (86.3, 64.9), '-y': (291.0, 53.3), '+y': (145.0, 26.6)}
+   rails {'y_block': {'mass_kg': 1.511, 'MR_roll_Nm': 1.78, 'MP_pitch_Nm': 0.44, 'MY_yaw_Nm': 0.36}, 'x_block': {'mass_kg': 0.453, 'MR_roll_Nm': 0.05, 'MP_pitch_Nm': 0.3, 'MY_yaw_Nm': 0.01}, 'worst_Nm': 1.78, 'margin_vs_37_5': 21.1} 
+   defl {'load_kg': 0.493, 'boom_sag_mm': 0.095, 'post_tilt_sag_mm': 0.073, 'total_profile_sag_mm': 0.168, 'boom_side_flex_at_design_acc_mm': 0.0134}
+(40.0, 430.0, 5.0, 0.0) mass 3.655 com [243.7, 172.4, 72.1] {'-x': (143.7, 108.0), '+x': (86.3, 64.9), '-y': (150.4, 27.4), '+y': (285.6, 52.1)}
+   rails {'y_block': {'mass_kg': 1.511, 'MR_roll_Nm': 1.78, 'MP_pitch_Nm': 0.44, 'MY_yaw_Nm': 0.36}, 'x_block': {'mass_kg': 0.453, 'MR_roll_Nm': 0.05, 'MP_pitch_Nm': 0.3, 'MY_yaw_Nm': 0.01}, 'worst_Nm': 1.78, 'margin_vs_37_5': 21.1} 
+   defl {'load_kg': 0.493, 'boom_sag_mm': 0.095, 'post_tilt_sag_mm': 0.073, 'total_profile_sag_mm': 0.168, 'boom_side_flex_at_design_acc_mm': 0.0134}
+(376.0, 287.0, 40.0, 0.0) mass 3.655 com [225.5, 313.0, 74.3] {'-x': (125.5, 79.3), '+x': (104.5, 66.0), '-y': (291.0, 50.9), '+y': (145.0, 25.4)}
+   rails {'y_block': {'mass_kg': 1.511, 'MR_roll_Nm': 1.12, 'MP_pitch_Nm': 0.46, 'MY_yaw_Nm': 0.23}, 'x_block': {'mass_kg': 0.453, 'MR_roll_Nm': 0.05, 'MP_pitch_Nm': 0.28, 'MY_yaw_Nm': 0.01}, 'worst_Nm': 1.12, 'margin_vs_37_5': 33.5} 
+   defl {'load_kg': 0.493, 'boom_sag_mm': 0.02, 'post_tilt_sag_mm': 0.024, 'total_profile_sag_mm': 0.044, 'boom_side_flex_at_design_acc_mm': 0.0017}
+(208.0, 340.0, 22.5, 0.0) mass 3.655 com [232.4, 243.0, 73.2] {'-x': (132.4, 90.8), '+x': (97.6, 67.0), '-y': (221.0, 39.5), '+y': (215.0, 38.4)}
+   rails {'y_block': {'mass_kg': 1.511, 'MR_roll_Nm': 1.37, 'MP_pitch_Nm': 0.45, 'MY_yaw_Nm': 0.28}, 'x_block': {'mass_kg': 0.453, 'MR_roll_Nm': 0.05, 'MP_pitch_Nm': 0.29, 'MY_yaw_Nm': 0.01}, 'worst_Nm': 1.37, 'margin_vs_37_5': 27.4} 
+   defl {'load_kg': 0.493, 'boom_sag_mm': 0.038, 'post_tilt_sag_mm': 0.039, 'total_profile_sag_mm': 0.077, 'boom_side_flex_at_design_acc_mm': 0.0044}

@@ -19,10 +19,12 @@ V = App.Vector
 HEAD = {'cap': {2: (3.8, 2.0), 2.5: (4.5, 2.5), 3: (5.5, 3.0), 4: (7.0, 4.0), 5: (8.5, 5.0)},
         'button': {2.5: (4.7, 1.5), 3: (5.7, 1.65), 4: (7.6, 2.2), 5: (9.5, 2.75)},
         'csk': {3: (6.0, 1.7), 4: (8.0, 2.3), 5: (10.0, 2.8)},
-        'pan': {2: (3.8, 1.6), 3.5: (7.0, 2.4), 4: (8.0, 2.8)}}
+        'pan': {2: (3.8, 1.6), 3.5: (7.0, 2.4), 4: (8.0, 2.8)},
+        'set': {3: (0.0, 0.0)}}                      # ISO 4026 set screw (no head)
 NUT = {'hex': {2: (4.0, 1.6), 2.5: (5.0, 2.0), 3: (5.5, 2.4), 4: (7.0, 3.2), 5: (8.0, 4.0)},
        'nyloc': {2: (4.0, 3.0), 3: (5.5, 4.0), 4: (7.0, 5.0), 5: (8.0, 5.0)}}
 WASHER = {2: (6.0, 0.8), 3: (7.0, 0.5), 4: (9.0, 0.8), 5: (10.0, 1.0)}   # M2: DIN 9021 large washer (covers the 4.5 servo tab hole)
+WOOD_MIN = 4.0                                 # wood screw engagement in the 6 mm plywood (none may come out underneath)
 INSERT_L, INSERT_D = 5.7, 4.0                  # Ruthex RX-M3x5.7 (drawn solid: its thread is what the screw engages)
 TNUT_W, TNUT_L, TNUT_T, TNUT_DEPTH = 5.8, 9.5, 3.5, 1.8   # 2020 V-slot drop-in T-nut, under the lips (frame.VSLOT_LIP = 1.8); fits the 11 mm cavity
 
@@ -61,7 +63,9 @@ class F:
         self.head_washer, self.nut, self.nut_washer, self.insert, self.tnut = head_washer, nut, nut_washer, insert, tnut
 
     def label(self):
-        n = {'cap': 'ISO 4762', 'button': 'ISO 7380', 'csk': 'ISO 10642', 'pan': 'pan head'}[self.std]
+        n = {'cap': 'ISO 4762', 'button': 'ISO 7380', 'csk': 'ISO 10642', 'pan': 'pan head', 'set': 'ISO 4026 set screw'}[self.std]
+        if self.std == 'pan' and self.dia == 2:
+            return 'M2 x %g pan head self-tapping' % self.L
         if self.std == 'pan' and self.dia in (3.5, 4):
             return 'wood screw %gx%g (pan head)' % (self.dia, self.L)
         return 'M%g x %g %s' % (self.dia, self.L, n)
@@ -72,7 +76,11 @@ class F:
         own = self.name + '_'
         out = {}
         D, H = HEAD[self.std][self.dia]
-        if self.std == 'csk':
+        if self.std == 'set':
+            out['shank'] = (_cyl(p, d, r, self.L), None)
+            self.s0 = p
+            self.len_shank = self.L
+        elif self.std == 'csk':
             out['head'] = (Part.makeCone(D / 2, r, H, p, d), (own,))
             out['shank'] = (_cyl(p + d * H, d, r, self.L - H), None)
             self.s0 = p + d * H
@@ -133,6 +141,8 @@ def wrist_fasteners():
     L = []
     zf = W.Z_BLOCK_FACE
     for i, (x, y) in enumerate(W.BLOCK_HOLES):
+        if i == 3:
+            continue                                 # (+10, +10): no access past the servo plate; the block is held by 3 screws
         L.append(F('wm_f_block%d' % i, 'cap', 3, 6, (x, y, W.Z_CP0 + W.BLOCK_SINK), (0, 0, 1), 'xcar', ('blind', 'wm_mgn12h_block', 3.0, 3.5),
                    note='carriage plate to X rail block, heads sunk 3.5'))
     for i, (x, y) in enumerate(W.RISER_MOUNT):
@@ -148,8 +158,8 @@ def wrist_fasteners():
                    insert=('wm_x_belt_riser', ztop - zris), note='belt clamp into the riser'))
     for i, (x, z) in enumerate(W.SERVO_TAB_HOLES):
         y0 = W.SP_Y0 - W.SERVO_TAB_THK
-        L.append(F('wm_f_servo%d' % i, 'cap', 2, 12, (x, y0, z), (0, 1, 0), 'xcar', ('nut', None, 3.0, None), extra=('wm_servo_tabs', 'wm_servo_case'),
-                   nut=('nyloc', W.SP_Y1 - y0), head_washer=True, note='servo tabs: M2x12, large washer under the head (4.5 tab hole), nyloc on the +y side (no washer: a longer screw would reach the horn)'))
+        L.append(F('wm_f_servo%d' % i, 'pan', 2, 8, (x, y0, z), (0, 1, 0), 'xcar', ('self', 'wm_wrist_carriage', 3.5, None), extra=('wm_servo_tabs', 'wm_servo_case'),
+                   head_washer=True, note='servo tabs: M2 self-tapping into the servo plate, large washer under the head (4.5 tab hole)'))
     L.append(F('wm_f_pivotA', 'cap', 4, 30, (0, W.SP_Y0, W.Z_PIVOT_BOT), (0, 1, 0), 'xcar', ('nut', None, 5.0, None),
                extra=('wm_spacer_AL', 'wm_brg_AL', 'wm_shim_AL'), nut=('nyloc', W.EP_Y0 - W.SP_Y0),
                note='lower A pivot: boss, spacer, bearing, shim, nyloc'))
@@ -172,8 +182,10 @@ def wrist_fasteners():
     for i, (x, y) in enumerate(W.CAM_POSTS):
         L.append(F('wm_f_cam%d' % i, 'pan', 2, 6, (x, y, zb), (0, 0, 1), 'end', ('self', 'wm_shelf', 3.5, None), extra=('wm_camera_board',),
                    note='camera board, M2 self-tapping from below into the shelf posts'))
-    L.append(F('wm_f_magnet', 'button', 3, 6, (W.MAG_X, W.MAG_Y, W.H_MID + W.MAG_H + 2.5), (0, 0, -1), 'wrist', ('blind', 'wm_electromagnet', 3.0, 4.0),
-               note='magnet on the hub (magnet thread depth VERIFY)'))
+    zh = W.H_MID + W.MAG_H                          # hub bottom = magnet top
+    L.append(F('wm_f_magnet', 'set', 3, 8, (W.MAG_X, W.MAG_Y, zh + 4.5), (0, 0, -1), 'wrist', ('blind', 'wm_electromagnet', 3.0, 4.0),
+               insert=('wm_wrist_hub', 4.5 - INSERT_L),
+               note='magnet stud: set screw in an insert in the hub bottom, magnet spun on with Loctite 243 (magnet thread depth VERIFY)'))
     for i, x in enumerate((10.0, 20.0)):
         L.append(F('wm_f_xchain%d' % i, 'cap', 3, 12, (x, 0.0, W.CHAIN_TOP + 4.5), (0, 0, -1), 'xcar', ('nut', None, 2.4, None),
                    extra=('cable_chain_x',), nut=('hex', 4.5 + W.CHAIN_PLATE_T), note='X chain moving end link on the chain post'))
@@ -188,10 +200,10 @@ def frame_fasteners():
         L.append(F('f_yblock%d' % i, 'cap', 3, 8, (Fr.YB_X + 10 * a, P0 + 10 * b, Fr.Z_YC1 - 5.0), (0, 0, -1), 'ycar',
                    ('blind', 'y_block_mgn12h', 2.5, 3.5), note='Y carriage to the Y block, heads sunk 5'))
     pc, zs = Fr.POST_C, Fr.Z_YC1 + Fr.SOCKET_H / 2
-    o = 10.2 + 5.0
-    for nm, p, d in (('px', (pc[0] + o, pc[1], zs), (-1, 0, 0)), ('mx', (pc[0] - o, pc[1], zs), (1, 0, 0)),
-                     ('py', (pc[0], pc[1] + o, zs), (0, -1, 0)), ('my', (pc[0], pc[1] - o, zs), (0, 1, 0))):
-        L.append(F('f_socket_' + nm, 'cap', 5, 10, p, d, 'ycar', ('tnut', None, 3.0, None), tnut=(o - 10.0, (0, 0, 1), 'post_2020'),
+    ox, oy = 10.2 + Fr.SOCKET_WALL_X, 10.2 + Fr.SOCKET_WALL_Y
+    for nm, p, d, o, L5 in (('px', (pc[0] + ox, pc[1], zs), (-1, 0, 0), ox, 10), ('mx', (pc[0] - ox, pc[1], zs), (1, 0, 0), ox, 10),
+                            ('py', (pc[0], pc[1] + oy, zs), (0, -1, 0), oy, 12), ('my', (pc[0], pc[1] - oy, zs), (0, 1, 0), oy, 12)):
+        L.append(F('f_socket_' + nm, 'cap', 5, L5, p, d, 'ycar', ('tnut', None, 3.0, None), tnut=(o - 10.0, (0, 0, 1), 'post_2020'),
                    note='post in its socket, T-nut in the post slot'))
     zc0 = Fr.ZT - 0.7 + 0.3 - 3.5
     for i, (x, y) in enumerate(Fr.Y_CLAMP):
@@ -250,7 +262,7 @@ def frame_fasteners():
     L.append(F('f_ybeam_end', 'button', 5, 12, (Fr.YB_X, 4.0, Fr.Z_YB1 - 10.0), (0, 1, 0), 'base', ('tapped', 'y_beam_2020', 5.0, None),
                note='Y idler bracket into the tapped beam end (tap M5)'))
     for i, (x, y) in enumerate(Fr.IDLER_WOOD):
-        L.append(F('f_yidler_wood%d' % i, 'pan', 4, 12, (x, y, Fr.Z_PLY1 + 4.0), (0, 0, -1), 'base', ('wood', 'plywood_base', 6.0, None),
+        L.append(F('f_yidler_wood%d' % i, 'pan', 4, 10, (x, y, Fr.Z_PLY1 + 4.0), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
                    note='Y idler bracket to the plywood'))
     for i, s in enumerate((-1, 1)):
         zz = 40.0 + Fr.Y_RISER + s * Fr.D2F['hole_pitch'] / 2 + 0.5
@@ -260,7 +272,7 @@ def frame_fasteners():
         L.append(F('f_ymotor%d' % i, 'cap', 3, 10, (Fr.YM_FACE + Fr.YM_T, Fr.YM_C[0] + 15.5 * a, Fr.YM_C[1] + 15.5 * b), (-1, 0, 0), 'base',
                    ('blind', 'y_motor_17HS16', 3.0, 4.5), note='Y motor'))
     for i, (x, yy) in enumerate(Fr.YM_WOOD):
-        L.append(F('f_ymotor_wood%d' % i, 'pan', 4, 12, (x, yy, Fr.Z_PLY1 + Fr.YM_BASE[2]), (0, 0, -1), 'base', ('wood', 'plywood_base', 6.0, None),
+        L.append(F('f_ymotor_wood%d' % i, 'pan', 4, 10, (x, yy, Fr.Z_PLY1 + Fr.YM_BASE[2]), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
                    note='Y motor mount to the plywood (fixed; screw it down before the motor goes on)'))
     for i, y in enumerate(Fr.BEAM_BOLTS_Y):
         z0 = Fr.Z_PLY0 + Fr.BEAM_CBORE
@@ -271,32 +283,32 @@ def frame_fasteners():
                    ('tnut', None, 2.5, None), extra=('y_rail',), tnut=(Fr.RAIL_H - Fr.RAIL_CB_H, (0, 1, 0), 'y_beam_2020'),
                    note='Y rail to the beam (top slot)'))
     for i, (x, y) in enumerate(Fr.FEET):
-        L.append(F('f_foot%d' % i, 'pan', 3.5, 12, (x, y, Fr.FOOT_SCREW_SINK), (0, 0, 1), 'base', ('wood', 'plywood_base', 6.0, None),
+        L.append(F('f_foot%d' % i, 'pan', 3.5, 12, (x, y, Fr.FOOT_SCREW_SINK), (0, 0, 1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
                    extra=('rubber_foot',), note='rubber foot, from below'))
     EB = Fr.EB
     for i, (x, y) in enumerate(((EB[0] + 4, EB[1] + 4), (EB[2] - 4, EB[1] + 4), (EB[0] + 4, EB[3] - 4), (EB[2] - 4, EB[3] - 4))):
-        L.append(F('f_eb_bot%d' % i, 'csk', 3, 16, (x, y, Fr.Z_PLY0), (0, 0, 1), 'base', ('blind', 'standoff_m3x10_%d' % (i + 1), 3.5, 5.0),
+        L.append(F('f_eb_bot%d' % i, 'csk', 3, 10, (x, y, Fr.Z_PLY0), (0, 0, 1), 'base', ('blind', 'standoff_m3x10_%d' % (i + 1), 3.5, 5.0),
                    extra=('plywood_base',), note='standoff from below (countersunk, flush)'))
         L.append(F('f_eb_top%d' % i, 'button', 3, 6, (x, y, Fr.Z_PLY1 + 10.0 + 1.6), (0, 0, -1), 'base',
                    ('blind', 'standoff_m3x10_%d' % (i + 1), 3.5, 5.0), extra=('perfboard',), note='board on the standoff'))
     x0, y0, x1, y1, zt = Fr.PANEL
     for i, (x, y) in enumerate(((x0 + 6, y0 + 6), (x1 - 6, y0 + 6), (x0 + 6, y1 - 6), (x1 - 6, y1 - 6))):
-        L.append(F('f_panel%d' % i, 'pan', 3.5, 50, (x, y, zt), (0, 0, -1), 'base', ('wood', 'plywood_base', 8.0, None),
+        L.append(F('f_panel%d' % i, 'pan', 3.5, 45, (x, y, zt), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
                    note='control panel through its bosses into the plywood'))
     for i, y in enumerate((47.0, 96.0)):
         L.append(F('f_pcb%d' % i, 'pan', 2, 6, (x0 + 9.6, y, 24.5), (-1, 0, 0), 'base', ('self', 'control_panel', 3.0, None),
                    extra=('connector_pcb',), note='connector board, M2 self-tapping'))
     bx, by, t = Fr.BB[0], Fr.BB[1], 3.0
     for i, (x, y) in enumerate(Fr.BB_EARS):
-        L.append(F('f_bbtray%d' % i, 'pan', 3.5, 12, (x, y, Fr.Z_PLY1 + 3.0), (0, 0, -1), 'base', ('wood', 'plywood_base', 6.0, None),
+        L.append(F('f_bbtray%d' % i, 'pan', 3.5, 8, (x, y, Fr.Z_PLY1 + 3.0), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
                    note='breadboard tray'))
     for i, (x, y) in enumerate(Fr.bt_ears()):
-        L.append(F('f_battray%d' % i, 'pan', 3.5, 12, (x, y, Fr.Z_PLY1 + 3.0), (0, 0, -1), 'base', ('wood', 'plywood_base', 6.0, None),
+        L.append(F('f_battray%d' % i, 'pan', 3.5, 8, (x, y, Fr.Z_PLY1 + 3.0), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
                    note='battery tray'))
     import chains as C
     for i, y in enumerate((250.0, 300.0, 350.0, 405.0)):
-        L.append(F('f_guide%d' % i, 'pan', 3.5, 25, (C.YC_LANE_X, y, Fr.Z_PLY1 + C.GUIDE_FLOOR - 3.0), (0, 0, -1), 'base',
-                   ('wood', 'plywood_base', 8.0, None), note='Y chain guide (heads sunk under the chain)'))
+        L.append(F('f_guide%d' % i, 'pan', 3.5, 20, (C.YC_LANE_X, y, Fr.Z_PLY1 + C.GUIDE_FLOOR - 2.5), (0, 0, -1), 'base',
+                   ('wood', 'plywood_base', WOOD_MIN, None), note='Y chain guide (heads sunk under the chain)'))
     return L
 
 _CACHE = {}
