@@ -38,6 +38,7 @@ Design rules Egor requires: `docs/design_rules.md`.
 | `tools/stability.py` | Masses, tipping, rail moments, sag, backlash budget -> `out/stability.json` |
 | `tools/fea.py` | FEA (gmsh + CalculiX from FreeCAD) of the motor mounts, idler brackets, Y carriage -> `out/fea.json`; see `docs/stiffness_review.md` |
 | `tools/render_pose.py` | PNG render of any pose (crop optional) |
+| `tools/anim_export.py` | Meshes for the 3D build-steps page (`out/anim/`, artifact "ETZ Plotter Build Steps") |
 | `tolerance/coupons.py` | 11 tolerance test coupons -> `tolerance/out/*.step`; `tolerance/README.md` = how to test |
 | `verify_step.py` | Re-import a STEP and count parts/solids |
 | `vendor/` | Real STEP models of bought parts (Egor's downloads). `W.detailed()` / `F.detailed()` place them; `world(detail=True)` swaps them in (export + `detailed_*` checks) |

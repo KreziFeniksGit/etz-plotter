@@ -1,0 +1,334 @@
+<title>ETZ Plotter Build Steps</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: workshop viewer. 3D bench on the left (top on phones), build sheet on the right. */
+:root {
+  --bg: #eef0f2; --panel: #f9fafb; --ink: #1d2328; --muted: #5d6871; --line: #d4d9de;
+  --accent: #d9661a; --accent-ink: #ffffff; --chip: #e3e7ea; --stage: #dfe3e7;
+  --ok: #2f7d4f;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191c; --panel: #1b2024; --ink: #e6eaed; --muted: #98a3ab; --line: #2d353b;
+  --accent: #f0823a; --accent-ink: #1a0d03; --chip: #262d32; --stage: #1f252a; --ok: #5cc287; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #15191c; --panel: #1b2024; --ink: #e6eaed; --muted: #98a3ab; --line: #2d353b;
+  --accent: #f0823a; --accent-ink: #1a0d03; --chip: #262d32; --stage: #1f252a; --ok: #5cc287; color-scheme: dark }
+html, body { height: 100%; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.45; }
+.app { display: flex; height: 100%; }
+.stage { position: relative; flex: 1; min-width: 0; background: var(--stage); }
+#view { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; }
+.side { width: 400px; flex: none; display: flex; flex-direction: column; background: var(--panel); border-left: 1px solid var(--line); min-height: 0; }
+.head { padding-block: 16px 12px; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
+.brand { font-family: var(--display); font-weight: 800; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.steps { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.steps button { font-family: var(--mono); font-weight: 600; font-size: 14px; padding: 8px 0; border: 1px solid var(--line); background: var(--chip); color: var(--ink); border-radius: 4px; cursor: pointer; }
+.steps button[aria-current="step"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.steps button.done { color: var(--ok); }
+.steps button:focus-visible, .ctl button:focus-visible, .list button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.body { overflow-y: auto; min-height: 0; flex: 1; padding-block: 14px 24px; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); display: grid; gap: 16px; align-content: start; }
+.eyebrow { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+h1 { font-family: var(--display); font-weight: 800; font-size: 26px; line-height: 1.1; margin: 2px 0 6px; text-wrap: balance; }
+.goal { color: var(--muted); margin: 0; max-width: 60ch; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.list li { display: flex; gap: 8px; align-items: baseline; }
+.list button { all: unset; cursor: pointer; font-family: var(--mono); font-size: 13px; color: var(--ink); border-bottom: 1px dashed var(--line); overflow-wrap: anywhere; }
+.list button:hover, .list button.on { color: var(--accent); border-color: var(--accent); }
+.list .q { font-family: var(--mono); font-size: 12px; color: var(--muted); min-width: 2.2em; font-variant-numeric: tabular-nums; }
+.list .t { overflow-wrap: anywhere; }
+ol.tests { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.hint { font-size: 13px; color: var(--muted); }
+.ctl { position: absolute; left: max(12px, env(safe-area-inset-left, 0px)); right: 12px; bottom: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; pointer-events: none; }
+.ctl > * { pointer-events: auto; }
+.ctl button { font-family: var(--body); font-weight: 600; font-size: 14px; padding: 8px 12px; border-radius: 4px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
+.ctl button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.ctl button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.ctl .primary[aria-pressed="true"] { color: var(--accent-ink); }
+.spacer { flex: 1; }
+.tag { position: absolute; top: 12px; left: max(12px, env(safe-area-inset-left, 0px)); max-width: calc(100% - 24px); background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; font-family: var(--mono); font-size: 12px; }
+.tag b { color: var(--accent); font-weight: 600; }
+.loading { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--mono); color: var(--muted); font-size: 13px; text-align: center; padding: 16px; }
+@media (max-width: 820px) {
+  .app { flex-direction: column; height: auto; min-height: 100%; }
+  .stage { flex: none; height: 58vh; min-height: 320px; }
+  .side { width: auto; border-left: 0; border-top: 1px solid var(--line); }
+  .body { overflow: visible; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+
+<div class="app">
+  <div class="stage">
+    <canvas id="view" aria-label="3D view of the plotter assembly"></canvas>
+    <div class="loading" id="loading">Loading the 3D model (about 8 MB)…</div>
+    <div class="tag" id="tag">Drag to orbit, scroll or pinch to zoom, tap a part to name it.</div>
+    <div class="ctl">
+      <button id="prev" aria-label="Previous step">◀ Prev</button>
+      <button id="play" class="primary">▶ Replay step</button>
+      <button id="next" aria-label="Next step">Next ▶</button>
+      <span class="spacer"></span>
+      <button id="ghost" aria-pressed="false">Ghost earlier steps</button>
+      <button id="fast" aria-pressed="true">Screws</button>
+      <button id="explode" aria-pressed="false">Explode</button>
+    </div>
+  </div>
+  <aside class="side">
+    <div class="head">
+      <div class="brand">ETZ plotter · print &amp; test order</div>
+      <nav class="steps" id="steps" aria-label="Build steps"></nav>
+    </div>
+    <div class="body" id="sheet"></div>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+// ---------------- build sheet content (docs/print_test_order.md) ----------------
+const STEPS = [
+ { t: "Tolerance coupons and belt grip", goal: "Every hole, press fit and slot in the real parts uses these sizes. Print them first, find the variant that fits, then the parts get re-exported before Step 1.",
+   printed: [["tol_A_bolt_holes_vertical",1,"coupon_tol_A"],["tol_C_inserts",1,"coupon_tol_C"],["tol_D1_press_bearing",1,"coupon_tol_D1"],["tol_E1_nema17",1,"coupon_tol_E1"],["tol_F1_servo_window",1,"coupon_tol_F1"],["tol_B_bolt_holes_horizontal",1,"coupon_tol_B"],["tol_D2_press_dbore_pins",1,"coupon_tol_D2"],["tol_E2_nema17_pancake",1,"coupon_tol_E2"],["tol_F2_profile_socket_tongue",1,"coupon_tol_F2"],["tol_F3_spacer_ziptie_pilot",1,"coupon_tol_F3"],["tol_G_panel_holes",1,"coupon_tol_G"]],
+   bought: [["M2..M5 screws, Ruthex M3 insert + soldering iron",""],["684ZZ bearing, NEMA17, MG996R",""],["pancake 17HS4023S, 2020 V-slot scrap, nylon spacer",""],["zip ties, stop/start buttons, LED holder",""],["belt grip test: x_belt_riser + x_belt_clamp, GT2 belt scrap","" ]],
+   tests: ["Print A, C, D1, E1, F1 first; the rest when you have the parts.","Pick the variant that fits as in tolerance/README.md.","Pull the belt hard in the riser + clamp test print: it must not slip.","Send the winning variants to Claude; parts get updated and re-exported."] },
+ { t: "Base and Y axis", goal: "The Y carriage runs the full 336 mm smoothly, homes the same way every time, and moves the distance you command.",
+   printed: [["y_beam_riser_x4",4,"y_beam_riser"],["y_motor_mount",1,"y_motor_mount"],["y_idler_bracket",1,"y_idler_bracket"],["y_idler_slider",1,"y_idler_slider"],["y_carriage",1,"y_carriage"],["y_belt_clamp",1,"y_belt_clamp"],["y_belt_spacer",1,"y_belt_spacer"]],
+   bought: [["Plywood 12 mm 250 x 460 + 4 rubber feet","plywood_base|rubber_foot"],["2020 V-slot 400 mm","y_beam_2020"],["MGN12 rail 400 + MGN12H block","y_rail|y_block"],["NEMA17 17HS16-2004S1","y_motor_17"],["GT2 pulley, idler, belt ~0.92 m","y_pulley|y_idler_gt2|y_belt_gt2"],["Omron D2F-01L home switch","y_home_switch"],["Test bench: ESP32-S3, 1x TMC2209, LiPo + fuse, 5 V regulator (loose on the breadboard)",""]],
+   tests: ["By hand, belt off: the carriage slides the whole length with no tight spots.","Tension the belt at the idler slider (about 25 N per strand): it twangs, not flaps.","Move 100 mm and back 10 times, home 10 times: marks spread well under 1 mm.","Command 300 mm, measure with a ruler, set steps/mm (40 mm per turn).","Push against the holding motor and look for play (budget 0.11 mm)."] },
+ { t: "Post, boom and X axis", goal: "X runs its full travel square to Y, and the boom does not sag or shake when the carriage moves fast.",
+   printed: [["post_cap",1,"post_cap"],["x_motor_mount",1,"x_motor_mount"],["x_idler_bracket",1,"x_idler_bracket"],["x_idler_slider",1,"x_idler_slider"],["wrist_wrist_carriage",1,"wm_wrist_carriage"],["wrist_x_belt_riser",1,"wm_x_belt_riser"],["wrist_x_belt_clamp",1,"wm_x_belt_clamp"]],
+   bought: [["2020 V-slot 130 mm post, 270 mm boom","post_2020|boom_2020"],["2x cast corner bracket","corner_bracket"],["MGN12 rail 250 + MGN12H block","x_rail|wm_mgn12h"],["NEMA17 17HS16-2004S1","x_motor_17"],["GT2 pulley, idler, belt ~0.67 m","x_pulley|x_idler_gt2|x_belt_gt2"],["Omron D2F-01L home switch","x_home_switch"],["2nd TMC2209 on the test bench",""]],
+   tests: ["Square the boom to Y with a set square before tightening the brackets.","Same as Step 1: smooth by hand, tension, repeatability, homing, steps/mm.","Fast diagonal moves: watch the boom tip for shaking.","Draw a 100 mm square with a taped pen; diagonals match within ~1 mm."] },
+ { t: "Wrist module", goal: "The magnet face moves 5 to 40 mm and stays level, the wrist turns any angle, and the magnet picks a checker and lets it go. Build it on the wrist carriage on the desk first, then mount it.",
+   printed: [["wrist_chain_post",1,"wm_chain_post"],["wrist_arm_top",1,"wm_arm_top"],["wrist_arm_bottom",1,"wm_arm_bottom"],["wrist_end_plate",1,"wm_end_plate"],["wrist_shelf",1,"wm_shelf"],["wrist_wrist_hub",1,"wm_wrist_hub"]],
+   bought: [["MG996R servo + 25T aluminium horn","wm_servo"],["3x 684ZZ, nylon spacers, shim washers","wm_brg|wm_spacer|wm_shim"],["NEMA17 pancake 17HS4023S","wm_nema17p"],["P20/15 electromagnet + AO3400 + 1N5819","wm_electromagnet"],["Camera board (your choice)","wm_camera"],["6 V regulator, 3rd TMC2209 (0.6 A)",""]],
+   tests: ["Horn off: the parallelogram moves freely, no play at the pivots.","Servo sweep: set pulse limits for face 5 and 40 mm; face stays level.","Turn the wrist 360 deg and back 10 times: it returns to your hand mark.","Pick a checker, lift to 40 mm, shake, drop. Then stack 5."] },
+ { t: "Electronics, panel and trays", goal: "The device runs from its own battery, with the stop and start buttons, LEDs and connectors the rules require.",
+   printed: [["control_panel",1,"control_panel"],["battery_tray",1,"battery_tray"],["breadboard_tray",1,"breadboard_tray"]],
+   bought: [["Latching E-stop (2 NC blocks), start button, green + red LEDs","estop|start_button|led_"],["4S LiPo 2200 + fuse + XT60","battery_4s|battery_strap"],["Pololu 5 V and 6 V regulators","pololu"],["ESP32-S3, 4x TMC2209 on the perfboard","esp32|tmc2209|header_|perfboard|standoff"],["Connectors A/B/C, level shifter","connector_pcb"],["400-point breadboard","breadboard_400"]],
+   tests: ["No motors connected: check the 5 V and 6 V rails with a multimeter.","Press E-stop while an axis moves: motors and servo lose power, the magnet drops the checker.","Green LED = drives powered, red = program running; start starts the program.","Connectors A/B/C: check voltages and the UART on C with the laptop."] },
+ { t: "Cable chains and routing", goal: "No cable gets pulled, pinched or dragged anywhere in the travel.",
+   printed: [["y_chain_guide",1,"y_chain_guide"]],
+   bought: [["Cable chain 10x15 R18 (X 280 mm, Y 250 mm)","cable_chain"],["Zip ties 2.5-3 mm","zip_"],["Harness wires and JST plugs (wiring.md)","cable_"]],
+   tests: ["Slowly visit every corner and every wrist extreme; watch every cable.","Every harness unplugs at the board."] },
+ { t: "Whole device test", goal: "Everything together, on the battery, doing the real task.",
+   printed: [], bought: [],
+   tests: ["Home, then visit a 5 x 5 grid over the field and measure the error at each point.","Full task: pick, turn, stack to 5, battery only, for 30 minutes.","It parks inside zones 1+2 and stays inside the 600 x 500 polygon."] }
+];
+
+// which step a model part belongs to (names from assembly.world)
+const pre = (n, list) => list.some(p => n.startsWith(p));
+function stepOf(p) {
+  const n = p.n;
+  if (p.k === 'coupon') return 0;
+  if (pre(n, ['cable_', 'zip_', 'wm_zip_', 'y_chain_guide', 'f_guide', 'f_ychain', 'f_xchain', 'wm_f_xchain'])) return 5;
+  if (p.b === 'Electronics_and_controls' || pre(n, ['f_eb_', 'f_panel', 'f_pcb', 'f_bbtray', 'f_battray'])) return 4;
+  if (pre(n, ['plywood', 'rubber_foot', 'y_', 'f_foot', 'f_beam', 'f_yrail', 'f_ymotor', 'f_yidler', 'f_ybeam', 'f_yswitch', 'f_yblock', 'f_yclamp'])) return 1;
+  if (pre(n, ['post_', 'boom_', 'corner_bracket', 'x_', 'wm_mgn12h', 'wm_wrist_carriage', 'wm_x_belt', 'f_socket', 'f_xmotor', 'f_xmount', 'f_xswitch', 'f_bracket', 'f_xrail', 'f_xidler', 'wm_f_block', 'wm_f_riser', 'wm_f_clamp'])) return 2;
+  if (n.startsWith('wm_')) return 3;
+  return 4;
+}
+
+// ---------------- 3D ----------------
+const canvas = document.getElementById('view');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(35, 1, 5, 6000);
+camera.position.set(700, 600, 900);
+const controls = new THREE.OrbitControls(camera, canvas);
+controls.enableDamping = true;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8f95, 0.85));
+const sun = new THREE.DirectionalLight(0xffffff, 0.75); sun.position.set(400, 900, 500); scene.add(sun);
+const fill = new THREE.DirectionalLight(0xffffff, 0.3); fill.position.set(-600, 300, -400); scene.add(fill);
+const root = new THREE.Group(); root.rotation.x = -Math.PI / 2; scene.add(root);   // model is Z-up
+const grid = new THREE.GridHelper(1200, 24, 0x888888, 0x888888);
+grid.material.opacity = 0.18; grid.material.transparent = true; scene.add(grid);
+
+const meshes = [];
+let cur = 1, ghost = false, showFast = true, explode = false, anim = null;
+const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+async function load() {
+  const [meta, rawB64] = await Promise.all([
+    fetch('parts.json').then(r => r.json()),
+    fetch('meshes.b64.txt').then(r => r.text())]);
+  const bin = atob(rawB64.trim()), u8 = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  const raw = u8.buffer;
+  let buf = raw;
+  const head = new Uint8Array(raw, 0, 2);
+  if (head[0] === 0x1f && head[1] === 0x8b) {
+    const ds = new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip')));
+    buf = await ds.arrayBuffer();
+  }
+  for (const p of meta) {
+    const q = new Int16Array(buf, p.vo, p.nv * 3);
+    const pos = new Float32Array(q.length);
+    for (let i = 0; i < q.length; i++) pos[i] = q[i] / 50;
+    const idx = p.u32 ? new Uint32Array(buf, p.io, p.nf * 3) : new Uint16Array(buf, p.io, p.nf * 3);
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    g.setIndex(new THREE.BufferAttribute(idx.slice(), 1));
+    g.computeBoundingBox();
+    const col = new THREE.Color(p.c[0], p.c[1], p.c[2]);
+    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: col, flatShading: true, roughness: 0.6, metalness: p.k === 'fastener' ? 0.4 : 0.05, side: THREE.DoubleSide }));
+    m.userData = { name: p.n, kind: p.k, step: stepOf(p), base: col.clone(), centre: g.boundingBox.getCenter(new THREE.Vector3()) };
+    root.add(m); meshes.push(m);
+  }
+  document.getElementById('loading').hidden = true;
+  go(1, true);
+}
+
+function stepMeshes(s) { return meshes.filter(m => m.userData.step === s); }
+
+function frame(list) {
+  const box = new THREE.Box3();
+  list.forEach(m => { const b = m.geometry.boundingBox.clone(); b.applyMatrix4(root.matrixWorld); box.union(b); });
+  if (box.isEmpty()) return;
+  const c = box.getCenter(new THREE.Vector3()), r = box.getSize(new THREE.Vector3()).length() / 2;
+  const dist = r / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.35;
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  if (dir.y < 0.25) { dir.y = 0.5; dir.normalize(); }
+  camTween = { t0: performance.now(), from: [camera.position.clone(), controls.target.clone()], to: [c.clone().add(dir.multiplyScalar(dist)), c] };
+}
+let camTween = null;
+
+function apply(s) {
+  root.updateMatrixWorld();
+  for (const m of meshes) {
+    const u = m.userData;
+    let vis = s === 0 ? u.step === 0 : (u.step >= 1 && u.step <= Math.max(s, s === 6 ? 5 : s));
+    if (!showFast && u.kind === 'fastener') vis = false;
+    m.visible = vis;
+    const old = s !== 6 && u.step < s && u.step > 0;
+    m.material.transparent = ghost && old;
+    m.material.opacity = ghost && old ? 0.18 : 1;
+    m.material.depthWrite = !(ghost && old);
+    m.material.emissive.setRGB(0, 0, 0);
+    u.drop = 0;
+  }
+}
+
+function play(s) {
+  const list = stepMeshes(s === 6 ? -1 : s).filter(m => m.visible);
+  if (prefersReduced || !list.length) { anim = null; return; }
+  // big parts first, screws last; each part drops in from above
+  list.sort((a, b) => (a.userData.kind === 'fastener') - (b.userData.kind === 'fastener') || a.userData.centre.z - b.userData.centre.z);
+  list.forEach((m, i) => { m.userData.delay = (m.userData.kind === 'fastener' ? 1400 : 0) + i * (m.userData.kind === 'fastener' ? 4 : 60); m.userData.drop = 260; });
+  anim = { t0: performance.now(), list };
+}
+
+function go(s, first) {
+  cur = Math.max(0, Math.min(6, s));
+  apply(cur);
+  frame(cur === 6 || cur === 0 ? meshes.filter(m => m.visible) : meshes.filter(m => m.visible && (m.userData.step === cur || cur === 1)));
+  play(cur);
+  controls.autoRotate = cur === 6 && !prefersReduced; controls.autoRotateSpeed = 0.8;
+  renderSheet();
+  document.querySelectorAll('#steps button').forEach((b, i) => {
+    b.toggleAttribute('aria-current', false); if (i === cur) b.setAttribute('aria-current', 'step');
+    b.classList.toggle('done', i < cur);
+  });
+  document.getElementById('prev').disabled = cur === 0;
+  document.getElementById('next').disabled = cur === 6;
+  try { localStorage.setItem('etz-step', cur); } catch (e) {}
+}
+
+let highlight = null;
+function hi(pattern, btn) {
+  document.querySelectorAll('.list button.on').forEach(b => b.classList.remove('on'));
+  if (highlight === pattern || !pattern) { highlight = null; meshes.forEach(m => m.material.emissive.setRGB(0, 0, 0)); return; }
+  highlight = pattern; btn.classList.add('on');
+  const pats = pattern.split('|');
+  const hit = meshes.filter(m => m.visible && pats.some(p => m.userData.name.startsWith(p)));
+  meshes.forEach(m => m.material.emissive.setRGB(0, 0, 0));
+  hit.forEach(m => m.material.emissive.setRGB(0.55, 0.22, 0.0));
+  if (hit.length) frame(hit);
+  setTag(hit.length ? '<b>' + pats[0].replace(/_$/, '') + '</b> · ' + hit.length + ' part' + (hit.length > 1 ? 's' : '') + ' highlighted' : 'Not drawn in the model (bench item).');
+}
+
+const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+function renderSheet() {
+  const st = STEPS[cur];
+  const li = (label, q, pat) => `<li><span class="q">${q ? q + '×' : '·'}</span>${pat ? `<button data-p="${pat}">${esc(label)}</button>` : `<span class="t">${esc(label)}</span>`}</li>`;
+  document.getElementById('sheet').innerHTML = `
+    <div><div class="eyebrow">Step ${cur} of 6</div><h1>${esc(st.t)}</h1><p class="goal">${esc(st.goal)}</p></div>
+    ${st.printed.length ? `<section><h2>Print (${cur === 0 ? 'tolerance/out/' : 'out/printed/'})</h2><ul class="list">${st.printed.map(p => li(p[0] + '.step', p[1], p[2])).join('')}</ul></section>` : ''}
+    ${st.bought.length ? `<section><h2>Bought parts</h2><ul class="list">${st.bought.map(b => li(b[0], 0, b[1])).join('')}</ul></section>` : ''}
+    <section><h2>${cur === 6 ? "Final tests" : "Test before the next step"}</h2><ol class="tests">${st.tests.map(t => `<li>${esc(t)}</li>`).join('')}</ol></section>
+    <p class="hint">Tap a part name to light it up in the model. Screws for each step are in out/fastener_bom.csv and docs/print_test_order.md.</p>`;
+  document.querySelectorAll('#sheet .list button').forEach(b => b.onclick = () => hi(b.dataset.p, b));
+  highlight = null;
+}
+
+function setTag(html) { document.getElementById('tag').innerHTML = html; }
+
+// step nav
+const nav = document.getElementById('steps');
+STEPS.forEach((s, i) => { const b = document.createElement('button'); b.textContent = i; b.title = s.t; b.setAttribute('aria-label', 'Step ' + i + ': ' + s.t); b.onclick = () => go(i); nav.appendChild(b); });
+document.getElementById('prev').onclick = () => go(cur - 1);
+document.getElementById('next').onclick = () => go(cur + 1);
+document.getElementById('play').onclick = () => { apply(cur); play(cur); };
+const tog = (id, fn) => { const b = document.getElementById(id); b.onclick = () => { const v = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', v); fn(v); }; };
+tog('ghost', v => { ghost = v; apply(cur); });
+tog('fast', v => { showFast = v; apply(cur); });
+tog('explode', v => { explode = v; });
+addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); });
+
+// pick a part
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2(); let down = null;
+canvas.addEventListener('pointerdown', e => down = [e.clientX, e.clientY]);
+canvas.addEventListener('pointerup', e => {
+  if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 5) return;
+  const r = canvas.getBoundingClientRect();
+  ptr.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+  ray.setFromCamera(ptr, camera);
+  const hit = ray.intersectObjects(meshes.filter(m => m.visible && m.material.opacity > 0.5), false)[0];
+  if (hit) { const u = hit.object.userData; setTag('<b>' + esc(u.name) + '</b> · ' + u.kind + ' · step ' + u.step); }
+});
+
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== Math.floor(w * renderer.getPixelRatio()) || canvas.height !== Math.floor(h * renderer.getPixelRatio())) {
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+}
+const ease = t => 1 - Math.pow(1 - Math.min(1, Math.max(0, t)), 3);
+let expl = 0;
+function tick(now) {
+  resize();
+  if (camTween) {
+    const k = ease((now - camTween.t0) / (prefersReduced ? 1 : 700));
+    camera.position.lerpVectors(camTween.from[0], camTween.to[0], k);
+    controls.target.lerpVectors(camTween.from[1], camTween.to[1], k);
+    if (k >= 1) camTween = null;
+  }
+  expl += ((explode ? 1 : 0) - expl) * 0.12;
+  if (anim) {
+    let done = true;
+    for (const m of anim.list) {
+      const k = ease((now - anim.t0 - m.userData.delay) / 650);
+      m.userData.drop = 260 * (1 - k); if (k < 1) done = false;
+      if (!highlight) m.material.emissive.setRGB(0.5 * (1 - k), 0.2 * (1 - k), 0);
+    }
+    if (done) anim = null;
+  }
+  for (const m of meshes) {
+    const u = m.userData;
+    m.position.z = (u.drop || 0) + expl * (u.step * 45 + (u.kind === 'fastener' ? 18 : 0));
+  }
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+try { const s = +localStorage.getItem('etz-step'); if (s >= 0 && s <= 6 && localStorage.getItem('etz-step') !== null) cur = s; } catch (e) {}
+load().then(() => { if (cur !== 1) go(cur); }).catch(e => { document.getElementById('loading').textContent = 'Could not load the model: ' + e.message; });
+</script>

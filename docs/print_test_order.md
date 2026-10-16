@@ -169,3 +169,9 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 1. Home, then visit a grid of points over the field (like the 5 x 5 grid in the model checks) and measure the error at each.
 2. Pick-and-place a full task: pick, turn, stack to 5, on battery only, for 30 minutes (battery runtime).
 3. Park check: it parks inside zones 1+2 and stays inside the 600 x 500 polygon.
+
+---
+
+Interactive 3D version of these steps: artifact "ETZ Plotter Build Steps" (https://claude.ai/artifact/Fm5uXZjVuXohkbDCnw3GGj).
+Rebuild its model data after a geometry change with `./fcpy tools/anim_export.py` (writes `out/anim/parts.json` + `meshes.dat`,
+then `base64 -w0 out/anim/meshes.dat > out/anim/meshes.b64.txt`); the page source is `out/anim/index.html`.
