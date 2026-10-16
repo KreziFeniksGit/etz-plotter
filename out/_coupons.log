@@ -1,24 +1,26 @@
-tol_A2_bolt_holes_m4_m5 build 2 s, check 4 s
+tol_H_next_A2_D1_F2 build 10 s, check 30 s
+tol_H_next_A2_D1_F2                  TOL_BOLT_D / TOL_PRESS / VTONGUE_GAP [84.0, 84.7, 15.0]  31.4 g  wall 3.45 bridge 0 overhang 0.0 sharp 0
+tol_A2_bolt_holes_m4_m5 build 3 s, check 6 s
 tol_A2_bolt_holes_m4_m5              TOL_BOLT_D                     [56.5, 34.2, 15.0]  13.1 g  wall 3.45 bridge 0 overhang 0.0 sharp 0
-tol_A_bolt_holes_vertical build 2 s, check 4 s
+tol_A_bolt_holes_vertical build 3 s, check 6 s
 tol_A_bolt_holes_vertical            TOL_BOLT                       [58.5, 73.5, 4.0]  20.6 g  wall 4.0 bridge 0 overhang 0.0 sharp 0
-tol_B_bolt_holes_horizontal build 3 s, check 2 s
+tol_B_bolt_holes_horizontal build 4 s, check 3 s
 tol_B_bolt_holes_horizontal          TOL_BOLT                       [109.5, 8.0, 15.0]  15.3 g  wall 4.48 bridge 0 overhang 0.0 sharp 0
-tol_C_inserts build 1 s, check 2 s
+tol_C_inserts build 1 s, check 4 s
 tol_C_inserts                        INSERT_D                       [56.3, 19.3, 9.0]  11.7 g  wall 2.51 bridge 0 overhang 0.0 sharp 0
-tol_D1_press_bearing build 1 s, check 2 s
+tol_D1_press_bearing build 1 s, check 4 s
 tol_D1_press_bearing                 TOL_PRESS                      [56.5, 26.5, 8.0]  13.0 g  wall 4.0 bridge 0 overhang 0.0 sharp 0
-tol_D2_press_dbore_pins build 2 s, check 5 s
+tol_D2_press_dbore_pins build 3 s, check 7 s
 tol_D2_press_dbore_pins              TOL_DBORE / TOL_PRESS          [60.5, 44.5, 13.0]  15.1 g  wall 3.0 bridge 0 overhang 0.0 sharp 0
-tol_E1_nema17 build 1 s, check 4 s
+tol_E1_nema17 build 1 s, check 6 s
 tol_E1_nema17                        TOL_MOTOR                      [136.5, 51.5, 3.0]  21.6 g  wall 3.0 bridge 0 overhang 0.0 sharp 0
-tol_E2_nema17_pancake build 1 s, check 4 s
+tol_E2_nema17_pancake build 1 s, check 6 s
 tol_E2_nema17_pancake                TOL_MOTOR                      [136.5, 51.5, 3.0]  21.6 g  wall 3.0 bridge 0 overhang 0.0 sharp 0
-tol_F1_servo_window build 1 s, check 4 s
+tol_F1_servo_window build 1 s, check 7 s
 tol_F1_servo_window                  TOL_MOVE                       [136.5, 31.3, 5.0]  10.4 g  wall 3.0 bridge 0 overhang 0.0 sharp 0
-tol_F2_profile_socket_tongue build 5 s, check 17 s
-tol_F2_profile_socket_tongue         SOCKET_GAP / VTONGUE_GAP       [86.9, 46.2, 10.0]  15.7 g  wall 3.0 bridge 0 overhang 0.0 sharp 0
-tol_F3_spacer_ziptie_pilot build 1 s, check 4 s
+tol_F2_profile_socket_tongue build 6 s, check 15 s
+tol_F2_profile_socket_tongue         SOCKET_GAP / VTONGUE_GAP       [84.0, 12.0, 5.6]   5.2 g  wall 4.05 bridge 0 overhang 0.0 sharp 0
+tol_F3_spacer_ziptie_pilot build 2 s, check 7 s
 tol_F3_spacer_ziptie_pilot           SPACER_GAP / ZIP_SLOT / M2_PILOT [62.5, 40.5, 7.5]  22.0 g  wall 2.51 bridge 0 overhang 0.0 sharp 0
-tol_G_panel_holes build 1 s, check 3 s
+tol_G_panel_holes build 1 s, check 4 s
 tol_G_panel_holes                    TOL_PANEL                      [94.5, 79.5, 3.0]  21.0 g  wall 3.0 bridge 0 overhang 0.0 sharp 0

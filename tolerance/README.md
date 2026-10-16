@@ -23,7 +23,7 @@ zip ties, the stop button, start button and an LED holder.
 | D2 hubs | 0.18 | `TOL_DBORE` 0.18 |
 | E1 NEMA17 | +0.10 | `TOL_MOTOR` 0.10 |
 | F2 sleeve | 20.2 slides but jams at the end: too tight | `SOCKET_GAP` stays 0.2 (20.4): try that one |
-Still to print: **A2** (M4/M5), **D1** (684ZZ), **F2** again (new V tongues; check the 20.4 sleeve), F1 for the new servo, F3, G, E2, D2 pins.
+Still to print: **`tol_H_next_A2_D1_F2`** (one file: A2 M4/M5 holes, D1 684ZZ seat, F2 V-slot tongues; the F2 sleeves were measured and are left out), F1 for the new servo, F3, G, E2, D2 pins.
 
 | Coupon | Tests | Pass | Constant (model value) |
 |---|---|---|---|

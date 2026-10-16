@@ -221,9 +221,11 @@ def coupon_F1():
 # =============================================================================
 # F2. 2020 profile fits: post socket sleeves (per-side gap) and riser tongues  -> socket gap, TOL_MOVE
 # =============================================================================
+SLEEVES = False      # sleeves measured (16 Oct): only the V-slot tongues are printed now
+
 def coupon_F2():
     parts = []
-    for j, g in enumerate(SOCKET_T):
+    for j, g in enumerate(SOCKET_T if SLEEVES else []):
         a = 20.0 + 2 * g
         x0 = 30.0 * j
         sl = box(x0, 0, 0, x0 + a + 6.0, a + 6.0, 10.0)
@@ -308,7 +310,25 @@ def coupon_A2():
         bar = engrave_front(bar, 'M%g' % d, 6.0 + 8.8 * (3 * i + 1), 12.5, h + 4.0, 2.6)
     return Part.makeCompound([s, bar])
 
+# =============================================================================
+# H. next print, one file: A2 (M4/M5 holes), D1 (684ZZ seat), F2 (V-slot tongues)
+# =============================================================================
+def _moved(s, dx, dy):
+    s = s.copy()
+    s.translate(V(dx - s.BoundBox.XMin, dy - s.BoundBox.YMin, 0))
+    return s
+
+def coupon_H():
+    a2, d1, f2 = coupon_A2(), coupon_D1(), coupon_F2()
+    y = 0.0
+    out = []
+    for c in (a2, d1, f2):
+        out.append(_moved(c, 0.0, y))
+        y += c.BoundBox.YLength + 6.0
+    return Part.makeCompound(out)
+
 COUPONS = {
+    'tol_H_next_A2_D1_F2': (coupon_H, 'TOL_BOLT_D / TOL_PRESS / VTONGUE_GAP', 'one print: A2 (M4/M5 holes), D1 (684ZZ seat), F2 (V-slot tongues)'),
     'tol_A2_bolt_holes_m4_m5': (coupon_A2, 'TOL_BOLT_D', 'M4 / M5 clearance re-test, vertical (plate) and horizontal (wall: M5 x3 then M4 x3)'),
     'tol_A_bolt_holes_vertical': (coupon_A, 'TOL_BOLT', 'M2..M5 clearance holes printed vertical'),
     'tol_B_bolt_holes_horizontal': (coupon_B, 'TOL_BOLT', 'M3..M5 clearance holes through a standing wall'),

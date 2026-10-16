@@ -138,13 +138,13 @@
   "tests": "2020 post socket sleeves and V-slot beam riser tongues",
   "constant": "SOCKET_GAP / VTONGUE_GAP",
   "size_mm": [
-   86.9,
-   46.2,
-   10.0
+   84.0,
+   12.0,
+   5.6
   ],
-  "grams_petg_100pct": 15.7,
+  "grams_petg_100pct": 5.2,
   "valid": true,
-  "min_wall": 3.0,
+  "min_wall": 4.05,
   "widest_bridge_mm": 0,
   "steep_overhang_mm2": 0.0,
   "n_sharp": 0
@@ -188,6 +188,21 @@
    15.0
   ],
   "grams_petg_100pct": 13.1,
+  "valid": true,
+  "min_wall": 3.45,
+  "widest_bridge_mm": 0,
+  "steep_overhang_mm2": 0.0,
+  "n_sharp": 0
+ },
+ "tol_H_next_A2_D1_F2": {
+  "tests": "one print: A2 (M4/M5 holes), D1 (684ZZ seat), F2 (V-slot tongues)",
+  "constant": "TOL_BOLT_D / TOL_PRESS / VTONGUE_GAP",
+  "size_mm": [
+   84.0,
+   84.7,
+   15.0
+  ],
+  "grams_petg_100pct": 31.4,
   "valid": true,
   "min_wall": 3.45,
   "widest_bridge_mm": 0,
