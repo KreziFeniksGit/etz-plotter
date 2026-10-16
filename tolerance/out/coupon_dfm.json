@@ -208,5 +208,20 @@
   "widest_bridge_mm": 0,
   "steep_overhang_mm2": 0.0,
   "n_sharp": 0
+ },
+ "tol_F1_servo_rds3235": {
+  "tests": "RDS3235 face mount: horn hub hole (gap per side) and M2 face screw holes",
+  "constant": "TOL_MOVE / TOL_BOLT",
+  "size_mm": [
+   146.3,
+   30.3,
+   5.0
+  ],
+  "grams_petg_100pct": 21.9,
+  "valid": true,
+  "min_wall": 2.5,
+  "widest_bridge_mm": 0,
+  "steep_overhang_mm2": 0.0,
+  "n_sharp": 0
  }
 }

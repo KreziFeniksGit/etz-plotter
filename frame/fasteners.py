@@ -156,11 +156,10 @@ def wrist_fasteners():
     for i, (x, y) in enumerate(W.CLAMP_SCREWS):
         L.append(F('wm_f_clamp%d' % i, 'cap', 3, 10, (x, y, ztop), (0, 0, -1), 'xcar', ('insert', None, 4.0, None),
                    insert=('wm_x_belt_riser', ztop - zris), note='belt clamp into the riser'))
-    for i, (x, z) in enumerate(W.SERVO_TAB_HOLES):
-        y0 = W.SP_Y0 - W.SERVO_TAB_THK
-        L.append(F('wm_f_servo%d' % i, 'pan', 2, 8, (x, y0, z), (0, 1, 0), 'xcar', ('self', 'wm_wrist_carriage', 3.5, None), extra=('wm_servo_tabs', 'wm_servo_case'),
-                   head_washer=True, note='servo tabs: M2 self-tapping into the servo plate, large washer under the head (4.5 tab hole)'))
-    L.append(F('wm_f_pivotA', 'cap', 4, 30, (0, W.SP_Y0, W.Z_PIVOT_BOT), (0, 1, 0), 'xcar', ('nut', None, 5.0, None),
+    for i, (x, z) in enumerate(W.SERVO_MOUNT):
+        L.append(F('wm_f_servo%d' % i, 'cap', 2, 5, (x, W.SP_Y1 - W.SERVO_SCREW_SINK, W.Z_PIVOT_TOP + z), (0, -1, 0), 'xcar',
+                   ('blind', 'wm_servo_case', 2.0, 3.0), note='RDS3235 spline face to the servo plate, from the +y side (case holes 3 deep, VERIFY)'))
+    L.append(F('wm_f_pivotA', 'cap', 4, 20, (0, W.SP_Y0, W.Z_PIVOT_BOT), (0, 1, 0), 'xcar', ('nut', None, 5.0, None),
                extra=('wm_spacer_AL', 'wm_brg_AL', 'wm_shim_AL'), nut=('nyloc', W.EP_Y0 - W.SP_Y0),
                note='lower A pivot: boss, spacer, bearing, shim, nyloc'))
     for i, z in enumerate((W.Z_PIVOT_TOP, W.Z_PIVOT_BOT)):
@@ -170,7 +169,7 @@ def wrist_fasteners():
                    note='B pivots: washer, spacer, bearing, shim, end plate, nyloc'))
     L.append(F('wm_f_horn0', 'button', 3, 10, (W.HORN_SCREW_R, W.ARM_Y1, W.Z_PIVOT_TOP), (0, -1, 0), 'armT',
                ('through', 'wm_servo_horn', 1.8, None), note='top arm to the horn arm (M3 tapped hole at r 24, VERIFY)'))
-    L.append(F('wm_f_spline', 'button', 3, 6, (0, W.HORN_FACE_Y, W.Z_PIVOT_TOP), (0, -1, 0), 'armT', ('blind', 'wm_servo_spline', 3.0, 5.0),
+    L.append(F('wm_f_spline', 'button', 3, 8, (0, W.HORN_FACE_Y, W.Z_PIVOT_TOP), (0, -1, 0), 'armT', ('blind', 'wm_servo_spline', 3.0, 5.0),
                extra=('wm_servo_horn',), note='horn centre screw into the servo spline'))
     for i, (x, y) in enumerate(W.FOOT_SCREWS):
         L.append(F('wm_f_shelf%d' % i, 'cap', 3, 10, (x, y, W.Z_SH0), (0, 0, 1), 'end', ('insert', None, 4.0, None),
@@ -178,6 +177,10 @@ def wrist_fasteners():
     for i, (x, y) in enumerate(W.MOTOR_HOLES):
         L.append(F('wm_f_n17p_%d' % i, 'button', 3, 8, (x, y, W.Z_SH0), (0, 0, 1), 'end', ('blind', 'wm_nema17p', 3.0, 4.5),
                    note='wrist stepper (NEMA17 pancake) from below (motor thread depth VERIFY, about 4.5)'))
+    zt = W.Z_SH0 - W.TOF_POST_H - W.TOF_PCB_T
+    for i, (x, y) in enumerate(W.TOF_HOLES):
+        L.append(F('wm_f_tof%d' % i, 'pan', 2, 6, (x, y, zt), (0, 0, 1), 'end', ('self', 'wm_shelf', 3.5, None), extra=('wm_tof_board',),
+                   note='distance sensor (TOF400C), M2 self-tapping from below into the shelf posts'))
     zb = W.Z_SH0 - W.CAM_POST_H - 1.6
     for i, (x, y) in enumerate(W.CAM_POSTS):
         L.append(F('wm_f_cam%d' % i, 'pan', 2, 6, (x, y, zb), (0, 0, 1), 'end', ('self', 'wm_shelf', 3.5, None), extra=('wm_camera_board',),

@@ -36,7 +36,7 @@ def branch(name, kind):
         return 'Cables_and_chains'
     return 'Electronics_and_controls'
 
-WM_COLOUR = {'servo_case': 'servo', 'servo_tabs': 'servo', 'servo_spline': 'white', 'servo_horn': 'steel', 'nema17p': 'motor',
+WM_COLOUR = {'servo_case': 'servo', 'tof_board': 'board', 'servo_spline': 'white', 'servo_horn': 'steel', 'nema17p': 'motor',
              'nema17p_pilot': 'motor', 'nema17p_shaft': 'steel', 'electromagnet': 'copper', 'camera_board': 'board', 'camera_lens': 'black',
              'mgn12h_block': 'steel'}
 WM_COLOUR.update({k: 'black' for k in W.GROUP if k.startswith('zip_')})
@@ -116,9 +116,9 @@ ALLOWED = [
     ('led_', 'control_panel'), ('estop', 'control_panel'), ('start_button', 'control_panel'), ('header_', 'control_panel'),
     ('header_', 'connector_pcb'), ('standoff', 'perfboard'), ('standoff', 'plywood'),
 ] + [tuple('wm_' + x for x in p) for p in [
-    ('servo_tabs', 'wrist_carriage'), ('servo_horn', 'arm_top'), ('servo_spline', 'servo_horn'), ('servo_case', 'servo_spline'),
+    ('servo_horn', 'arm_top'), ('servo_spline', 'servo_horn'), ('servo_case', 'servo_spline'),
     ('brg_AL', 'arm_bottom'), ('brg_BL', 'arm_bottom'), ('brg_BT', 'arm_top'), ('nema17p_shaft', 'wrist_hub'), ('nema17p_pilot', 'nema17p'),
-    ('nema17p_shaft', 'nema17p_pilot'), ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'), ('servo_case', 'servo_tabs'),
+    ('nema17p_shaft', 'nema17p_pilot'), ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'),
     ('spacer_AL', 'brg_AL'), ('spacer_BT', 'brg_BT'), ('spacer_BL', 'brg_BL'), ('shim_BT', 'brg_BT'), ('shim_BL', 'brg_BL'),
     ('shim_AL', 'brg_AL'), ('nema17p', 'nema17p_shaft'), ('shim_BT', 'end_plate'), ('shim_BL', 'end_plate'), ('spacer_AL', 'wrist_carriage')]]
 
@@ -128,6 +128,12 @@ def allowed(a, b):
             return True
     return False
 
+# ETZ_QUICK=wrist: targeted run after a wrist-only change. Only pairs with a wrist part (wm_*, its cables and fasteners)
+# are checked, the frame DFM is copied from the last full run. Run the full check before a release.
+QUICK_WRIST = os.environ.get('ETZ_QUICK') == 'wrist'
+def _wristy(n):
+    return n.startswith(('wm_', 'cable_wrist', 'cable_chain_x'))
+
 def collisions(parts, only_moving=False, tol=0.3):
     names = [k for k, v in parts.items() if v[1] != 'field']
     hits = {}
@@ -135,6 +141,8 @@ def collisions(parts, only_moving=False, tol=0.3):
         for j in range(i + 1, len(names)):
             a, b = names[i], names[j]
             A, B = parts[a], parts[b]
+            if QUICK_WRIST and not (_wristy(a) or _wristy(b)):
+                continue
             if only_moving and A[1] == B[1]:
                 continue
             if allowed(a, b):
@@ -182,6 +190,8 @@ def fastener_check(parts, only_moving=False, tol=0.2):
         A_ = parts[n]
         for k in names:
             if k == n or k.startswith(own):
+                continue
+            if QUICK_WRIST and not (_wristy(n) or _wristy(k)):
                 continue
             B_ = parts[k]
             if only_moving and A_[1] == B_[1]:
@@ -385,6 +395,10 @@ if __name__ == '__main__':
     # DFM of the frame's printed parts
     frame = F.build_frame()
     d = {}
+    if QUICK_WRIST:
+        d = json.load(open(os.path.join(OUT, 'assembly_review.json')))['dfm_frame']
+        frame = {}
+        R['quick'] = 'wrist only: frame pairs and frame DFM not re-checked'
     for k, (s, g, kind, col) in frame.items():
         if kind != 'printed':
             continue

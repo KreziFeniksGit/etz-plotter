@@ -31,10 +31,10 @@ def tube(pts, d):
 # up the chain post's -y face (zip ties at z 165 and 192), over the post plate, into the X chain's moving end
 WRIST = {
     'cable_wrist_bundle': (7.0, [(13, -28.5, 142), (13, -28.5, 211), (6, -14, 216.5), (0, 0, 216.5), (5, 0, 216.5)]),
-    # servo lead: out of the case's spline end 8 mm above the case bottom (MG996R), then to -y beside the case end
-    # (clear of the chain post screw heads under the plate) and up to the bundle
-    'cable_wrist_servo': (3.5, [(W.SERVO_X1 + W.SERVO_LEAD_BOSS + 1.95, W.CASE_TOP_Y - W.SERVO_CASE_H + W.SERVO_LEAD_UP, W.Z_PIVOT_TOP),
-                                (W.SERVO_X1 + W.SERVO_LEAD_BOSS + 1.95, -27.0, 120.0), (13, -28.5, 142)]),
+    # servo lead: out of the RDS3235's lead boss on the spline end (29..33 mm behind the face), then to -y beside the
+    # case end (clear of the chain post screw heads under the plate) and up to the bundle
+    'cable_wrist_servo': (3.5, [(W.SERVO_X1 + W.SERVO_LEAD[0] + 1.75, W.SP_Y0 - (W.SERVO_LEAD[2] + W.SERVO_LEAD[3]) / 2, W.Z_PIVOT_TOP),
+                                (W.SERVO_X1 + W.SERVO_LEAD[0] + 1.75, -27.0, 120.0), (13, -28.5, 142)]),
 }
 # ---------------------------------------------------------------- Y carriage (moves in Y)
 YCAR = {
