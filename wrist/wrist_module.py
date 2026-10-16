@@ -33,22 +33,26 @@ V = App.Vector
 # =============================================================================
 TOL_MOVE = 0.4        # radial gap between parts that move against each other (rule 0.3..0.5)
 TOL_PRESS = 0.12      # added to a diameter for a press fit (rule 0.10..0.15; FDM holes print small)
-TOL_BOLT = 0.25       # added to a bolt diameter for a free clearance hole (rule 0.2..0.3)
-TOL_MOTOR = 0.2       # added to motor and servo mounting hole sizes (rule)
+TOL_BOLT = 0.15       # added to a bolt diameter for a free clearance hole (coupons A, B, 16 Oct: M2..M3 +0.15)
+TOL_BOLT_D = {4: 0.05, 5: 0.05}   # M4 / M5: +0.15 was loose on coupons A and B; +0.05 until coupon A2 says (VERIFY)
+TOL_PANEL = 0.25      # panel holes (stop / start button, LED holder): coupon G, not tested yet
+TOL_DBORE = 0.18      # D-bore hub on a stepper shaft (coupon D2, 16 Oct: 0.18 fits)
+TOL_MOTOR = 0.10      # added to motor mounting hole sizes (coupon E1, 16 Oct: +0.10)
 WALL_MIN = 2.4        # minimum structural wall (rule 2.4..3)
 FILLET_IN = 1.5       # internal corner fillet
 FILLET_OUT = 1.0      # external edge fillet
-INSERT_D = 4.0        # hole for a Ruthex M3 x 5.7 heat-set insert (maker spec 4.0 mm)
+INSERT_D = 4.1        # hole for a Ruthex M3 x 5.7 heat-set insert (coupon C, 16 Oct: 4.1; maker spec 4.0)
 INSERT_DEPTH = 6.5    # pocket depth for that insert
 NUT_AF = 5.5          # M3 nut across flats
 SPACER_GAP = 0.3      # radial gap of the 7 mm nylon spacer in the arm shoulder hole (coupon F3)
-SOCKET_GAP = 0.2      # per-side gap of the 2020 post in its socket (coupon F2)
+SOCKET_GAP = 0.2      # per-side gap of the 2020 post in its socket (coupon F2: 20.2 jams at the end; 20.4 = this)
+VTONGUE_GAP = 0.2     # V-slot tongue: each half-width this much under the slot (coupon F2 tongues)
 M2_PILOT = 1.8        # pilot hole for M2 self-tapping screws (coupon F3)
 ZIP_SLOT = (3.0, 1.8) # zip-tie slot width x thickness (coupon F3)
 
 def bolt(d):
     """Clearance hole diameter for a metric bolt of diameter d."""
-    return d + TOL_BOLT
+    return d + TOL_BOLT_D.get(d, TOL_BOLT)
 
 # =============================================================================
 # 2. BOUGHT PARTS (datasheet values; values marked VERIFY are measured on the real part)
@@ -583,8 +587,8 @@ def wrist_hub():
     body = fillet_all(body, r_out=0.6, min_len=2.0)
     cut = [cyl((MAG_X, MAG_Y, z0 - 0.01), INSERT_D / 2, 5.81),         # insert pocket, opens into the shaft bore with a 45 deg cone
            Part.makeCone(INSERT_D / 2, 3.0, 1.0, V(MAG_X, MAG_Y, z0 + 5.8))]
-    bore = cyl((MAG_X, MAG_Y, z0 + 6.5), (N17P_SHAFT_D + TOL_PRESS) / 2, z1 - z0)
-    flat = box(MAG_X + (N17P_SHAFT_FLAT - N17P_SHAFT_D / 2) + TOL_PRESS / 2, MAG_Y - 4, z0 + 6.4, MAG_X + 4, MAG_Y + 4, z1 + 1)
+    bore = cyl((MAG_X, MAG_Y, z0 + 6.5), (N17P_SHAFT_D + TOL_DBORE) / 2, z1 - z0)
+    flat = box(MAG_X + (N17P_SHAFT_FLAT - N17P_SHAFT_D / 2) + TOL_DBORE / 2, MAG_Y - 4, z0 + 6.4, MAG_X + 4, MAG_Y + 4, z1 + 1)
     cut.append(bore.cut(flat))
     return cut_all(body, cut)
 

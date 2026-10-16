@@ -158,9 +158,9 @@ R['dfm'] = dfm
 # ------------------------------------------------------------------ clearance table
 R['clearances'] = {
     'M3 bolt hole': W.bolt(3), 'M4 bolt hole (pivots)': W.bolt(4), 'M2 camera pilot (self-tapping, blind)': W.M2_PILOT,
-    'NEMA17 pancake screw hole (M3 +0.2)': W.N17P_HOLE + W.TOL_MOTOR, 'NEMA17 pancake pilot hole (22 +0.2)': W.N17P_PILOT_D + W.TOL_MOTOR,
+    'NEMA17 pancake screw hole (M3 + TOL_MOTOR)': W.N17P_HOLE + W.TOL_MOTOR, 'NEMA17 pancake pilot hole (22 + TOL_MOTOR)': W.N17P_PILOT_D + W.TOL_MOTOR,
     '684ZZ seat (9 +0.12, press)': W.BRG_OD + W.TOL_PRESS, 'bearing shoulder hole (4 + 2x0.4 + 1.5)': W.BRG_ID + 2 * W.TOL_MOVE + 1.5,
-    'D-bore on stepper shaft (5 +0.12, press)': W.N17P_SHAFT_D + W.TOL_PRESS, 'servo window (case + 0.4 each side)': W.TOL_MOVE,
+    'D-bore on stepper shaft (5 + TOL_DBORE, press)': W.N17P_SHAFT_D + W.TOL_DBORE, 'servo window (case + 0.4 each side)': W.TOL_MOVE,
     'arm to end plate gap (washer)': W.WASHER_T, 'heat-set insert hole': W.INSERT_D,
 }
 json.dump(R, open(os.path.join(OUT, 'review.json'), 'w'), indent=1, default=str)

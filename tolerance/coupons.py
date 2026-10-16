@@ -15,7 +15,8 @@ sys.path[:0] = [os.path.join(HERE, '..', 'wrist'), os.path.join(HERE, '..', 'fra
 import FreeCAD as App
 import Part
 import wrist_module as W
-from wrist_module import box, cyl, rbox, slot, fillet_all, cut_all, tidy, TOL_BOLT, TOL_PRESS, TOL_MOTOR, TOL_MOVE, INSERT_D
+from wrist_module import box, cyl, rbox, slot, fillet_all, cut_all, tidy, TOL_BOLT, TOL_PRESS, TOL_MOTOR, TOL_MOVE, INSERT_D, TOL_PANEL, TOL_DBORE
+import frame as FR
 
 V = App.Vector
 FONT = next((f for f in ('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 'C:/Windows/Fonts/arialbd.ttf',
@@ -27,9 +28,13 @@ ENGRAVE = 0.6
 def trio(cur, step):
     return [round(cur - step, 3), round(cur, 3), round(cur + step, 3)]
 
-BOLT_T = trio(TOL_BOLT, 0.10)          # 0.15 0.25 0.35
-PRESS_T = trio(TOL_PRESS, 0.06)        # 0.06 0.12 0.18
-MOTOR_T = trio(TOL_MOTOR, 0.10)        # 0.10 0.20 0.30
+BOLT_T = trio(TOL_BOLT, 0.10)          # 0.05 0.15 0.25 (A, B; tested 16 Oct: M2..M3 +0.15)
+BOLT45_T = trio(W.TOL_BOLT_D[4], 0.05) # 0.00 0.05 0.10 (A2: M4 / M5 re-test)
+PANEL_T = trio(TOL_PANEL, 0.10)        # 0.15 0.25 0.35 (G)
+PRESS_T = trio(TOL_PRESS, 0.06)        # 0.06 0.12 0.18 (684ZZ seat, post-cap pins)
+DBORE_T = trio(TOL_DBORE, 0.06)        # 0.12 0.18 0.24 (D-bore hubs; tested 16 Oct: 0.18)
+MOTOR_T = trio(TOL_MOTOR, 0.10)        # 0.00 0.10 0.20 (tested 16 Oct: +0.10)
+VT_T = trio(W.VTONGUE_GAP, 0.1)        # V-slot tongue, half-width under the slot (model 0.2)
 MOVE_T = trio(TOL_MOVE, 0.10)          # 0.30 0.40 0.50
 INSERT_T = [3.8, 3.9, 4.0, 4.1]        # Ruthex says 4.0
 SOCKET_T = trio(W.SOCKET_GAP, 0.1)     # per-side gap of the 2020 post socket (model: 0.2, inner 20.4)
@@ -150,20 +155,21 @@ def coupon_D2():
     w, h, t = 60.0, 44.0, 3.0
     s = plate(w, h, t)
     bodies = []
-    for j, tol in enumerate(PRESS_T):
+    for j, (tol, tb) in enumerate(zip(PRESS_T, DBORE_T)):
         x = 12.0 + 18.0 * j
         bodies.append(cyl((x, 30.0, t), 7.0, 10.0))                                             # hub, like wrist_hub
         bodies.append(cyl((x, 12.0, t), (4.2 - tol) / 2, 6.0))                                  # pin, like post_cap
     s = fillet_all(tidy(s.fuse(bodies)), r_out=0.4)
     cut = []
-    for j, tol in enumerate(PRESS_T):
+    for j, tol in enumerate(DBORE_T):
         x = 12.0 + 18.0 * j
         bore = cyl((x, 30.0, -1), (W.N17P_SHAFT_D + tol) / 2, t + 12)
         flat = box(x + (W.N17P_SHAFT_FLAT - W.N17P_SHAFT_D / 2) + tol / 2, 26.0, -2, x + 4, 34.0, t + 13)
         cut.append(bore.cut(flat))
     s = cut_all(s, cut)
-    for j, tol in enumerate(PRESS_T):
-        s = engrave_top(s, fmt(tol), 12.0 + 18.0 * j + 8.5, 20.5, t, 2.6)
+    for j, (tol, tb) in enumerate(zip(PRESS_T, DBORE_T)):
+        s = engrave_top(s, fmt(tb), 12.0 + 18.0 * j + 8.5, 38.5, t, 2.6)                      # hub label
+        s = engrave_top(s, fmt(tol), 12.0 + 18.0 * j + 8.5, 20.5, t, 2.6)                     # pin label
     return s
 
 # =============================================================================
@@ -227,12 +233,11 @@ def coupon_F2():
         sl = fillet_all(sl, r_out=0.5).cut(hole)
         sl = engrave_front(sl, '%.1f' % a, x0 + 3.0 + a / 2, 5.0, 0.0, 3.2)
         parts.append(sl)
-    for j, g in enumerate(MOVE_T):
+    for j, g in enumerate(VT_T):                    # V-slot tongues, like y_beam_riser: slide a 2020 along them
         x0 = 30.0 * j
-        tw = 6.0 - 2 * g
-        blk = box(x0, 34.0, 0, x0 + 24.0, 46.0, 4.0).fuse(box(x0 + 2.0, 40.0 - tw / 2, 4.0, x0 + 22.0, 40.0 + tw / 2, 5.8))
+        blk = box(x0, 34.0, 0, x0 + 24.0, 46.0, 4.0).fuse(FR.vtongue(40.0, x0 + 2.0, x0 + 22.0, 4.0, g, 'x'))
         blk = fillet_all(tidy(blk), r_in=0.4, r_out=0.4)
-        blk = engrave_front(blk, '%.1f' % tw, x0 + 12.0, 2.0, 34.0, 2.6)
+        blk = engrave_front(blk, fmt(g), x0 + 12.0, 2.0, 34.0, 2.6)
         parts.append(blk)
     return Part.makeCompound(parts)
 
@@ -270,37 +275,53 @@ def coupon_G():
     for d, rh in rows:
         yc = y + rh / 2
         ys.append(yc)
-        for j, tol in enumerate(BOLT_T):
+        for j, tol in enumerate(PANEL_T):
             cut.append(cyl((2.0 + 30.0 * j + 15.0, yc, -1), (d + tol) / 2, t + 2))
         y += rh
     s = cut_all(s, cut)
-    for j, tol in enumerate(BOLT_T):
+    for j, tol in enumerate(PANEL_T):
         s = engrave_top(s, '+' + fmt(tol), 2.0 + 30.0 * j + 15.0, 4.0, t, 3.0)
     return s
 
+# =============================================================================
+# A2. M4 / M5 clearance re-test: +0.15 was loose (A and B, 16 Oct). Vertical holes in the plate, horizontal in the wall
+# =============================================================================
+def coupon_A2():
+    """Two pieces: a plate with vertical holes and a standing bar (like B) with horizontal holes."""
+    w, h, t = 56.0, 22.0, 4.0
+    s = plate(w, h, t)
+    cut = []
+    for i, d in enumerate((5, 4)):
+        for j, tol in enumerate(BOLT45_T):
+            cut.append(cyl((19.0 + 12.0 * j, 6.0 + 7.5 * i, -1), (d + tol) / 2, t + 2))
+    s = cut_all(s, cut)
+    for i, d in enumerate((5, 4)):
+        s = engrave_top(s, 'M%g' % d, 7.0, 6.0 + 7.5 * i, t, 3.0)
+    for j, tol in enumerate(BOLT45_T):
+        s = engrave_top(s, fmt(tol) if tol else '0', 19.0 + 12.0 * j, 18.5, t, 2.6)
+    bar = fillet_all(box(0, h + 4.0, 0, w, h + 12.0, 15.0), r_out=0.6)
+    bar = cut_all(bar, [cyl((6.0 + 8.8 * (3 * i + j), h + 3.0, 6.5), (d + tol) / 2, 10.0, 'y')
+                        for i, d in enumerate((5, 4)) for j, tol in enumerate(BOLT45_T)])
+    for i, d in enumerate((5, 4)):
+        for j, tol in enumerate(BOLT45_T):
+            bar = engrave_top(bar, fmt(tol) if tol else '0', 6.0 + 8.8 * (3 * i + j), h + 8.0, 15.0, 2.4)
+        bar = engrave_front(bar, 'M%g' % d, 6.0 + 8.8 * (3 * i + 1), 12.5, h + 4.0, 2.6)
+    return Part.makeCompound([s, bar])
+
 COUPONS = {
+    'tol_A2_bolt_holes_m4_m5': (coupon_A2, 'TOL_BOLT_D', 'M4 / M5 clearance re-test, vertical (plate) and horizontal (wall: M5 x3 then M4 x3)'),
     'tol_A_bolt_holes_vertical': (coupon_A, 'TOL_BOLT', 'M2..M5 clearance holes printed vertical'),
     'tol_B_bolt_holes_horizontal': (coupon_B, 'TOL_BOLT', 'M3..M5 clearance holes through a standing wall'),
     'tol_C_inserts': (coupon_C, 'INSERT_D', 'Ruthex M3 x 5.7 heat-set insert holes'),
     'tol_D1_press_bearing': (coupon_D1, 'TOL_PRESS', '684ZZ seat'),
-    'tol_D2_press_dbore_pins': (coupon_D2, 'TOL_PRESS', 'D-bore hub on the wrist stepper (NEMA17 pancake) shaft, post cap pin in the 2020 V-slot centre hole'),
+    'tol_D2_press_dbore_pins': (coupon_D2, 'TOL_DBORE / TOL_PRESS', 'D-bore hub on the wrist stepper (NEMA17 pancake) shaft, post cap pin in the 2020 V-slot centre hole'),
     'tol_E1_nema17': (coupon_E1, 'TOL_MOTOR', 'NEMA17 pilot and M3 holes'),
     'tol_E2_nema17_pancake': (coupon_E2, 'TOL_MOTOR', 'wrist NEMA17 pancake (17HS4023S) pilot and M3 holes'),
     'tol_F1_servo_window': (coupon_F1, 'TOL_MOVE', 'MG996R servo window, gap per side'),
-    'tol_F2_profile_socket_tongue': (coupon_F2, 'SOCKET_GAP / TOL_MOVE', '2020 post socket sleeves and beam riser tongues'),
+    'tol_F2_profile_socket_tongue': (coupon_F2, 'SOCKET_GAP / VTONGUE_GAP', '2020 post socket sleeves and V-slot beam riser tongues'),
     'tol_F3_spacer_ziptie_pilot': (coupon_F3, 'SPACER_GAP / ZIP_SLOT / M2_PILOT', 'nylon spacer shoulder hole, zip-tie slots, M2 self-tapping pilots'),
-    'tol_G_panel_holes': (coupon_G, 'TOL_BOLT', 'stop button 22, start button 16, LED holder 6'),
+    'tol_G_panel_holes': (coupon_G, 'TOL_PANEL', 'stop button 22, start button 16, LED holder 6'),
 }
-
-def write_stl(shape, path):
-    import numpy as np
-    v, t = shape.tessellate(0.02)
-    Vv = np.array([[p.x, p.y, p.z] for p in v]); T = Vv[np.array(t)]
-    n = np.cross(T[:, 1] - T[:, 0], T[:, 2] - T[:, 0]); ln = np.linalg.norm(n, axis=1, keepdims=True); ln[ln == 0] = 1
-    rec = np.zeros(len(T), dtype=[('n', '<f4', 3), ('v', '<f4', (3, 3)), ('a', '<u2')])
-    rec['n'] = n / ln; rec['v'] = T
-    with open(path, 'wb') as fh:
-        fh.write(b'ETZ plotter tolerance coupon'.ljust(80, b' ')); fh.write(struct.pack('<I', len(T))); fh.write(rec.tobytes())
 
 if __name__ == '__main__':
     import dfm

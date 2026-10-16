@@ -22,7 +22,7 @@
    73.5,
    4.0
   ],
-  "grams_petg_100pct": 20.5,
+  "grams_petg_100pct": 20.6,
   "valid": true,
   "min_wall": 4.0,
   "widest_bridge_mm": 0,
@@ -37,9 +37,9 @@
    8.0,
    15.0
   ],
-  "grams_petg_100pct": 15.2,
+  "grams_petg_100pct": 15.3,
   "valid": true,
-  "min_wall": 4.43,
+  "min_wall": 4.48,
   "widest_bridge_mm": 0,
   "steep_overhang_mm2": 0.0,
   "n_sharp": 0
@@ -61,13 +61,13 @@
  },
  "tol_D2_press_dbore_pins": {
   "tests": "D-bore hub on the wrist stepper (NEMA17 pancake) shaft, post cap pin in the 2020 V-slot centre hole",
-  "constant": "TOL_PRESS",
+  "constant": "TOL_DBORE / TOL_PRESS",
   "size_mm": [
    60.5,
    44.5,
    13.0
   ],
-  "grams_petg_100pct": 15.2,
+  "grams_petg_100pct": 15.1,
   "valid": true,
   "min_wall": 3.0,
   "widest_bridge_mm": 0,
@@ -82,7 +82,7 @@
    51.5,
    3.0
   ],
-  "grams_petg_100pct": 21.5,
+  "grams_petg_100pct": 21.6,
   "valid": true,
   "min_wall": 3.0,
   "widest_bridge_mm": 0,
@@ -121,7 +121,7 @@
  },
  "tol_G_panel_holes": {
   "tests": "stop button 22, start button 16, LED holder 6",
-  "constant": "TOL_BOLT",
+  "constant": "TOL_PANEL",
   "size_mm": [
    94.5,
    79.5,
@@ -135,14 +135,14 @@
   "n_sharp": 0
  },
  "tol_F2_profile_socket_tongue": {
-  "tests": "2020 post socket sleeves and beam riser tongues",
-  "constant": "SOCKET_GAP / TOL_MOVE",
+  "tests": "2020 post socket sleeves and V-slot beam riser tongues",
+  "constant": "SOCKET_GAP / VTONGUE_GAP",
   "size_mm": [
    86.9,
    46.2,
    10.0
   ],
-  "grams_petg_100pct": 15.6,
+  "grams_petg_100pct": 15.7,
   "valid": true,
   "min_wall": 3.0,
   "widest_bridge_mm": 0,
@@ -172,9 +172,24 @@
    51.5,
    3.0
   ],
-  "grams_petg_100pct": 21.5,
+  "grams_petg_100pct": 21.6,
   "valid": true,
   "min_wall": 3.0,
+  "widest_bridge_mm": 0,
+  "steep_overhang_mm2": 0.0,
+  "n_sharp": 0
+ },
+ "tol_A2_bolt_holes_m4_m5": {
+  "tests": "M4 / M5 clearance re-test, vertical (plate) and horizontal (wall: M5 x3 then M4 x3)",
+  "constant": "TOL_BOLT_D",
+  "size_mm": [
+   56.5,
+   34.2,
+   15.0
+  ],
+  "grams_petg_100pct": 13.1,
+  "valid": true,
+  "min_wall": 3.45,
   "widest_bridge_mm": 0,
   "steep_overhang_mm2": 0.0,
   "n_sharp": 0

@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'
 import wrist_module as W
 import chains
 from wrist_module import (box, cyl, slot, prism_x, prism_y, prism_z, rbox, zip_pair, fillet_all, cut_all, tidy, bolt,
-                          TOL_MOVE, TOL_PRESS, TOL_BOLT, TOL_MOTOR, INSERT_D, INSERT_DEPTH, WALL_MIN)
+                          TOL_MOVE, TOL_PRESS, TOL_BOLT, TOL_MOTOR, INSERT_D, INSERT_DEPTH, WALL_MIN, TOL_PANEL, VTONGUE_GAP)
 
 V = App.Vector
 
@@ -149,6 +149,20 @@ def add(name, shape, group='base', kind='printed', colour='printed'):
 VSLOT_GROOVE = [(3.69, 0.0), (3.9, 0.21), (3.9, 2.8393), (6.5607, 5.5), (8.2, 5.5), (8.2, 3.125), (8.545, 3.125), (10.0, 4.58)]
 VSLOT_CORNER_R, VSLOT_HOLE_D = 1.5, 4.2
 VSLOT_LIP = 1.8                           # face to the underside of the slot lips
+
+def vtongue(x_c, a0, a1, z_face, gap=VTONGUE_GAP, axis='y'):
+    """Tongue that sits in a 2020 V-slot from below (slot mouth on the plane z = z_face, slot along 'axis' from a0 to a1):
+    the V-slot mouth shape (9.16 at the face, 45 deg down to the 6.25 throat at 1.455) with every half-width 'gap' smaller,
+    then straight to 1.8 deep (just above the lips' underside). Self-centres the profile."""
+    m, th, dv, lip = VSLOT_GROOVE[-1][1], VSLOT_GROOVE[-2][1], VSLOT_GROOVE[-1][0] - VSLOT_GROOVE[-2][0], VSLOT_LIP
+    sec = [(-(m - gap), 0.0), (m - gap, 0.0), (th - gap, dv), (th - gap, lip - 0.2), (-(th - gap), lip - 0.2), (-(th - gap), dv)]
+    if axis == 'y':
+        pts = [V(x_c + u, a0, z_face + w) for u, w in sec]
+        d = V(0, a1 - a0, 0)
+    else:
+        pts = [V(a0, x_c + u, z_face + w) for u, w in sec]
+        d = V(a1 - a0, 0, 0)
+    return Part.Face(Part.makePolygon(pts + [pts[0]])).extrude(d)
 
 def profile2020(p0, axis, length):
     """2020 V-slot aluminium profile (6 mm slot opening, V-groove, 4.2 centre hole) from p0 along +axis."""
@@ -375,13 +389,12 @@ def y_idler_slider(dy=0.0):
 
 def y_beam_riser(y):
     """Block under the Y beam (one of four): lifts the beam 10 mm so cables cross under it.
-    Two tongues (6 mm slot - 0.4) sit in the beam's bottom slot and keep it straight;
+    Two V-shaped tongues (the V-slot mouth, 0.2 smaller per side) sit in the beam's bottom slot and keep it straight;
     the beam's M5 bolt goes up through the block into a T-nut. Prints flat."""
     x0, x1 = YB_X - 12.0, YB_X + 12.0
     body = box(x0, y - 12.0, Z_PLY1, x1, y + 12.0, Z_YB0)
-    tw = (6.0 - 2 * TOL_MOVE) / 2                  # 5.2 wide in the 6 mm slot
-    tongues = [box(YB_X - tw, ya, Z_YB0, YB_X + tw, yb, Z_YB0 + 1.8) for ya, yb in ((y - 12.0, y - 5.0), (y + 5.0, y + 12.0))]
-    body = fillet_all(tidy(body.fuse(tongues)), r_in=0.4, r_out=0.6)    # small root fillet: stays inside the slot opening
+    tongues = [vtongue(YB_X, ya, yb, Z_YB0) for ya, yb in ((y - 12.0, y - 5.0), (y + 5.0, y + 12.0))]
+    body = fillet_all(tidy(body.fuse(tongues)), r_in=0.4, r_out=0.4)    # small root fillet: stays inside the slot mouth
     return cut_all(body, [cyl((YB_X, y, Z_PLY1 - 1), bolt(5) / 2, Y_RISER + 4)])
 
 def y_static():
@@ -644,10 +657,10 @@ def control_panel():
     bosses = [cyl((x, y, Z_PLY1), 5.0, zt - t - Z_PLY1) for x, y in ((x0 + 6, y0 + 6), (x1 - 6, y0 + 6), (x0 + 6, y1 - 6), (x1 - 6, y1 - 6))]
     pcb_posts = [box(x0 + t, y - 3.5, 21.0, x0 + t + 5.0, y + 3.5, 28.0) for y in (47.0, 96.0)]
     body = fillet_all(tidy(body.fuse(bosses + pcb_posts)))
-    cut = [cyl((ESTOP_C[0], ESTOP_C[1], zt - t - 1), (22.0 + TOL_BOLT) / 2, t + 2),
-           cyl((START_C[0], START_C[1], zt - t - 1), (16.0 + TOL_BOLT) / 2, t + 2),
-           cyl((LED_G[0], LED_G[1], zt - t - 1), (6.0 + TOL_BOLT) / 2, t + 2),
-           cyl((LED_R[0], LED_R[1], zt - t - 1), (6.0 + TOL_BOLT) / 2, t + 2)]
+    cut = [cyl((ESTOP_C[0], ESTOP_C[1], zt - t - 1), (22.0 + TOL_PANEL) / 2, t + 2),
+           cyl((START_C[0], START_C[1], zt - t - 1), (16.0 + TOL_PANEL) / 2, t + 2),
+           cyl((LED_G[0], LED_G[1], zt - t - 1), (6.0 + TOL_PANEL) / 2, t + 2),
+           cyl((LED_R[0], LED_R[1], zt - t - 1), (6.0 + TOL_PANEL) / 2, t + 2)]
     for x, y in ((x0 + 6, y0 + 6), (x1 - 6, y0 + 6), (x0 + 6, y1 - 6), (x1 - 6, y1 - 6)):
         cut.append(cyl((x, y, Z_PLY1 - 1), (3.5 + TOL_BOLT) / 2, zt - Z_PLY1 + 2))
     for yc, n in CONN.values():

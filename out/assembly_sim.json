@@ -1074,7 +1074,7 @@
       "straight 2.5 hex driver",
       "L hex key 2.5"
      ],
-     "spanner_hits": "{'wm_chain_post', 'wm_f_xchain0_nut'}",
+     "spanner_hits": "{'wm_f_xchain0_nut', 'wm_chain_post'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1167,7 +1167,7 @@
       "straight 3 hex driver",
       "L hex key 3"
      ],
-     "spanner_hits": "{'y_carriage', 'wm_x_belt_riser', 'plywood_base', 'wm_wrist_carriage'}",
+     "spanner_hits": "{'plywood_base', 'wm_wrist_carriage', 'y_carriage', 'wm_x_belt_riser'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1274,7 +1274,7 @@
       "straight 3 hex driver",
       "L hex key 3"
      ],
-     "spanner_hits": "{'wm_end_plate', 'wm_f_pivotB0_nut'}",
+     "spanner_hits": "{'wm_f_pivotB0_nut', 'wm_end_plate'}",
      "nut": {
       "path_free": true,
       "socket": "wm_end_plate",

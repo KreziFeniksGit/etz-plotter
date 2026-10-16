@@ -58,7 +58,7 @@
   "arm_top | arm_bottom": 17.03,
   "servo_case | wrist_carriage": 0.36,
   "arm_top | servo_case": 6.74,
-  "wrist_hub | shelf": 5.39,
+  "wrist_hub | shelf": 5.35,
   "electromagnet | shelf": 25.25,
   "end_plate | wrist_carriage": 41.88,
   "spacer_AL | arm_bottom": 0.3,
@@ -89,8 +89,8 @@
     74.0
    ],
    "fits_220": true,
-   "volume_cm3": 32.86,
-   "mass_g": 25.0,
+   "volume_cm3": 32.89,
+   "mass_g": 25.1,
    "min_wall": 2.5,
    "thin_samples": 0,
    "thin_examples": [],
@@ -146,17 +146,17 @@
     15.9
    ],
    "fits_220": true,
-   "volume_cm3": 8.57,
+   "volume_cm3": 8.55,
    "mass_g": 6.5,
-   "min_wall": 2.5,
+   "min_wall": 2.45,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 4.0,
+   "widest_bridge_mm": 4.1,
    "bridges": [
     [
-     4.0,
-     12.6,
+     4.1,
+     13.2,
      [
       -4.0,
       -2.2,
@@ -164,8 +164,8 @@
      ]
     ],
     [
-     4.0,
-     12.6,
+     4.1,
+     13.2,
      [
       -12.0,
       -2.2,
@@ -205,9 +205,9 @@
     37.0
    ],
    "fits_220": true,
-   "volume_cm3": 10.11,
+   "volume_cm3": 10.1,
    "mass_g": 7.7,
-   "min_wall": 2.56,
+   "min_wall": 2.61,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -295,7 +295,7 @@
     14.0
    ],
    "fits_220": true,
-   "volume_cm3": 17.65,
+   "volume_cm3": 17.68,
    "mass_g": 13.5,
    "min_wall": 2.51,
    "thin_samples": 0,
@@ -315,9 +315,9 @@
     22.5
    ],
    "fits_220": true,
-   "volume_cm3": 3.06,
+   "volume_cm3": 3.05,
    "mass_g": 2.3,
-   "min_wall": 4.44,
+   "min_wall": 4.41,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -328,16 +328,16 @@
   }
  },
  "clearances": {
-  "M3 bolt hole": 3.25,
-  "M4 bolt hole (pivots)": 4.25,
+  "M3 bolt hole": 3.15,
+  "M4 bolt hole (pivots)": 4.05,
   "M2 camera pilot (self-tapping, blind)": 1.8,
-  "NEMA17 pancake screw hole (M3 +0.2)": 3.2,
-  "NEMA17 pancake pilot hole (22 +0.2)": 22.2,
+  "NEMA17 pancake screw hole (M3 + TOL_MOTOR)": 3.1,
+  "NEMA17 pancake pilot hole (22 + TOL_MOTOR)": 22.1,
   "684ZZ seat (9 +0.12, press)": 9.12,
   "bearing shoulder hole (4 + 2x0.4 + 1.5)": 6.3,
-  "D-bore on stepper shaft (5 +0.12, press)": 5.12,
+  "D-bore on stepper shaft (5 + TOL_DBORE, press)": 5.18,
   "servo window (case + 0.4 each side)": 0.4,
   "arm to end plate gap (washer)": 0.8,
-  "heat-set insert hole": 4.0
+  "heat-set insert hole": 4.1
  }
 }
