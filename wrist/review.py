@@ -19,11 +19,11 @@ R['valid'] = {k: (s.isValid(), len(s.Solids)) for k, s in parts.items()}
 
 # ------------------------------------------------------------------ interference
 ALLOWED = {frozenset(p) for p in [
-    ('servo_horn', 'arm_top'), ('servo_spline', 'servo_horn'), ('servo_case', 'servo_spline'),
+    ('servo_tabs', 'servo_plate'), ('servo_horn', 'arm_top'), ('servo_spline', 'servo_horn'), ('servo_case', 'servo_spline'),
     ('x_belt', 'x_belt_clamp'),              # 0.3 mm squeeze is the design
     ('brg_AL', 'arm_bottom'), ('brg_BL', 'arm_bottom'), ('brg_BT', 'arm_top'),
     ('nema17p_shaft', 'wrist_hub'), ('nema17p_pilot', 'nema17p'), ('nema17p_shaft', 'nema17p_pilot'),
-    ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'), ('x_belt', 'x_belt_riser'), ('spacer_AL', 'brg_AL'), ('spacer_BT', 'brg_BT'), ('spacer_BL', 'brg_BL'), ('shim_BT', 'brg_BT'), ('shim_BL', 'brg_BL'), ('shim_AL', 'brg_AL'), ('shim_BT', 'end_plate'), ('shim_BL', 'end_plate'), ('spacer_AL', 'wrist_carriage'),
+    ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'), ('servo_case', 'servo_tabs'), ('x_belt', 'x_belt_riser'), ('spacer_AL', 'brg_AL'), ('spacer_BT', 'brg_BT'), ('spacer_BL', 'brg_BL'), ('shim_BT', 'brg_BT'), ('shim_BL', 'brg_BL'), ('shim_AL', 'brg_AL'), ('shim_BT', 'end_plate'), ('shim_BL', 'end_plate'), ('spacer_AL', 'wrist_carriage'),
 ]}
 allsol = dict(parts); allsol.update(bought)
 

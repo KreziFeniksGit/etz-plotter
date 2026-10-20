@@ -1,6 +1,6 @@
 {
  "fillet_skips": [
-  1,
+  0,
   0,
   0,
   0,
@@ -48,19 +48,19 @@
  },
  "interference": "none",
  "min_gap_mm": {
-  "arm_top | wrist_carriage": 2.45,
+  "arm_top | wrist_carriage": 1.5,
   "arm_bottom | wrist_carriage": 0.5,
-  "servo_horn | wrist_carriage": 0.4,
+  "servo_horn | wrist_carriage": 5.81,
   "arm_top | x_belt_riser": 7.38,
   "arm_bottom | shelf": 0.5,
   "arm_top | end_plate": 0.8,
   "arm_bottom | end_plate": 0.8,
   "arm_top | arm_bottom": 17.03,
-  "servo_case | wrist_carriage": 0.0,
-  "arm_top | servo_case": 6.7,
+  "servo_case | wrist_carriage": 0.36,
+  "arm_top | servo_case": 6.74,
   "wrist_hub | shelf": 5.35,
   "electromagnet | shelf": 22.34,
-  "end_plate | wrist_carriage": 38.79,
+  "end_plate | wrist_carriage": 41.88,
   "spacer_AL | arm_bottom": 0.3,
   "spacer_BT | arm_top": 0.3,
   "spacer_BL | arm_bottom": 0.3,
@@ -84,35 +84,53 @@
    "orientation": "block face down, servo plate up",
    "qty": 1,
    "size": [
-    67.3,
+    60.0,
     52.5,
     74.0
    ],
    "fits_220": true,
-   "volume_cm3": 35.3,
-   "mass_g": 26.9,
+   "volume_cm3": 32.89,
+   "mass_g": 25.1,
    "min_wall": 2.5,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 0.3,
+   "widest_bridge_mm": 5.0,
    "bridges": [
     [
-     0.3,
-     0.5,
+     5.0,
+     21.8,
      [
-      16.3,
-      -11.3,
+      0.0,
+      -4.3,
+      38.4
+     ]
+    ],
+    [
+     1.8,
+     1.4,
+     [
+      -0.0,
+      -6.0,
       7.0
      ]
     ],
     [
-     0.3,
-     0.5,
+     0.9,
+     5.3,
      [
-      -3.7,
-      -11.3,
-      7.0
+      22.8,
+      -2.3,
+      22.9
+     ]
+    ],
+    [
+     0.9,
+     5.3,
+     [
+      -24.0,
+      -2.3,
+      22.9
      ]
     ]
    ],
@@ -130,7 +148,7 @@
    "fits_220": true,
    "volume_cm3": 8.55,
    "mass_g": 6.5,
-   "min_wall": 3.04,
+   "min_wall": 2.45,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -141,7 +159,7 @@
      13.2,
      [
       -4.0,
-      0.2,
+      -2.2,
       6.5
      ]
     ],
@@ -150,7 +168,7 @@
      13.2,
      [
       -12.0,
-      0.2,
+      -2.2,
       6.5
      ]
     ]
@@ -254,12 +272,12 @@
    "size": [
     28.0,
     59.5,
-    11.3
+    11.7
    ],
    "fits_220": true,
-   "volume_cm3": 6.06,
-   "mass_g": 4.6,
-   "min_wall": 2.51,
+   "volume_cm3": 6.12,
+   "mass_g": 4.7,
+   "min_wall": 2.5,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,

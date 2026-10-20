@@ -198,27 +198,25 @@ def coupon_E2():
     return _motor_coupon(44.0, W.N17P_PILOT_D, W.N17P_HOLE_PITCH, W.N17P_HOLE)   # wrist NEMA17 pancake 17HS4023S: pilot 22, M3 on 31 (same pattern as E1: try it on the pancake itself)
 
 # =============================================================================
-# F1. RDS3235 face mount, like the wrist carriage's servo plate: horn hub hole (gap per side) and the 3 M2 face screws
-#     (clearance, cap heads sunk 2.5). Screw the servo on with 3x M2x5 and press the horn on through the hole.
+# F1. servo window frames  -> TOL_MOVE (per side)
 # =============================================================================
 def coupon_F1():
     t = W.SP_T
-    w, h = 46.0, 30.0
-    parts = []
-    for j, (g, tb) in enumerate(zip(MOVE_T, BOLT_T)):
-        x0 = (w + 4.0) * j
-        s = plate(w, h, t, 2.0)
-        sx, sz = 34.0, 15.0                         # spline axis
-        cut = [cyl((sx, sz, -1), W.HORN_HUB_R + g, t + 2)]
-        for dx, dz in W.SERVO_MOUNT:
-            cut.append(cyl((sx + dx, sz + dz, -1), (2.0 + tb) / 2, t + 2))
-            cut.append(cyl((sx + dx, sz + dz, t + 0.01), (3.8 + 2 * TOL_MOVE) / 2, -W.SERVO_SCREW_SINK - 0.01))
-        s = cut_all(s, cut)
-        s = engrave_top(s, fmt(g), sx, 3.6, t, 2.6)
-        s = engrave_top(s, '+' + fmt(tb), 14.0, 25.0, t, 2.6)
-        s.translate(V(x0, 0, 0))
-        parts.append(s)
-    return Part.makeCompound(parts)
+    wall, top = 3.0, 7.0
+    ws = [(W.SERVO_L + 2 * g, W.SERVO_W + 2 * g) for g in MOVE_T]
+    cw = max(a for a, b in ws) + wall
+    w, h = 3 * cw + wall, max(b for a, b in ws) + wall + top
+    s = plate(w, h, t, 2.0)
+    cut = []
+    for j, (a, b) in enumerate(ws):
+        cx = wall + cw * j + (cw - wall) / 2
+        win = box(cx - a / 2, wall, -1, cx + a / 2, wall + b, t + 1)
+        win = win.makeFillet(0.5, [e for e in win.Edges if abs(e.Length - (t + 2)) < 1e-6])
+        cut.append(win)
+    s = cut_all(s, cut)
+    for j, g in enumerate(MOVE_T):
+        s = engrave_top(s, fmt(g), wall + cw * j + (cw - wall) / 2, h - top / 2, t, 3.5)
+    return s
 
 # =============================================================================
 # F2. 2020 profile fits: post socket sleeves (per-side gap) and riser tongues  -> socket gap, TOL_MOVE
@@ -339,7 +337,7 @@ COUPONS = {
     'tol_D2_press_dbore_pins': (coupon_D2, 'TOL_DBORE / TOL_PRESS', 'D-bore hub on the wrist stepper (NEMA17 pancake) shaft, post cap pin in the 2020 V-slot centre hole'),
     'tol_E1_nema17': (coupon_E1, 'TOL_MOTOR', 'NEMA17 pilot and M3 holes'),
     'tol_E2_nema17_pancake': (coupon_E2, 'TOL_MOTOR', 'wrist NEMA17 pancake (17HS4023S) pilot and M3 holes'),
-    'tol_F1_servo_rds3235': (coupon_F1, 'TOL_MOVE / TOL_BOLT', 'RDS3235 face mount: horn hub hole (gap per side) and M2 face screw holes'),
+    'tol_F1_servo_window': (coupon_F1, 'TOL_MOVE', 'MG996R servo window, gap per side'),
     'tol_F2_profile_socket_tongue': (coupon_F2, 'SOCKET_GAP / VTONGUE_GAP', '2020 post socket sleeves and V-slot beam riser tongues'),
     'tol_F3_spacer_ziptie_pilot': (coupon_F3, 'SPACER_GAP / ZIP_SLOT / M2_PILOT', 'nylon spacer shoulder hole, zip-tie slots, M2 self-tapping pilots'),
     'tol_G_panel_holes': (coupon_G, 'TOL_PANEL', 'stop button 22, start button 16, LED holder 6'),

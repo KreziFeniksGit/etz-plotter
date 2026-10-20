@@ -13,12 +13,10 @@ Coordinates: X along the 600 mm side of the polygon, Y along the 500 mm side, Z 
 **Tolerance tests:** `tolerance/` has 11 test coupons (STEP) and `tolerance/README.md` says how to test each one and which
 constant to change. Print them before the real parts.
 
-## RDS3235 servo and stack-height sensor (v2.11)
-- **Servo = DSServo RDS3235** (no mounting ears). Its spline face is screwed to the wrist carriage's servo plate with
-  3x M2x5 from the arm side; the horn hub turns in a hole through the plate and the horn arm in a shallow recess.
-  The X block is back to 4 screws. Coupon `tol_F1_servo_rds3235` tests the hole and screw fit.
-- **Distance sensor = TOF400C (VL53L1X)** under the wrist shelf, looking down, to count the checkers in a stack.
-  It reads with the magnet up (49..74 mm). Wiring and firmware notes: `wiring.md`.
+## Stack-height sensor (v2.11)
+- **TOF400C (VL53L1X)** under the wrist shelf at x 125.5, looking down, on 2 posts with M2 self-tapping screws; the camera moved to x 150.
+  It counts the checkers in a stack, reading with the magnet up (49..74 mm). Wiring and firmware notes: `wiring.md`.
+  (An RDS3235 servo was tried and dropped, 16 Oct: the wrist stays on the MG996R.)
 
 ## Assembly simulation and 6 mm plywood (v2.9)
 `tools/assembly_sim.py` builds the device in order (`docs/print_test_order.md`, "Order that matters") and checks that every
@@ -41,7 +39,7 @@ beam bolt heads sunk 2 mm; all wood screws shortened so they bite 4..6 mm and no
   To clear the lower arm and the end plate, the magnet axis moved +5 mm in X (to 110 from the servo axis) and -2.5 mm in Y,
   so **X travel is now pivot X 287..430** (the magnet still reaches X 397..540). The camera moved to x 147 and screws on from below.
   Picture: `out/render_wrist_nema17_pancake.png`.
-- Servo lift: about 0.23 N m needed = roughly 7 % of the RDS3235 stall torque at 6 V (3.2 N m, VERIFY).
+- Servo lift: 0.23 N m needed with the heavier motor = 21 % of the MG996R's stall torque at 6 V.
 
 ## Stiffness, backlash and open belts (v2.7)
 `docs/stiffness_review.md` has the whole review. FEA of the load-carrying printed parts (`tools/fea.py` -> `out/fea.json`,
@@ -128,7 +126,7 @@ Model v2 follows the design rules: parameters at the top of the script, separate
 - `wrist/out/*.step`: the wrist parts in print orientation (the same files are in `out/printed/`). `wrist/out/wrist_module_assembly.step`: the whole module with the bought parts.
 - `wrist/out/review.json`: all review results. `wrist/out/*.png`: renders.
 - `components.csv`: every component of the device, with the reason it was chosen and the data used in the CAD.
-- `vendor/`: real models of bought parts (RDS3235 servo, TOF400C distance sensor, 25T aluminium arm horn, 17HS16-2004S1; the MG996R is no longer used; 11HS12-0674S is no longer used; no model of the 17HS4023S pancake yet; the 684 bearing and MGN12 meshes are kept for reference only). The exported STEP/FCStd use them; the fast checks use simple shapes sized from them, and `assembly.py` also re-checks with the real models (`detailed_*` results).
+- `vendor/`: real models of bought parts (MG996R, 25T aluminium arm horn, 17HS16-2004S1; 11HS12-0674S is no longer used; no model of the 17HS4023S pancake yet; the 684 bearing and MGN12 meshes are kept for reference only). The exported STEP/FCStd use them; the fast checks use simple shapes sized from them, and `assembly.py` also re-checks with the real models (`detailed_*` results).
 
 Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows installer), then
 `freecadcmd -c "exec(open('wrist_module.py').read())"`, or open the file in the FreeCAD GUI with Macro > Macros > Execute.
@@ -142,7 +140,7 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 - **Shelf and end plate are separate flat parts.** Both print flat, so the stepper and pivot holes are vertical, round and accurate. They join with two M3 screws into inserts in the end plate's foot pad, which sits clear of the pivot nut.
 - **The belt clamp** has half-round grooves at 2 mm pitch that take the belt teeth; it holds both ends of the open X belt (42 mm, 3 screws).
 - **No wrist home sensor** (Egor, 12 Oct): the hall switch and the hub's flag magnet were removed. Set the wrist to its mark by hand before power-up; the firmware counts the angle from there.
-- **RDS3235 servo**: 3x M2x5 caps through the servo plate into its spline face (heads sunk 2.5); horn hub in a teardrop hole, horn arm in a 2 mm recess.
+- **MG996R servo**: M2 bolts with large washers through its 4.5 mm tab holes (M3 would leave only 2 mm of plastic to the window); shallow grooves take the ribs under its tabs.
 
 ## Tolerances used
 | Feature | Size |
@@ -175,7 +173,7 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 
 Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 
-**Bought parts:** RDS3235 servo + 25T aluminium arm horn, TOF400C (VL53L1X) distance sensor, NEMA17 pancake 17HS4023S, P20/15 5 V magnet, 3x 684ZZ, 3x nylon spacer 4.2x7x3, 3x shim 4.2x7x0.8, camera, 10x Ruthex M3x5.7.
+**Bought parts:** MG996R servo + 25T aluminium arm horn, NEMA17 pancake 17HS4023S, P20/15 5 V magnet, 3x 684ZZ, 3x nylon spacer 4.2x7x3, 3x shim 4.2x7x0.8, camera, 10x Ruthex M3x5.7.
 
 **Screws:**
 - 4x M3x6 ISO4762: carriage to the rail block.
@@ -203,4 +201,4 @@ Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 11. Route the cables (see wiring.md): camera cable tie on the shelf, the harness tie on the end plate, two ties round the top arm, servo lead to the bundle, two ties on the chain post.
 
 ## Measure before printing (marked VERIFY in the script)
-Wrist stepper 17HS4023S: body height (23), shaft length (20..24; the hub takes up to 23), screw thread depth (4.5), which side the connector is on. Servo (RDS3235, from Egor's STEP model): case 40 x 20 x 40.5, spline 9.0 from the case end, the M2 face holes (positions, 3 mm deep), horn seat depth on the spline, horn screw hole thread. TOF400C: PCB 20 x 12, holes 16 apart. Magnet: thread depth. Camera: board size and hole spacing. Enter the measured values at the top of `wrist_module.py`; everything else follows.
+Wrist stepper 17HS4023S: body height (23), shaft length (20..24; the hub takes up to 23), screw thread depth (4.5), which side the connector is on. Servo (MG996R, taken from a third-party STEP model): tab face to cover top, case height, spline centre to case end, tab hole spacing (48.4), horn face height, horn screw hole thread. Magnet: thread depth. Camera: board size and hole spacing. Enter the measured values at the top of `wrist_module.py`; everything else follows.

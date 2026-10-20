@@ -61,18 +61,22 @@ def bolt(d):
 BLK_HOLE_PITCH = 20.0         # 20 x 20 mm, M3, thread depth 3.5
 BLK_W, BLK_L, BLK_H = 27.0, 45.4, 10.0
 Z_BLOCK_FACE = 139.0
-# DSServo RDS3235 (Egor, 16 Oct; replaced the MG996R): 35 kg cm digital servo, metal case, no mounting ears: it is held by
-# M2 threaded holes (3 deep) in its spline face. Sizes from vendor/rds3235.step (Egor's download; the U-brackets and
-# screws in that file are not used): VERIFY with calipers.
-SERVO_L, SERVO_W, SERVO_H = 40.0, 20.0, 40.5   # along the case, across, spline face to the back face
-SERVO_SHAFT_FROM_END = 9.0     # spline centre to the near case end (the lead exits this end)
-SERVO_FACE_BOSS = (6.35, 0.75) # output bushing round the spline: radius, height above the face
-SERVO_SPLINE = (3.24, 5.8)     # 25T spline: radius, tip above the face
-SERVO_REAR_BOSS = (3.0, 5.5)   # second (rear) output stub on the back face: radius, length
-SERVO_LEAD = (6.0, 6.8, 29.3, 33.3)   # lead boss on the spline end: out from the end, width, from..to behind the face
-SERVO_FACE_HOLES = [(-7.0, -8.0), (-7.0, 8.0), (-21.0, -7.0), (-21.0, 7.0), (-28.0, 0.0)]   # M2, (x from the spline, z across)
-SERVO_MOUNT = SERVO_FACE_HOLES[2:]     # 3 used: the two inner ones are too close to the horn hole for a 2.4 mm wall
-SERVO_SCREW_SINK = 2.5                 # M2x5 cap heads sunk into the servo plate's +y face: 2.5 mm thread in the case
+# TowerPro MG996R standard-size servo, 25T spline (Egor's choice, replaced the DS3218).
+# Sizes read from vendor/mg996r.step (a third-party model): VERIFY on your servo with calipers, clones vary.
+SERVO_L, SERVO_W = 40.4, 20.0
+SERVO_TAB_SPAN, SERVO_TAB_PITCH = 48.4, 10.0   # tab hole centres (holes 4.5)
+SERVO_TAB_LEN, SERVO_TAB_THK = 54.4, 2.5
+SERVO_TAB_TO_TOP = 7.7        # tab face against the servo plate to the top of the case cover
+SERVO_COVER = (4.4, 0.4, 2.0) # top cover: inset from the far end, inset per side, height
+SERVO_CASE_H = 40.2           # case bottom to the cover top
+SERVO_SHAFT_FROM_END = 9.6    # spline centre to the near case end (the lead exits this end, 8 mm above the bottom)
+SERVO_BOSSES = ((6.55, 1.6), (5.4, 2.0))       # spline bosses above the cover: (radius, top above the cover)
+SERVO_SPLINE = (2.9, 5.9)                      # spline radius, its top above the cover
+SERVO_LEAD_UP = 8.0                            # lead exit above the case bottom (a 3 mm boss on the case end)
+SERVO_LEAD_BOSS = 3.0
+SERVO_TAB_RIB = (6.0, 0.95, 1.0)              # rib under each tab, next to the case: length out from the case, height, width
+SERVO_BOLT = 2.0                               # M2 through the 4.5 tab holes, DIN 9021 washer under the head
+HORN_FACE_ABOVE_TOP = 8.74    # cover top to the outer face of the horn (spline 3.4 deep in the horn: VERIFY)
 # aluminium 25T single-arm horn (vendor/servo_horn_25t_aluminium.step): hub d 14.8, arm 6.7 wide to r 27.6,
 # M3 tapped holes (2.5) at r 20 and 24; the top arm uses r 24 + the centre screw
 HORN_HUB_R, HORN_T, HORN_ARM = 7.4, 6.24, (27.6, 3.35, 3.65)   # hub radius, total thickness, arm (reach, half width, thickness)
@@ -125,21 +129,20 @@ Z_CP1 = Z_BLOCK_FACE
 Z_CP0 = Z_CP1 - CP_T
 CP_X0, CP_X1 = -40.0, 20.0
 CP_Y0 = -24.5
-CP_Y_ARM = 17.95                # plate edge above the arms (x > ARM_CLEAR_X), flush with the servo plate face
+CP_Y_ARM = 18.5                 # plate edge above the arms (x > ARM_CLEAR_X)
 CP_Y_RISER = 28.0               # plate edge under the belt riser
 ARM_CLEAR_X = -16.0
 BLOCK_SINK = 3.5                # block screw heads sunk into the plate from below
-# servo plate (vertical): the servo's spline face is screwed to its -y face, the horn hub sits in a hole through it
-SP_Y0, SP_T = 12.95, 5.0         # 12.95: the block screw heads (y <= 12.75) stay clear of the plate
+# servo plate (vertical): the servo tabs bear on its -y face
+SP_Y0, SP_T = 3.56, 5.0          # 3.56: keeps the horn face (= top arm) at y 20 with the MG996R
 SP_Y1 = SP_Y0 + SP_T
 SP_Z0 = Z_PIVOT_BOT - 12.0
-HORN_FACE_Y = 20.4               # horn hub 0.46 above the servo's bushing; 4.99 mm of spline in the horn
 # servo position (spline axis = pivot A top)
 SERVO_X1 = SERVO_SHAFT_FROM_END
 SERVO_X0 = SERVO_X1 - SERVO_L
 SERVO_XC = (SERVO_X0 + SERVO_X1) / 2
-CASE_TOP_Y = SP_Y0               # the spline face
-HORN_ARM_SWING = 14.6            # deg either side: the lift range (+-12.6) and 2 deg spare
+CASE_TOP_Y = SP_Y0 + SERVO_TAB_TO_TOP
+HORN_FACE_Y = CASE_TOP_Y + HORN_FACE_ABOVE_TOP
 # arms
 ARM_T = 6.5                     # leaves a 2.5 mm shoulder behind the 4 mm bearing
 ARM_Y0 = HORN_FACE_Y
@@ -369,56 +372,64 @@ def cut_all(body, tools):
 # 5. PRINTED PARTS
 # =============================================================================
 BLOCK_HOLES = [(a * BLK_HOLE_PITCH / 2, b * BLK_HOLE_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
-RISER_MOUNT = [(-31.0, 21.5), (-23.0, 21.5)]                # riser to carriage, inserts in the riser bottom (heads clear the servo plate)
+RISER_MOUNT = [(-31.0, 19.0), (-23.0, 19.0)]                # riser to carriage, inserts in the riser bottom
 CLAMP_SCREWS = [(RS_X0 + 5.0, 23.0), (X_BELT_GAP, 23.0), (RS_X1 - 5.0, 23.0)]   # clamp plate to riser, inserts in the riser top
 CHAIN_MOUNT = [(9.5, -19.25), (16.5, -19.25)]               # chain post to carriage, inserts in the post foot
+SERVO_TAB_HOLES = [(SERVO_XC + a * SERVO_TAB_SPAN / 2, Z_PIVOT_TOP + b * SERVO_TAB_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
 
 def wrist_carriage():
-    """Carriage plate and servo plate as one stiff L-part. The RDS3235's spline face is screwed to the plate's -y face
-    (3x M2 from the +y side), its horn hub turns in a teardrop hole and the horn arm in a shallow recess.
-    Prints top face (block face) down: the servo plate, ribs and boss grow up; the lower pivot boss is a teardrop."""
+    """Carriage plate and servo plate as one stiff L-part.
+    Prints top face (block face) down: the servo plate, ribs and boss grow up.
+    The servo window has a W-shaped 45 deg roof in print orientation, so it
+    needs no bridge; the lower pivot boss is a teardrop for the same reason."""
     outline = [(CP_X0, CP_Y0), (CP_X1, CP_Y0), (CP_X1, CP_Y_ARM), (ARM_CLEAR_X, CP_Y_ARM), (ARM_CLEAR_X, CP_Y_RISER), (CP_X0, CP_Y_RISER)]
     plate = prism_z(outline, Z_CP0, Z_CP1)
     wall = box(CP_X0, SP_Y0, SP_Z0, CP_X1, SP_Y1, Z_CP0)
     # ribs: +y side at both ends, -y side at the left end (outside the servo tabs)
-    ribs = [prism_x([(SP_Y1, Z_CP0), (SP_Y1 + 7.0, Z_CP0), (SP_Y1, Z_CP0 - 7.0)], CP_X0, CP_X0 + 4.0),          # +y, -x end (the top arm is at x > -14.5)
-            prism_x([(SP_Y0, Z_CP0), (SP_Y0 - 7.0, Z_CP0), (SP_Y0, Z_CP0 - 7.0)], CP_X1 - 4.0, CP_X1)]          # -y, +x end (beside the servo's lead boss)
+    ribs = [prism_x([(SP_Y1, Z_CP0), (SP_Y1 + 7.0, Z_CP0), (SP_Y1, Z_CP0 - 7.0)], x0, x0 + 4.0) for x0 in (CP_X0, CP_X1 - 4.0)]   # 7: clear of the servo tab nuts
     # teardrop boss for the lower A pivot (tip toward +z = down in print)
     r = 7.5
     tip = Z_PIVOT_BOT + r * math.sqrt(2)
     td_pts = [(0.0, tip), (r / math.sqrt(2), Z_PIVOT_BOT + r / math.sqrt(2)), (-r / math.sqrt(2), Z_PIVOT_BOT + r / math.sqrt(2))]
     boss = cyl((0.0, SP_Y1, Z_PIVOT_BOT), r, ARM_Y0 - 0.5 - SP_Y1, 'y').fuse(prism_y(td_pts, SP_Y1, ARM_Y0 - 0.5))
     body = tidy(plate.fuse([wall, boss] + ribs))
-    # horn arm swing: a 2 mm recess in the +y face. Its walls lean 1.05:1 toward the face, so in print (plate standing,
-    # world -z up) the lower wall is no steeper than 45 deg.
-    ra, w, L = math.radians(HORN_ARM_SWING), HORN_ARM[1] + TOL_MOVE + FILLET_IN, HORN_ARM[0] + 0.5 + FILLET_IN   # + the corner fillets
-    rot = lambda u, v, f: (u * math.cos(f) - v * math.sin(f), u * math.sin(f) + v * math.cos(f))
-    fan = [rot(0, -w, -ra), rot(L, -w, -ra)]
-    a0, a1, R = -ra - math.atan2(w, L), ra + math.atan2(w, L), math.hypot(L, w)
-    fan += [(R * math.cos(a0 + (a1 - a0) * i / 12), R * math.sin(a0 + (a1 - a0) * i / 12)) for i in range(1, 12)]
-    fan += [rot(L, w, ra), rot(0, w, ra)]
-    yf = HORN_FACE_Y - HORN_ARM[2] - TOL_MOVE                      # recess floor
-    dz = (SP_Y1 + 1.0 - yf) * 1.05
-    lower = [(u, v - (dz if v < -1e-6 else 0.0)) for u, v in fan]            # only the lower side leans out (the upper one faces up in print)
-    wires = [Part.makePolygon([V(u, y, Z_PIVOT_TOP + v) for u, v in pts + pts[:1]]) for y, pts in ((yf, fan), (SP_Y1 + 1.0, lower))]
-    body = cut_all(body, [Part.makeLoft(wires, True, True)])
+    # servo window: case + 0.4 per side, W-shaped roof below (print-up direction)
+    wx0, wx1 = SERVO_X0 - TOL_MOVE, SERVO_X1 + TOL_MOVE
+    wz0, wz1 = Z_PIVOT_TOP - SERVO_W / 2 - TOL_MOVE, Z_PIVOT_TOP + SERVO_W / 2 + TOL_MOVE
+    q = (wx1 - wx0) / 4
+    qz = q * 1.02                                  # roof a hair steeper than 45 deg, so rounding never tips it over the limit
+    # under the (-10, +10) block screw notch the roof is cut flat (5.9 mm bridge) so no sliver is left between them
+    # (flat bottom 5.9 mm wide = a short bridge in print; its sides at 1.05:1, steeper than 45 deg)
+    xa, xb, zb, k, sl = BLOCK_HOLES[1][0] - 2.95, BLOCK_HOLES[1][0] + 2.95, wz0 - 6.0, 1.05, qz / q
+    A, B = wz0 - qz - sl * (wx0 + q), wz0 + sl * (wx0 + 2 * q)          # roof lines left / right of the middle peak
+    xl = (zb + k * xa - A) / (sl + k)
+    xr = (B - zb + k * xb) / (sl + k)
+    assert wx0 + q < xl < xa and xb < xr < wx0 + 3 * q
+    win = prism_y([(wx0, wz1), (wx0, wz0), (wx0 + q, wz0 - qz), (xl, A + sl * xl), (xa, zb), (xb, zb), (xr, B - sl * xr),
+                   (wx0 + 3 * q, wz0 - qz), (wx1, wz0), (wx1, wz1)], SP_Y0 - 1, SP_Y1 + 1)
+    # round the window's corners on the tool itself (r 0.5 keeps 0.35 mm around the case corners)
+    win = win.makeFillet(0.5, [e for e in win.Edges if is_line(e) and abs(e.Length - (SP_T + 2)) < 1e-6
+                               and _concave(win, e) is False])
     body = fillet_all(body)
+    body = cut_all(body, [win])
     cut = []
-    for x, y in BLOCK_HOLES:                       # M3x6 from below, heads sunk (before the servo goes on)
+    for x, y in BLOCK_HOLES[:3]:                   # M3x6 from below, heads sunk (the 4th hole is not used, see below)
         cut.append(cyl((x, y, Z_CP0 - 1), bolt(3) / 2, CP_T + 2))
         cut.append(cyl((x, y, Z_CP0 - 1), (5.5 + 2 * TOL_MOVE) / 2, 1 + BLOCK_SINK))
     for x, y in RISER_MOUNT + CHAIN_MOUNT:          # M3 from below into inserts in the add-on parts
         cut.append(cyl((x, y, Z_CP0 - 1), bolt(3) / 2, CP_T + 2))
-    # horn hub hole (hub + 0.4), a teardrop: its tip points to world -z = up in print
-    rh = HORN_HUB_R + TOL_MOVE
-    td = cyl((0.0, SP_Y0 - 1, Z_PIVOT_TOP), rh, SP_T + 2, 'y').fuse(
-        prism_y([(0.0, Z_PIVOT_TOP - rh * math.sqrt(2)), (rh / math.sqrt(2), Z_PIVOT_TOP - rh / math.sqrt(2)),
-                 (-rh / math.sqrt(2), Z_PIVOT_TOP - rh / math.sqrt(2))], SP_Y0 - 1, SP_Y1 + 1)).removeSplitter()
-    cut.append(td.makeFillet(0.5, [e for e in td.Edges if is_line(e) and abs(e.Length - (SP_T + 2)) < 1e-6
-                                   and _concave(td, e) is False]))        # rounded tip: no sharp inside corner
-    for x, z in SERVO_MOUNT:                        # servo face screws: M2 clearance, cap heads sunk from the +y face
-        cut.append(cyl((x, SP_Y1 + 1, Z_PIVOT_TOP + z), bolt(2) / 2, -(SP_T + 2), 'y'))
-        cut.append(cyl((x, SP_Y1 + 0.01, Z_PIVOT_TOP + z), (3.8 + 2 * TOL_MOVE) / 2, -SERVO_SCREW_SINK - 0.01, 'y'))
+    # assembly: the (-10, +10) block screw head overlaps the servo plate by 1.3 mm, so the plate has a vertical notch for
+    # the screw and the key; the window roof is cut flat over it (no sliver, see the window above). The (+10, +10) hole cannot get one (the servo
+    # tab screw is 3.6 mm away), so that block hole stays empty: the X block is held by 3 screws.
+    xn, rn = BLOCK_HOLES[1][0], 2.95
+    cut.append(cyl((xn, BLOCK_HOLES[1][1], SP_Z0 - 1), rn, Z_CP0 - SP_Z0 + 1.01))
+    for x, z in SERVO_TAB_HOLES:                    # M2 self-tapping + large washer from the tab side (a nut on the +y side
+        cut.append(cyl((x, SP_Y0 - 1, z), M2_PILOT / 2, SP_T + 2, 'y'))   # could not be held: servo case and boom around it)
+    for x in (SERVO_X0 - SERVO_TAB_RIB[0] - TOL_MOVE, SERVO_X1 - TOL_MOVE):   # grooves for the ribs under the servo tabs
+        g = box(x, SP_Y0 - 1, Z_PIVOT_TOP - SERVO_TAB_RIB[2] / 2 - TOL_MOVE, x + SERVO_TAB_RIB[0] + 2 * TOL_MOVE,
+                SP_Y0 + SERVO_TAB_RIB[1] + TOL_MOVE, Z_PIVOT_TOP + SERVO_TAB_RIB[2] / 2 + TOL_MOVE)
+        cut.append(g.makeFillet(0.4, [e for e in g.Edges if min(v.Point.y for v in e.Vertexes) > SP_Y0 - 0.5 or is_line(e) and
+                                      abs(e.Vertexes[0].Point.y - e.Vertexes[1].Point.y) > 1.0]))   # rounded groove: no sharp inside corner
     cut.append(cyl((0.0, SP_Y0 - 1, Z_PIVOT_BOT), bolt(4) / 2, ARM_Y0 - SP_Y0 + 2, 'y'))   # M4 pivot bolt
     return cut_all(body, cut)
 
@@ -659,15 +670,16 @@ def bought():
     B = {}
     B['mgn12h_block'] = box(-BLK_L / 2, -BLK_W / 2, Z_BLOCK_FACE, BLK_L / 2, BLK_W / 2, Z_BLOCK_FACE + BLK_H).cut(
         box(-BLK_L / 2 - 1, -6.2, Z_BLOCK_FACE + 4.8, BLK_L / 2 + 1, 6.2, Z_BLOCK_FACE + BLK_H + 1))     # rail channel (rail base 5 mm inside)
-    zc = Z_PIVOT_TOP
-    case = box(SERVO_X0, SP_Y0 - SERVO_H, zc - SERVO_W / 2, SERVO_X1, SP_Y0, zc + SERVO_W / 2)
-    lo, lw, l0, l1 = SERVO_LEAD
-    case = case.fuse([cyl((0, SP_Y0 - 0.01, zc), SERVO_FACE_BOSS[0], SERVO_FACE_BOSS[1] + 0.01, 'y'),
-                      cyl((0, SP_Y0 - SERVO_H + 0.01, zc), SERVO_REAR_BOSS[0], -SERVO_REAR_BOSS[1] - 0.01, 'y'),
-                      box(SERVO_X1 - 0.01, SP_Y0 - l1, zc - lw / 2, SERVO_X1 + lo, SP_Y0 - l0, zc + lw / 2)])
+    ci, cs, ch = SERVO_COVER
+    case = box(SERVO_X0, CASE_TOP_Y - SERVO_CASE_H, Z_PIVOT_TOP - SERVO_W / 2, SERVO_X1, CASE_TOP_Y - ch, Z_PIVOT_TOP + SERVO_W / 2)
+    case = case.fuse(box(SERVO_X0 + ci, CASE_TOP_Y - ch, Z_PIVOT_TOP - SERVO_W / 2 + cs, SERVO_X1, CASE_TOP_Y, Z_PIVOT_TOP + SERVO_W / 2 - cs))
+    for r, top in SERVO_BOSSES:
+        case = case.fuse(cyl((0, CASE_TOP_Y - 0.01, Z_PIVOT_TOP), r, top + 0.01, 'y'))
     B['servo_case'] = case.removeSplitter()
-    b_top = SP_Y0 + SERVO_FACE_BOSS[1]
-    B['servo_spline'] = cyl((0, b_top, zc), SERVO_SPLINE[0], SERVO_SPLINE[1] - SERVO_FACE_BOSS[1], 'y')
+    B['servo_tabs'] = box(SERVO_XC - SERVO_TAB_LEN / 2, SP_Y0 - SERVO_TAB_THK, Z_PIVOT_TOP - SERVO_W / 2,
+                          SERVO_XC + SERVO_TAB_LEN / 2, SP_Y0, Z_PIVOT_TOP + SERVO_W / 2)
+    b_top = CASE_TOP_Y + SERVO_BOSSES[-1][1]
+    B['servo_spline'] = cyl((0, b_top, Z_PIVOT_TOP), SERVO_SPLINE[0], SERVO_SPLINE[1] - SERVO_BOSSES[-1][1], 'y')
     reach, hw, at = HORN_ARM
     B['servo_horn'] = cyl((0, HORN_FACE_Y - HORN_T, Z_PIVOT_TOP), HORN_HUB_R, HORN_T, 'y').fuse(
         box(0, HORN_FACE_Y - at, Z_PIVOT_TOP - hw, reach, HORN_FACE_Y, Z_PIVOT_TOP + hw)).removeSplitter()   # arm along the top arm
@@ -725,22 +737,19 @@ def placed(s, rows, t):
 def detailed():
     """Vendor shapes for some bought parts, module coordinates, level pose. None = covered by another vendor shape."""
     D = {}
-    # RDS3235: vendor x = along the case (spline at x -21.97), y = across (centre 21.28), z = from the spline face (49.34)
-    # to the back. Solids 2..4 = the case, 9 = the spline; the U-brackets, horn disc and screws in the file are left out.
-    rs = ((1, 0, 0), (0, 0, -1), (0, 1, 0))
-    ts = (21.97, SP_Y0 + 49.34, Z_PIVOT_TOP - 21.28)
-    D['servo_case'] = placed(vendor('rds3235.step', [2, 3, 4]), rs, ts)
-    D['servo_spline'] = placed(vendor('rds3235.step', [9]), rs, ts)
+    # MG996R: vendor x = along the case (spline at x 30.8), y = across (centre 10), z = up from the case bottom (tab face 32.5)
+    D['servo_case'] = placed(vendor('mg996r.step', [0]), ((1, 0, 0), (0, 0, 1), (0, -1, 0)), (-30.8, SP_Y0 - 32.5, Z_PIVOT_TOP + 10.0))
+    D['servo_tabs'] = None
+    # horn: vendor y = along the arm, z = up (hub top 3.82 = outer face), x = across
+    D['servo_horn'] = placed(vendor('servo_horn_25t_aluminium.step'), ((0, 1, 0), (0, 0, 1), (1, 0, 0)), (0, HORN_FACE_Y - 3.82, Z_PIVOT_TOP))
     # TOF400C: PCB and parts only (the right-angle header below z -0.7 is cut off); component side down, pads toward +x
     tof = vendor('tof400c_vl53l1x.step').common(Part.makeBox(20.2, 12.1, 3.5, V(-10.1, -7.55, -0.71)))
     D['tof_board'] = placed(tof, ((0, -1, 0), (-1, 0, 0), (0, 0, -1)), (TOF_C[0], TOF_C[1], Z_SH0 - TOF_POST_H - TOF_PCB_T / 2))
-    # horn: vendor y = along the arm, z = up (hub top 3.82 = outer face), x = across
-    D['servo_horn'] = placed(vendor('servo_horn_25t_aluminium.step'), ((0, 1, 0), (0, 0, 1), (1, 0, 0)), (0, HORN_FACE_Y - 3.82, Z_PIVOT_TOP))
     # wrist stepper 17HS4023S: no vendor model yet (the simple shape is used); drop a STEP in vendor/ and place it here
     return D
 GROUP = {'wrist_carriage': 'xcar', 'x_belt_riser': 'xcar', 'x_belt_clamp': 'xcar', 'chain_post': 'xcar',
          'arm_top': 'armT', 'arm_bottom': 'armB', 'end_plate': 'end', 'shelf': 'end', 'wrist_hub': 'wrist',
-         'mgn12h_block': 'xcar', 'servo_case': 'xcar', 'servo_spline': 'armT', 'servo_horn': 'armT', 'tof_board': 'end',
+         'mgn12h_block': 'xcar', 'servo_case': 'xcar', 'servo_tabs': 'xcar', 'servo_spline': 'armT', 'servo_horn': 'armT', 'tof_board': 'end',
          'nema17p': 'end', 'nema17p_pilot': 'end', 'nema17p_shaft': 'wrist', 'electromagnet': 'wrist', 'camera_board': 'end',
          'camera_lens': 'end', 'brg_AL': 'armB', 'brg_BT': 'armT', 'brg_BL': 'armB', 'x_belt': 'xcar',
          'spacer_AL': 'xcar', 'spacer_BT': 'end', 'spacer_BL': 'end', 'shim_BT': 'end', 'shim_BL': 'end', 'shim_AL': 'xcar'}

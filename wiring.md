@@ -42,9 +42,9 @@ octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop li
 | 4 / 5 | X STEP / DIR | step pulses from the RMT or MCPWM peripheral |
 | 6 / 7 | Y STEP / DIR | |
 | 8 / 9 | Wrist STEP / DIR | wrist NEMA17 pancake 17HS4023S |
-| 11 / 12 | I2C SDA / SCL -> distance sensor (TOF400C, VL53L1X) | 4.7 k pull-ups to 3V3 (CHECK whether the module has its own); 100 kHz. Was the spare driver's STEP / DIR: the 4th TMC2209 stays on the board as a hot spare, swap its pins in if a driver dies |
+| 11 / 12 | I2C SDA / SCL -> distance sensor (TOF400C, VL53L1X) | 4.7 k pull-ups to 3V3 (CHECK whether the module has its own); 100 kHz. Was the spare driver's STEP / DIR: the 4th TMC2209 stays on the board as a hot spare |
 | 13 | EN, all drivers (low = on) | 10 k pull-up to 3V3, so the drivers stay off while the ESP32 boots |
-| 14 | Servo PWM (RDS3235) | LEDC, 50 Hz (500..2500 us, 270 deg version: CHECK which one you have); 1 k in series; servo powered from the 6 V rail |
+| 14 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series; servo powered from the 6 V rail |
 | 21 | Magnet MOSFET gate (AO3400) | 100 R in series, 100 k gate to GND; 1N5819 across the magnet |
 | 38 | Distance sensor XSHUT | low = sensor off / reset; 10 k pull-up to 3V3 |
 | 39 | X home switch | to GND, internal pull-up; wire the NC contact so a broken wire reads as "pressed" |
@@ -84,7 +84,7 @@ Inside the wrist module (drawn, rebuilt for every lift pose):
 | `cable_wrist_camera` | camera board -> up through the shelf hole -> tied on the shelf -> up beside the stepper's +x side -> over the motor top -> junction J beside the end plate | 1 on the shelf (`wm_zip_camera`) |
 | `cable_wrist_stepper` | NEMA17 pancake: plug-in 4-wire cable in its 6-pin JST-PH socket, socket turned to +x (VERIFY which side yours has) -> up and over the motor top -> J | - |
 | `cable_wrist_harness` | J -> up the end plate's +y face between the pivot nuts -> over its top edge -> along the top arm's upper edge -> off the arm beyond the carriage plate -> under the X block -> `cable_wrist_bundle` | end plate (`wm_zip_end_plate`), 2 round the top arm's upper web through its lightening slot (`wm_zip_arm_1/2`) |
-| `cable_wrist_servo` | servo (lead boss on the RDS3235's spline end) -> up beside the case -> under the carriage plate -> bundle | 1 through the carriage plate (`wm_zip_servo`) |
+| `cable_wrist_servo` | servo (far end of the case; VERIFY lead exit) -> up beside the case -> under the carriage plate -> bundle | 1 through the carriage plate (`wm_zip_servo`) |
 
 The harness rides on the arm, so between the end plate and the arm, and between the arm and the carriage, it only flexes a
 little when the arms swing (5 to 40 mm); every lift pose is checked for clashes. The magnet leads are not drawn: they turn
@@ -114,7 +114,6 @@ The X/Y currents are about half the rated values: the load is tiny and the motor
 
 ## Distance sensor (TOF400C, VL53L1X), added 16 Oct
 - Under the wrist shelf, component side down; 5 wires soldered to its pads (no header): VIN 3V3, GND, SDA GPIO11, SCL GPIO12, XSHUT GPIO38.
-  They go up through the hole beside the board and join the wrist harness; twist SDA/SCL with GND, the run is about 1 m.
-- Read it with the magnet up (h 40): it is about 74 mm from the field and 49 mm from the top of a 5-stack; below 40 mm the VL53L1X is not reliable.
-- Firmware: short distance mode, 50..100 ms timing budget, and a small ROI (e.g. 4 x 4 SPADs) so only the stack under it is seen
-  (the full 27 deg cone is wider than one checker at this height). Levels = round((field - reading) / 5 mm).
+  They go up through the hole beside the board and join the wrist harness; twist SDA/SCL with GND (about 1 m).
+- Read it with the magnet up (h 40): about 74 mm to the field, 49 mm to the top of a 5-stack (the VL53L1X needs >= 40 mm).
+- Firmware: short distance mode, 50..100 ms timing budget, a small ROI (e.g. 4 x 4 SPADs) so only the stack under it is seen. Levels = round((field - reading) / 5 mm).

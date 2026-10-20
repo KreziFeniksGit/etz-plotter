@@ -36,7 +36,7 @@ def branch(name, kind):
         return 'Cables_and_chains'
     return 'Electronics_and_controls'
 
-WM_COLOUR = {'servo_case': 'servo', 'tof_board': 'board', 'servo_spline': 'white', 'servo_horn': 'steel', 'nema17p': 'motor',
+WM_COLOUR = {'servo_case': 'servo', 'servo_tabs': 'servo', 'tof_board': 'board', 'servo_spline': 'white', 'servo_horn': 'steel', 'nema17p': 'motor',
              'nema17p_pilot': 'motor', 'nema17p_shaft': 'steel', 'electromagnet': 'copper', 'camera_board': 'board', 'camera_lens': 'black',
              'mgn12h_block': 'steel'}
 WM_COLOUR.update({k: 'black' for k in W.GROUP if k.startswith('zip_')})
@@ -116,9 +116,9 @@ ALLOWED = [
     ('led_', 'control_panel'), ('estop', 'control_panel'), ('start_button', 'control_panel'), ('header_', 'control_panel'),
     ('header_', 'connector_pcb'), ('standoff', 'perfboard'), ('standoff', 'plywood'),
 ] + [tuple('wm_' + x for x in p) for p in [
-    ('servo_horn', 'arm_top'), ('servo_spline', 'servo_horn'), ('servo_case', 'servo_spline'),
+    ('servo_tabs', 'wrist_carriage'), ('servo_horn', 'arm_top'), ('servo_spline', 'servo_horn'), ('servo_case', 'servo_spline'),
     ('brg_AL', 'arm_bottom'), ('brg_BL', 'arm_bottom'), ('brg_BT', 'arm_top'), ('nema17p_shaft', 'wrist_hub'), ('nema17p_pilot', 'nema17p'),
-    ('nema17p_shaft', 'nema17p_pilot'), ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'),
+    ('nema17p_shaft', 'nema17p_pilot'), ('electromagnet', 'wrist_hub'), ('camera_board', 'camera_lens'), ('servo_case', 'servo_tabs'),
     ('spacer_AL', 'brg_AL'), ('spacer_BT', 'brg_BT'), ('spacer_BL', 'brg_BL'), ('shim_BT', 'brg_BT'), ('shim_BL', 'brg_BL'),
     ('shim_AL', 'brg_AL'), ('nema17p', 'nema17p_shaft'), ('shim_BT', 'end_plate'), ('shim_BL', 'end_plate'), ('spacer_AL', 'wrist_carriage')]]
 

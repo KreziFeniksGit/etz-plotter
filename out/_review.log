@@ -1,6 +1,6 @@
 {
  "fillet_skips": [
-  1,
+  0,
   0,
   0,
   0,
@@ -10,19 +10,19 @@
  ],
  "interference": "none",
  "min_gap_mm": {
-  "arm_top | wrist_carriage": 2.45,
+  "arm_top | wrist_carriage": 1.5,
   "arm_bottom | wrist_carriage": 0.5,
-  "servo_horn | wrist_carriage": 0.4,
+  "servo_horn | wrist_carriage": 5.81,
   "arm_top | x_belt_riser": 7.38,
   "arm_bottom | shelf": 0.5,
   "arm_top | end_plate": 0.8,
   "arm_bottom | end_plate": 0.8,
   "arm_top | arm_bottom": 17.03,
-  "servo_case | wrist_carriage": 0.0,
-  "arm_top | servo_case": 6.7,
+  "servo_case | wrist_carriage": 0.36,
+  "arm_top | servo_case": 6.74,
   "wrist_hub | shelf": 5.35,
   "electromagnet | shelf": 22.34,
-  "end_plate | wrist_carriage": 38.79,
+  "end_plate | wrist_carriage": 41.88,
   "spacer_AL | arm_bottom": 0.3,
   "spacer_BT | arm_top": 0.3,
   "spacer_BL | arm_bottom": 0.3,
@@ -42,12 +42,12 @@
   "arm_bottom": 51.6
  }
 }
-wrist_carriage  block face down, servo plate size [67.3, 52.5, 74.0] min_wall 2.5 thin 0 bridge 0.3 overhang 0.0 sharp 0
-x_belt_riser    standing on its bottom face  size [42.0, 13.5, 15.9] min_wall 3.04 thin 0 bridge 4.1 overhang 0.0 sharp 0
+wrist_carriage  block face down, servo plate size [60.0, 52.5, 74.0] min_wall 2.5 thin 0 bridge 5.0 overhang 0.0 sharp 0
+x_belt_riser    standing on its bottom face  size [42.0, 13.5, 15.9] min_wall 2.45 thin 0 bridge 4.1 overhang 0.0 sharp 0
 x_belt_clamp    grooved face up              size [42.0, 13.5, 3.5] min_wall 2.9 thin 0 bridge 0 overhang 0.0 sharp 0
 chain_post      lying on its -y face         size [22.0, 69.0, 37.0] min_wall 2.61 thin 0 bridge 4.0 overhang 0.0 sharp 0
 arm_top         flat, horn face down         size [103.8, 31.3, 6.5] min_wall 2.5 thin 0 bridge 0 overhang 0.0 sharp 0
 arm_bottom      flat                         size [96.2, 16.2, 6.5] min_wall 2.5 thin 0 bridge 0 overhang 0.0 sharp 0
-end_plate       -y face on the bed           size [28.0, 59.5, 11.3] min_wall 2.51 thin 0 bridge 0 overhang 0.0 sharp 0
+end_plate       -y face on the bed           size [28.0, 59.5, 11.7] min_wall 2.5 thin 0 bridge 0 overhang 0.0 sharp 0
 shelf           stepper face (top) down      size [110.0, 42.0, 14.0] min_wall 2.51 thin 0 bridge 0 overhang 0.0 sharp 0
 wrist_hub       shaft end down               size [14.0, 14.0, 22.5] min_wall 4.41 thin 0 bridge 0 overhang 0.0 sharp 0

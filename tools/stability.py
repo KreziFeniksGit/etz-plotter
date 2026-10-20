@@ -14,7 +14,7 @@ MASS_G = {                     # bought parts, grams (datasheet or typical)
     'y_rail_mgn12_400': 260, 'x_rail_mgn12_250': 163,                         # 0.65 kg/m
     'y_block_mgn12h': 47, 'wm_mgn12h_block': 47,
     'y_motor_17HS16': 280, 'x_motor_17HS16': 280, 'wm_nema17p': 140, 'wm_nema17p_pilot': 0, 'wm_nema17p_shaft': 0,
-    'wm_servo_case': 60, 'wm_servo_spline': 0, 'wm_servo_horn': 8, 'wm_tof_board': 2,
+    'wm_servo_case': 55, 'wm_servo_tabs': 0, 'wm_servo_spline': 0, 'wm_servo_horn': 8, 'wm_tof_board': 2,
     'wm_electromagnet': 35, 'wm_camera_board': 8, 'wm_camera_lens': 4,
     'battery_4s_2200': 230, 'estop_22mm_latching': 60, 'start_button_16mm': 10, 'breadboard_400': 45,
     'perfboard_100x80': 30, 'esp32_s3_devkitc1': 10, 'pololu_5v_d36v28f5': 3, 'pololu_6v_d36v28f6': 3,
@@ -131,7 +131,7 @@ def deflection(ms, PYC, PXB):
 
 BELT_EA = 25000.0             # N, GT2 6 mm glass-cord belt, axial stiffness EA (typical published figure; steel cord is stiffer)
 STEP_TORQUE = 0.45           # N m holding torque, 17HS16-2004S1
-SERVO_PLAY_DEG = 1.0        # gear play at the servo output (typical for metal-gear hobby servos)   VERIFY: measure yours
+MG996R_PLAY_DEG = 1.0        # gear play at the servo output (typical for metal-gear hobby servos)   VERIFY: measure yours
 
 def backlash(ms):
     """Lost motion at the magnet when an axis reverses at the design acceleration (mm): belt stretch on both
@@ -165,17 +165,17 @@ def backlash(ms):
         out[ax] = {'moving_kg': round(m, 3), 'force_N': round(Fd, 2), 'belt_mm': round(belt, 4), 'stepper_mm': round(motor, 4),
                    'mount_mm': round(mt, 4), 'tooth_clearance_mm': teeth, 'total_reversal_mm': round(2 * (belt + motor + mt) + teeth, 3)}
     # wrist: servo gear play tilts the parallelogram: vertical only (the magnet stays level)
-    out['magnet_height_play_mm'] = round(W.R_ARM * math.radians(SERVO_PLAY_DEG), 2)
+    out['magnet_height_play_mm'] = round(W.R_ARM * math.radians(MG996R_PLAY_DEG), 2)
     out['note'] = ('XY lost motion is ~0.1 mm per axis against the 10 mm placement tolerance. Keep it that way: GT2 pulleys '
                    'with two grub screws (one on the shaft flat, Loctite 243), belts tensioned to ~25 N, a full homing each run. '
                    'The servo play only changes the magnet height (it lands on the checker anyway).')
     return out
 
-SERVO_STALL_NM = 3.2         # N m stall torque of the RDS3235 at 6 V (about 33 kg cm; 35 kg cm at 6.8 V)   VERIFY on its datasheet
+MG996R_STALL_NM = 1.08       # N m stall torque at 6 V (11 kg cm, datasheet; 0.92 at 4.8 V)
 SERVO_LIFT_ACC = 2.0         # m/s^2 vertical acceleration of the end when the servo lifts
 
 def servo_torque(ms, PXB):
-    """Torque the servo (RDS3235) needs to hold / lift the parallelogram, arms level (worst case, cos = 1).
+    """Torque the MG996R needs to hold / lift the parallelogram, arms level (worst case, cos = 1).
     Virtual work: everything on the end plate (shelf, stepper, hub, magnet, camera, their screws) rises R_ARM dtheta;
     each arm rises by its centre of mass distance from its pivot A. The wrist harness counts at half the arm length."""
     import wrist_module as W
@@ -190,8 +190,8 @@ def servo_torque(ms, PXB):
     t += m_cab * G * R / 2
     motor = MASS_G['wm_nema17p'] / 1000.0
     return {'end_mass_kg': round(m_end, 3), 'wrist_stepper_kg': motor, 'needed_Nm': round(t, 3),
-            'stall_6V_Nm': SERVO_STALL_NM, 'stall_margin': round(SERVO_STALL_NM / t, 1),
-            'load_vs_stall_pct': round(100 * t / SERVO_STALL_NM, 1),
+            'stall_6V_Nm': MG996R_STALL_NM, 'stall_margin': round(MG996R_STALL_NM / t, 1),
+            'load_vs_stall_pct': round(100 * t / MG996R_STALL_NM, 1),
             'note': 'keep the steady load under ~30-40 % of stall for a long servo life (hobby servo rule of thumb)'}
 
 if __name__ == '__main__':
