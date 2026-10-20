@@ -22,6 +22,9 @@ Design rules Egor requires: `docs/design_rules.md`.
   something is a placeholder or not modelled.
 - Keep `README.md`, `docs/status.md`, `components.csv`, `wiring.md` true after each change. Commit with a clear
   message and push, so his other devices get it.
+- **Push right away after every finished change** (model, docs, BOM, coupons) once its checks are clean - do not
+  ask first and do not leave work uncommitted at the end of a turn (a session can die mid-way: on 16 Oct a finished
+  MG996R revert sat uncommitted for days). Bump the version (v2.x) in `docs/status.md` for model changes.
 
 ## Repository map
 | Path | What |
