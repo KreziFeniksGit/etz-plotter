@@ -1,0 +1,1517 @@
+ETZ SCARA arm
+Project plan from today to the competition
+Fourteen weeks, about 20 working hours per week, every task with an ID, a day, an hour estimate and a "done
+when" test. Draft 1: written to be corrected.
+
+
+What                 Content
+Plan length          14 weeks, Monday 12 October 2026 to Sunday 17 January 2027 (assumed; replace with the real final date)
+Working time         About 20 hours per week, one person (planned total about 265 hours); printer time is extra and runs
+                     unattended
+Scope                Build, test, calibrate and prepare for the competition, including documentation, rehearsals, budget and risks
+Design basis         The v3 optimised design: 15 printed designs (19 pieces), 61 screws, 16 V supply, 85 mm Z stroke, J1
+                     bearing span 15 mm
+How to correct it    Section 4 lists 12 decisions. Write answers there, cross out tasks you disagree with, and send the pages
+                     back. Appendix G is a blank correction sheet.
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Contents
+ Contents                                                                                                                         2
+
+ 1. How to read and correct this plan                                                                                             3
+
+ 2. Where the design stands today                                                                                                 3
+
+ 3. Overall schedule                                                                                                              4
+
+ 4. Decisions to make or confirm                                                                                                  6
+     Week 1 (from 12 Oct): Decisions, rules, orders, printer calibration . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+     Week 2 (from 19 Oct): Test prints, small parts, firmware skeleton . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+     Week 3 (from 26 Oct): Big prints start; bench electronics; step generation . . . . . . . . . . . . . . . . . . . . . . 10
+     Week 4 (from 2 Nov): Frame and Z axis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+     Week 5 (from 9 Nov): J1 stage, link 1, electronics board . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+     Week 6 (from 16 Nov): Wrist, mast, camera, cabling, first motion        . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+     Week 7 (from 23 Nov): Closed loop, protocol, planner, UI v1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+     Week 8 (from 30 Nov): Calibration C1 to C5 and tests T1 to T4 . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+     Week 9 (from 7 Dec): Tests T5 to T10 and mechanical revision . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+     Week 10 (from 14 Dec): Task automation, vision and UI v2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+     Week 11 (from 21 Dec): Reliability, error recovery, spares . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+     Week 12 (from 28 Dec): Documentation and software freeze            . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+     Week 13 (from 4 Jan): Rehearsals and packing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+     Week 14 (from 11 Jan): Buffer, last checks, travel and competition . . . . . . . . . . . . . . . . . . . . . . . . . 21
+
+ 6. Subsystem playbooks                                                                                                          22
+     6.1 Printing and quality control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+     6.2 Mechanical assembly . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+     6.3 Electronics build and bring-up . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+     6.4 Firmware       . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+     6.5 Laptop application and vision . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+     6.6 Calibration and test procedure . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+     6.7 Competition preparation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+
+ 7. Risk register                                                                                                                27
+
+ 8. Budget estimate                                                                                                              28
+
+ Appendix A. Printed part QC checklist                                                                                           29
+
+ Appendix D. Bring-up log                                                                                                        30
+
+ Appendix F. Competition day timeline (template)                                                                                 31
+
+
+
+
+                                                                                                                               page 2
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ 1. How to read and correct this plan
+ This is a first draft built from what is known about the design. Where something is a guess, it says so and points to a
+ decision in section 4. Your corrections matter most in four places: the real competition task (D10) and the date, the
+ power source (D1), the tools and printer you own (D5, D6), and the amount of time you really have each week.
+
+ Assumptions made while writing
+  • Start: Monday 12 October 2026, the first working Monday after today. The competition date is unknown, so the
+    plan is 14 weeks with a buffer week at the end. If the real date is earlier, section 3.3 says what to cut and what
+    never to cut.
+  • Working pattern: five working sessions per week of 3 to 4 hours (the tasks have day names but the days can
+    move). Printing, curing and shipping happen while you do something else.
+  • Task (assumed, D10): the arm picks small ferrous objects from a flat field with the electromagnet, guided by the
+    camera, and places them in zones, operated from a laptop. All timing and scoring work in weeks 10 to 12 follows
+    from this assumption.
+  • Printer: a machine with a bed of at least 220 x 220 mm that you can use freely; filament PETG; 0.4 mm nozzle.
+  • Money: all prices in section 8 are my rough estimates in EUR, not looked up. Replace them with real quotes in
+    week 1.
+  • Everything electronic follows bare_electronics_pack.pdf (no enclosure, a bare perfboard on four standoffs);
+    accuracy and tests follow accuracy_and_test_plan.pdf; printing follows print_guide_and_changes.pdf.
+
+ Task IDs and conventions
+ Tasks are numbered week.number (for example 4.3 is the third task of week 4). "Done when" is a test that someone
+ else could check. D1 to D12 are decisions, R1 to R20 are risks, T1 to T10 are the physical tests of the accuracy
+ plan, C1 to C5 are the calibrations. File names such as hardware_bom.csv refer to the v3 deliverable folder.
+
+ 2. Where the design stands today
+ The mechanical design is complete as a model and has been checked for collisions, fastener engagement, thin
+ walls and stiffness. Nothing has been printed or built yet. The numbers below are from the models and the analysis,
+ not from measurements, and weeks 8 and 9 exist to replace them with measurements.
+
+  Item                         Value (source)
+  Kinematics                   SCARA, L1 = L2 = 150 mm, 300 mm reach, elbow-minus configuration only. Workspace: J1 -0.9 to 116.3
+                               degrees, J2 -150.1 to -63.7 degrees (reach study). Mechanical stops: J1 about -3 and 121 degrees; J2
+                               +140 and -158 degrees.
+  Z axis                       Tr8x2 lead screw 200 mm, rods 220 mm, LM8UU bearings, magnet height 5 to 90 mm (85 mm stroke),
+                               about 10 to 15 mm/s at 16 V.
+  Drives                       J1 and J2: NEMA17 40 mm with encoder, 20T:60T GT2 belts (3:1); wrist: NEMA11 with encoder; Z:
+                               NEMA17 pancake 21.5 mm, open loop, home switch. Four TMC2209 drivers, ESP32-S3.
+  Supply                       Maximum 16 V. J1 at 16 V and 90 degrees extended: stall at about 0.51 s; use 0.9 s moves with smoothed
+                               ramps (margin 2.76). Peak power about 43 W.
+  End effector                 Electromagnet 20 x 15 mm, 12 V type, about 25 N at 12 V, PWM at most 70 percent duty (hold about 40
+                               percent). Camera 8 MP on a 155 mm boom.
+  Printed parts                15 designs, 19 pieces, about 330 g of PETG, no supports. Largest: Z carriage 130 x 128 x 60 mm (about 9
+                               hours).
+  Hardware                     61 screws (ISO7380 M3x8 24, ISO4762 M3x10 19, ISO7380 M3x6 14, ISO7380 M2.5x5 4), 13 nuts, 30
+                               Ruthex inserts, about 8 grub screws.
+  Predicted accuracy           Lateral at the magnet: 5.5 mm worst case and 1.8 mm RSS as built; 1.6 mm and 0.44 mm after calibration.
+                               Vertical 8.5 mm worst case before and 1.2 mm after, droop 3.2 mm at 3 N.
+  Checks done                  265 hole pairs aligned, collision sweep over about 70 poses clean in the working range, fastener thread
+                               check clean, 72 unique fit coupons plus 10 tolerance plates.
+
+
+ Known open items from the design review
+  • Mast to base plate and boom to mast fixings are not modelled (task 1.3 closes this).
+
+
+
+                                                                                                                                     page 3
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+  • NEMA11 M2.5 screws engage only 2.0 mm; the wall at two holes is 1.3 mm (use thread-lock, hand tight).
+  • Link channels contain many overlapping solids in the STEP; the slicer must merge them (task 2.1 tests it).
+  • The J1 stop leaves only about 2 degrees of margin at the low end (check on the first print).
+  • Full sequence-aware screw reach was not rerun after the 50 mm Z extension.
+  • Rod bending over the longer span (estimated 0.1 mm) is not in the droop figure.
+  • The rule wording on the charged voltage (16.8 V) of a 4S pack is not yet read (task 1.1, decision D1).
+
+ 3. Overall schedule
+ 3.1 Timeline
+                                            W1      W2     W3     W4        W5      W6      W7     W8      W9    W10      W11   W12     W13       W14
+
+
+  Decisions and rules
+
+  Procurement
+
+  Printing
+
+  Mechanical build
+
+  Electronics
+
+  Firmware
+
+  Laptop app and vision
+
+  Calibration and tests
+
+  Task automation and reliability
+
+  Documentation
+
+  Rehearsals, packing, travel
+
+
+
+
+                                               M1                    M2                M3             M4             M5            M6        M7     M8
+ Blue bars are the main work of the track, grey bars are follow-up work (reprints, spares, recovery). Red diamonds are the milestones
+ in 3.2.
+
+ 3.2 Milestones and gates
+  ID         End of         Milestone                                            Gate test (must be true to go on)
+  M1         Week 1         Orders placed, rules read, printer calibrated        Order confirmations; rules checklist; rules.json from the
+                                                                                 tolerance plates
+  M2         Week 4         Z axis works                                         Homes, 85 mm stroke, scale error below 0.5 percent
+  M3         Week 6         Whole arm assembled and moving                       Four axes move in the right direction; magnet force measured
+  M4         Week 8         Calibrated                                           T1 to T4 done; grid error within the plan
+  M5         Week 10        HARDWARE FREEZE and first full run                   Task runs end to end; hw-freeze-1 tag
+  M6         Week 12        SOFTWARE FREEZE and documents drafted Regression run passes; sw-freeze tag
+  M7         Week 13        Three rehearsals done                                Questions from rehearsal 1 answered
+  M8         Week 14        Competition                                          Everything packed and checked
+
+
+ 3.3 What to cut if time is short
+ If the real date is earlier, remove in this order: (1) buffer week 14, (2) the speed optimisation (task 11.4) and the
+ second half of the spares work, (3) UI polish (task 10.4) and the poster, (4) the extra tests T6, T8 and T9. Never
+ remove: the tolerance plates and test prints of weeks 1 and 2, the pre-power checklist, the calibration C1 to C5, test
+ T10 (torque margin), the soak test, or at least one outside rehearsal. If the date is earlier than 10 weeks away, tell
+ me and I will rebuild the plan with parallel tracks and fewer iterations.
+
+
+
+
+                                                                                                                                                  page 4
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ 3.4 Minimum viable demo
+ If only weeks 1 to 8 happen, you still have an arm that homes itself, moves to a point clicked on the camera image
+ after the 4-fiducial calibration, picks and places one object at a time under operator supervision, and is documented
+ by test data. This is the fallback in risk R20. Everything later makes it faster, more automatic and better presented.
+
+ 3.5 Critical path
+ The longest chain is: rules and decisions (week 1) to orders (week 1) to deliveries of motors and the plate (weeks 2
+ to 3) to the big prints (weeks 3 to 4) to the Z column (week 4) to the shoulder, links and wrist (weeks 5 to 6) to first
+ motion (week 6) to calibration (week 8). Firmware and app work fill the waiting time and are only critical from week
+ 7. The plate and the motors are the likeliest delays, which is why they are ordered first.
+
+ 3.6 Hour budget
+  Week      Starts           Theme                                                                                 Hours
+  1         12 Oct           Decisions, rules, orders, printer calibration                                         19.5
+  2         19 Oct           Test prints, small parts, firmware skeleton                                           20.0
+  3         26 Oct           Big prints start; bench electronics; step generation                                  18.0
+  4         2 Nov            Frame and Z axis                                                                      19.0
+  5         9 Nov            J1 stage, link 1, electronics board                                                   19.5
+  6         16 Nov           Wrist, mast, camera, cabling, first motion                                            18.0
+  7         23 Nov           Closed loop, protocol, planner, UI v1                                                 19.0
+  8         30 Nov           Calibration C1 to C5 and tests T1 to T4                                               20.0
+  9         7 Dec            Tests T5 to T10 and mechanical revision                                               20.0
+  10        14 Dec           Task automation, vision and UI v2                                                     20.0
+  11        21 Dec           Reliability, error recovery, spares                                                   20.0
+  12        28 Dec           Documentation and software freeze                                                     20.0
+  13        4 Jan            Rehearsals and packing                                                                20.0
+  14        11 Jan           Buffer, last checks, travel and competition                                           12.0
+                             Total                                                                                 265.0
+
+             20        20                19           20             19      20     20   20     20       20      20          20 h
+                                18                          18
+
+                                                                                                                           12
+
+
+
+
+             W1       W2        W3       W4       W5       W6        W7      W8     W9   W10   W11      W12     W13        W14
+
+ Printer and ordering waits are not counted. Weeks near 20 hours leave no slack by themselves; the slack is in weeks 11 and 14 and
+ in the cut list of 3.3.
+
+
+
+
+                                                                                                                                 page 5
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ 4. Decisions to make or confirm
+ Each row has my default. Write your answer in the margin or in appendix G. The ones that block week 1 are D1, D2,
+ D3 and D5.
+
+  ID       Question                              My default                                        Why it matters / when
+  D1       Power source for the 16 V limit. A Regulated source that cannot exceed 16 V: 4S Rule compliance and every torque
+           4S pack is 14.8 V nominal but 16.8 pack followed by a DC-DC step-down set to         figure. Needed before the order in week
+           V fully charged.                   15.5 V, or a bench supply set to 16 V. Fall back: 1.
+                                              3S pack (11.1 V, 12.6 V charged) with slower
+                                              J1 moves (margin 0.81 at 12 V).
+  D2       Base plate material and thickness.    3 mm aluminium 5052 or 6082 is the BOM            The plate is the foundation; the mast
+           The BOM says 2.8 to 3 mm laser        value. Please confirm which the CAD really        and Z column bolt to it. Needs the CAD
+           cut, the animation text says 8 mm.    uses and whether a stiffer 5 or 6 mm plate is     to match the order.
+                                                 wanted.
+  D3       Homing method for J1, J2 and the      StallGuard homing against the printed stops at    Affects repeatability and the firmware
+           wrist (the pin table has only a Z     reduced current. Fallback: two Hall or optical    work of week 6.
+           home switch).                         sensors (needs a few CAD and pin changes).
+  D4       Z speed. Tr8x2 gives 10 to 15         Keep Tr8x2 for now. Switch to Tr8x4 or a 40       Cycle time. Decide after the first full
+           mm/s at 16 V (85 mm takes 6 to 9      mm Z motor only if the task timing needs it.      runs in week 10; changing costs about
+           s).                                                                                     a day.
+  D5       Printer model, bed size, nozzle       Bed at least 220 x 220 mm, 0.4 mm nozzle,         The largest part is 130 x 128 mm and
+           and the filament brand.               PETG. Enclosure or draught shield helps.          the longest print is the Z carriage at
+                                                                                                   about 9 hours.
+  D6       Tools you own: soldering station,     Minimum: calipers, multimeter, soldering iron     Decides the shopping list and how
+           crimper, calipers, multimeter,        with temperature control, crimper. A cheap        debugging will go.
+           oscilloscope or logic analyser.       8-channel logic analyser is worth buying.
+  D7       Firmware framework.                   PlatformIO with the Arduino-ESP32 framework       Week 2 to 3.
+                                                 and a custom step generator (or
+                                                 FastAccelStepper). ESP-IDF is possible but
+                                                 slower to start.
+  D8       Laptop app technology.                Python 3 with OpenCV and a Qt interface           Week 2 and week 10. Which OS will
+                                                 (PySide6). A browser UI served by a local         the competition laptop run?
+                                                 Python server is the alternative.
+  D9       Camera model and mounting             8 MP USB UVC camera with fixed focus;             Vision accuracy; the lens needs a focus
+           height on the 155 mm boom.            confirm the field of view covers the whole pick   and distortion check in week 8.
+                                                 window from the boom height.
+  D10      What exactly is the competition       Assumed: pick small ferrous objects from a flat   Weeks 10 to 12 and the scoring
+           task and the field?                   field with the electromagnet, place them in       strategy depend on it.
+                                                 zones, camera-guided, operated from a laptop.
+                                                 Please replace this with the real task text.
+  D11      Team and help.                        Working alone about 20 hours a week. Name a       Weeks 12 and 13.
+                                                 mentor or teacher who can review the report
+                                                 and watch rehearsals.
+  D12      Currency and budget ceiling.          Estimates are in EUR (section 8). Tell me the     Order wave 1.
+                                                 real limit and where you buy.
+
+
+
+
+                                                                                                                                       page 6
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 1 (from 12 Oct): Decisions, rules, orders, printer calibration
+ Goal. Nothing is ordered or printed before the rules and open decisions are settled. By Friday every long-lead part is
+ ordered, the printer is calibrated for this design, and the ten tolerance plates are measured.
+ Gate at the end of the week. Order wave 1 placed and confirmed; rules checklist signed off; compensation rules
+ file exists; plate DXF sent to the cutter. Hours planned: 19.5.
+
+  ID      Day     Task and detail                                               h     Done when                             Note
+  1.1     Mon     Read the competition rules line by line                       2.0   rules_checklist.md written; every
+                  Make a one-page checklist of every hard constraint:                 constraint has a yes/no against
+                  maximum supply voltage (and whether the charged 16.8 V              the current design.
+                  of a 4S pack counts), size and weight limits, allowed
+                  materials and processes, E-stop and safety requirements,
+                  battery and transport rules, laptop and camera rules, task
+                  definition, scoring, time limits, what documentation is
+                  required and in which language.
+  1.2     Mon     Settle the open decisions D1 to D12 (section 4)               1.5   Section 4 filled in; plan corrected
+                  Go through the decision list with the supervisor or mentor if       where an answer changes it.
+                  there is one. Each decision gets one answer and one
+                  sentence of reason. The ones that block orders are D1
+                  (supply), D2 (base plate material and thickness), D3
+                  (homing), D5 (printer).
+  1.3     Tue     Mast and boom fixing: model and add plate holes             2.0     Updated base plate DXF with
+                  The mast to base plate joint and the boom to mast joint are         mast holes; collision check clean;
+                  not modelled yet. Decide 2 corner brackets plus T-nuts for          fixing hardware added to the
+                  each joint, ask Claude to add them to the CAD, add the              BOM.
+                  holes to the base plate and re-export the DXF for the laser
+                  cutter. Check that the brackets do not hit the arm at the
+                  extreme poses (J1 100 to 118 degrees with J2 near 137
+                  degrees is already the tightest case).
+  1.4     Tue     Place order wave 1 (long-lead items)                          2.5   Order confirmations saved in
+                  Motors with encoders (2 x NEMA17 40 mm closed loop, 1               orders/ with expected delivery
+                  x NEMA11 32 mm with encoder, 1 x NEMA17 pancake                     dates; delivery calendar in the
+                  21.5 mm), laser-cut base plate, 2020 profiles with brackets         plan.
+                  and T-nuts, Tr8x2 screw 200 mm with nut, rods 220 mm,
+                  LM8UU, shaft d8 steel, 12 V electromagnet 20 x 15 mm,
+                  camera, battery pack or power supply (D1). Buy one spare
+                  of anything cheap and fragile (belts, pulleys, LM8UU,
+                  608ZZ).
+  1.5     Wed     Place order wave 2 (electronics, fasteners,                 2.0     All items of hardware_bom.csv
+                  consumables)                                                        covered by an order line; checked
+                  ESP32-S3-DevKitC-1 (2 pieces, one spare), 5 x TMC2209               item by item.
+                  modules, IRLB8721, 1N5819, LM2596, fuse holder and 6
+                  A fuses, NC E-stop, capacitors, perfboard 100 x 80,
+                  standoffs, connectors, wire, ferrules, heat shrink; ISO7380
+                  and ISO4762 M3 assortments, Ruthex M3 x 5.7 inserts,
+                  M3 nuts, grub screws, thread-lock, grease, PETG filament.
+  1.6     Wed     Printer service and PETG preparation                          3.0   Profile PETG_ETZ saved; 20 mm
+                  Clean nozzle, check belts and bed screws, level the bed,            cube within 0.1 mm in X, Y and Z;
+                  dry PETG for 4 to 6 hours at about 65 C, set up a dry box,          stable first layer.
+                  run a first-layer test and a temperature tower. Calibrate
+                  flow and extruder steps with a single-wall cube. Save the
+                  slicer profile as PETG_ETZ.
+  1.7     Thu     Print and measure tolerance plates T1 to T10                  2.0   Table of chosen diameters for all
+                  Print the ten plates from test_coupons/_tolerance (about            ten plates, photographed.
+                  10 minutes each). Push the real parts through (M3 screw,
+                  Ruthex insert, 608 bearing, LM8UU, d8 rod, M3 nut, tap
+                  screw, M2.5, 5 mm shaft, NEMA pilot). Write down which
+                  hole gives the fit you want for every plate.
+  1.8     Thu     Write compensation rules and regenerate parts                 1.5   printed_ready_comp/ folder;
+                  Turn the chosen diameters into rules.json for                       rules.json under version control.
+                  tools/compensate.py (for example min_d 3, max_d 4.5,
+                  delta 0.1; hex true for nut traps). Run it on printed_ready
+                  and compare five holes by CAD measurement against the
+                  rules.
+
+
+
+
+                                                                                                                                   page 7
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+  ID      Day     Task and detail                                                h     Done when                           Note
+  1.9     Fri     Workspace and repository setup                                 2.0   Repository created, first commit
+                  Folder structure on the laptop (cad, firmware, ui, docs,             made, plan imported as a task
+                  orders, logs), git repository with the CAD folder copied in,         list.
+                  an issue board or spreadsheet with this plan broken into
+                  task IDs. Set up a bench area with fire-safe battery
+                  storage, good light, a scrap-metal tray and an ESD mat.
+  1.10    Fri     Walk through the viewer and animation; weekly review           1.0   Question list for Claude; updated
+                  Open model_viewer.html and the animation. Write down                 plan.
+                  every question about an assembly step. Review the week:
+                  what slipped, what moves to next week. Update the plan.
+ Start dates assume Monday 12 October 2026. Every week is planned at about 20 working hours. Printer machine time is listed
+ separately in section 6.1 and is not counted in these hours.
+ Order list for waves 1 and 2 is the hardware_bom.csv in the deliverable folder, grouped as printed parts (no order needed), motors,
+ drive, Z axis, frame, end effector, electronics and fasteners. Section 8 gives the estimated cost.
+
+
+
+
+                                                                                                                                  page 8
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 2 (from 19 Oct): Test prints, small parts, firmware skeleton
+ Goal. Prove the risky printing details on small coupons, then print the small parts. Parts begin to arrive: check them.
+ Start the firmware and the laptop app so that they are ready when the boards arrive.
+ Gate at the end of the week. Hub, wrist bridge and nut-pocket tests pass; compensated parts are sliced; wave 1
+ deliveries inspected; firmware talks to a TMC2209 over UART. Hours planned: 20.0.
+
+  ID      Day     Task and detail                                               h      Done when                              Note
+  2.1     Mon     Risk test prints: link 2 hub, wrist bridge, Tr8 nut pocket 2.0       Hub clamps without cracking; 8.5
+                  From the coupon sheets print the link 2 hub end (20                  mm bridge sags less than 0.5
+                  minutes), the wrist bracket bridge coupon and the Tr8 nut            mm; no gaps in the insert
+                  pocket coupon. Inspect the slicer layer preview for the              pockets. If not: tell Claude to
+                  overlapping bodies at the hubs and insert pockets (finding           change the geometry.
+                  7 of the review). Clamp a d8 shaft in the hub and tighten
+                  the screw to test the clamp.
+  2.2     Mon     Part coupons for the big parts                                2.0    Fit table per part; rules.json
+                  Print SHEET_* for link1_channel and z_carriage_arm.                  revised if any hole misses.
+                  Check every hole group: 608 seat, LM8UU bore, rod hole,
+                  insert pocket, nut trap, motor pilot. Record deviations and
+                  update rules.json.
+  2.3     Tue     Regenerate compensated parts and slice                       2.0     15 sliced files with names that
+                  Run compensate.py again, re-slice all 15 parts with                  include the part, orientation and
+                  PETG_ETZ: 3 perimeters (4 for the link channels and the Z            layer height; total print time list.
+                  carriage), 25 to 30 percent gyroid, 4 top and bottom layers,
+                  no supports, outer wall about 35 mm/s on the critical parts.
+                  Preview every part layer by layer.
+  2.4     Tue     Print the small parts                                         3.0    Small parts printed and labelled
+                  Cable clips x4, wrist hub, J2 stop, J2 bridge, cam bracket           with a marker; reject list empty or
+                  (flipped), link cover plates. Inspect each part against the          reprinted.
+                  QC list in appendix A while the next one prints.
+  2.5     Wed     Heat-set insert practice and jig                          3.0        Inserts straight and flush on five
+                  Practise Ruthex M3 x 5.7 inserts on a coupon at about 200            test coupons; small parts finished.
+                  to 220 C: insert square, stop flush or 0.2 mm below. Make
+                  a simple insert jig (printed guide with a 3.5 mm bore) so
+                  inserts go in straight. Insert into the small parts.
+  2.6     Wed     Incoming inspection of delivered parts                         2.0   Inspection sheet filled in for every
+                  Use appendix B. Measure motor shaft diameters, bore                  delivery.
+                  sizes of pulleys, rod diameter, straightness of rods on a flat
+                  surface, screw runout, belt length. Photograph labels. Put
+                  anything wrong in the return list.
+  2.7     Thu     Firmware project and TMC2209 UART test                        3.0    Version register of the TMC2209
+                  Create the firmware repository (PlatformIO, ESP32-S3,                reads back 0x21; pin map
+                  Arduino-ESP32 framework unless D7 says otherwise).                   document checked against the
+                  Blink, serial console, a minimal UART driver for the                 board.
+                  TMC2209 on GPIO 9 and 10 reading the version register
+                  and writing current and microstep settings. Check GPIO
+                  usage against the DevKitC-1 pinout and strapping pins (0,
+                  3, 45, 46).
+  2.8     Fri     Laptop app skeleton and arm simulator                         2.0    App starts, shows the virtual arm,
+                  Python project with a simulated serial port and a                    jog buttons move it.
+                  kinematics-only arm model (L1 = L2 = 150 mm,
+                  elbow-minus). The UI can already move a virtual arm so
+                  that screens and logic can be built before the hardware
+                  exists.
+  2.9     Fri     Weekly review                                                 1.0    Plan updated.
+                  Update the plan, check delivery dates against the
+                  schedule, chase any late order.
+
+
+
+
+                                                                                                                                     page 9
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 3 (from 26 Oct): Big prints start; bench electronics; step
+ generation
+ Goal. The long prints run while you work on the electronics and firmware at the bench. Frame parts are prepared.
+ Gate at the end of the week. Link channels and the Z carriage are printing or finished; one TMC2209 and one
+ motor move under firmware control; encoder counts are read. Hours planned: 18.0.
+
+  ID      Day     Task and detail                                                h     Done when                              Note
+  3.1     Mon     Queue the big prints                                       2.0       Carriage printing without issue;
+                  Order: z_carriage_arm (about 9 hours, 111 g) first because           queue written down with start and
+                  it is the longest and the Z axis depends on it, then                 finish times.
+                  link1_channel, link2_channel, covers, z_top_mount,
+                  z_bottom_mount, wrist_bracket. Check first-layer adhesion
+                  on every start and stay near the printer for the first 3
+                  layers.
+  3.2     Mon     Cut and prepare the profiles                                   2.0   Profiles square within 0.3 mm
+                  Cut 2020 profile to 750 mm and 155 mm (or confirm the                over their width; nuts pre-loaded
+                  supplier cut), deburr both ends, check squareness against            where needed.
+                  a machinist square, mark T-slot nut positions per the fixing
+                  design from task 1.3.
+  3.3     Tue     Bench test A: pancake motor on a TMC2209                  3.0        Smooth rotation at 60 to 600 rpm;
+                  Motor on a current-limited bench supply at 12 V, TMC2209             driver below 60 C without a heat
+                  module with the correct Vref or UART current, ESP32                  sink at the working current.
+                  generating STEP/DIR. Compare StealthChop and
+                  SpreadCycle, set 16 microsteps with interpolation, listen
+                  for resonance. Measure the driver temperature after 5
+                  minutes.
+  3.4     Wed     Firmware: step generation and motion profile                3.0      1000 moves of random length
+                  One axis: hardware-timer or RMT step generator (compare              end at the commanded position;
+                  FastAccelStepper with a custom generator for the                     scope shows clean pulses.
+                  ESP32-S3), S-curve profile, position in steps, soft limits.
+                  Verify with a scope or logic analyser: step count exact, no
+                  jitter at the start of moves.
+  3.5     Thu     Firmware: quadrature encoder reading                          3.0    Exactly one revolution gives the
+                  Use the PCNT peripheral for the encoders (GPIO 1/2 for               expected counts, no missed
+                  J1, 41/42 for J2, 38/39 for the wrist). Count by hand-turning        counts over 100 revolutions by
+                  the motor, check counts per revolution against the                   hand.
+                  datasheet, check direction sign and noise with the motor
+                  running.
+  3.6     Fri     Inspect and finish the printed parts                           2.5   Finished parts labelled; reject list
+                  Clean up first-layer elephant foot with a blade, remove              updated.
+                  stringing, test-fit bearings and rods in a dry assembly. Add
+                  inserts to the parts that are finished. Reprint anything on
+                  the reject list.
+  3.7     Fri     Weekly review                                                  1.0   Plan updated.
+                  Update the plan; check that the parts for week 4 are
+                  available.
+  3.8     Fri     Test fit the Z column parts                                    1.5   Carriage slides freely on the rods
+                  Dry fit z_bottom_mount, rods, collars and the LM8UU                  by hand.
+                  bearings in the carriage if it is finished.
+
+
+
+
+                                                                                                                                     page 10
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 4 (from 2 Nov): Frame and Z axis
+ Goal. The Z column is built, moves under control and reaches the full 85 mm stroke.
+ Gate at the end of the week. Z axis homes on its switch, travels 5 to 90 mm of magnet height, no binding,
+ measured scale error below 0.5 percent. Hours planned: 19.0.
+
+  ID      Day     Task and detail                                              h      Done when                               Note
+  4.1     Mon     Finish all prints and run the QC list                        3.0    Every part has a QC tick; reprints
+                  All 15 printed designs are complete: link1_channel,                 listed and started.
+                  link1_cover_A/B, link2_channel, link2_cover_A/B,
+                  z_carriage_arm, z_top_mount, z_bottom_mount,
+                  j2_bridge, j2_stop, wrist_hub, wrist_bracket, cam_bracket
+                  and 4 cable clips. Go through appendix A for each.
+  4.2     Mon     Press in all 30 Ruthex inserts                               2.0    30 of 30 inserts flush and straight.
+                  Use the jig. Insert counts per part from the CAD (the
+                  assembly report lists them). Check each insert with a
+                  screw for thread engagement and depth. Do not heat the
+                  same insert twice.
+  4.3     Tue     Build the lower Z column                                  4.0       Rods parallel within 0.1 mm over
+                  Per the assembly animation step 2: z_bottom_mount on                their length; plate flat on the
+                  the base plate with four M3x10 screws from below, the 608           bench.
+                  bearing, the two d8 rods (220 mm), shaft collars. Measure
+                  the rod spacing at top and bottom (should be identical
+                  within 0.1 mm), check that both rods are vertical with a
+                  square.
+  4.4     Wed     Carriage, lead screw, coupler, top mount, Z motor            4.0    Screw turns by hand with uniform
+                  Press the four LM8UU into the carriage, slide it on the             light torque through the full travel.
+                  rods, fit the Tr8 nut with four M3 screws and nuts, thread
+                  the 200 mm Tr8 screw through the nut into the 608
+                  bearing, put on the 5 to 8 mm coupler, set the top mount
+                  on the rod ends and the pancake motor on top. Clamp the
+                  coupler at both ends. Turn the screw by hand through the
+                  whole stroke: any tight spot means a misaligned rod or a
+                  nut that is not square.
+  4.5     Thu     Z motion with firmware and homing switch                 3.0        Scale error below 0.5 percent;
+                  Wire the Z motor, the home switch (GPIO 40) and the                 repeatability at the home switch
+                  driver. Home upward or downward (decide D3), travel to 5            below 0.05 mm over 20 homings.
+                  and 90 mm of magnet height and back. Measure the stroke
+                  with calipers and calculate mm per microstep. At 16
+                  microsteps with lead 2 mm the screw has 1600 steps per
+                  mm.
+  4.6     Fri     Z speed and noise tuning                                      2.0   Safe maximum Z speed recorded.
+                  Raise the speed until the motor loses torque and then back
+                  off 30 percent. At 16 V expect 10 to 15 mm/s. Check
+                  lubricant on the screw. If the speed is too low for the task,
+                  decide on Tr8x4 or a longer motor (decision D4).
+  4.7     Fri     Weekly review                                                1.0    Plan updated.
+                  Update the plan and the risk register.
+
+
+
+
+                                                                                                                                     page 11
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 5 (from 9 Nov): J1 stage, link 1, electronics board
+ Goal. The shoulder and first link are assembled; the carrier board is built; first power-up under current limit.
+ Gate at the end of the week. J1 rotates by hand without play and without binding; the carrier board passes the
+ no-power continuity test; first power-up at 12 V with 1 A limit is clean. Hours planned: 19.5.
+
+  ID      Day     Task and detail                                                h     Done when                           Note
+  5.1     Mon     J1 shaft, bearings, pulleys and belt                          3.0    J1 shaft turns smoothly; belt
+                  Per animation step 5: press two 608 bearings into the                tension in the target range
+                  carriage boss (15 mm apart), insert the d8 shaft, fit the 60T        (section 6.2).
+                  pulley, the J1 motor with its 20T pulley and the GT2-220
+                  belt. Tension by sliding the motor in its slots. Grub screws
+                  on flats, a drop of thread-lock. Four M3x8 screws from
+                  below through the plate.
+  5.2     Tue     Link 1 and the elbow                                           4.0   No play at the elbow when you
+                  Per animation step 6: clamp the channel to the J1 shaft.             push the end; clips firm.
+                  Screw the cable clips to the outer wall from inside
+                  BEFORE the covers go on. Then the two elbow bearings
+                  and the elbow shaft, cover A, the stop plate, the J2 bridge
+                  and the J2 motor.
+  5.3     Wed     Wiring harness                                            3.0        Harness tested for continuity and
+                  Cut and crimp the motor and encoder cables. Lengths from             shorts with a multimeter.
+                  the electronics pack: 900 mm (Z), 700 mm (J1, J2, wrist).
+                  Use ferrules, shielded twisted pairs for the encoder
+                  signals, label both ends, heat shrink everything.
+  5.4     Wed     Build the carrier board                                  3.0         Board built; continuity test
+                  Perfboard 100 x 80 on four M3 standoffs: ESP32 headers,              passes: no shorts between rail
+                  four TMC2209 sockets, LM2596, MOSFET and diode, bulk                 and ground, correct polarity
+                  capacitor 470 uF, fuse holder and terminals. Keep power              everywhere.
+                  traces thick (2 to 3 mm of solder or wire), star ground,
+                  decoupling next to each driver.
+  5.5     Thu     Link 2, GT2-300 belt and J2                                    3.0   Link 2 turns without drag; belt
+                  Per animation step 7: slide the link 2 channel on the elbow          tension checked.
+                  shaft, clamp the hub, fit the GT2-300 belt, then the wrist
+                  bracket with four screws, then the cover with the clips
+                  already attached.
+  5.6     Fri     Pre-power checklist and first power-up                         2.5   Rails correct, no heating, E-stop
+                  Appendix C: visual check, polarity, E-stop opens the rail,           test passed.
+                  fuse fitted, current limit on the bench supply at 1 A and 12
+                  V. Measure all rails (VMOT, 5 V, 3.3 V), check driver
+                  temperatures, check the E-stop cuts motor power but not
+                  logic.
+  5.7     Fri     Weekly review                                                  1.0   Plan updated.
+                  Update the plan.
+
+
+
+
+                                                                                                                                  page 12
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 6 (from 16 Nov): Wrist, mast, camera, cabling, first motion
+ Goal. The mechanical build is complete and every axis moves at low speed from firmware.
+ Gate at the end of the week. All four axes move in the right direction, motors and drivers do not overheat, magnet
+ pull force measured. Hours planned: 18.0.
+
+  ID      Day     Task and detail                                               h      Done when                           Note
+  6.1     Mon     Wrist, magnet, mast, boom and camera                          3.0    Mechanical build complete; mast
+                  Per animation steps 8 and 10: NEMA11 on the wrist                    vertical and boom level (spirit
+                  bracket with M2.5 screws and thread-lock (only 2 mm                  level).
+                  engagement, do not over-torque), wrist hub on the shaft,
+                  12 V electromagnet below. Mast and boom with their
+                  brackets (task 1.3), camera bracket with two screws and
+                  T-nuts, camera.
+  6.2     Mon     Cable routing                                                 2.0    No tension or pinch at any joint
+                  Follow the clips: wrist and magnet bundle on the link 2              position, even with Z at 5 and 90
+                  cover, around the elbow, along the outer wall of link 1, then        mm.
+                  a slack loop for the Z travel. Move every joint by hand to
+                  the extremes and watch the cables.
+  6.3     Tue     First motion test of all axes                                  3.0   Four axes move; no overheating.
+                  Low speed, low acceleration, low current. Check directions
+                  (fix with the DIR polarity setting), step counts, noise, motor
+                  and driver temperature after 10 minutes.
+  6.4     Wed     Homing J1, J2 and wrist                                      3.0     Homing repeatable within 0.1
+                  Implement the homing method chosen in D3. Default: drive             degree over 20 trials.
+                  slowly into the printed stop with reduced current and detect
+                  it with the TMC2209 StallGuard, back off by a fixed
+                  distance and zero. The pin table has no switches for J1
+                  and J2; if StallGuard is unreliable, add two Hall or optical
+                  sensors (needs CAD and pin changes).
+  6.5     Thu     Kinematics, limits and workspace                         3.0         IK followed by FK reproduces the
+                  Implement forward and inverse kinematics (elbow-minus                target within 0.01 mm at 100
+                  only). Limits: J1 -0.9 to 116.3 degrees and J2 -150.1 to             random points; limits cannot be
+                  -63.7 degrees from the reach study, with software margin             exceeded from the console.
+                  below the mechanical stops (J1 about -3 and 121 degrees,
+                  J2 +140 and -158). Test the maths against the CAD poses.
+  6.6     Fri     Magnet driver and pull test                                   3.0    Pull force measured; magnet
+                  MOSFET gate on GPIO 47 with PWM, duty at most 70                     stays below 60 C on a 5 minute
+                  percent to pick up and about 40 percent to hold. Measure             hold at the hold duty.
+                  the current and the pull force on a steel plate with a spring
+                  scale (the 12 V magnet should give about 25 N). Check the
+                  coil temperature after a 5 minute hold.
+  6.7     Fri     Weekly review                                                 1.0    Plan updated.
+                  Update the plan, risk register and the list of changes the
+                  CAD needs.
+
+
+
+
+                                                                                                                                  page 13
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 7 (from 23 Nov): Closed loop, protocol, planner, UI v1
+ Goal. The control firmware becomes usable by the laptop. First drawing with a pen.
+ Gate at the end of the week. The laptop can home the arm, jog it, move to an XY point and read back status;
+ E-stop and communication timeout both stop motion. Hours planned: 19.0.
+
+  ID      Day     Task and detail                                               h      Done when                             Note
+  7.1     Mon     First drawing with a pen                                      2.0    Photos of the drawings with the
+                  Fix a pen in place of the magnet and draw a square and a             measured errors.
+                  circle, 100 mm and 200 mm, open loop. This shows the
+                  real error size before any calibration.
+  7.2     Mon     Closed-loop layer with the encoders                           3.0    A forced stall is detected within
+                  Compare commanded and encoder position in the control                100 ms and stops motion.
+                  loop; flag a lost-step fault above a threshold; optional
+                  correction at standstill. Keep the step generator as the
+                  primary driver and the encoders as the supervisor.
+  7.3     Tue     Command protocol                                              3.0    Protocol document and a test
+                  Framed binary or line-based ASCII protocol with CRC:                 script that sends 1000 commands
+                  HOME, MOVE_J, MOVE_XY, MOVE_Z, WRIST, MAG,                           without a failure.
+                  STATUS, LIMITS, CAL_SET, ESTOP, HEARTBEAT. The
+                  arm answers every command with an acknowledgement
+                  and an error code. Heartbeat from the laptop every 100
+                  ms; no heartbeat for 500 ms means stop and disable.
+  7.4     Wed     Trajectory planner for XY lines                                3.0   Drawn lines are straight within 0.5
+                  Straight lines in Cartesian space with S-curve velocity              mm; no stall at the fastest allowed
+                  profile, converted to joint space at a fixed rate. Limit speed       profile.
+                  per the torque study: J1 moves of 90 degrees need at least
+                  0.9 s with smooth ramps at 16 V; do not exceed the
+                  margin.
+  7.5     Thu     UI v1                                                         4.0    Operator can home, jog and stop
+                  Connection panel, status display, jog buttons for the four           from the UI.
+                  joints and Z, XY goto, magnet on/off, large red STOP
+                  button, log window. Everything has a visible simulated
+                  mode.
+  7.6     Fri     Safety behaviour                                               3.0   Pulling the USB cable stops the
+                  Firmware: disable on heartbeat loss, soft limits, magnet off         arm and turns off the magnet.
+                  on fault, over-temperature flags from the drivers, fault latch
+                  cleared only by an explicit command. UI: shows the fault
+                  reason.
+  7.7     Fri     Weekly review                                                 1.0    Plan updated.
+                  Update the plan.
+
+
+
+
+                                                                                                                                    page 14
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 8 (from 30 Nov): Calibration C1 to C5 and tests T1 to T4
+ Goal. Turn the as-built arm into an accurate one. The accuracy plan says the three largest error terms (encoder INL,
+ belt tooth play outside the encoder loop, zero position) are removed by software calibration.
+ Gate at the end of the week. After calibration the 5 x 5 grid error is at most 1.6 mm worst case and 0.5 mm RSS
+ lateral, and home repeatability is within 0.3 mm (3 sigma). Hours planned: 20.0.
+
+  ID      Day     Task and detail                                                h      Done when                               Note
+  8.1     Mon     C1 link lengths and zero position                            3.0      Fitted parameters stored; residual
+                  Pen touch-off on a marked sheet at several radii. Fit L1, L2          of the fit below 0.5 mm.
+                  and the joint zero offsets by least squares. Store them in
+                  the calibration file on the laptop and push them to the arm
+                  at start-up.
+  8.2     Tue     C3 encoder lookup table per joint                              4.0    Per-joint table; residual error after
+                  Slowly sweep each joint across its range, compare the                 table below 0.1 degree.
+                  encoder with a reference (printed protractor, dial indicator
+                  at a known radius, or the camera), store a correction table
+                  of 1 degree resolution.
+  8.3     Wed     Tests T1 and T2: repeatability                                  3.0   T1: 3 sigma at most 0.3 mm. T2:
+                  Follow accuracy_and_test_plan.pdf section 2. T1: home,                spread at most the limit in the
+                  go to a fixed point, mark, repeat 10 times. T2: five poses,           plan. CSV logs saved.
+                  unidirectional approach, 10 repeats each. Warm the
+                  motors for 10 minutes first, covers on, belts at final tension.
+  8.4     Wed     Test T3: bidirectional difference                              2.0    Difference measured; one-sided
+                  Approach the same target from both directions at 3 poses.             approach implemented if needed.
+                  Measure the tooth play. If the difference at r = 300 mm is
+                  above 1.5 mm, tighten the belts or add the
+                  one-sided-approach rule to the planner.
+  8.5     Thu     Camera: intrinsics, lighting, homography, hand-eye          3.0       Pixel to XY map accurate within
+                  (C5)                                                                  0.5 mm over the pick window.
+                  Checkerboard calibration for lens distortion (reprojection
+                  error below 0.6 px), fixed exposure and white balance, four
+                  fiducials on the plate for the homography from pixel to arm
+                  XY. Measure the repeatability of the fiducial detection.
+  8.6     Fri     Test T4: 5 x 5 absolute accuracy grid                          3.0    Both CSVs and plots saved;
+                  Grid with 40 mm pitch from r = 100 to 300 mm. Run once                calibrated error within the limits in
+                  with plain kinematics and once after C1 to C5. Plot the               the accuracy plan.
+                  error vectors.
+  8.7     Fri     Analyse and plan fixes                                         2.0    Short written analysis; action list
+                  Compare results with the predicted budget. Anything                   for week 9.
+                  worse than predicted by more than 30 percent gets a
+                  cause and an action in the risk register.
+
+
+
+
+                                                                                                                                       page 15
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 9 (from 7 Dec): Tests T5 to T10 and mechanical revision
+ Goal. Measure stiffness, vibration and torque margin, then fix what is wrong while the hardware can still change.
+ Gate at the end of the week. T5 to T10 done; revision v3.1 of any failing part is printed and fitted; droop and tilt
+ compensation tables exist. Hours planned: 20.0.
+
+  ID      Day     Task and detail                                                 h     Done when                               Note
+  9.1     Mon     Tests T5 and T6: droop, stiffness, tilt                         3.0   Droop and bearing play within the
+                  Dial indicator on top of the wrist bracket with the arm               prediction; otherwise glue the
+                  extended and 3 N at the magnet: the FE prediction is 3.2              covers and add the aluminium lid
+                  mm (range 2.6 to 4.1 mm). T6: push the magnet up and                  (2.1 mm figure).
+                  down and measure the play of the J1 and elbow bearings
+                  (expected compliance about 0.66 mm/N all sources).
+  9.2     Tue     Test T7: Z axis                                                 3.0   Pass or action.
+                  Dial on the carriage against the frame at 0, 10, 20 ... 80
+                  mm. Check scale error (at most 0.2 percent), lost steps
+                  over 50 cycles, and that the carriage does not drop when
+                  power is off (self-locking test).
+  9.3     Wed     Tests T8 and T9: wrist angle and ring-down                      3.0   Measured modes recorded; jerk
+                  T8: printed protractor under a pointer. T9: tape marker on            limit set.
+                  the magnet, phone in slow motion, tap the arm and count
+                  the ring-down frequency. Expected J1 mode about 9 Hz (7
+                  to 11) and J2 about 16 Hz. Set accelerations so that the
+                  move spectrum stays away from them.
+  9.4     Wed     Test T10: torque margin and stall limit                         3.0   Move-time limits written into the
+                  With the real payload, 90 degree J1 moves with the arm                planner.
+                  extended at 0.5, 0.6, 0.7, 0.9 s. The prediction at 16 V is a
+                  stall at about 0.51 s with rectangular acceleration and
+                  margin 2.76 at 0.9 s with smoothed ramps. Record the
+                  shortest safe time and add a 1.5 factor.
+  9.5     Thu     Mechanical revision v3.1                                        4.0   Revision list; changed parts
+                  List every issue found so far (stop position with only about          installed and re-tested.
+                  2 degrees of margin at the J1 low end, belt tensioner
+                  behaviour, anything that cracked or sagged). Ask Claude
+                  to change the CAD, re-run collision and fastener checks
+                  and re-export. Print the changed parts and fit them.
+  9.6     Fri     Droop feed-forward and tilt table (C4)                      3.0       Vertical error after the table within
+                  Put the measured droop into a table indexed by radius and             1.2 mm.
+                  Z, applied as a Z and XY correction; a soft touch-down that
+                  presses 1.5 mm into the surface lets the arm spring absorb
+                  the residual vertical error.
+  9.7     Fri     Prepare the hardware freeze                                     1.0   Freeze criteria written.
+                  Make the list of things that must not change after week 10
+                  and what would justify breaking the freeze.
+
+
+
+
+                                                                                                                                       page 16
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 10 (from 14 Dec): Task automation, vision and UI v2
+ Goal. The arm performs the competition task end to end under operator control.
+ Gate at the end of the week. HARDWARE FREEZE at the end of this week. First full run of the task with timing and
+ failure log. Hours planned: 20.0.
+
+  ID      Day     Task and detail                                                  h     Done when                          Note
+  10.1    Mon     Task mock-up                                                     4.0   Field ready, objects numbered,
+                  Build the test field to the rules (tape, board, bins, object           photographed.
+                  set). The task definition is an assumption until you correct
+                  it (section 1): pick ferrous objects with the electromagnet
+                  from a flat field using the camera, place them in zones.
+                  Place the fiducials and mark the origin.
+  10.2    Tue     Vision pipeline                                                  4.0   Detection accuracy below 0.7 mm
+                  Threshold or learned segmentation, centroid and                        over 50 placements; frame time
+                  orientation, mapping to arm coordinates through the                    below 100 ms.
+                  homography, rejection of false detections, timing per
+                  frame. Log every detection with a timestamp.
+  10.3    Wed     Pick and place state machine                                     4.0   10 consecutive pick-and-place
+                  Approach above the target, descend, soft touch-down,                   cycles without help.
+                  magnet on with a ramp, wait for the hold, lift, check pickup
+                  by encoder load or camera, move, lower, release (optional
+                  reverse pulse), retreat, with retries and a limit on failures.
+  10.4    Thu     UI v2                                                        4.0       A person who has not seen it can
+                  Workflow screen: live camera with overlays, one-click start,           run the task from the UI after 5
+                  step indicator, counters, calibration wizard, settings saved           minutes of explanation.
+                  on disk, event log, export of the run log. Operators should
+                  not need the console.
+  10.5    Fri     First full runs and timing log                                   3.0   Table of timings and failure
+                  Run the whole task five times, time every phase, record                causes.
+                  every failure with a cause.
+  10.6    Fri     Hardware freeze review                                           1.0   Tag hw-freeze-1 created.
+                  Go through the freeze criteria. Tag the repository (CAD,
+                  firmware, UI).
+
+
+
+
+                                                                                                                                   page 17
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 11 (from 21 Dec): Reliability, error recovery, spares
+ Goal. Make it boring: no surprises during the demo. This week is the holiday week so keep 4 hours for slack.
+ Gate at the end of the week. 50 cycles without an intervention; spares kit complete; release candidate tagged.
+ Hours planned: 20.0.
+
+  ID      Day     Task and detail                                                   h     Done when                             Note
+  11.1    Mon     Soak test of 50 cycles                                            4.0   Log with temperatures; anomaly
+                  Run 50 pick-and-place cycles with temperatures logged                   list.
+                  (motors, drivers, magnet coil, battery). Record every
+                  anomaly.
+  11.2    Tue     Fix the top three failures                                        3.0   Top three causes closed.
+                  Pareto of the anomalies. Fix the three biggest causes.
+                  Repeat only the failed part of the test.
+  11.3    Wed     Error recovery                                                    3.0   Every fault in the list produces a
+                  Lost-step detection followed by re-home, camera                         clear message and a safe state.
+                  re-calibration at every start with the four fiducials, operator
+                  prompts for the usual faults (object not found, pick failed,
+                  field changed).
+  11.4    Thu     Speed optimisation                                                3.0   Cycle time per object recorded
+                  Shorten the cycle time within the torque margin. Overlap Z              before and after.
+                  and XY moves, shorten approach heights, tune
+                  acceleration. Stop when the safety margin gets below 1.5.
+  11.5    Fri     Spares kit                                                        4.0   Spares box with a list taped inside
+                  Print a spare set of the parts that break first (4 cable clips,         the lid.
+                  hub, J2 stop, J2 bridge, cam bracket) and put together
+                  spare electronics: second ESP32, a spare TMC2209,
+                  spare belts, bearings, fuses, MOSFET and diode, wires,
+                  connectors. Label the box.
+  11.6    Fri     Backup and release candidate                                      3.0   Two independent backups.
+                  Push everything to the repository, copy to a USB stick and
+                  a second cloud location, tag rc1.
+
+
+
+
+                                                                                                                                       page 18
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 12 (from 28 Dec): Documentation and software freeze
+ Goal. The technical report, drawings and presentation are written from the real results.
+ Gate at the end of the week. SOFTWARE FREEZE at the end of this week after a clean regression run. Hours
+ planned: 20.0.
+
+  ID      Day     Task and detail                                              h     Done when                        Note
+  12.1    Mon     Report: concept, requirements, mechanical design             4.0   Sections 1 to 3 written with
+                  Outline and sections 1 to 3: requirement list, concept             figures.
+                  choice and alternatives rejected, kinematics, joint drive,
+                  belt ratio, Z column, printed parts and why PETG,
+                  finite-element results (droop 3.2 mm, stiffness figures),
+                  collision and fastener checks.
+  12.2    Tue     Report: electronics, firmware, UI and vision                4.0    Sections 4 to 6 written.
+                  Power budget at 16 V, wiring diagram, safety (fuse, E-stop,
+                  watchdog), firmware architecture, protocol, UI screens,
+                  vision pipeline, calibration method.
+  12.3    Wed     Drawings, BOM and cost table                                 3.0   Drawing pack and BOM with real
+                  Export clean drawings and renders from the CAD, update             costs.
+                  hardware_bom.csv with real prices from the invoices,
+                  compute the final cost, write the assembly summary.
+  12.4    Thu     Test results and plots                                       3.0   Results chapter with plots.
+                  Turn the CSV logs of T1 to T10 and of the soak run into
+                  plots and tables; compare with the predictions and explain
+                  every difference.
+  12.5    Fri     Presentation and poster draft                                3.0   Draft slides; recorded backup
+                  Story in 10 minutes: problem, idea, design, results, demo.         video of a successful run.
+                  Slide list, poster layout, demo script with timings and a
+                  fallback if the demo fails (video).
+  12.6    Fri     Regression run and software freeze                           3.0   All pass; tag created.
+                  Run T1, T2, T4 and 20 consecutive cycles with the final
+                  software. Tag sw-freeze.
+
+
+
+
+                                                                                                                             page 19
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 13 (from 4 Jan): Rehearsals and packing
+ Goal. Three full rehearsals in front of other people and a travel-ready kit.
+ Gate at the end of the week. Three rehearsals completed; transport case packed and checked against the list.
+ Hours planned: 20.0.
+
+  ID      Day     Task and detail                                                 h     Done when                          Note
+  13.1    Mon     Rehearsal 1: full demonstration with a timer                    3.0   Question list and timing.
+                  Run the full demonstration and presentation in front of at
+                  least one person and write down every question they ask.
+  13.2    Tue     Fix only critical findings                                      3.0   Critical items closed.
+                  No new features. Only changes that prevent a failure.
+  13.3    Wed     Transport case and labelling                                4.0       Packed case that closes; list
+                  Foam or cardboard inserts, cable labels, a laminated                  ticked.
+                  set-up sheet, tool bag, spare parts box, extension cord and
+                  a power strip, tape and zip ties.
+  13.4    Thu     Rehearsal 2: cold start in unfamiliar conditions                3.0   Set-up time below the target;
+                  Different room, different lighting, different table. Time the         calibration passes with the room
+                  set-up and the re-calibration from a cold start.                      light changed.
+  13.5    Fri     Final report and presentation, outside review                   4.0   Reviewed documents.
+                  Have a teacher, mentor or a friend read the report; fix
+                  unclear passages; finalise the slides.
+  13.6    Fri     Rehearsal 3: presentation and Q&A                               3.0   Smooth presentation.
+                  Answer the questions from rehearsal 1 without notes.
+
+
+
+
+                                                                                                                                  page 20
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Week 14 (from 11 Jan): Buffer, last checks, travel and competition
+ Goal. Contingency week. Anything that slipped lands here. The rest is final checks and travel.
+ Gate at the end of the week. Everything packed, batteries charged and compliant for transport, competition rules
+ re-read the evening before. Hours planned: 12.0.
+
+  ID      Day     Task and detail                                                 h     Done when                          Note
+  14.1    Mon     Buffer for overruns and reprints                                3.0   Open items closed or consciously
+                  Use this slot for any unfinished task from earlier weeks.             dropped.
+  14.2    Tue     Final regression and offline copies                             3.0   Offline copies verified.
+                  One last full run. Copy the repository, the calibration file,
+                  the report and the videos onto the laptop, a USB stick and
+                  a phone. Check that nothing needs the internet.
+  14.3    Wed     Pack and check the list                                         3.0   Packing list ticked by a second
+                  Pack against appendix E. Charge the packs and check                   person.
+                  that the battery transport rules are satisfied (appendix E).
+  14.4    Thu     Travel and venue set-up plan                                    3.0   One-page timeline.
+                  Write down the set-up order for the venue and the timeline
+                  for the competition day (appendix F). Sleep.
+  14.5    Fri     Competition                                                     0.0   Done.
+                  Follow the competition day plan. Do not change anything
+                  that works.
+ If the real final date is earlier than the end of week 14, shorten weeks 11 and 12 first (soak test and documentation can run in
+ parallel), never the tests of weeks 8 and 9.
+
+
+
+
+                                                                                                                                    page 21
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ 6. Subsystem playbooks
+ The weekly tables say what to do and when. The playbooks below say how, with the numbers needed. They are in
+ the order of the work.
+
+ 6.1 Printing and quality control
+ All printed parts are PETG, 0.2 mm layers, 0.4 mm nozzle, no supports, in the orientation of the printed_ready
+ folder. The cam bracket is printed flipped. Print the longest part first and check the first layers of every job.
+
+  Part                           Qty        Mass g    Approx. time Special settings
+                                                      h
+  z_carriage_arm                 1          111       9.0          4 perimeters, outer wall 35 mm/s; largest part; chamfered clip
+                                                                   tunnel
+  link1_channel                  1          55        5.5          4 perimeters, gussets in 45 degree steps, outer wall 35 mm/s
+  link1_cover_A,                 2          16        1.2          flat on the bed, 3 perimeters
+  link1_cover_B
+  link2_channel                  1          35        3.5          4 perimeters; 2.4 mm walls
+  link2_cover_A,                 1+1        11        0.9          flat on the bed
+  link2_cover_B
+  z_top_mount                    1          16        1.8          3 perimeters; check 6.3 mm worst bridge
+  z_bottom_mount                 1          19        2.0          3 perimeters
+  wrist_bracket                  1          12        1.5          8.5 mm bridge, slow outer wall; test coupon first
+  wrist_hub                      1          3         0.4          clamp slot: test with a d5 shaft
+  cam_bracket                    1          10        1.0          print upside down
+  j2_bridge                      1          7         0.7          flat
+  j2_stop                        1          6         0.7          solid walls, take care of strength
+  cable_clip                     4          2         0.3          flat side down
+
+ Mass figures are from the print guide (3 perimeters, 20 percent infill) and are rounded. Times are estimates for a 0.2
+ mm profile at normal speed; use the slicer figure when it exists. Total printed mass is about 330 g, so two 1 kg
+ spools cover reprints.
+
+ Quality control for each part (appendix A has the tick list)
+ Check first-layer adhesion, layer shift, stringing in holes, warp at the corners, hole diameters with a drill bit set or pin
+ gauge, pocket depth for inserts, flatness of bearing seats, and any cracks at the clamp hubs. Weigh the part: a
+ deviation of more than 10 percent from the table means a wrong profile or a missing perimeter. Label every part with
+ a marker (name and print date) and keep a log of the settings and the filament lot.
+
+ If a print fails
+ Reprint at once. Record the cause (adhesion, moisture, nozzle, cooling). Do not continue to the next big part until
+ the cause is known. If the same part fails twice, reduce the speed to 70 percent and dry the filament again.
+
+
+
+
+                                                                                                                                page 22
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ 6.2 Mechanical assembly
+ Assembly follows the sequence of the animation (assembly_animation artifact), which was also the sequence used
+ for the screw-reach study (46 screws reachable directly, 6 with a ball-end key, 5 with a long key, 4 on the link 2
+ cover clips driven on the bench). Always add thread-lock to metal-in-metal screws and never to plastic.
+
+  Step     Sub-assembly               Key actions                                                      Check before moving on
+  1        Base plate                 Check flatness on the bench. Fit the mast fixing holes.          Plate flat within 0.5 mm.
+  2        Lower Z mount, rods,       Inserts first. z_bottom_mount, four M3x10 screws, 608            Rods parallel, vertical.
+           collars                    bearing, rods (220 mm), collars.
+  3        Carriage                   Press four LM8UU, slide on rods, fit the Tr8 nut with four M3    Carriage slides freely.
+                                      screws and nuts, add the lead screw.
+  4        Top mount and Z motor Coupler on the screw, top mount on the rod ends, pancake              Screw turns lightly over the entire
+                                 motor on top, M3x10 from below, clamp both ends of the                stroke.
+                                 coupler.
+  5        J1 axis                    Two 608 bearings 15 mm apart in the boss, shaft, 60T pulley,     No play; belt tension in range.
+                                      motor with 20T pulley, belt GT2-220, tension by sliding the
+                                      motor, four M3x8.
+  6        Link 1 and J2 motor        Inserts in the channel, clamp to the J1 shaft, clips on the outer No play at the elbow.
+                                      wall BEFORE the covers, elbow bearings and shaft, cover A,
+                                      stop plate, bridge, J2 motor.
+  7        Link 2 and wrist bracket Channel on the elbow shaft, clamp the hub, GT2-300 belt,           Belt tension in range; link turns
+                                    wrist bracket from below with four screws into pre-fitted nuts,    freely.
+                                    cover with the clips attached.
+  8        Wrist and magnet           NEMA11 on the bracket with M2.5 screws and thread-lock (2        Magnet face is level.
+                                      mm engagement, hand tight), hub clamped on the shaft,
+                                      electromagnet below, glued.
+  9        Cables                     Bundle follows the clips; slack loop for Z travel.               No tension at any joint position.
+  10       Mast, boom, camera         2020 mast with brackets, boom, camera bracket from below         Mast vertical; camera rigid.
+                                      with two screws and T-nuts.
+
+
+ Belt tension
+ No belt tension figure has been calculated for this design, so find it by experiment in week 5. Try three tensions on
+ each belt: just taut, slightly tighter, clearly tighter. For each, turn the joint by hand through its range (drag should stay
+ light) and run a fast reversing move of 10 repetitions (no skipped teeth, which shows as an offset at the encoder).
+ Pick the lowest tension that never skips, write the pluck pitch from a phone tuner app and the motor slot position in
+ the build log, and use those as the target for every later check. Retighten after the first hour of running, because
+ PETG settles.
+
+ Torque values
+ M3 screws into Ruthex inserts: snug plus a quarter turn, never more. M3 into the metal clamps: moderate. M2.5 in
+ the NEMA11 tapped holes: very light, thread-lock, because only 2 mm of thread engages. Grub screws on the shaft
+ flats: tighten, check after 10 minutes of running, add thread-lock.
+
+ Things that must not be forgotten
+ Cable clips on link 1 go on before covers. Belts go on before link 2. The wrist bracket bolts to link 2 before the link 2
+ cover goes on. Keep the Z carriage above 16 mm when the arm is folded over the column (parked pose warning).
+ Remove the shipping tape from the camera lens.
+
+
+
+
+                                                                                                                                           page 23
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ 6.3 Electronics build and bring-up
+ Follows bare_electronics_pack.pdf. Maximum supply 16 V. TMC2209 modules accept 4.75 to 29 V, the LM2596
+ steps down to 5 V for the ESP32, the 12 V magnet is driven by a logic-level MOSFET with a flyback diode and
+ PWM. Peak power is about 43 W (2.7 A at 16 V).
+
+  Signal                                    ESP32-S3 pin              Note
+  STEP J1, J2, Z, wrist                     4, 5, 6, 7
+  DIR J1, J2, Z, wrist                      15, 16, 17, 18
+  ENABLE (shared)                           8                         Active low; also pulled high by a resistor so the motors are off while
+                                                                      the ESP32 boots.
+  TMC2209 UART (shared, one wire)           9, 10                     Four addresses on one bus (MS1/MS2 pins).
+  Encoder J1 A, B                           1, 2                      PCNT
+  Encoder J2 A, B                           41, 42                    PCNT
+  Encoder wrist A, B                        38, 39                    PCNT
+  Z home switch                             40                        Normally closed, pull-up.
+  Magnet gate (MOSFET)                      47                        PWM; 100 ohm series, 10 k pull-down.
+
+
+ Build order
+ 1. Passive board without chips: power rail, fuse, E-stop terminals, capacitors, connectors. Test with a meter. 2. Add
+ the LM2596 and check the 5 V output before the ESP32 is plugged in. 3. Add the ESP32 and the drivers one by
+ one, testing each with a single motor at low current. 4. Add the MOSFET stage last, test with a resistive load, then
+ the magnet. 5. Connect encoders, check counts by hand. Do not plug or unplug a motor while the rail is powered: it
+ can destroy the driver.
+
+ Driver current
+ Start every motor at about half its rated current (see the datasheet of the motors you actually receive), raise only
+ when the torque is not enough, and watch the motor temperature (touch test at 60 C and stop). The UART lets the
+ firmware reduce the hold current when the arm is idle.
+
+ Pre-power checklist (appendix C) and the first-power procedure
+ Current-limited bench supply at 12 V and 1 A for the first minute, then 2 A, then the pack. Check for heating with a
+ finger after 30 seconds. Use a power strip with a switch for the laptop and the supply so that everything can be
+ turned off with one hand.
+
+ 6.4 Firmware
+ The ESP32-S3 handles real-time motion; the laptop handles the thinking. This split keeps the firmware small and
+ testable.
+
+  Module                       Responsibility                                                     Test
+  Step generator               Hardware timer or RMT pulses for four axes; acceleration           Scope: 1000 random moves end exactly
+                               limits; exact step counts.                                         where commanded.
+  Motion planner               S-curve for each joint and for XY lines; synchronised end          Straight lines within 0.5 mm; no torque limit
+                               times.                                                             exceeded.
+  TMC2209 driver               UART configuration of current, microsteps, StealthChop or          Registers read back correctly.
+                               SpreadCycle, stall threshold, temperature flags.
+  Encoder service              PCNT counting, direction, index, lookup table correction.          Counts per revolution as per datasheet, no
+                                                                                                  misses.
+  Kinematics                   FK and IK, elbow-minus, limits.                                    Round trip within 0.01 mm.
+  Homing                       StallGuard routine against the printed stops (or sensors), Z       Repeats within 0.1 degree.
+                               switch.
+  Magnet                       PWM soft start, pick-up and hold duty, thermal timer.              Duty never above 70 percent; auto-reduce
+                                                                                                  after a hold.
+  Protocol and safety          Framing, CRC, heartbeat, fault latch, E-stop state report.         Cable pull test stops the arm.
+
+
+
+
+                                                                                                                                         page 24
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Rates to keep in mind: with 16 microsteps and the 3:1 belt the joints have 9600 steps per revolution (0.0375 degrees
+ per step); the Z screw has 1600 steps per mm at lead 2 mm. At 15 mm/s the Z axis therefore needs 24 kHz of step
+ pulses, comfortably within reach of the ESP32-S3. Keep interrupt work short, keep floating-point work out of the step
+ interrupt, and log with a timestamp on every fault.
+ Version every firmware build with a git hash printed at start-up and stored with each test log. Do not change
+ firmware between tests T1 to T4 and their comparison.
+
+ 6.5 Laptop application and vision
+ A Python application with a simulator, a calibration wizard and a run screen. The same code drives the simulator
+ and the real arm, so that most development does not need the hardware.
+
+  Screen / module                    Content
+  Connect                            Serial port, firmware version, heartbeat, battery voltage if sensed.
+  Jog                                Per-joint and XY jog, Z, wrist, magnet; step sizes 0.1, 1, 10 mm.
+  Calibrate                          C1 to C5 wizard with instructions and stored results; fiducial detection; camera intrinsics.
+  Run                                Live camera with overlays, start / stop, step indicator, counters, cycle time.
+  Log                                Event log, error codes, export of CSV for the report.
+  Simulator                          Virtual arm with the same protocol; used for development and demonstration of the UI.
+
+ Vision: fixed exposure and gain, shade from stray light, a lamp mounted on the boom, background subtraction or
+ colour thresholding, contour centroid, homography to arm coordinates from four fiducials re-measured at every start
+ (absorbs creep and mast drift). The camera sees no height: the Z height comes from the table of the field and the
+ soft touch-down.
+ Keep a fixed test set of images (50 frames under different lights) in the repository and run the detector on them for
+ every change.
+
+ 6.6 Calibration and test procedure
+ Tests T1 to T10 and calibrations C1 to C5 follow accuracy_and_test_plan.pdf. Each test writes one CSV named
+ YYYYMMDD_Tn_name.csv with the commanded and measured values, the firmware hash and the temperature.
+
+  No.         Test                                       Pass criterion (from the plan)                                             Week
+  T1          Home repeatability                         3 sigma at most 0.3 mm (marginal up to 0.6 mm)                             8
+  T2          Unidirectional repeatability, 5 poses      Spread within the limit in the plan                                        8
+  T3          Bidirectional difference (tooth play)      J1 difference at most 1.5 mm at r = 300 mm                                 8
+  T4          Absolute accuracy, 5 x 5 grid              As built at most 5.5 mm worst case; calibrated 1.6 mm worst, 0.44 mm 8
+                                                         RSS
+  T5          Droop and stiffness                        3.2 mm at 3 N, 300 mm reach (range 2.6 to 4.1)                             9
+  T6          J1 and elbow tilt (bearing play)           About 0.66 mm/N compliance                                                 9
+  T7          Z axis                                     Scale error at most 0.2 percent, no lost steps, self-locking               9
+  T8          Wrist angle                                Raw at most 1.5 degrees, after the table better                            9
+  T9          Ring-down and modes                        J1 about 9 Hz (7 to 11), J2 about 16 Hz                                    9
+  T10         Torque margin                              Safe time = measured stall time x 1.5; J1 90 degrees at 0.9 s has          9
+                                                         margin 2.76
+
+ Calibrations: C1 link lengths and zero positions, C2 backlash policy (one-sided approach), C3 encoder lookup
+ tables, C4 droop and tilt table, C5 hand-eye map from camera pixels to arm coordinates. Details and the formulas
+ are in the accuracy plan; keep this table next to the arm as a checklist.
+
+
+
+
+                                                                                                                                        page 25
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ 6.7 Competition preparation
+ The last three weeks are not only for the arm: judges also grade what you can explain and what you can show.
+ Documents: technical report (concept, design, calculations, test results), drawings and BOM, cost table with real
+ prices, a short user manual for the operator, a one-page poster, and the source code in a clean repository. Check
+ the rules for the page limit, language and the deadline for sending documents (task 1.1).
+ Presentation: ten minutes with the sequence problem, idea, design, numbers, demo, what you learned. Rehearse
+ with a timer, prepare answers for the likely questions (why a SCARA, why belts instead of direct drive, why PETG,
+ how accurate is it and how do you know, what happens if a belt skips, what if the lighting changes, what is the safety
+ concept, how much did it cost, what would you change).
+ Demonstration: have a short script with the exact order of actions, a backup video of a good run, and a fallback
+ mode with manual positions if the camera fails. Do not start the arm at full speed on the first move of the day.
+ Travel and on-site: pack by appendix E; check airline and train rules for batteries and the electromagnet; arrive
+ early; test power outlets, table height and lighting; run the calibration wizard once on site; keep a written timeline
+ (appendix F).
+
+
+
+
+                                                                                                                     page 26
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ 7. Risk register
+ Likelihood and impact are my judgement. Review the register at every weekly review and add what you meet; a risk
+ that happened gets a line in the report because judges like to see what went wrong and what was learned.
+
+  ID      Risk                                  Likelihoo   Impact   Mitigation / response
+                                                d
+  R1      J1 stalls on fast moves at 16 V       Medium      High     Smoothed ramps and moves of 0.9 s or longer (margin 2.76); test
+                                                                     T10 in week 9; fallbacks 0.59 Nm motor or 4:1 ratio.
+  R2      Charged 4S pack above 16 V            Medium      High     Decision D1; regulated converter; measure the voltage of the pack
+          breaks the rule                                            at full charge before the competition.
+  R3      8.5 mm wrist bridge sags or the       Medium      Medium   Test prints in week 2 (task 2.1); ask for one more web or merge the
+          hub has gaps from overlapping                              solids.
+          solids
+  R4      Belts skip or stretch (tooth play     Medium      Medium   Final belt tension procedure, one-sided approach, calibration C3,
+          1.8 mm uncalibrated)                                       spare belts.
+  R5      Droop of 3.2 mm at the magnet         Medium      Medium   Droop table, soft touch-down, covers glued, aluminium lid option
+          spoils pick height                                         (2.1 mm).
+  R6      Long delivery of motors or the        Medium      High     Order wave 1 in week 1; order a spare of the cheap items;
+          laser-cut plate                                            alternative supplier list ready.
+  R7      Magnet gets too hot or force too      Low         Medium   12 V type with PWM duty at most 70 percent; hold at 40 percent;
+          low                                                        pull test in week 6.
+  R8      Electrical noise corrupts encoder     Medium      Medium   Twisted pairs, ferrite beads, star ground, 100 nF at the encoder,
+          counts or UART                                             separate motor and logic wiring.
+  R9      Short circuit or a polarity mistake   Low         High     Fuse, current-limited first power-up, pre-power checklist, spare
+          destroys the boards                                        ESP32 and drivers.
+  R10     PETG creep at belt tension and        Low         Medium   Hold the belt tension check each week; keep motor current low;
+          under motor heat                                           reprint stressed parts if the tension drops.
+  R11     Mast and boom joint flexes (not       Medium      Medium   Two brackets per joint, measure camera shift under hand load in
+          modelled)                                                  week 8, add a diagonal brace if needed.
+  R12     J1 stop leaves only 2 degrees of      Medium      Low      Check on the first print; move the stop; software limit stays 2
+          margin on the low side                                     degrees inside.
+  R13     Vision fails under different          Medium      High     Fixed exposure, shaded camera, own lamp, rehearsal 2 in a
+          lighting at the venue                                      different room, fiducial re-calibration every start.
+  R14     Laptop USB or driver problems         Low         High     Test the cable and the port, bring a second cable and a hub, keep a
+          at the venue                                               second laptop image or a backup laptop.
+  R15     Time overrun in printing              Medium      Medium   Start the longest print first; keep the printer warm; week 14 as
+                                                                     buffer; use a friend or school printer as a backup.
+  R16     Loss of work (laptop failure,         Low         High     Git commits daily, two backups from week 11, CAD folder tagged at
+          accidental overwrite)                                      each freeze.
+  R17     Injury or fire (LiPo, soldering,      Low         High     LiPo bag, no unattended charging, fuse and E-stop, pinch-point
+          pinch points)                                              labels, never put fingers in the links while powered.
+  R18     Fastener or insert pull-out in        Medium      Medium   Heat-set inserts, thread-lock, do not over-torque, spare inserts, hub
+          PETG                                                       and clamp coupon in week 2.
+  R19     The real task needs more than         Low         High     Confirm the task in D10 before week 1 ends; keep the design
+          the arm provides (reach, wrist                             headroom list in section 3.
+          rotation, payload)
+  R20     Illness or exam period removes        Medium      High     Weeks 11 and 14 have slack; define the minimum viable demo
+          weeks                                                      (section 3.4) that works if only weeks 1 to 8 happen.
+
+
+
+
+                                                                                                                                        page 27
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ 8. Budget estimate
+ These prices are rough estimates in EUR that I have not checked against any shop. They are only here so the
+ total has the right size; replace them with real quotes in week 1 (task 1.4). Items marked "buy N" include spares.
+
+  Group              Item                                                     Qty   Unit EUR   Total EUR   Note
+  Motion             NEMA17 40 mm closed loop with encoder (J1, J2)           2     48.0       96
+  Motion             NEMA17 pancake 21.5 mm (Z)                               1     12.0       12
+  Motion             NEMA11 32 mm with encoder (wrist)                        1     30.0       30
+  Motion             Tr8x2 lead screw 200 mm with nut                         1     14.0       14
+  Motion             Rod d8 x 220 mm, hardened                                2     8.0        16
+  Motion             LM8UU linear bearing (buy 6)                             6     1.5        9           two spares
+  Motion             Bearing 608ZZ (buy 10)                                   10    0.8        8
+  Motion             Shafts d8 (J1, elbow), shaft collars                     1     18.0       18
+  Motion             GT2 pulleys 20T and 60T (buy 4 + 4)                      8     2.5        20
+  Motion             GT2 belts 6 mm, 220 and 300 mm (buy 4)                   4     3.5        14
+  Motion             Coupler 5 to 8 mm, 25 mm                                 1     4.0        4
+  Frame              Base plate 3 mm laser cut                                1     40.0       40          material per D2
+  Frame              2020 profiles 750 and 155 mm, brackets, T-nuts           1     25.0       25
+  End effector       Electromagnet 12 V, 20 x 15 mm                           1     10.0       10          buy 2 if cheap
+  End effector       Camera 8 MP USB                                          1     35.0       35
+  Electronics        ESP32-S3-DevKitC-1 (buy 2)                               2     12.0       24
+  Electronics        TMC2209 modules (buy 5)                                  5     7.0        35
+  Electronics        MOSFET, diode, LM2596, fuses, E-stop                     1     25.0       25
+  Electronics        Perfboard, standoffs, connectors, wire, ferrules,        1     40.0       40
+                     capacitors
+  Electronics        Power: 4S pack with BMS, charger, DC-DC (or bench        1     70.0       70          per D1
+                     supply)
+  Fasteners          M3 assortments ISO7380 and ISO4762, nuts, grub           1     30.0       30
+                     screws, Ruthex inserts
+  Consumables        PETG filament 2 kg                                       2     20.0       40          includes reprints
+  Consumables        Thread-lock, grease, heat shrink, zip ties, tape         1     25.0       25
+  Tools              Logic analyser, calipers, small tools missing from the   1     40.0       40          only if not owned (D6)
+                     bench
+  Competition        Transport case foam, labels, extension cord, print       1     50.0       50
+                     poster
+  Spares             Spare drivers, belts, bearings, second set of cheap      1     30.0       30
+                     parts
+                     Subtotal                                                                  760
+                     Contingency 15 percent                                                    114         for price errors and
+                                                                                                           surprises
+                     Estimated total                                                           874
+
+
+
+
+                                                                                                                               page 28
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Appendix A. Printed part QC checklist
+ Copy one line per part into the log, or print this page.
+ ■ Part name and print date written on the part.
+ ■ No warp, layer shift or elephant foot that stops the part from sitting flat.
+ ■ All holes pass a drill bit or pin gauge test at the model diameter (screws 3.4, bearings 22.0 to 22.4, rods 8.1 to
+ 8.2, inserts 4.0).
+ ■ Insert pockets clean and the correct depth (6.5 mm).
+ ■ 608 seats: bearing presses in by hand pressure or with a light tap; no cracks around the seat.
+ ■ LM8UU bores: bearing is held without play, rolls freely.
+ ■ Clamp hubs: slit is open and clean; test with the d8 or d5 shaft.
+ ■ Bridges and overhangs are clean; no strings across openings.
+ ■ Mass within 10 percent of the table.
+ ■ No cracks at screw posts when a screw is run in and out once.
+
+ Appendix B. Incoming inspection of delivered parts
+ ■ Count items against the order and the BOM.
+ ■ Motors: shaft diameter, shaft flat, cable length, connector type, rotate by hand, check resistance of both windings
+ (should be equal).
+ ■ Encoder motors: read the encoder lines and voltage on the label; confirm A and B outputs.
+ ■ Pulleys: bore and tooth count, grub screw threads.
+ ■ Rods: diameter with calipers at three points, straightness on a flat surface.
+ ■ Lead screw: straightness (roll on a flat surface), nut moves smoothly.
+ ■ Bearings 608ZZ: rotate by hand, no roughness.
+ ■ Belts: length (count teeth), no cracks.
+ ■ Electromagnet: resistance, voltage rating on the label (must be 12 V), polarity marking.
+ ■ Boards: no bent pins or solder bridges; ESP32 enumerates on USB.
+ ■ Photograph the labels and keep the supplier order number next to each box.
+
+ Appendix C. Pre-power checklist
+ ■ No bare wire or loose strand, all crimps tugged by hand.
+ ■ Polarity of the supply, the buck, every driver and the magnet checked with the meter in continuity mode.
+ ■ No short between the supply rail and ground (should read open or a high resistance).
+ ■ Fuse of the correct rating (6 A), E-stop is normally closed and cuts the motor rail.
+ ■ Capacitors have the correct polarity and voltage rating (35 V or more).
+ ■ Every driver has its jumpers/addresses set as on the pin table.
+ ■ Motors not connected on the very first power-up; connect them one at a time.
+ ■ Current limit on the bench supply set to 1 A.
+ ■ Metal objects removed from the board area.
+ ■ Someone knows where the power switch is.
+
+
+
+
+                                                                                                                   page 29
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Appendix D. Bring-up log
+ One row per power-up during weeks 5 to 7. It is cheap to write and finds patterns later.
+
+  Date           Firmware           Supply V / limit   What was tested   Result         Temperature   Notes
+                 hash               A                                                   s
+
+
+
+
+ Appendix E. Packing list
+ ■ Arm in its transport position, Z carriage lowered, covers screwed.
+ ■ Laptop, charger, spare laptop or image on a USB stick, USB cables x2, USB hub.
+ ■ Power supply or battery pack (in a LiPo bag, charge state per carrier rules), charger, DC-DC converter, fuses.
+ ■ Extension cord, power strip with a switch.
+ ■ Camera, spare camera cable, lamp.
+ ■ Calibration sheet with fiducials printed on plate paper, spare printouts.
+ ■ Test objects (spare set), tape, marker, ruler.
+ ■ Tools: hex keys 2 / 2.5 / 3, ball-end keys, small screwdrivers, pliers, flush cutters, tweezers, soldering iron and
+ solder, multimeter, heat gun or lighter for heat shrink.
+ ■ Spares box (clips, hub, stop, bridge, ESP32, driver, belts, bearings, fuses, wires).
+ ■ Printed documents: report, poster, set-up sheet, this plan with the contact list.
+ ■ USB stick with the repository, report, videos; the same on the phone.
+ ■ Food, water, a change of clothes: tiredness causes more failures than the hardware.
+
+
+
+
+                                                                                                                   page 30
+ETZ SCARA arm: project plan, draft 1 for correction
+
+
+
+
+ Appendix F. Competition day timeline (template)
+  When                       What
+  T minus 1 day              Charge everything, pack, re-read the rules, sleep.
+  Arrival                    Locate the table, check outlets and light, unpack in the order of the set-up sheet.
+  +0:30                      Mount the arm, connect the power and the laptop, power-up with a current limit.
+  +0:45                      Homing, check each joint, check the magnet on the test plate.
+  +1:00                      Place the fiducials, camera calibration (C5), run 3 test cycles.
+  +1:30                      Rehearse the demo once, then stop changing anything.
+  Demo                       Follow the script; if something fails, say what failed, switch to the fallback, do not panic.
+  After                      Save logs, photograph the field, thank the judges, back up the repository.
+ Fill in the real times from the competition schedule and put this page on the case lid.
+
+ Appendix G. Correction sheet
+ Write anything you want changed. For each line give the section or task ID, what to change and why.
+
+  Section or ID             Change                                                              Reason
+
+
+
+
+ Source files for this plan: hardware_bom.csv, print_guide_and_changes.pdf, accuracy_and_test_plan.pdf,
+ bare_electronics_pack.pdf, independent_review_v3.md, and the animation and viewer artifacts.
+
+
+
+
+                                                                                                                             page 31
+

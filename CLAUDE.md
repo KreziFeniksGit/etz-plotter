@@ -86,5 +86,5 @@ Full check and export after a change (about 15 minutes in total):
 - Engagement for tapped holes ('self', 'tapped' targets) is measured by sampling, for solid targets by volume.
 
 ## Older material
-The claude.ai Project "проект етз" also has older docs (the abandoned SCARA design, the first project plan,
-an independent review, a hardware BOM). They are history; this repository is the current source of truth.
+The old claude.ai Project "проект етз" docs (abandoned SCARA design, first project plan,
+independent review, hardware BOM) are copied to `docs/history/`. They are history; this repository is the source of truth.

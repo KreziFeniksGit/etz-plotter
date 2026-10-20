@@ -1,0 +1,46 @@
+Group,Item,Qty,Spec / note
+Printed (PETG),link1_channel,1,see print_guide_and_changes.pdf
+Printed (PETG),link1_cover (A and B),2,see print_guide_and_changes.pdf
+Printed (PETG),link2_channel,1,see print_guide_and_changes.pdf
+Printed (PETG),link2_cover (A and B),2,see print_guide_and_changes.pdf
+Printed (PETG),z_carriage_arm (J1 platform),1,see print_guide_and_changes.pdf
+Printed (PETG),z_top_mount,1,see print_guide_and_changes.pdf
+Printed (PETG),z_bottom_mount,1,see print_guide_and_changes.pdf
+Printed (PETG),j2_bridge,1,see print_guide_and_changes.pdf
+Printed (PETG),j2_stop,1,see print_guide_and_changes.pdf
+Printed (PETG),wrist_hub,1,see print_guide_and_changes.pdf
+Printed (PETG),wrist_bracket,1,see print_guide_and_changes.pdf
+Printed (PETG),cam_bracket,1,see print_guide_and_changes.pdf
+Printed (PETG),cable_clip,4,see print_guide_and_changes.pdf
+Motor,"NEMA17 40 mm with closed-loop encoder (J1, J2)",2,"42 x 42 mm encoder on the back, shaft 5 mm"
+Motor,NEMA17 pancake 21.5 mm (Z),1,"No encoder: open loop, home on a switch"
+Motor,NEMA11 32 mm with encoder (wrist),1,"Plain 32 mm shaft version, shaft 5 mm"
+Drive,Bearing 608ZZ,5,"J1 x2, elbow x2, Z bottom x1"
+Drive,"GT2 pulley 20T, bore 5 mm, 6 mm belt",2,Grub screw each
+Drive,"GT2 pulley 60T, bore 8 mm",2,Grub screw each
+Drive,"GT2 belt 6 mm, closed loop 220 mm (J1) and 300 mm (J2)",2,1 each
+Drive,Shaft d8: J1 (length per STEP) and elbow 57 mm,2,Ground steel
+Z axis,Rod d8 x 220 mm,2,CHANGED from 170 mm (column extended by 50 mm)
+Z axis,LM8UU bearing,4,
+Z axis,Shaft collar d8,2,Grub screw each
+Z axis,Tr8x2 lead screw 200 mm with nut,1,CHANGED from 150 mm. Stroke 5 to 90 mm of magnet height (85 mm); about 10 to 15 mm/s at 16 V
+Z axis,"Shaft coupler 5 to 8 mm, 25 mm long, aluminium flexible",1,NEW: now modelled; model: d19 x 25 mm
+Frame,"Base plate 2.8 to 3 mm, 175 x 460 mm, laser cut",1,"Four M3 holes for a carrier board added at (+-45, -165 +- 35) mm"
+Frame,2020 profile 750 mm (mast),1,Fixing to the base plate is NOT modelled: use 2 corner brackets + T-nuts
+Frame,2020 profile 155 mm (boom),1,Joint mast to boom NOT modelled: corner bracket + T-nuts
+Frame,M3 T-slot nut (camera bracket),2,NEW in this list
+End effector,"Electromagnet 20 x 15 mm, 12 V type, about 25 N at 12 V",1,"CHANGED from 24 V: supply max is 16 V; drive by PWM, duty at most 70 %"
+End effector,Camera 8 MP,1,
+Electronics,ESP32-S3-DevKitC-1,1,
+Electronics,TMC2209 module (BTT V1.3),4,
+Electronics,Logic-level MOSFET IRLB8721 + 1N5819 diode,1,Replaces the TB6612 (13.5 V limit)
+Electronics,LM2596 buck 16 V to 5 V,1,
+Electronics,"Supply max 16 V, 5 A (4S pack with 10 A BMS or bench supply), 6 A fuse, NC E-stop, 470 uF + 5 x 100 uF caps",1,CHANGED from 24 V 150 W; see bare_electronics_pack.pdf
+Electronics,"Perfboard 100 x 80 mm, 4 x M3 x 10 hex standoff, 4 x M3 x 6 screw",1,See bare_electronics_pack.pdf
+Fasteners,ISO7380 M3x8,24,
+Fasteners,Ruthex RX M3x5.7,30,
+Fasteners,ISO4762 M3x10,19,
+Fasteners,ISO7380 M3x6,14,
+Fasteners,ISO4032 M3,13,
+Fasteners,ISO7380 M2.5x5,4,
+Fasteners,"Grub screws M3 for pulleys, collars and wrist hub (about 8)",8,NEW: not counted before
