@@ -12,10 +12,10 @@
   }
  },
  "y_motor_mount": {
-  "nodes": 38161,
-  "elements": 21598,
-  "held_nodes": 382,
-  "body_nodes": 1942,
+  "nodes": 39132,
+  "elements": 22159,
+  "held_nodes": 420,
+  "body_nodes": 2002,
   "force_N": [
    0.0,
    -50.0,
@@ -38,10 +38,10 @@
   "ok": true
  },
  "x_motor_mount": {
-  "nodes": 61358,
-  "elements": 36007,
-  "held_nodes": 312,
-  "body_nodes": 2123,
+  "nodes": 62709,
+  "elements": 36940,
+  "held_nodes": 344,
+  "body_nodes": 2191,
   "force_N": [
    50.0,
    0.56,
@@ -52,22 +52,22 @@
    0.0,
    0.0
   ],
-  "move_mm": 0.0123,
+  "move_mm": 0.0122,
   "disp_mm": [
-   0.0096,
+   0.0095,
    -0.0077,
    -0.0003
   ],
   "tilt_deg": 0.027,
-  "max_von_mises_MPa": 1.21,
-  "move_after_creep_x2_mm": 0.025,
+  "max_von_mises_MPa": 1.42,
+  "move_after_creep_x2_mm": 0.024,
   "ok": true
  },
  "y_idler_bracket": {
-  "nodes": 29840,
-  "elements": 16635,
-  "held_nodes": 252,
-  "body_nodes": 843,
+  "nodes": 30593,
+  "elements": 17131,
+  "held_nodes": 276,
+  "body_nodes": 966,
   "force_N": [
    0.0,
    50.0,
@@ -80,20 +80,20 @@
   ],
   "move_mm": 0.0347,
   "disp_mm": [
-   0.0012,
-   0.0347,
-   0.0019
+   0.0011,
+   0.0346,
+   0.0018
   ],
   "tilt_deg": 0.033,
-  "max_von_mises_MPa": 3.56,
+  "max_von_mises_MPa": 3.13,
   "move_after_creep_x2_mm": 0.069,
   "ok": true
  },
  "x_idler_bracket": {
-  "nodes": 25302,
-  "elements": 14850,
-  "held_nodes": 79,
-  "body_nodes": 431,
+  "nodes": 25526,
+  "elements": 15032,
+  "held_nodes": 87,
+  "body_nodes": 432,
   "force_N": [
    -50.0,
    0.0,
@@ -104,31 +104,31 @@
    0.0,
    0.0
   ],
-  "move_mm": 0.0392,
+  "move_mm": 0.0386,
   "disp_mm": [
-   -0.0391,
-   0.001,
-   0.0018
+   -0.0385,
+   0.0012,
+   0.0016
   ],
-  "tilt_deg": 0.11,
-  "max_von_mises_MPa": 6.48,
-  "move_after_creep_x2_mm": 0.078,
+  "tilt_deg": 0.109,
+  "max_von_mises_MPa": 6.17,
+  "move_after_creep_x2_mm": 0.077,
   "ok": true
  },
  "y_carriage": {
-  "nodes": 79946,
-  "elements": 49038,
-  "held_nodes": 570,
-  "body_nodes": 2774,
+  "nodes": 81117,
+  "elements": 49812,
+  "held_nodes": 624,
+  "body_nodes": 2782,
   "force_N": [
-   2.75,
-   2.75,
-   -13.51
+   2.76,
+   2.76,
+   -13.54
   ],
   "moment_Nmm": [
-   -398.3,
-   2043.4,
-   335.4
+   -398.8,
+   2053.7,
+   337.4
   ],
   "move_mm": 0.001,
   "disp_mm": [
@@ -137,15 +137,15 @@
    0.0006
   ],
   "tilt_deg": 0.018,
-  "max_von_mises_MPa": 3.17,
+  "max_von_mises_MPa": 3.07,
   "move_after_creep_x2_mm": 0.002,
   "magnet_disp_mm": [
    -0.0194,
    0.0173,
-   -0.1039
+   -0.1042
   ],
-  "magnet_move_mm": 0.1071,
-  "carried_kg": 1.377,
+  "magnet_move_mm": 0.1074,
+  "carried_kg": 1.38,
   "ok": true
  }
 }

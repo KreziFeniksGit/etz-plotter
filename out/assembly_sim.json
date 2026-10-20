@@ -1167,7 +1167,7 @@
       "straight 3 hex driver",
       "L hex key 3"
      ],
-     "spanner_hits": "{'plywood_base', 'wm_wrist_carriage', 'y_carriage', 'wm_x_belt_riser'}",
+     "spanner_hits": "{'wm_x_belt_riser', 'wm_wrist_carriage', 'plywood_base', 'y_carriage'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1274,7 +1274,7 @@
       "straight 3 hex driver",
       "L hex key 3"
      ],
-     "spanner_hits": "{'wm_f_pivotB0_nut', 'wm_end_plate'}",
+     "spanner_hits": "{'wm_end_plate', 'wm_f_pivotB0_nut'}",
      "nut": {
       "path_free": true,
       "socket": "wm_end_plate",
@@ -1394,6 +1394,34 @@
    "step": "3 X: hub pushed onto the wrist motor shaft",
    "parts": [],
    "fasteners": {},
+   "insert": [
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    7.0
+   ]
+  },
+  {
+   "step": "3 X: distance sensor (TOF400C)",
+   "parts": [
+    "wm_tof_board"
+   ],
+   "fasteners": {
+    "wm_f_tof0": {
+     "entry": null,
+     "tool": [
+      "precision Phillips"
+     ]
+    },
+    "wm_f_tof1": {
+     "entry": null,
+     "tool": [
+      "precision Phillips"
+     ]
+    }
+   },
    "insert": [
     [
      0.0,
@@ -2010,9 +2038,25 @@
     "wm_shelf"
    ]
   ],
-  "wm_f_cam0": [
+  "wm_f_tof0": [
    "machine",
    34,
+   [
+    "wm_shelf",
+    "wm_tof_board"
+   ]
+  ],
+  "wm_f_tof1": [
+   "machine",
+   34,
+   [
+    "wm_shelf",
+    "wm_tof_board"
+   ]
+  ],
+  "wm_f_cam0": [
+   "machine",
+   35,
    [
     "wm_camera_board",
     "wm_shelf"
@@ -2020,7 +2064,7 @@
   ],
   "wm_f_cam1": [
    "machine",
-   34,
+   35,
    [
     "wm_camera_board",
     "wm_shelf"
@@ -2028,7 +2072,7 @@
   ],
   "wm_f_cam2": [
    "machine",
-   34,
+   35,
    [
     "wm_camera_board",
     "wm_shelf"
@@ -2036,7 +2080,7 @@
   ],
   "wm_f_cam3": [
    "machine",
-   34,
+   35,
    [
     "wm_camera_board",
     "wm_shelf"
@@ -2719,7 +2763,7 @@
   ],
   "f_eb_bot0": [
    "machine",
-   36,
+   37,
    [
     "plywood_base",
     "standoff_m3x10_1"
@@ -2727,7 +2771,7 @@
   ],
   "f_eb_top0": [
    "machine",
-   37,
+   38,
    [
     "perfboard_100x80",
     "standoff_m3x10_1"
@@ -2735,7 +2779,7 @@
   ],
   "f_eb_bot1": [
    "machine",
-   36,
+   37,
    [
     "plywood_base",
     "standoff_m3x10_2"
@@ -2743,7 +2787,7 @@
   ],
   "f_eb_top1": [
    "machine",
-   37,
+   38,
    [
     "perfboard_100x80",
     "standoff_m3x10_2"
@@ -2751,7 +2795,7 @@
   ],
   "f_eb_bot2": [
    "machine",
-   36,
+   37,
    [
     "plywood_base",
     "standoff_m3x10_3"
@@ -2759,7 +2803,7 @@
   ],
   "f_eb_top2": [
    "machine",
-   37,
+   38,
    [
     "perfboard_100x80",
     "standoff_m3x10_3"
@@ -2767,7 +2811,7 @@
   ],
   "f_eb_bot3": [
    "machine",
-   36,
+   37,
    [
     "plywood_base",
     "standoff_m3x10_4"
@@ -2775,7 +2819,7 @@
   ],
   "f_eb_top3": [
    "machine",
-   37,
+   38,
    [
     "perfboard_100x80",
     "standoff_m3x10_4"
@@ -2783,7 +2827,7 @@
   ],
   "f_panel0": [
    "machine",
-   40,
+   41,
    [
     "control_panel",
     "plywood_base"
@@ -2791,7 +2835,7 @@
   ],
   "f_panel1": [
    "machine",
-   40,
+   41,
    [
     "control_panel",
     "plywood_base"
@@ -2799,7 +2843,7 @@
   ],
   "f_panel2": [
    "machine",
-   40,
+   41,
    [
     "control_panel",
     "plywood_base"
@@ -2807,7 +2851,7 @@
   ],
   "f_panel3": [
    "machine",
-   40,
+   41,
    [
     "control_panel",
     "plywood_base"
@@ -2815,7 +2859,7 @@
   ],
   "f_pcb0": [
    "bench:panel",
-   39,
+   40,
    [
     "connector_pcb",
     "control_panel"
@@ -2823,7 +2867,7 @@
   ],
   "f_pcb1": [
    "bench:panel",
-   39,
+   40,
    [
     "connector_pcb",
     "control_panel"
@@ -2831,7 +2875,7 @@
   ],
   "f_bbtray0": [
    "machine",
-   42,
+   43,
    [
     "breadboard_tray",
     "plywood_base"
@@ -2839,7 +2883,7 @@
   ],
   "f_bbtray1": [
    "machine",
-   42,
+   43,
    [
     "breadboard_tray",
     "plywood_base"
@@ -2847,7 +2891,7 @@
   ],
   "f_bbtray2": [
    "machine",
-   42,
+   43,
    [
     "breadboard_tray",
     "plywood_base"
@@ -2855,7 +2899,7 @@
   ],
   "f_bbtray3": [
    "machine",
-   42,
+   43,
    [
     "breadboard_tray",
     "plywood_base"
@@ -2863,7 +2907,7 @@
   ],
   "f_battray0": [
    "machine",
-   41,
+   42,
    [
     "battery_tray",
     "plywood_base"
@@ -2871,7 +2915,7 @@
   ],
   "f_battray1": [
    "machine",
-   41,
+   42,
    [
     "battery_tray",
     "plywood_base"
@@ -2879,7 +2923,7 @@
   ],
   "f_battray2": [
    "machine",
-   41,
+   42,
    [
     "battery_tray",
     "plywood_base"
@@ -2887,7 +2931,7 @@
   ],
   "f_battray3": [
    "machine",
-   41,
+   42,
    [
     "battery_tray",
     "plywood_base"
@@ -2895,7 +2939,7 @@
   ],
   "f_guide0": [
    "machine",
-   43,
+   44,
    [
     "plywood_base",
     "y_chain_guide"
@@ -2903,7 +2947,7 @@
   ],
   "f_guide1": [
    "machine",
-   43,
+   44,
    [
     "plywood_base",
     "y_chain_guide"
@@ -2911,7 +2955,7 @@
   ],
   "f_guide2": [
    "machine",
-   43,
+   44,
    [
     "plywood_base",
     "y_chain_guide"
@@ -2919,7 +2963,7 @@
   ],
   "f_guide3": [
    "machine",
-   43,
+   44,
    [
     "plywood_base",
     "y_chain_guide"

@@ -13,11 +13,11 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
 - 11 tolerance test coupons (`tolerance/`), not printed yet.
 - Parts checklist with shop links for the teacher: artifact "ETZ Plotter Parts" (https://claude.ai/artifact/M8HTCgmFh44aH4F9nQc8U6).
 
-## Check results (v2.2)
+## Check results (full run 20 Oct 2026, v2.12)
 - No clash at rest; no collision in 54 poses (Y 40/124/208/292/376 x X 287/323/359/395/430 x face 5/40 mm + 4 wrist extremes); chains, cables and fasteners included (v2.8 re-run: all clean).
 - No fastener clips anything (rest + 16 poses vs moving parts); every screw engages enough; blind screws end in their target.
 - All poses inside the 600 x 500 polygon; parked inside zones 1+2; lowest non-gripper part over the field at face 5 mm: camera lens 29.4 mm.
-- Mass 4.14 kg; CoM >= 90 mm inside the feet; tipping needs 30.5 m/s2 (design acceleration 2); worst rail moment 1.78 N m vs 37.5 rated; profile sag <= 0.17 mm (joints not included). Servo lift: 0.23 N m needed = 21 % of the MG996R stall at 6 V.
+- Mass 3.66 kg (model, bought parts by datasheet); CoM >= 86 mm inside the feet; tipping needs 25.4 m/s2 (design acceleration 2); worst rail moment 1.79 N m vs 37.5 rated; profile sag <= 0.17 mm (joints not included). Servo lift = 21.8 % of the MG996R stall at 6 V. FEA all ok (worst idler tilt 0.11 deg). Assembly simulation: 0 problems.
 
 ## Decisions (and why)
 - Cartesian XY plotter (the earlier SCARA arm was dropped). Approved by Egor on 10 Oct.
