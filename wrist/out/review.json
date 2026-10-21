@@ -89,7 +89,7 @@
     74.0
    ],
    "fits_220": true,
-   "volume_cm3": 32.89,
+   "volume_cm3": 32.9,
    "mass_g": 25.1,
    "min_wall": 2.5,
    "thin_samples": 0,
@@ -329,7 +329,7 @@
  },
  "clearances": {
   "M3 bolt hole": 3.15,
-  "M4 bolt hole (pivots)": 4.05,
+  "M4 bolt hole (pivots)": 4.0,
   "M2 camera pilot (self-tapping, blind)": 1.8,
   "NEMA17 pancake screw hole (M3 + TOL_MOTOR)": 3.1,
   "NEMA17 pancake pilot hole (22 + TOL_MOTOR)": 22.1,

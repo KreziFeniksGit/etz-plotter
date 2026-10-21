@@ -29,7 +29,7 @@ def trio(cur, step):
     return [round(cur - step, 3), round(cur, 3), round(cur + step, 3)]
 
 BOLT_T = trio(TOL_BOLT, 0.10)          # 0.05 0.15 0.25 (A, B; tested 16 Oct: M2..M3 +0.15)
-BOLT45_T = trio(W.TOL_BOLT_D[4], 0.05) # 0.00 0.05 0.10 (A2: M4 / M5 re-test)
+BOLT45_T = [0.0, 0.05, 0.10]           # A2 as printed (21 Oct: +0 fits M4 and M5)
 PANEL_T = trio(TOL_PANEL, 0.10)        # 0.15 0.25 0.35 (G)
 PRESS_T = trio(TOL_PRESS, 0.06)        # 0.06 0.12 0.18 (684ZZ seat, post-cap pins)
 DBORE_T = trio(TOL_DBORE, 0.06)        # 0.12 0.18 0.24 (D-bore hubs; tested 16 Oct: 0.18)

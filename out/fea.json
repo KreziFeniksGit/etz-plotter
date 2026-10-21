@@ -12,9 +12,9 @@
   }
  },
  "y_motor_mount": {
-  "nodes": 39132,
-  "elements": 22159,
-  "held_nodes": 420,
+  "nodes": 39434,
+  "elements": 22364,
+  "held_nodes": 425,
   "body_nodes": 2002,
   "force_N": [
    0.0,
@@ -33,14 +33,14 @@
    0.0005
   ],
   "tilt_deg": 0.014,
-  "max_von_mises_MPa": 1.35,
+  "max_von_mises_MPa": 1.34,
   "move_after_creep_x2_mm": 0.022,
   "ok": true
  },
  "x_motor_mount": {
-  "nodes": 62709,
-  "elements": 36940,
-  "held_nodes": 344,
+  "nodes": 62763,
+  "elements": 36957,
+  "held_nodes": 348,
   "body_nodes": 2191,
   "force_N": [
    50.0,
@@ -64,10 +64,10 @@
   "ok": true
  },
  "y_idler_bracket": {
-  "nodes": 30593,
-  "elements": 17131,
-  "held_nodes": 276,
-  "body_nodes": 966,
+  "nodes": 30413,
+  "elements": 16977,
+  "held_nodes": 283,
+  "body_nodes": 968,
   "force_N": [
    0.0,
    50.0,
@@ -80,20 +80,20 @@
   ],
   "move_mm": 0.0347,
   "disp_mm": [
-   0.0011,
+   0.0012,
    0.0346,
-   0.0018
+   0.0019
   ],
   "tilt_deg": 0.033,
-  "max_von_mises_MPa": 3.13,
+  "max_von_mises_MPa": 2.86,
   "move_after_creep_x2_mm": 0.069,
   "ok": true
  },
  "x_idler_bracket": {
-  "nodes": 25526,
-  "elements": 15032,
-  "held_nodes": 87,
-  "body_nodes": 432,
+  "nodes": 25413,
+  "elements": 14936,
+  "held_nodes": 89,
+  "body_nodes": 435,
   "force_N": [
    -50.0,
    0.0,
@@ -104,22 +104,22 @@
    0.0,
    0.0
   ],
-  "move_mm": 0.0386,
+  "move_mm": 0.0385,
   "disp_mm": [
-   -0.0385,
+   -0.0384,
    0.0012,
-   0.0016
+   0.0017
   ],
   "tilt_deg": 0.109,
-  "max_von_mises_MPa": 6.17,
+  "max_von_mises_MPa": 6.14,
   "move_after_creep_x2_mm": 0.077,
   "ok": true
  },
  "y_carriage": {
-  "nodes": 81117,
-  "elements": 49812,
+  "nodes": 81226,
+  "elements": 49881,
   "held_nodes": 624,
-  "body_nodes": 2782,
+  "body_nodes": 2806,
   "force_N": [
    2.76,
    2.76,
@@ -137,7 +137,7 @@
    0.0006
   ],
   "tilt_deg": 0.018,
-  "max_von_mises_MPa": 3.07,
+  "max_von_mises_MPa": 3.15,
   "move_after_creep_x2_mm": 0.002,
   "magnet_disp_mm": [
    -0.0194,
