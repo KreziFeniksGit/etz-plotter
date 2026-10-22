@@ -33,6 +33,7 @@ distance you command.
 
 | Printed (`out/printed/`) | Qty |
 |---|---|
+| `foot_x4` | 4 |
 | `y_beam_riser_x4` | 4 |
 | `y_motor_mount` | 1 |
 | `y_idler_bracket` | 1 |
@@ -43,14 +44,29 @@ distance you command.
 
 | Bought | Qty |
 |---|---|
-| Plywood 6 mm 250 x 470 (cut from `out/plywood_base.dxf`) + 4 printed feet (`foot_x4`) | 1 |
-| 2020 V-slot 400 mm (Y beam) | 1 |
+| Plywood 6 mm 250 x 470, cut and drilled from `out/plywood_base.dxf` (through holes only) | 1 |
+| 2020 V-slot 400 mm (Y beam), one end tapped M5 | 1 |
 | MGN12 rail 400 + MGN12H block | 1 |
 | NEMA17 17HS16-2004S1 | 1 |
-| GT2 20T pulley, GT2 20T toothless idler, GT2 6 mm belt ~0.92 m | 1 each |
+| GT2 20T pulley (5 mm bore), GT2 20T toothless idler (5 mm bore), GT2 6 mm belt ~0.92 m | 1 each |
 | Omron D2F-01L home switch | 1 |
-| Screws: M5x20 + M5 T-nuts (beam), M3x8 + M3 T-nuts (rail), M3x8 (carriage to block), M3x10 (motor), M5x25 + nut (idler axle), M3x16 + nut (tension), M3x14 + inserts (belt clamp), M5x12 (idler bracket, tap the beam end M5), wood screws 4x10 and 3.5x12 | see `out/fastener_bom.csv` |
-| Test electronics (on the breadboard, loose): ESP32-S3 board, 1x TMC2209, LiPo + 5 A fuse + XT60, 5 V regulator | 1 each |
+| Test electronics, loose on the breadboard: ESP32-S3 board, 1x TMC2209, LiPo + 5 A fuse + XT60, Mini560 5 V | 1 each |
+
+| Screws (step 1 only) | Qty | Where |
+|---|---|---|
+| M3x10 button head (ISO 7380) + Ruthex M3 insert | 4 + 4 | feet, from the plywood top into the foot |
+| M5x22 cap (ISO 4762) + M5 drop-in T-nut | 4 + 4 | Y beam: from under the plywood, through the riser, into the beam |
+| M3x8 cap + M3 drop-in T-nut | 16 + 16 | Y rail onto the beam (top slot) |
+| M3x8 cap | 4 | Y carriage onto the rail block |
+| M4x16 button + M4 washer + M4 hex nut | 4 + 4 + 4 | Y motor mount through the plywood (bolt it down before the motor goes on) |
+| M3x10 cap | 4 | Y motor onto its mount |
+| M4x16 button + M4 washer + M4 hex nut | 2 + 2 + 2 | Y idler bracket through the plywood |
+| M5x12 button | 1 | Y idler bracket into the tapped beam end |
+| M5x25 cap + M5 hex nut | 1 + 1 | Y idler axle (through slider, idler, slotted plate) |
+| M3x16 cap + M3 hex nut + Ruthex M3 insert | 1 + 1 + 1 | Y belt tension screw (pushes the idler slider) |
+| M3x14 cap + Ruthex M3 insert | 3 + 3 | Y belt clamp + spacer onto the carriage |
+| M2x10 self-tapping | 2 | Y home switch |
+Totals for step 1: 8 Ruthex M3 inserts, 16 M3 T-nuts, 4 M5 T-nuts.
 
 **Tests:**
 1. By hand, motor belt off: the carriage slides the whole length with no tight spots.
