@@ -1,0 +1,129 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-22T12:42:27",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.7",
+    "schematic_parity": [],
+    "source": "drivers.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Thermal relief connection to zone incomplete (layer B.Cu; 1 spokes connected to isolated island)",
+            "items": [
+                {
+                    "description": "Zone [GND] on B.Cu, priority 0",
+                    "pos": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "uuid": "af9de0f0-588c-45d1-989d-d47a9bcc9808"
+                },
+                {
+                    "description": "PTH pad 2 [GND] of U2A",
+                    "pos": {
+                        "x": 22.0,
+                        "y": 56.54
+                    },
+                    "uuid": "7beb0b0e-4d43-4ad3-b0fa-d7c8dac25124"
+                }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "655349c0-48ba-4b38-b761-458cae7c890d"
+                },
+                {
+                    "description": "Segment of J7 on F.Silkscreen",
+                    "pos": {
+                        "x": 39.44,
+                        "y": -0.21
+                    },
+                    "uuid": "dde2f6b7-fdc4-48e6-a032-8a8d713b08e4"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "655349c0-48ba-4b38-b761-458cae7c890d"
+                },
+                {
+                    "description": "Segment of J7 on F.Silkscreen",
+                    "pos": {
+                        "x": 49.56,
+                        "y": -0.21
+                    },
+                    "uuid": "e2551a05-175a-447d-8cff-2486e75c68c6"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of C1",
+                    "pos": {
+                        "x": 46.7,
+                        "y": 14.3
+                    },
+                    "uuid": "1685400e-5798-46da-b65c-ef7bb1fad316"
+                },
+                {
+                    "description": "PTH pad 1 [VDRIVE] of J7",
+                    "pos": {
+                        "x": 47.0,
+                        "y": 13.0
+                    },
+                    "uuid": "8e605b5f-17b6-45f0-b14c-c3ecb2b0eaec"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}
