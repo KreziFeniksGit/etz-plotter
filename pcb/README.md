@@ -5,6 +5,9 @@
 | `bom.md` | every part on and off the board, the power tree, what is still VERIFY |
 | `build_pcb.py` | parts, nets (from `wiring.md`), placement, JLCPCB rules, net classes -> routes with Freerouting -> GND pours + stitching vias |
 | `etz_control.kicad_pcb` | the board (open it in KiCad) |
+| `etz_control.kicad_sch` + `etz_control_schematic.pdf` | **full connection schematic** (KiCad + PDF), A2; `schematic_preview.png` |
+| `build_sch.py` | makes the schematic from the same parts/nets as `build_pcb.py`, then checks: KiCad netlist == board nets, ERC, PDF |
+| `etz.kicad_sym`, `etz.pretty/`, `sym-lib-table`, `fp-lib-table` | project library: symbols + footprints of the plug-in modules (ESP32-S3-DevKitC-1, TMC2209, Mini560 Pro, BSS138) |
 | `etz_control_gerbers_jlcpcb.zip` | upload this to JLCPCB / PCBWay (Gerbers + drill), 2 layers, 1.6 mm, 1 oz |
 | `render_top.png`, `render_bottom.png`, `copper.svg` | pictures |
 | `drc.json` | KiCad design-rule check result |
@@ -45,3 +48,8 @@ connector pin order (match your motor cables); XT60 / XT30 genders. A photo of e
 kicad-cli pcb export gerbers --layers F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts --subtract-soldermask -o pcb/fab/ pcb/etz_control.kicad_pcb
 kicad-cli pcb export drill --format excellon --excellon-units mm --excellon-separate-th -o pcb/fab/ pcb/etz_control.kicad_pcb
 ```
+
+## Making your own PCB from the schematic
+Open `etz_control.kicad_pro`, open the schematic, then Tools > Update PCB from Schematic (F8) into a NEW board (or delete the
+footprints in the existing one first: the generated board uses two sockets per module, the schematic one footprint per module).
+Footprints are already assigned. Net classes (track widths) are in the project: Power 1.5 mm, Rail5V 1.0, Motor 0.8, signals 0.3.
