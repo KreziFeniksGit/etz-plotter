@@ -9,7 +9,7 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.102,
+    "mass_kg": 3.106,
     "com": [
      239.0,
      162.5,
@@ -18,11 +18,11 @@
     "-x": {
      "static_margin_mm": 139.0,
      "tips_at_m_s2": 74.3,
-     "safety_at_design_acc": 37.1
+     "safety_at_design_acc": 37.2
     },
     "+x": {
      "static_margin_mm": 91.0,
-     "tips_at_m_s2": 48.6,
+     "tips_at_m_s2": 48.7,
      "safety_at_design_acc": 24.3
     },
     "-y": {
@@ -33,7 +33,7 @@
     "+y": {
      "static_margin_mm": 295.5,
      "tips_at_m_s2": 43.7,
-     "safety_at_design_acc": 21.8
+     "safety_at_design_acc": 21.9
     }
    },
    "rails": {
@@ -68,30 +68,30 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.102,
+    "mass_kg": 3.106,
     "com": [
-     260.6,
-     328.4,
+     260.5,
+     328.3,
      78.6
     ],
     "-x": {
-     "static_margin_mm": 160.6,
-     "tips_at_m_s2": 102.2,
+     "static_margin_mm": 160.5,
+     "tips_at_m_s2": 102.3,
      "safety_at_design_acc": 51.1
     },
     "+x": {
-     "static_margin_mm": 69.4,
-     "tips_at_m_s2": 44.2,
+     "static_margin_mm": 69.5,
+     "tips_at_m_s2": 44.3,
      "safety_at_design_acc": 22.1
     },
     "-y": {
-     "static_margin_mm": 306.4,
+     "static_margin_mm": 306.3,
      "tips_at_m_s2": 47.6,
      "safety_at_design_acc": 23.8
     },
     "+y": {
-     "static_margin_mm": 129.6,
-     "tips_at_m_s2": 20.1,
+     "static_margin_mm": 129.7,
+     "tips_at_m_s2": 20.2,
      "safety_at_design_acc": 10.1
     }
    },
@@ -127,30 +127,30 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.102,
+    "mass_kg": 3.106,
     "com": [
-     260.6,
+     260.5,
      162.5,
-     78.9
+     78.8
     ],
     "-x": {
-     "static_margin_mm": 160.6,
-     "tips_at_m_s2": 102.2,
+     "static_margin_mm": 160.5,
+     "tips_at_m_s2": 102.3,
      "safety_at_design_acc": 51.1
     },
     "+x": {
-     "static_margin_mm": 69.4,
-     "tips_at_m_s2": 44.2,
+     "static_margin_mm": 69.5,
+     "tips_at_m_s2": 44.3,
      "safety_at_design_acc": 22.1
     },
     "-y": {
      "static_margin_mm": 140.5,
-     "tips_at_m_s2": 21.7,
+     "tips_at_m_s2": 21.8,
      "safety_at_design_acc": 10.9
     },
     "+y": {
      "static_margin_mm": 295.5,
-     "tips_at_m_s2": 45.7,
+     "tips_at_m_s2": 45.8,
      "safety_at_design_acc": 22.9
     }
    },
@@ -186,30 +186,30 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.102,
+    "mass_kg": 3.106,
     "com": [
      239.0,
-     328.4,
-     81.6
+     328.3,
+     81.5
     ],
     "-x": {
      "static_margin_mm": 139.0,
      "tips_at_m_s2": 74.3,
-     "safety_at_design_acc": 37.1
+     "safety_at_design_acc": 37.2
     },
     "+x": {
      "static_margin_mm": 91.0,
-     "tips_at_m_s2": 48.6,
+     "tips_at_m_s2": 48.7,
      "safety_at_design_acc": 24.3
     },
     "-y": {
-     "static_margin_mm": 306.4,
+     "static_margin_mm": 306.3,
      "tips_at_m_s2": 45.5,
      "safety_at_design_acc": 22.7
     },
     "+y": {
-     "static_margin_mm": 129.6,
-     "tips_at_m_s2": 19.2,
+     "static_margin_mm": 129.7,
+     "tips_at_m_s2": 19.3,
      "safety_at_design_acc": 9.6
     }
    },
@@ -245,30 +245,30 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.102,
+    "mass_kg": 3.106,
     "com": [
      247.2,
      245.7,
-     80.3
+     80.2
     ],
     "-x": {
      "static_margin_mm": 147.2,
-     "tips_at_m_s2": 85.4,
-     "safety_at_design_acc": 42.7
+     "tips_at_m_s2": 85.5,
+     "safety_at_design_acc": 42.8
     },
     "+x": {
      "static_margin_mm": 82.8,
-     "tips_at_m_s2": 48.0,
-     "safety_at_design_acc": 24.0
+     "tips_at_m_s2": 48.1,
+     "safety_at_design_acc": 24.1
     },
     "-y": {
      "static_margin_mm": 223.7,
      "tips_at_m_s2": 33.9,
-     "safety_at_design_acc": 16.9
+     "safety_at_design_acc": 17.0
     },
     "+y": {
      "static_margin_mm": 212.3,
-     "tips_at_m_s2": 32.1,
+     "tips_at_m_s2": 32.2,
      "safety_at_design_acc": 16.1
     }
    },
@@ -298,7 +298,7 @@
   }
  ],
  "mass_by_group_kg": {
-  "base": 1.559,
+  "base": 1.568,
   "Y carriage + boom": 1.032,
   "wrist module": 0.457,
   "cable chains": 0.078
@@ -334,8 +334,8 @@
   "load_vs_stall_pct": 21.8,
   "note": "keep the steady load under ~30-40 % of stall for a long servo life (hobby servo rule of thumb)"
  },
- "min_tip_acc_m_s2": 19.2,
- "min_static_margin_mm": 69.4,
+ "min_tip_acc_m_s2": 19.3,
+ "min_static_margin_mm": 69.5,
  "worst_rail_moment_Nm": 1.79,
  "worst_sag_mm": 0.17
 }

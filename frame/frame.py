@@ -35,14 +35,14 @@ Z_FOOT, Z_PLY = 9.0, 6.0                  # printed feet (below the plywood), pl
 Z_PLY0, Z_PLY1 = Z_FOOT, Z_FOOT + Z_PLY
 PLY = (90.0, 0.0, 340.0, 470.0)           # plywood outline (corner radius 10)
 FEET = [(100.0, 22.0), (330.0, 22.0), (100.0, 458.0), (330.0, 458.0)]
-FOOT_D, FOOT_H, FOOT_POCKET = 20.0, 10.0, 1.0    # printed PETG foot 20 x 10 in a 1 mm locating recess: 9 mm below the 6 mm plywood
-                                                 # (keeps the plywood top, and so everything above it, at z 15 as before)
+FOOT_D, FOOT_H, FOOT_POCKET = 20.0, 9.0, 0.0     # printed PETG foot 20 x 9, flat under the plywood (Egor, 22 Oct: the plywood shop
+                                                 # makes through holes only - no recesses); plywood top stays at z 15
 FOOT_EDGE_R = 1.5                                # rounded bottom edge of the foot
 PLY_DRILL = {3: 3.5, 4: 4.5, 5: 5.5}                    # hand-drilled bolt holes in the plywood (drill sizes, not print tolerances)
-PLY_CSK_D = 6.6                                  # countersink in the plywood top for the M3 foot bolts (head 6.0, flush)
+PLY_CSK_D = 0.0                                  # no countersinks (through holes only): the foot bolts are button heads on the top
 # Everything on the plywood is held by bolts through it, a washer and a hex nut underneath (no wood screws):
 # the nuts and bolt tips stay >= 2 mm above the table (the feet give 9 mm).
-BEAM_CBORE = 2.0                                 # beam bolt heads sunk 2 mm in the 6 mm plywood (3 mm stick out; the feet are 9 mm)
+BEAM_CBORE = 0.0                                 # no counterbore (through holes only): the M5 heads sit under the plywood, 4 mm above the table
 # Y axis
 YB_X = 205.0                              # Y beam / rail centre line
 YB_Y0, YB_Y1 = 10.0, 410.0                # 2020 beam and MGN12 rail, 400 mm
@@ -304,10 +304,12 @@ def plywood():
     s = s.makeFillet(10.0, [e for e in s.Edges if abs(e.Length - Z_PLY) < 1e-6])
     cut = []
     for x, y in FEET:                                         # foot pocket from below (Forstner bit); M3 csk bolt from the top into the foot's insert
-        cut.append(cyl((x, y, Z_PLY0 - 1), (FOOT_D + 0.4) / 2, FOOT_POCKET + 1))
+        if FOOT_POCKET > 0:
+            cut.append(cyl((x, y, Z_PLY0 - 1), (FOOT_D + 0.4) / 2, FOOT_POCKET + 1))
         cut.append(cyl((x, y, Z_PLY0 - 1), PLY_DRILL[3] / 2, Z_PLY + 2))
-        cut.append(Part.makeCone(PLY_DRILL[3] / 2, PLY_CSK_D / 2, (PLY_CSK_D - PLY_DRILL[3]) / 2, V(x, y, Z_PLY1 - (PLY_CSK_D - PLY_DRILL[3]) / 2)))
-        cut.append(cyl((x, y, Z_PLY1), PLY_CSK_D / 2, 1.0))
+        if PLY_CSK_D > 0:
+            cut.append(Part.makeCone(PLY_DRILL[3] / 2, PLY_CSK_D / 2, (PLY_CSK_D - PLY_DRILL[3]) / 2, V(x, y, Z_PLY1 - (PLY_CSK_D - PLY_DRILL[3]) / 2)))
+            cut.append(cyl((x, y, Z_PLY1), PLY_CSK_D / 2, 1.0))
     for x, y, d in base_bolts():                              # through-bolts of the parts on the plywood
         cut.append(cyl((x, y, Z_PLY0 - 1), PLY_DRILL[d] / 2, Z_PLY + 2))
     for y in BEAM_BOLTS_Y:                                   # beam M5x20 from below: counterbore for the head, through the riser
@@ -320,8 +322,8 @@ def plywood():
     return cut_all(s, cut)
 
 def foot(x, y):
-    """Printed PETG foot 20 x 10: 1 mm in its plywood recess, 9 mm below. A Ruthex M3 insert in its top takes an
-    M3x10 countersunk bolt from the plywood top. Prints bottom down (the table face is the smooth first layer)."""
+    """Printed PETG foot 20 x 9, flat under the plywood. A Ruthex M3 insert in its top takes an M3x10 button-head
+    bolt from the plywood top. Prints bottom down (the table face is the smooth first layer)."""
     f = cyl((x, y, 0.0), FOOT_D / 2, FOOT_H)
     f = f.makeFillet(FOOT_EDGE_R, [e for e in f.Edges if e.BoundBox.ZMax < 0.01])
     f = f.makeFillet(0.5, [e for e in f.Edges if e.BoundBox.ZMin > FOOT_H - 0.01])

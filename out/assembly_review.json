@@ -463,22 +463,22 @@
    "engagement_mm": 3.2
   },
   "f_beam0": {
-   "screw": "M5 x 20 ISO 4762",
+   "screw": "M5 x 22 ISO 4762",
    "into": "tnut",
    "engagement_mm": 3.5
   },
   "f_beam1": {
-   "screw": "M5 x 20 ISO 4762",
+   "screw": "M5 x 22 ISO 4762",
    "into": "tnut",
    "engagement_mm": 3.5
   },
   "f_beam2": {
-   "screw": "M5 x 20 ISO 4762",
+   "screw": "M5 x 22 ISO 4762",
    "into": "tnut",
    "engagement_mm": 3.5
   },
   "f_beam3": {
-   "screw": "M5 x 20 ISO 4762",
+   "screw": "M5 x 22 ISO 4762",
    "into": "tnut",
    "engagement_mm": 3.5
   },
@@ -563,24 +563,24 @@
    "engagement_mm": 2.7
   },
   "f_foot0": {
-   "screw": "M3 x 10 ISO 10642",
+   "screw": "M3 x 10 ISO 7380",
    "into": "insert",
-   "engagement_mm": 5.0
+   "engagement_mm": 4.0
   },
   "f_foot1": {
-   "screw": "M3 x 10 ISO 10642",
+   "screw": "M3 x 10 ISO 7380",
    "into": "insert",
-   "engagement_mm": 5.0
+   "engagement_mm": 4.0
   },
   "f_foot2": {
-   "screw": "M3 x 10 ISO 10642",
+   "screw": "M3 x 10 ISO 7380",
    "into": "insert",
-   "engagement_mm": 5.0
+   "engagement_mm": 4.0
   },
   "f_foot3": {
-   "screw": "M3 x 10 ISO 10642",
+   "screw": "M3 x 10 ISO 7380",
    "into": "insert",
-   "engagement_mm": 5.0
+   "engagement_mm": 4.0
   },
   "f_guide0": {
    "screw": "M3 x 25 ISO 7380",
@@ -647,12 +647,12 @@
    "size": [
     21.6,
     21.6,
-    10.0
+    9.0
    ],
    "fits_220": true,
-   "volume_cm3": 3.02,
-   "mass_g": 2.3,
-   "min_wall": 3.51,
+   "volume_cm3": 2.71,
+   "mass_g": 2.1,
+   "min_wall": 2.51,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -665,12 +665,12 @@
    "size": [
     21.6,
     21.6,
-    10.0
+    9.0
    ],
    "fits_220": true,
-   "volume_cm3": 3.02,
-   "mass_g": 2.3,
-   "min_wall": 3.51,
+   "volume_cm3": 2.71,
+   "mass_g": 2.1,
+   "min_wall": 2.51,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -683,12 +683,12 @@
    "size": [
     21.6,
     21.6,
-    10.0
+    9.0
    ],
    "fits_220": true,
-   "volume_cm3": 3.02,
-   "mass_g": 2.3,
-   "min_wall": 3.51,
+   "volume_cm3": 2.71,
+   "mass_g": 2.1,
+   "min_wall": 2.51,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -701,12 +701,12 @@
    "size": [
     21.6,
     21.6,
-    10.0
+    9.0
    ],
    "fits_220": true,
-   "volume_cm3": 3.02,
-   "mass_g": 2.3,
-   "min_wall": 3.51,
+   "volume_cm3": 2.71,
+   "mass_g": 2.1,
+   "min_wall": 2.51,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,

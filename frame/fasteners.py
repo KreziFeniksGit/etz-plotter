@@ -283,15 +283,15 @@ def frame_fasteners():
                          'Y motor mount through the plywood (bolt it down before the motor goes on)'))
     for i, y in enumerate(Fr.BEAM_BOLTS_Y):
         z0 = Fr.Z_PLY0 + Fr.BEAM_CBORE
-        L.append(F('f_beam%d' % i, 'cap', 5, 20, (Fr.YB_X, y, z0), (0, 0, 1), 'base', ('tnut', None, 3.0, None),
+        L.append(F('f_beam%d' % i, 'cap', 5, 22, (Fr.YB_X, y, z0), (0, 0, 1), 'base', ('tnut', None, 3.0, None),
                    tnut=(Fr.Z_YB0 - z0, (0, 1, 0), 'y_beam_2020'), note='Y beam through plywood and riser, from below'))
     for i, t in enumerate(Fr.rail_holes(Fr.YB_Y1 - Fr.YB_Y0)):
         L.append(F('f_yrail%02d' % i, 'cap', 3, 8, (Fr.YB_X, Fr.YB_Y0 + t, Fr.Z_YR1 - Fr.RAIL_CB_H), (0, 0, -1), 'base',
                    ('tnut', None, 2.5, None), extra=('y_rail',), tnut=(Fr.RAIL_H - Fr.RAIL_CB_H, (0, 1, 0), 'y_beam_2020'),
                    note='Y rail to the beam (top slot)'))
     for i, (x, y) in enumerate(Fr.FEET):
-        L.append(F('f_foot%d' % i, 'csk', 3, 10, (x, y, Fr.Z_PLY1), (0, 0, -1), 'base', ('insert', None, 4.0, None),
-                   insert=('foot_%d' % (i + 1), Fr.Z_PLY1 - Fr.FOOT_H), note='printed foot: countersunk from the plywood top into its insert'))
+        L.append(F('f_foot%d' % i, 'button', 3, 10, (x, y, Fr.Z_PLY1), (0, 0, -1), 'base', ('insert', None, 4.0, None),
+                   insert=('foot_%d' % (i + 1), Fr.Z_PLY1 - Fr.FOOT_H), note='printed foot: button head on the plywood top, into the foot insert'))
     EB = Fr.EB
     for i, (x, y) in enumerate(() if not Fr.ELECTRONICS_ON_BASE else ((EB[0] + 4, EB[1] + 4), (EB[2] - 4, EB[1] + 4), (EB[0] + 4, EB[3] - 4), (EB[2] - 4, EB[3] - 4))):
         L.append(F('f_eb_bot%d' % i, 'csk', 3, 10, (x, y, Fr.Z_PLY0), (0, 0, 1), 'base', ('blind', 'standoff_m3x10_%d' % (i + 1), 3.5, 5.0),

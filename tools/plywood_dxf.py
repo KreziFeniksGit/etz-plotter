@@ -70,9 +70,12 @@ if __name__ == '__main__':
     ents = ents_from_section(ply, zc, 'CUT')
     eb = Fr.EB
     sto = [(eb[0] + 4, eb[1] + 4), (eb[2] - 4, eb[1] + 4), (eb[0] + 4, eb[3] - 4), (eb[2] - 4, eb[3] - 4)]
-    ents += circles(Fr.FEET, Fr.FOOT_D + 0.4, 'POCKET_BOTTOM')
-    ents += circles([(Fr.YB_X, y) for y in Fr.BEAM_BOLTS_Y], 8.5 + 0.8, 'CBORE_BOTTOM')
-    ents += circles(Fr.FEET, Fr.PLY_CSK_D, 'CSK_TOP')
+    if Fr.FOOT_POCKET > 0:
+        ents += circles(Fr.FEET, Fr.FOOT_D + 0.4, 'POCKET_BOTTOM')
+    if Fr.BEAM_CBORE > 0:
+        ents += circles([(Fr.YB_X, y) for y in Fr.BEAM_BOLTS_Y], 8.5 + 0.8, 'CBORE_BOTTOM')
+    if Fr.PLY_CSK_D > 0:
+        ents += circles(Fr.FEET, Fr.PLY_CSK_D, 'CSK_TOP')
     if Fr.ELECTRONICS_ON_BASE:
         ents += circles(sto, 6.6, 'CSK_BOTTOM')
     os.makedirs(OUT, exist_ok=True)

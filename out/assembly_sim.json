@@ -302,7 +302,7 @@
       "straight 2.5 hex driver",
       "L hex key 2.5"
      ],
-     "spanner_hits": "{'f_ymotor_bolt0_nut', 'f_ymotor_bolt1_nut', 'f_ymotor_bolt2_nut'}",
+     "spanner_hits": "{'f_ymotor_bolt1_nut', 'f_ymotor_bolt2_nut', 'f_ymotor_bolt0_nut'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -425,7 +425,7 @@
       "straight 2.5 hex driver",
       "L hex key 2.5"
      ],
-     "spanner_hits": "{'f_beam0_head', 'foot_1'}",
+     "spanner_hits": "{'foot_1', 'f_beam0_head'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -448,11 +448,11 @@
    },
    "insert": [
     [
-     -1.0,
      0.0,
+     -1.0,
      0.0
     ],
-    155.5
+    41.5
    ]
   },
   {
@@ -1207,7 +1207,7 @@
       "straight 3 hex driver",
       "L hex key 3"
      ],
-     "spanner_hits": "{'wm_wrist_carriage', 'wm_x_belt_riser', 'y_carriage', 'plywood_base'}",
+     "spanner_hits": "{'y_carriage', 'plywood_base', 'wm_wrist_carriage', 'wm_x_belt_riser'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1314,7 +1314,7 @@
       "straight 3 hex driver",
       "L hex key 3"
      ],
-     "spanner_hits": "{'wm_f_pivotB0_nut', 'wm_end_plate'}",
+     "spanner_hits": "{'wm_end_plate', 'wm_f_pivotB0_nut'}",
      "nut": {
       "path_free": true,
       "socket": "wm_end_plate",
@@ -1540,7 +1540,7 @@
       "straight 2 hex driver",
       "L hex key 2"
      ],
-     "spanner_hits": "{'f_guide0_nut', 'f_beam2_head'}",
+     "spanner_hits": "{'f_beam2_head', 'f_guide0_nut'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1566,7 +1566,7 @@
       "straight 2 hex driver",
       "L hex key 2"
      ],
-     "spanner_hits": "{'f_ymotor_bolt2_nut', 'f_guide2_nut', 'f_beam3_head'}",
+     "spanner_hits": "{'f_guide2_nut', 'f_beam3_head', 'f_ymotor_bolt2_nut'}",
      "nut": {
       "path_free": true,
       "socket": true,

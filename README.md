@@ -14,9 +14,8 @@ Coordinates: X along the 600 mm side of the polygon, Y along the 500 mm side, Z 
 constant to change. Print them before the real parts.
 
 ## Plywood, bolts and feet (v2.14)
-- **Plywood DXF:** `out/plywood_base.dxf` (1:1, mm, origin = the board's -x/-y corner, seen from the top). Layer CUT = outline and through
-  holes; POCKET_BOTTOM = 20.4 mm foot recesses 1 mm deep from below; CBORE_BOTTOM = beam bolt counterbores 9.3 x 2 mm from below;
-  CSK_TOP = countersinks for the foot bolts. Hole list: `out/plywood_base_holes.csv`.
+- **Plywood DXF:** `out/plywood_base.dxf` (1:1, mm, origin = the board's -x/-y corner, seen from the top): outline + 18 through
+  holes only (the shop cannot do depths). Hole list: `out/plywood_base_holes.csv`. Feet sit flat under the board; beam bolts M5x22.
 - No wood screws: bolts through the plywood with a washer and hex nut underneath. Printed PETG feet (`foot_x4`) with an insert.
 - The control board, panel, breadboard and battery are not in the model: place and drill them where you want.
 - Control PCB: `pcb/README.md`.
