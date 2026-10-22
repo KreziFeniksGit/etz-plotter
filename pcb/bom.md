@@ -23,11 +23,8 @@ Ask the organisers first that a self-designed board with plug-in driver modules 
 | U7 | TMC2209 V1.3, spare | 1 | same | hot spare (its socket can stay empty) |
 | U5 | **Mini560 Pro, 5 V version** | 1 | 4 pads: IN+ IN- OUT+ OUT- (VERIFY on your module), about 29 x 18 x 5.4 | 5 V logic: ESP32, magnet, connector C. Input 7..32 V (5 V version), up to 5 A |
 | U6 | **Mini560 Pro, 5 V version** | 1 | same | servo rail. The Mini560 has no 6 V version (3.3 / 5 / 9 / 12 V); **never use the 9 V one on the MG996R** (max 7.2 V). At 5 V the lift uses about 25 % of the servo's stall torque: fine |
-| U8 | BSS138 level shifter, 2-channel (or 4-channel) | 1 | 1x6 header (VERIFY pin order: LV, HV, GND, LV1/HV1, LV2/HV2) | connector C UART 5 V <-> ESP32 3.3 V |
 
-**What the BSS138 is:** a tiny MOSFET. The "BSS138 level shifter" is a small board with BSS138s and pull-up resistors that
-translates a signal between 3.3 V and 5 V in both directions. Connector C (the rules' UART) works at 5 V, but the ESP32's pins
-are 3.3 V and are damaged by 5 V, so the UART TX/RX lines go through it.
+**No level shifter (22 Oct):** connector C uses R18 (1 k, TX) and R19 / R20 (10 k / 20 k divider, RX) instead of a BSS138 module.
 
 ## B. Small parts on the PCB
 | Ref | Part | Qty | What for |
@@ -47,7 +44,9 @@ are 3.3 V and are damaged by 5 V, so the UART TX/RX lines go through it.
 | R4 | 15 k | 1 | battery divider (bottom) -> GPIO2 |
 | R5 | 10 k | 1 | connector B divider (top) |
 | R6 | 20 k | 1 | connector B divider (bottom) -> GPIO10 |
-| R7 | 1 k | 1 | connector A series -> GPIO1 |
+| R7, R21 | 10 k, 20 k | 2 | connector A divider (0..5 V -> 0..3.3 V) -> GPIO1 |
+| R18 | 1 k | 1 | connector C TX (GPIO17) |
+| R19, R20 | 10 k, 20 k | 2 | connector C RX divider -> GPIO18 |
 | R8 | 1 k | 1 | TMC UART: GPIO15 TX -> PDN_UART bus |
 | R9 | 1 k | 1 | servo PWM series (GPIO14) |
 | R10 | 10 k | 1 | driver EN pull-up to 3V3 (drivers off while the ESP32 boots) |
@@ -77,7 +76,7 @@ TMC2209 addresses 0..3: MS1/MS2 tied to GND / 3V3 by traces (no parts).
 | J14 | JST-XH 2-pin | 2 | green LED |
 | J15 | JST-XH 2-pin | 2 | red LED |
 | J16 | JST-XH 2-pin | 2 | start button |
-| J17 | 2x5 box header (IDC) | 10 | panel connector board: A (SIG, V, GND), B (SIG, V, GND), C (TX, RX, V, GND) |
+| J17 | JST-XH 6-pin | 6 | panel cable: A_SIG, B_SIG, C_TX, C_RX, +5 V (fused), GND; on the header strip V and GND are shared by A, B, C |
 
 ## D. Off the PCB (panel, cables, base)
 | Part | Qty | Where |
@@ -90,12 +89,12 @@ TMC2209 addresses 0..3: MS1/MS2 tied to GND / 3V3 by traces (no parts).
 | LED 5 mm green + 5 mm red, with panel holders | 2 | control panel |
 | Female headers 1x3, 1x3, 1x4 on a small strip board (connectors A, B, C) | 1 | control panel wall |
 | 400-point breadboard | 1 | breadboard tray |
-| JST-XH crimp housings + contacts kit (2/4/5-pin), Dupont 3-pin, 10-pin IDC ribbon | 1 kit | harnesses |
+| JST-XH crimp housings + contacts kit (2/4/5/6-pin), Dupont 3-pin | 1 kit | harnesses |
 | Silicone wire AWG16 (battery), AWG18 (drive bus), AWG24/26 (signals), 4-core AWG24 (steppers) | | harnesses |
 | M3 standoffs 10 mm + screws | 4 | under the PCB (as now) |
 
 ## Open / VERIFY
 - Mini560 Pro pad layout and exact size: send a photo of yours (top and bottom), or its listing.
-- BSS138 module pin order, ESP32 DevKitC header row spacing.
+- ESP32 DevKitC header row spacing.
 - Whether the TOF400C has its own I2C pull-ups.
 - Organisers: self-designed PCB allowed? Connector A/B V pin voltage (full rules text).

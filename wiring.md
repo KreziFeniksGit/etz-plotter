@@ -41,7 +41,7 @@ octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop li
 
 | GPIO | Function | Notes |
 |---|---|---|
-| 17 / 18 | UART1 TX / RX -> connector C | through a BSS138 2-channel level shifter (3.3 V <-> 5 V); 9600 8-N-1 |
+| 17 / 18 | UART1 TX / RX -> connector C | TX through 1 k (3.3 V is read as high by a 5 V device); RX through a 10 k / 20 k divider (5 V -> 3.3 V); 9600 8-N-1 (no level shifter since 22 Oct) |
 | 15 / 16 | UART2 TX / RX -> TMC2209 PDN_UART bus | 1 k from TX to the bus, RX direct; driver addresses 0..3 set with MS1/MS2 |
 | 4 / 5 | X STEP / DIR | step pulses from the RMT or MCPWM peripheral |
 | 6 / 7 | Y STEP / DIR | |
@@ -57,13 +57,15 @@ octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop li
 | 42 | Red LED ("program running") | 220 R to the LED |
 | 47 | Stop sense | high = drive bus on (divider 100 k / 22 k) |
 | 10 | Connector B, SIG | 10 k / 20 k divider: a 5 V signal reads as 3.3 V (the ESP32 is not 5 V tolerant) |
-| 1 | Connector A, SIG (ADC1_CH0) | 0..3.3 V; 1 k series + 10 nF to GND |
+| 1 | Connector A, SIG (ADC1_CH0) | 0..5 V sensor -> 10 k / 20 k divider -> 0..3.3 V; 10 nF to GND |
 | 2 | Battery voltage (ADC1_CH1) | ADC1 only (ADC2 shares hardware with the radio) |
 | USB (UART port) | Laptop (wired, offline) | also powers the board while you develop |
-Connector pins on the panel (2.54 mm female headers):
-- **A** (1x3): SIG -> GPIO1, V = 3.3 V, GND. CHECK: the full text may ask for 5 V on V.
-- **B** (1x3): SIG -> GPIO10 (divider), V = 5 V, GND. CHECK the V voltage in the full text.
-- **C** (1x4): TX, RX (5 V side of the level shifter), V = 5 V logic rail through a 0.5 A PTC fuse (>= 200 mA is easy), GND.
+Connector pins on the panel (2.54 mm female headers on a small strip board, Egor 22 Oct):
+- One 6-wire cable from the main board (JST-XH 6, J17): 1 A_SIG, 2 B_SIG, 3 C_TX, 4 C_RX, 5 +5 V (through the 0.5 A PTC), 6 GND.
+  On the strip, pin 5 feeds all three V pins and pin 6 all three GND pins. All dividers / resistors stay on the main board.
+- **A** (1x3): SIG -> 10 k / 20 k -> GPIO1, V = 5 V, GND. CHECK the V voltage in the full rules text.
+- **B** (1x3): SIG -> 10 k / 20 k -> GPIO10, V = 5 V, GND.
+- **C** (1x4): TX (1 k from GPIO17), RX (divider to GPIO18), V = 5 V through the 0.5 A PTC fuse (>= 200 mA is easy), GND.
 
 ## 3. Harnesses (model names)
 

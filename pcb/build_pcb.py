@@ -20,7 +20,8 @@ OUT = os.path.join(HERE, 'etz_control.kicad_pcb')
 # =============================================================================
 # 1. PARAMETERS
 # =============================================================================
-HOME = True                           # single-sided home-made board (toner transfer)
+HOME = True                           # home-made board (toner transfer)
+HOME_SIDES = 2                        # 2: copper both sides, part pins soldered on the bottom only, top = crossings between wire-through holes
 SC = 1.3 if HOME else 1.0             # layout spread: more room between parts for 0.5 mm traces and 0.6 mm gaps
 BOARD_W, BOARD_H = round(130.0 * SC), round(105.0 * SC)
 HOLE_INSET = 4.0                      # M3 mounting holes, 4 mm from each corner
@@ -41,6 +42,7 @@ F = dict(
     xh5='Connector_JST:JST_XH_B5B-XH-A_1x05_P2.50mm_Vertical',
     term2='TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal',
     idc10='Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical',
+    xh6='Connector_JST:JST_XH_B6B-XH-A_1x06_P2.50mm_Vertical',
     res='Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder' if HOME else 'Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder',
     c0805='Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder' if HOME else 'Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder',
     to220='Package_TO_SOT_THT:TO-220-3_Vertical',                # IRLZ44N: 1 G, 2 D, 3 S
@@ -108,8 +110,8 @@ part('C7', 'cp63', '100uF 10V', 50.0, 80.0, 0, {1: '+5V', 2: 'GND'})
 part('F2', 'f1206', 'PTC 0.5A', 40.0, 84.0, 0, {1: '+5V', 2: 'C_V'})
 
 # level shifter (BSS138 module, SparkFun BOB-12009 pin order VERIFY): LV row LV1 LV2 LV GND LV3 LV4, HV row HV1 HV2 HV GND HV3 HV4
-part('U8A', 'sock6', 'BSS138 LV', 42.0, 24.0, 0, {1: 'U1_TX', 2: 'U1_RX', 3: '3V3', 4: 'GND'})
-part('U8B', 'sock6', 'BSS138 HV', 42.0 + LS_ROW, 24.0, 0, {1: 'C_TX', 2: 'C_RX', 3: '+5V', 4: 'GND'})
+# connector C UART without a level shifter (Egor, 22 Oct): TX 3.3 V through 1 k (a 5 V device reads it as high),
+# RX from a 5 V device through a 10 k / 20 k divider (5 V -> 3.3 V); resistors R18..R20 below
 
 # magnet switch
 if HOME:   # SOT-23 pins are too close for 0.6 mm toner gaps: logic-level IRLZ44N in TO-220 (Rds 0.035 ohm at 4 V; fine at 3.3 V for 0.5 A)
@@ -130,8 +132,9 @@ part('J7', 'xh2', 'X HOME', 78.0, 6.0, 0, {1: 'X_HOME', 2: 'GND'})
 part('J8', 'xh2', 'Y HOME', 87.5, 6.0, 0, {1: 'Y_HOME', 2: 'GND'})
 part('J9', 'xh5', 'TOF400C', 97.0, 6.0, 0, {1: '3V3', 2: 'GND', 3: 'SDA', 4: 'SCL', 5: 'TOF_XSHUT'})
 # panel side (bottom-left)
-part('J17', 'idc10', 'PANEL A B C', 8.0, 89.0, 90,
-     {1: 'A_SIG', 2: '3V3', 3: 'GND', 4: 'B_SIG', 5: '+5V', 6: 'GND', 7: 'C_TX', 8: 'C_RX', 9: 'C_V', 10: 'GND'})
+# panel cable to the A / B / C header strip (Egor, 22 Oct): 6 wires; on the strip the three V pins share pin 5 (5 V through
+# the 0.5 A PTC) and the three GND pins share pin 6
+part('J17', 'xh6', 'PANEL ABC', 8.0, 89.0, 0, {1: 'A_SIG', 2: 'B_SIG', 3: 'C_TX', 4: 'C_RX', 5: 'C_V', 6: 'GND'})
 part('J14', 'xh2', 'GREEN LED', 24.0, 98.0, 0, {1: 'LEDG_A', 2: 'GND'})
 part('J15', 'xh2', 'RED LED', 33.0, 98.0, 0, {1: 'LEDR_A', 2: 'GND'})
 part('J16', 'xh2', 'START', 42.0, 98.0, 0, {1: 'START', 2: 'GND'})
@@ -139,12 +142,14 @@ part('J16', 'xh2', 'START', 42.0, 98.0, 0, {1: 'START', 2: 'GND'})
 # resistors (vertical, 2.54 mm) in a grid between the ESP32 and the drivers
 RES = [('R1', '100k', 'VDRIVE', 'STOP_SENSE'), ('R2', '22k', 'STOP_SENSE', 'GND'), ('R3', '100k', 'VBAT', 'VBAT_SENSE'),
        ('R4', '15k', 'VBAT_SENSE', 'GND'), ('R5', '10k', 'B_SIG', 'B_IO'), ('R6', '20k', 'B_IO', 'GND'),
-       ('R7', '1k', 'A_SIG', 'A_IO'), ('R8', '1k', 'TMC_TX', 'TMC_UART'), ('R9', '1k', 'SERVO_IO', 'SERVO_SIG'),
+       ('R7', '10k', 'A_SIG', 'A_IO'), ('R8', '1k', 'TMC_TX', 'TMC_UART'), ('R9', '1k', 'SERVO_IO', 'SERVO_SIG'),
        ('R10', '10k', 'DRV_EN', '3V3'), ('R11', '10k', 'TOF_XSHUT', '3V3'), ('R12', '4.7k', 'SDA', '3V3'),
        ('R13', '4.7k', 'SCL', '3V3'), ('R14', '100R', 'MAG_IO', 'MAG_G'), ('R15', '100k', 'MAG_G', 'GND'),
-       ('R16', '1.5k 0.25W', 'VDRIVE', 'LEDG_A'), ('R17', '220R', 'LEDR_IO', 'LEDR_A')]
+       ('R16', '1.5k 0.25W', 'VDRIVE', 'LEDG_A'), ('R17', '220R', 'LEDR_IO', 'LEDR_A'),
+       ('R18', '1k', 'U1_TX', 'C_TX'), ('R19', '10k', 'C_RX', 'U1_RX'), ('R20', '20k', 'U1_RX', 'GND'),
+       ('R21', '20k', 'A_IO', 'GND')]          # A: 0..5 V sensor -> 0..3.3 V at GPIO1 (R7 / R21)
 for k, (ref, val, a, b) in enumerate(RES):
-    part(ref, 'res', val, 41.0 + (k % 4) * 5.5, 44.0 + (k // 4) * 6.0, 90, {1: a, 2: b})
+    part(ref, 'res', val, 40.0 + (k % 5) * 4.6, 44.0 + (k // 5) * 5.5, 90, {1: a, 2: b})
 part('C8', 'c0805', '10nF', 27.0, 84.0, 0, {1: 'A_IO', 2: 'GND'})
 
 # test points and mounting holes
@@ -229,6 +234,10 @@ def home_pads(fp):
         p.SetShape(pcbnew.PAD_SHAPE_OVAL)
         p.SetSize(mm(w, l) if along_x else mm(l, w))
         p.SetDrillSize(mm(drill, drill))
+    if HOME_SIDES == 2:                                # no plated holes at home: pins are soldered on the bottom only,
+        for p in pth:                                  # so their pads have no top copper (top traces end at via holes)
+            ls = pcbnew.LSET(); ls.AddLayer(pcbnew.B_Cu); ls.AddLayer(pcbnew.B_Mask)
+            p.SetLayerSet(ls)
 
 # =============================================================================
 # 4. BUILD: footprints + nets + outline + title
@@ -272,7 +281,8 @@ def build():
     r.SetLayer(pcbnew.Edge_Cuts); r.SetWidth(pcbnew.FromMM(0.1))
     board.Add(r)
     for layer, mirror, txt in ((pcbnew.F_SilkS, False, 'ETZ plotter control v1.0 2026-10'),) + (
-            ((pcbnew.B_Cu, True, 'ETZ CONTROL v1.0 BOTTOM'),) if HOME else ()):
+            ((pcbnew.B_Cu, True, 'ETZ CONTROL v1.0 BOTTOM'),) if HOME else ()) + (
+            ((pcbnew.F_Cu, False, 'ETZ CONTROL v1.0 TOP'),) if HOME and HOME_SIDES == 2 else ()):
         t = pcbnew.PCB_TEXT(board)
         t.SetText(txt)
         t.SetPosition(mm(BOARD_W / 2 + 8, BOARD_H - 2.5)); t.SetLayer(layer); t.SetMirrored(mirror)
@@ -320,8 +330,8 @@ def freeroute(board, passes, tag):
         raise RuntimeError('SES import failed')
 
 def route(board, passes=40):
-    if not HOME:
-        freeroute(board, passes, 'fab')
+    if not HOME or HOME_SIDES == 2:
+        freeroute(board, passes, 'home2' if HOME else 'fab')
         return
     # pass 1: bottom copper only, no vias
     k1 = keepout(board, (pcbnew.F_Cu,), True, True, 'top: no tracks (pass 1)')
@@ -337,7 +347,7 @@ def route(board, passes=40):
 
 def pours(board):
     gnd = board.FindNet('GND')
-    for layer in ((pcbnew.B_Cu,) if HOME else (pcbnew.F_Cu, pcbnew.B_Cu)):
+    for layer in ((pcbnew.B_Cu,) if HOME and HOME_SIDES == 1 else (pcbnew.F_Cu, pcbnew.B_Cu)):
         z = pcbnew.ZONE(board)
         z.SetLayer(layer); z.SetNet(gnd)
         z.SetLocalClearance(pcbnew.FromMM(0.8 if HOME else 0.3))
@@ -420,7 +430,14 @@ if __name__ == '__main__':
         pours(board)
         print('stitching vias:', stitch(board))
         print('tracks:', len(board.GetTracks()))
-        if HOME:
+        if HOME and HOME_SIDES == 2:
+            vias = [v for v in board.GetTracks() if v.Type() == pcbnew.PCB_VIA_T]
+            open(OUT[:-10] + '_vias.txt', 'w').write(
+                'Wire-through holes (0.9 mm drill): push a bare wire through, solder top and bottom, cut flush.\n'
+                'x, y in mm from the board top-left corner (top view), net\n' +
+                ''.join('%.2f, %.2f, %s\n' % (pcbnew.ToMM(v.GetPosition().x), pcbnew.ToMM(v.GetPosition().y), v.GetNetname()) for v in vias))
+            print('wire-through holes (vias):', len(vias), ' top tracks:', sum(1 for t in board.GetTracks() if t.Type() == pcbnew.PCB_TRACE_T and t.GetLayer() == pcbnew.F_Cu))
+        elif HOME:
             J, nv = jumpers(board)
             open(OUT[:-10] + '_jumpers.txt', 'w').write(
                 'Top-side wire jumpers: insulated wire on the component side; each end goes through a pad or a drilled hole\n'

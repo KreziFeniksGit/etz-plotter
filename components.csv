@@ -33,7 +33,6 @@ Cables,Cable chain,"10 x 15 mm open cable chain R18 (outer 15 x 23), 1 m with en
 Fasteners,Heat-set inserts,Ruthex RX-M3x5.7,30,0.15,"15 used (one is the magnet stud in the hub), spares for mistakes","hole 4.0 mm, pocket 6.5 mm"
 Fasteners,Screws and nuts,"ISO 4762 / ISO 7380 M2, M3, M4, M5 assortment; M3/M5 drop-in T-nuts",1,20,,
 Vision,Camera,Your choice (not chosen here),1,-,"Wrist module has a 32 x 32 board mount with M2 holes 28 mm (M2 self-tapping from below into the shelf posts); change CAM_* in the script",
-Electronics,Level shifter,BSS138 2-channel 3.3 V / 5 V module,1,1,Connector C is 5 V UART; the ESP32 is 3.3 V,
 Electronics,Passives,"Resistors 220 R, 1 k, 1.5 k, 10 k, 15 k, 20 k, 22 k, 100 k; 100 uF 25 V x4; 10 nF; 2nd 1N5819",1,3,See wiring.md,
 Cables,Connectors,"JST-XH 2/3/4-pin kit, Dupont 3-pin, XT60 pair",1,6,Every harness unplugs at the board,
 Cables,Wire,"Silicone wire AWG16 (battery), AWG18 (drive bus), AWG24/26 multi-colour; 4-core AWG24 for steppers",1,8,,

@@ -54,7 +54,7 @@ joined by a trace.
 
 ## VERIFY before ordering (guesses about bought modules)
 ESP32-S3-DevKitC-1 pin rows (22.86) and pinout revision (v1.1 has its RGB LED on GPIO38 = TOF XSHUT here); TMC2209 V1.3
-pin order; Mini560 Pro pad positions (IN at one end, OUT 25.4 mm away - measure yours); BSS138 module pin order; motor
+pin order; Mini560 Pro pad positions (IN at one end, OUT 25.4 mm away - measure yours); motor
 connector pin order (match your motor cables); XT60 / XT30 genders. A photo of each module with a ruler settles them.
 
 ## Export commands

@@ -148,7 +148,7 @@ STD = {   # build_pcb footprint key -> (lib, symbol)
     'xt60': ('Connector_Generic', 'Conn_01x02'), 'xt30': ('Connector_Generic', 'Conn_01x02'),
     'xh2': ('Connector_Generic', 'Conn_01x02'), 'pins3': ('Connector_Generic', 'Conn_01x03'),
     'xh4': ('Connector_Generic', 'Conn_01x04'), 'xh5': ('Connector_Generic', 'Conn_01x05'),
-    'idc10': ('Connector_Generic', 'Conn_02x05_Odd_Even'), 'tp': ('Connector', 'TestPoint'), 'hole': ('Mechanical', 'MountingHole'),
+    'idc10': ('Connector_Generic', 'Conn_02x05_Odd_Even'), 'xh6': ('Connector_Generic', 'Conn_01x06'), 'tp': ('Connector', 'TestPoint'), 'hole': ('Mechanical', 'MountingHole'),
 }
 FPKEY = {v: k for k, v in B.F.items()}
 
@@ -176,7 +176,7 @@ GROUPS = [   # (title, refs) - laid out left to right, row by row
     ('CONTROLLER: ESP32-S3-DevKitC-1 (radio never started)', ['U1']),
     ('STEPPER DRIVERS: TMC2209, UART addresses 0..3 (MS1/MS2), bulk caps, motor plugs', ['U2', 'U3', 'U4', 'U7', 'C1', 'C2', 'C3', 'C4', 'J1', 'J2', 'J3', 'J4', 'R8', 'R10']),
     ('MAGNET (switched by stop block 2 + MOSFET), SERVO, SENSORS, HOME SWITCHES', ['J12', 'J6', 'Q1', 'D2', 'R14', 'R15', 'J5', 'R9', 'J9', 'R11', 'R12', 'R13', 'J7', 'J8']),
-    ('PANEL: connectors A / B / C (rules), LEDs, start, stop sense, battery sense', ['J17', 'U8', 'R5', 'R6', 'R7', 'C8', 'J14', 'J15', 'J16', 'R16', 'R17', 'R1', 'R2', 'R3', 'R4']),
+    ('PANEL: connectors A / B / C (rules), LEDs, start, stop sense, battery sense', ['J17', 'R18', 'R19', 'R20', 'R5', 'R6', 'R7', 'R21', 'C8', 'J14', 'J15', 'J16', 'R16', 'R17', 'R1', 'R2', 'R3', 'R4']),
     ('MOUNTING', ['H1', 'H2', 'H3', 'H4']),
 ]
 CONN_NAMES = {'J10': 'XT60 BAT (1 -, 2 +)', 'J11': 'XT30 DRIVE (1 +, 2 -)'}
