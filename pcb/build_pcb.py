@@ -302,4 +302,7 @@ if __name__ == '__main__':
         print('stitching vias:', stitch(board))
         print('tracks + vias:', len(board.GetTracks()))
     pcbnew.SaveBoard(OUT, board)
-    print('saved', OUT)
+    b2 = pcbnew.LoadBoard(OUT)              # attach the project (etz_control.kicad_pro): net classes live there
+    set_rules(b2)
+    pcbnew.SaveBoard(OUT, b2)
+    print('saved', OUT, '+ .kicad_pro')
