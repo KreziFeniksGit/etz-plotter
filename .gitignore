@@ -11,3 +11,5 @@ pcb/*.ses
 pcb/*_freerouting.log
 pcb/fab/
 pcb/*-backups/
+pcb/.history/
+pcb/*.lck
