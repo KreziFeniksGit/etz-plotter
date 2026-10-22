@@ -265,9 +265,12 @@ def frame_fasteners():
                note='Y belt tension: pushes the idler slider toward -y; hex nut locks it on the lug'))
     L.append(F('f_ybeam_end', 'button', 5, 12, (Fr.YB_X, 4.0, Fr.Z_YB1 - 10.0), (0, 1, 0), 'base', ('tapped', 'y_beam_2020', 5.0, None),
                note='Y idler bracket into the tapped beam end (tap M5)'))
-    for i, (x, y) in enumerate(Fr.IDLER_WOOD):
-        L.append(F('f_yidler_wood%d' % i, 'pan', 4, 10, (x, y, Fr.Z_PLY1 + 4.0), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
-                   note='Y idler bracket to the plywood'))
+    def through(name, std, dia, L_, x, y, seat, note):
+        # bolt from the top through a printed part and the plywood; washer + hex nut under the plywood
+        return F(name, std, dia, L_, (x, y, seat), (0, 0, -1), 'base', ('nut', None, NUT['hex'][dia][1], None),
+                 nut=('hex', seat - Fr.Z_PLY0), nut_washer=True, note=note)
+    for i, (x, y) in enumerate(Fr.IDLER_BOLTS):
+        L.append(through('f_yidler_bolt%d' % i, 'button', 4, 16, x, y, Fr.Z_PLY1 + 4.0, 'Y idler bracket through the plywood'))
     for i, s in enumerate((-1, 1)):
         zz = 40.0 + Fr.Y_RISER + s * Fr.D2F['hole_pitch'] / 2 + 0.5
         L.append(F('f_yswitch%d' % i, 'pan', 2, 10, (236.0 + Fr.D2F['W'], 4.5, zz), (-1, 0, 0), 'base', ('self', 'y_idler_bracket', 3.5, None),
@@ -275,9 +278,9 @@ def frame_fasteners():
     for i, (a, b) in enumerate(((-1, -1), (1, -1), (-1, 1), (1, 1))):
         L.append(F('f_ymotor%d' % i, 'cap', 3, 10, (Fr.YM_FACE + Fr.YM_T, Fr.YM_C[0] + 15.5 * a, Fr.YM_C[1] + 15.5 * b), (-1, 0, 0), 'base',
                    ('blind', 'y_motor_17HS16', 3.0, 4.5), note='Y motor'))
-    for i, (x, yy) in enumerate(Fr.YM_WOOD):
-        L.append(F('f_ymotor_wood%d' % i, 'pan', 4, 10, (x, yy, Fr.Z_PLY1 + Fr.YM_BASE[2]), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
-                   note='Y motor mount to the plywood (fixed; screw it down before the motor goes on)'))
+    for i, (x, yy) in enumerate(Fr.YM_BOLTS):
+        L.append(through('f_ymotor_bolt%d' % i, 'button', 4, 16, x, yy, Fr.Z_PLY1 + Fr.YM_BASE[2],
+                         'Y motor mount through the plywood (bolt it down before the motor goes on)'))
     for i, y in enumerate(Fr.BEAM_BOLTS_Y):
         z0 = Fr.Z_PLY0 + Fr.BEAM_CBORE
         L.append(F('f_beam%d' % i, 'cap', 5, 20, (Fr.YB_X, y, z0), (0, 0, 1), 'base', ('tnut', None, 3.0, None),
@@ -287,32 +290,28 @@ def frame_fasteners():
                    ('tnut', None, 2.5, None), extra=('y_rail',), tnut=(Fr.RAIL_H - Fr.RAIL_CB_H, (0, 1, 0), 'y_beam_2020'),
                    note='Y rail to the beam (top slot)'))
     for i, (x, y) in enumerate(Fr.FEET):
-        L.append(F('f_foot%d' % i, 'pan', 3.5, 12, (x, y, Fr.FOOT_SCREW_SINK), (0, 0, 1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
-                   extra=('rubber_foot',), note='rubber foot, from below'))
+        L.append(F('f_foot%d' % i, 'csk', 3, 10, (x, y, Fr.Z_PLY1), (0, 0, -1), 'base', ('insert', None, 4.0, None),
+                   insert=('foot_%d' % (i + 1), Fr.Z_PLY1 - Fr.FOOT_H), note='printed foot: countersunk from the plywood top into its insert'))
     EB = Fr.EB
-    for i, (x, y) in enumerate(((EB[0] + 4, EB[1] + 4), (EB[2] - 4, EB[1] + 4), (EB[0] + 4, EB[3] - 4), (EB[2] - 4, EB[3] - 4))):
+    for i, (x, y) in enumerate(() if not Fr.ELECTRONICS_ON_BASE else ((EB[0] + 4, EB[1] + 4), (EB[2] - 4, EB[1] + 4), (EB[0] + 4, EB[3] - 4), (EB[2] - 4, EB[3] - 4))):
         L.append(F('f_eb_bot%d' % i, 'csk', 3, 10, (x, y, Fr.Z_PLY0), (0, 0, 1), 'base', ('blind', 'standoff_m3x10_%d' % (i + 1), 3.5, 5.0),
                    extra=('plywood_base',), note='standoff from below (countersunk, flush)'))
         L.append(F('f_eb_top%d' % i, 'button', 3, 6, (x, y, Fr.Z_PLY1 + 10.0 + 1.6), (0, 0, -1), 'base',
                    ('blind', 'standoff_m3x10_%d' % (i + 1), 3.5, 5.0), extra=('perfboard',), note='board on the standoff'))
     x0, y0, x1, y1, zt = Fr.PANEL
-    for i, (x, y) in enumerate(((x0 + 6, y0 + 6), (x1 - 6, y0 + 6), (x0 + 6, y1 - 6), (x1 - 6, y1 - 6))):
-        L.append(F('f_panel%d' % i, 'pan', 3.5, 45, (x, y, zt), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
-                   note='control panel through its bosses into the plywood'))
-    for i, y in enumerate((47.0, 96.0)):
+    for i, (x, y) in enumerate(Fr.panel_bolts() if Fr.ELECTRONICS_ON_BASE else ()):
+        L.append(through('f_panel%d' % i, 'button', 3, 50, x, y, zt, 'control panel through its bosses and the plywood'))
+    for i, y in enumerate((47.0, 96.0) if Fr.ELECTRONICS_ON_BASE else ()):
         L.append(F('f_pcb%d' % i, 'pan', 2, 6, (x0 + 9.6, y, 24.5), (-1, 0, 0), 'base', ('self', 'control_panel', 3.0, None),
                    extra=('connector_pcb',), note='connector board, M2 self-tapping'))
     bx, by, t = Fr.BB[0], Fr.BB[1], 3.0
-    for i, (x, y) in enumerate(Fr.BB_EARS):
-        L.append(F('f_bbtray%d' % i, 'pan', 3.5, 8, (x, y, Fr.Z_PLY1 + 3.0), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
-                   note='breadboard tray'))
-    for i, (x, y) in enumerate(Fr.bt_ears()):
-        L.append(F('f_battray%d' % i, 'pan', 3.5, 8, (x, y, Fr.Z_PLY1 + 3.0), (0, 0, -1), 'base', ('wood', 'plywood_base', WOOD_MIN, None),
-                   note='battery tray'))
+    for i, (x, y) in enumerate(Fr.BB_EARS if Fr.ELECTRONICS_ON_BASE else ()):
+        L.append(through('f_bbtray%d' % i, 'button', 3, 12, x, y, Fr.Z_PLY1 + 3.0, 'breadboard tray'))
+    for i, (x, y) in enumerate(Fr.bt_ears() if Fr.ELECTRONICS_ON_BASE else ()):
+        L.append(through('f_battray%d' % i, 'button', 3, 12, x, y, Fr.Z_PLY1 + 3.0, 'battery tray'))
     import chains as C
-    for i, y in enumerate((250.0, 300.0, 350.0, 405.0)):
-        L.append(F('f_guide%d' % i, 'pan', 3.5, 20, (C.YC_LANE_X, y, Fr.Z_PLY1 + C.GUIDE_FLOOR - 2.5), (0, 0, -1), 'base',
-                   ('wood', 'plywood_base', WOOD_MIN, None), note='Y chain guide (heads sunk under the chain)'))
+    for i, y in enumerate(C.GUIDE_BOLTS_Y):
+        L.append(through('f_guide%d' % i, 'button', 3, 25, C.YC_LANE_X, y, Fr.Z_PLY1 + C.GUIDE_FLOOR - 2.5, 'Y chain guide (heads sunk under the chain)'))
     return L
 
 _CACHE = {}

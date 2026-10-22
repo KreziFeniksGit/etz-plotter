@@ -9,31 +9,31 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.658,
+    "mass_kg": 3.102,
     "com": [
-     225.7,
-     172.3,
-     74.5
+     239.0,
+     162.5,
+     81.8
     ],
     "-x": {
-     "static_margin_mm": 125.7,
-     "tips_at_m_s2": 79.2,
-     "safety_at_design_acc": 39.6
+     "static_margin_mm": 139.0,
+     "tips_at_m_s2": 74.3,
+     "safety_at_design_acc": 37.1
     },
     "+x": {
-     "static_margin_mm": 104.3,
-     "tips_at_m_s2": 65.7,
-     "safety_at_design_acc": 32.9
+     "static_margin_mm": 91.0,
+     "tips_at_m_s2": 48.6,
+     "safety_at_design_acc": 24.3
     },
     "-y": {
-     "static_margin_mm": 150.3,
-     "tips_at_m_s2": 26.2,
-     "safety_at_design_acc": 13.1
+     "static_margin_mm": 140.5,
+     "tips_at_m_s2": 20.8,
+     "safety_at_design_acc": 10.4
     },
     "+y": {
-     "static_margin_mm": 285.7,
-     "tips_at_m_s2": 49.8,
-     "safety_at_design_acc": 24.9
+     "static_margin_mm": 295.5,
+     "tips_at_m_s2": 43.7,
+     "safety_at_design_acc": 21.8
     }
    },
    "rails": {
@@ -68,31 +68,31 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.658,
+    "mass_kg": 3.102,
     "com": [
-     243.9,
-     313.0,
-     71.8
+     260.6,
+     328.4,
+     78.6
     ],
     "-x": {
-     "static_margin_mm": 143.9,
-     "tips_at_m_s2": 108.0,
-     "safety_at_design_acc": 54.0
+     "static_margin_mm": 160.6,
+     "tips_at_m_s2": 102.2,
+     "safety_at_design_acc": 51.1
     },
     "+x": {
-     "static_margin_mm": 86.1,
-     "tips_at_m_s2": 64.6,
-     "safety_at_design_acc": 32.3
+     "static_margin_mm": 69.4,
+     "tips_at_m_s2": 44.2,
+     "safety_at_design_acc": 22.1
     },
     "-y": {
-     "static_margin_mm": 291.0,
-     "tips_at_m_s2": 53.3,
-     "safety_at_design_acc": 26.6
+     "static_margin_mm": 306.4,
+     "tips_at_m_s2": 47.6,
+     "safety_at_design_acc": 23.8
     },
     "+y": {
-     "static_margin_mm": 145.0,
-     "tips_at_m_s2": 26.5,
-     "safety_at_design_acc": 13.3
+     "static_margin_mm": 129.6,
+     "tips_at_m_s2": 20.1,
+     "safety_at_design_acc": 10.1
     }
    },
    "rails": {
@@ -127,31 +127,31 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.658,
+    "mass_kg": 3.102,
     "com": [
-     243.9,
-     172.3,
-     72.0
+     260.6,
+     162.5,
+     78.9
     ],
     "-x": {
-     "static_margin_mm": 143.9,
-     "tips_at_m_s2": 108.0,
-     "safety_at_design_acc": 54.0
+     "static_margin_mm": 160.6,
+     "tips_at_m_s2": 102.2,
+     "safety_at_design_acc": 51.1
     },
     "+x": {
-     "static_margin_mm": 86.1,
-     "tips_at_m_s2": 64.6,
-     "safety_at_design_acc": 32.3
+     "static_margin_mm": 69.4,
+     "tips_at_m_s2": 44.2,
+     "safety_at_design_acc": 22.1
     },
     "-y": {
-     "static_margin_mm": 150.3,
-     "tips_at_m_s2": 27.4,
-     "safety_at_design_acc": 13.7
+     "static_margin_mm": 140.5,
+     "tips_at_m_s2": 21.7,
+     "safety_at_design_acc": 10.9
     },
     "+y": {
-     "static_margin_mm": 285.7,
-     "tips_at_m_s2": 52.1,
-     "safety_at_design_acc": 26.1
+     "static_margin_mm": 295.5,
+     "tips_at_m_s2": 45.7,
+     "safety_at_design_acc": 22.9
     }
    },
    "rails": {
@@ -186,31 +186,31 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.658,
+    "mass_kg": 3.102,
     "com": [
-     225.7,
-     313.0,
-     74.3
+     239.0,
+     328.4,
+     81.6
     ],
     "-x": {
-     "static_margin_mm": 125.7,
-     "tips_at_m_s2": 79.2,
-     "safety_at_design_acc": 39.6
+     "static_margin_mm": 139.0,
+     "tips_at_m_s2": 74.3,
+     "safety_at_design_acc": 37.1
     },
     "+x": {
-     "static_margin_mm": 104.3,
-     "tips_at_m_s2": 65.7,
-     "safety_at_design_acc": 32.9
+     "static_margin_mm": 91.0,
+     "tips_at_m_s2": 48.6,
+     "safety_at_design_acc": 24.3
     },
     "-y": {
-     "static_margin_mm": 291.0,
-     "tips_at_m_s2": 50.9,
-     "safety_at_design_acc": 25.5
+     "static_margin_mm": 306.4,
+     "tips_at_m_s2": 45.5,
+     "safety_at_design_acc": 22.7
     },
     "+y": {
-     "static_margin_mm": 145.0,
-     "tips_at_m_s2": 25.4,
-     "safety_at_design_acc": 12.7
+     "static_margin_mm": 129.6,
+     "tips_at_m_s2": 19.2,
+     "safety_at_design_acc": 9.6
     }
    },
    "rails": {
@@ -245,31 +245,31 @@
     0.0
    ],
    "tipping": {
-    "mass_kg": 3.658,
+    "mass_kg": 3.102,
     "com": [
-     232.6,
-     242.9,
-     73.2
+     247.2,
+     245.7,
+     80.3
     ],
     "-x": {
-     "static_margin_mm": 132.6,
-     "tips_at_m_s2": 90.8,
-     "safety_at_design_acc": 45.4
+     "static_margin_mm": 147.2,
+     "tips_at_m_s2": 85.4,
+     "safety_at_design_acc": 42.7
     },
     "+x": {
-     "static_margin_mm": 97.4,
-     "tips_at_m_s2": 66.7,
-     "safety_at_design_acc": 33.3
+     "static_margin_mm": 82.8,
+     "tips_at_m_s2": 48.0,
+     "safety_at_design_acc": 24.0
     },
     "-y": {
-     "static_margin_mm": 220.9,
-     "tips_at_m_s2": 39.5,
-     "safety_at_design_acc": 19.7
+     "static_margin_mm": 223.7,
+     "tips_at_m_s2": 33.9,
+     "safety_at_design_acc": 16.9
     },
     "+y": {
-     "static_margin_mm": 215.1,
-     "tips_at_m_s2": 38.4,
-     "safety_at_design_acc": 19.2
+     "static_margin_mm": 212.3,
+     "tips_at_m_s2": 32.1,
+     "safety_at_design_acc": 16.1
     }
    },
    "rails": {
@@ -298,7 +298,7 @@
   }
  ],
  "mass_by_group_kg": {
-  "base": 2.124,
+  "base": 1.559,
   "Y carriage + boom": 1.032,
   "wrist module": 0.457,
   "cable chains": 0.078
@@ -334,8 +334,8 @@
   "load_vs_stall_pct": 21.8,
   "note": "keep the steady load under ~30-40 % of stall for a long servo life (hobby servo rule of thumb)"
  },
- "min_tip_acc_m_s2": 25.4,
- "min_static_margin_mm": 86.1,
+ "min_tip_acc_m_s2": 19.2,
+ "min_static_margin_mm": 69.4,
  "worst_rail_moment_Nm": 1.79,
  "worst_sag_mm": 0.17
 }

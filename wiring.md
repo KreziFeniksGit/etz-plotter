@@ -1,5 +1,9 @@
 # ETZ plotter v2: wiring map
 
+Regulators (Egor, 22 Oct): two **Mini560 Pro 5 V** modules (there is no 6 V version; the 9 V one would burn the MG996R).
+The full PCB parts list is `pcb/bom.md`. The control board, panel, breadboard and battery are placed on the plywood by hand
+(not in the model); the harness routes in the model end where they used to be.
+
 The harness names match the cable tubes in the model (`Cables_and_chains` in the FreeCAD tree).
 Pin numbers are ESP32-S3 GPIO numbers on an ESP32-S3-DevKitC-1 N16R8 board. Check everything marked CHECK against the
 full rules text before soldering.
@@ -12,10 +16,10 @@ it (do not call `esp_wifi_init` / start BLE; build with Bluetooth disabled). Be 
 ```
 4S LiPo 2200 (XT60) --+-- 5 A blade fuse --+-- E-stop NC contact 1 --- DRIVE BUS 14.8 V (12.8..16.8 V)
                       |                    |                              |-- TMC2209 x4 VM (100 uF / 25 V at each)
-                      |                    |                              |-- Pololu D36V28F6 -> 6 V servo rail
+                      |                    |                              |-- Mini560 Pro 5 V #2 -> 5 V servo rail (470 uF + 100 nF)
                       |                    |                              |-- green LED + 1.5 k to GND ("drives powered")
                       |                    |                              '-- 100 k / 22 k divider -> GPIO47 (stop sense)
-                      |                    '-- Pololu D36V28F5 -> 5 V LOGIC (not switched by the stop)
+                      |                    '-- Mini560 Pro 5 V #1 -> 5 V LOGIC (not switched by the stop)
                       |                                 |-- 1N5819 -> board 5V pin (CHECK: do not also feed it from USB
                       |                                 |   without the diode; the diode stops back-feeding the laptop)
                       |                                 |-- connector C, V pin (5 V, >= 200 mA)
@@ -44,7 +48,7 @@ octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop li
 | 8 / 9 | Wrist STEP / DIR | wrist NEMA17 pancake 17HS4023S |
 | 11 / 12 | I2C SDA / SCL -> distance sensor (TOF400C, VL53L1X) | 4.7 k pull-ups to 3V3 (CHECK whether the module has its own); 100 kHz. Was the spare driver's STEP / DIR: the 4th TMC2209 stays on the board as a hot spare |
 | 13 | EN, all drivers (low = on) | 10 k pull-up to 3V3, so the drivers stay off while the ESP32 boots |
-| 14 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series; servo powered from the 6 V rail |
+| 14 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series; servo powered from its own 5 V rail (Mini560 #2) |
 | 21 | Magnet MOSFET gate (AO3400) | 100 R in series, 100 k gate to GND; 1N5819 across the magnet |
 | 38 | Distance sensor XSHUT | low = sensor off / reset; 10 k pull-up to 3V3 |
 | 39 | X home switch | to GND, internal pull-up; wire the NC contact so a broken wire reads as "pressed" |
@@ -59,7 +63,7 @@ octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop li
 Connector pins on the panel (2.54 mm female headers):
 - **A** (1x3): SIG -> GPIO1, V = 3.3 V, GND. CHECK: the full text may ask for 5 V on V.
 - **B** (1x3): SIG -> GPIO10 (divider), V = 5 V, GND. CHECK the V voltage in the full text.
-- **C** (1x4): TX, RX (5 V side of the level shifter), V = 5 V logic rail (2.6 A regulator, so >= 200 mA is easy), GND.
+- **C** (1x4): TX, RX (5 V side of the level shifter), V = 5 V logic rail through a 0.5 A PTC fuse (>= 200 mA is easy), GND.
 
 ## 3. Harnesses (model names)
 

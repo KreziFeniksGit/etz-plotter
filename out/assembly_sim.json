@@ -1,41 +1,41 @@
 {
  "steps": [
   {
-   "step": "1 base: plywood and rubber feet",
+   "step": "1 base: plywood and printed feet",
    "parts": [
     "plywood_base",
-    "rubber_foot_1",
-    "rubber_foot_2",
-    "rubber_foot_3",
-    "rubber_foot_4"
+    "foot_1",
+    "foot_2",
+    "foot_3",
+    "foot_4"
    ],
    "fasteners": {
     "f_foot0": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
+      "straight 2 hex driver",
+      "L hex key 2"
      ]
     },
     "f_foot1": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
+      "straight 2 hex driver",
+      "L hex key 2"
      ]
     },
     "f_foot2": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
+      "straight 2 hex driver",
+      "L hex key 2"
      ]
     },
     "f_foot3": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
+      "straight 2 hex driver",
+      "L hex key 2"
      ]
     }
    },
@@ -257,31 +257,57 @@
     "y_motor_mount"
    ],
    "fasteners": {
-    "f_ymotor_wood0": {
+    "f_ymotor_bolt0": {
      "entry": null,
      "tool": [
-      "long Phillips"
-     ]
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'foot_3'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     },
-    "f_ymotor_wood1": {
+    "f_ymotor_bolt1": {
      "entry": null,
      "tool": [
-      "long Phillips"
-     ]
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'foot_3', 'f_ymotor_bolt0_nut'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     },
-    "f_ymotor_wood2": {
+    "f_ymotor_bolt2": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'f_ymotor_bolt1_nut', 'f_ymotor_bolt0_nut'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     },
-    "f_ymotor_wood3": {
+    "f_ymotor_bolt3": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'f_ymotor_bolt0_nut', 'f_ymotor_bolt1_nut', 'f_ymotor_bolt2_nut'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     }
    },
    "insert": [
@@ -393,17 +419,31 @@
       "L hex key 3"
      ]
     },
-    "f_yidler_wood0": {
+    "f_yidler_bolt0": {
      "entry": null,
      "tool": [
-      "long Phillips"
-     ]
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'f_beam0_head', 'foot_1'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     },
-    "f_yidler_wood1": {
+    "f_yidler_bolt1": {
      "entry": null,
      "tool": [
-      "long Phillips"
-     ]
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'f_beam0_head', 'f_yidler_bolt0_nut'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     }
    },
    "insert": [
@@ -483,7 +523,7 @@
       "straight 2 hex driver",
       "L hex key 2"
      ],
-     "spanner_hits": "{'y_idler_bracket', 'y_block_mgn12h'}",
+     "spanner_hits": "{'y_block_mgn12h', 'y_idler_bracket'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -496,7 +536,7 @@
       "straight 2 hex driver",
       "L hex key 2"
      ],
-     "spanner_hits": "{'y_idler_bracket', 'f_ychain0_nut', 'y_block_mgn12h'}",
+     "spanner_hits": "{'y_block_mgn12h', 'y_idler_bracket', 'f_ychain0_nut'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1074,7 +1114,7 @@
       "straight 2.5 hex driver",
       "L hex key 2.5"
      ],
-     "spanner_hits": "{'wm_f_xchain0_nut', 'wm_chain_post'}",
+     "spanner_hits": "{'wm_chain_post', 'wm_f_xchain0_nut'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1167,7 +1207,7 @@
       "straight 3 hex driver",
       "L hex key 3"
      ],
-     "spanner_hits": "{'wm_x_belt_riser', 'plywood_base', 'wm_wrist_carriage', 'y_carriage'}",
+     "spanner_hits": "{'wm_wrist_carriage', 'wm_x_belt_riser', 'y_carriage', 'plywood_base'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1477,308 +1517,6 @@
    ]
   },
   {
-   "step": "4 bench: controller board",
-   "parts": [
-    "perfboard_100x80",
-    "header_esp32_l_1x22",
-    "header_esp32_r_1x22",
-    "pololu_5v_d36v28f5",
-    "pololu_6v_d36v28f6",
-    "tmc2209_1",
-    "header_tmc1a_1x8",
-    "header_tmc1b_1x8",
-    "tmc2209_2",
-    "header_tmc2a_1x8",
-    "header_tmc2b_1x8",
-    "tmc2209_3",
-    "header_tmc3a_1x8",
-    "header_tmc3b_1x8",
-    "tmc2209_4",
-    "header_tmc4a_1x8",
-    "header_tmc4b_1x8"
-   ],
-   "fasteners": {},
-   "insert": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    1.0
-   ]
-  },
-  {
-   "step": "4 base: standoffs",
-   "parts": [
-    "standoff_m3x10_1",
-    "standoff_m3x10_2",
-    "standoff_m3x10_3",
-    "standoff_m3x10_4"
-   ],
-   "fasteners": {
-    "f_eb_bot0": {
-     "entry": null,
-     "tool": [
-      "straight 2 hex driver",
-      "L hex key 2"
-     ]
-    },
-    "f_eb_bot1": {
-     "entry": null,
-     "tool": [
-      "straight 2 hex driver",
-      "L hex key 2"
-     ]
-    },
-    "f_eb_bot2": {
-     "entry": null,
-     "tool": [
-      "straight 2 hex driver",
-      "L hex key 2"
-     ]
-    },
-    "f_eb_bot3": {
-     "entry": null,
-     "tool": [
-      "straight 2 hex driver",
-      "L hex key 2"
-     ]
-    }
-   },
-   "insert": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    1.0
-   ]
-  },
-  {
-   "step": "4 base: fit the controller board",
-   "parts": [],
-   "fasteners": {
-    "f_eb_top0": {
-     "entry": null,
-     "tool": [
-      "straight 2 hex driver",
-      "L hex key 2"
-     ]
-    },
-    "f_eb_top1": {
-     "entry": null,
-     "tool": [
-      "straight 2 hex driver",
-      "L hex key 2"
-     ]
-    },
-    "f_eb_top2": {
-     "entry": null,
-     "tool": [
-      "straight 2 hex driver",
-      "L hex key 2"
-     ]
-    },
-    "f_eb_top3": {
-     "entry": null,
-     "tool": [
-      "straight 2 hex driver",
-      "L hex key 2"
-     ]
-    }
-   },
-   "insert": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    1.0
-   ]
-  },
-  {
-   "step": "4 base: plug the ESP32 board in",
-   "parts": [
-    "esp32_s3_devkitc1",
-    "esp32_s3_wroom1",
-    "esp32_usb_c_1",
-    "esp32_usb_c_2"
-   ],
-   "fasteners": {},
-   "insert": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    1.0
-   ]
-  },
-  {
-   "step": "4 bench: control panel",
-   "parts": [
-    "control_panel",
-    "estop_22mm_latching",
-    "estop_label_STOP",
-    "start_button_16mm",
-    "led_green_5mm",
-    "led_red_5mm",
-    "connector_pcb",
-    "header_A_3pin",
-    "header_B_3pin",
-    "header_C_4pin"
-   ],
-   "fasteners": {
-    "f_pcb0": {
-     "entry": null,
-     "tool": [
-      "precision Phillips"
-     ]
-    },
-    "f_pcb1": {
-     "entry": null,
-     "tool": [
-      "precision Phillips"
-     ]
-    }
-   },
-   "insert": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    1.0
-   ]
-  },
-  {
-   "step": "4 base: fit the control panel",
-   "parts": [],
-   "fasteners": {
-    "f_panel0": {
-     "entry": null,
-     "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
-    },
-    "f_panel1": {
-     "entry": null,
-     "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
-    },
-    "f_panel2": {
-     "entry": null,
-     "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
-    },
-    "f_panel3": {
-     "entry": null,
-     "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
-    }
-   },
-   "insert": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    43.0
-   ]
-  },
-  {
-   "step": "4 base: battery tray and battery",
-   "parts": [
-    "battery_tray",
-    "battery_4s_2200"
-   ],
-   "fasteners": {
-    "f_battray0": {
-     "entry": null,
-     "tool": [
-      "long Phillips"
-     ]
-    },
-    "f_battray1": {
-     "entry": null,
-     "tool": [
-      "long Phillips"
-     ]
-    },
-    "f_battray2": {
-     "entry": null,
-     "tool": [
-      "long Phillips"
-     ]
-    },
-    "f_battray3": {
-     "entry": null,
-     "tool": [
-      "long Phillips"
-     ]
-    }
-   },
-   "insert": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    1.0
-   ]
-  },
-  {
-   "step": "4 base: breadboard tray and breadboard",
-   "parts": [
-    "breadboard_tray",
-    "breadboard_400"
-   ],
-   "fasteners": {
-    "f_bbtray0": {
-     "entry": null,
-     "tool": [
-      "long Phillips"
-     ]
-    },
-    "f_bbtray1": {
-     "entry": null,
-     "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
-    },
-    "f_bbtray2": {
-     "entry": null,
-     "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
-    },
-    "f_bbtray3": {
-     "entry": null,
-     "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
-    }
-   },
-   "insert": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    1.0
-   ]
-  },
-  {
    "step": "5 cables: Y chain guide",
    "parts": [
     "y_chain_guide"
@@ -1787,30 +1525,53 @@
     "f_guide0": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
+      "straight 2 hex driver",
+      "L hex key 2"
+     ],
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     },
     "f_guide1": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
+      "straight 2 hex driver",
+      "L hex key 2"
+     ],
+     "spanner_hits": "{'f_guide0_nut', 'f_beam2_head'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     },
     "f_guide2": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
+      "straight 2 hex driver",
+      "L hex key 2"
+     ],
+     "spanner_hits": "{'f_guide1_nut'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     },
     "f_guide3": {
      "entry": null,
      "tool": [
-      "stubby Phillips",
-      "long Phillips"
-     ]
+      "straight 2 hex driver",
+      "L hex key 2"
+     ],
+     "spanner_hits": "{'f_ymotor_bolt2_nut', 'f_guide2_nut', 'f_beam3_head'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     }
    },
    "insert": [
@@ -2469,7 +2230,7 @@
     "y_idler_bracket"
    ]
   ],
-  "f_yidler_wood0": [
+  "f_yidler_bolt0": [
    "machine",
    7,
    [
@@ -2477,7 +2238,7 @@
     "y_idler_bracket"
    ]
   ],
-  "f_yidler_wood1": [
+  "f_yidler_bolt1": [
    "machine",
    7,
    [
@@ -2533,7 +2294,7 @@
     "y_motor_mount"
    ]
   ],
-  "f_ymotor_wood0": [
+  "f_ymotor_bolt0": [
    "machine",
    4,
    [
@@ -2541,7 +2302,7 @@
     "y_motor_mount"
    ]
   ],
-  "f_ymotor_wood1": [
+  "f_ymotor_bolt1": [
    "machine",
    4,
    [
@@ -2549,7 +2310,7 @@
     "y_motor_mount"
    ]
   ],
-  "f_ymotor_wood2": [
+  "f_ymotor_bolt2": [
    "machine",
    4,
    [
@@ -2557,7 +2318,7 @@
     "y_motor_mount"
    ]
   ],
-  "f_ymotor_wood3": [
+  "f_ymotor_bolt3": [
    "machine",
    4,
    [
@@ -2733,213 +2494,37 @@
    "machine",
    0,
    [
-    "plywood_base",
-    "rubber_foot_1"
+    "foot_1",
+    "plywood_base"
    ]
   ],
   "f_foot1": [
    "machine",
    0,
    [
-    "plywood_base",
-    "rubber_foot_2"
+    "foot_2",
+    "plywood_base"
    ]
   ],
   "f_foot2": [
    "machine",
    0,
    [
-    "plywood_base",
-    "rubber_foot_3"
+    "foot_3",
+    "plywood_base"
    ]
   ],
   "f_foot3": [
    "machine",
    0,
    [
-    "plywood_base",
-    "rubber_foot_4"
-   ]
-  ],
-  "f_eb_bot0": [
-   "machine",
-   37,
-   [
-    "plywood_base",
-    "standoff_m3x10_1"
-   ]
-  ],
-  "f_eb_top0": [
-   "machine",
-   38,
-   [
-    "perfboard_100x80",
-    "standoff_m3x10_1"
-   ]
-  ],
-  "f_eb_bot1": [
-   "machine",
-   37,
-   [
-    "plywood_base",
-    "standoff_m3x10_2"
-   ]
-  ],
-  "f_eb_top1": [
-   "machine",
-   38,
-   [
-    "perfboard_100x80",
-    "standoff_m3x10_2"
-   ]
-  ],
-  "f_eb_bot2": [
-   "machine",
-   37,
-   [
-    "plywood_base",
-    "standoff_m3x10_3"
-   ]
-  ],
-  "f_eb_top2": [
-   "machine",
-   38,
-   [
-    "perfboard_100x80",
-    "standoff_m3x10_3"
-   ]
-  ],
-  "f_eb_bot3": [
-   "machine",
-   37,
-   [
-    "plywood_base",
-    "standoff_m3x10_4"
-   ]
-  ],
-  "f_eb_top3": [
-   "machine",
-   38,
-   [
-    "perfboard_100x80",
-    "standoff_m3x10_4"
-   ]
-  ],
-  "f_panel0": [
-   "machine",
-   41,
-   [
-    "control_panel",
-    "plywood_base"
-   ]
-  ],
-  "f_panel1": [
-   "machine",
-   41,
-   [
-    "control_panel",
-    "plywood_base"
-   ]
-  ],
-  "f_panel2": [
-   "machine",
-   41,
-   [
-    "control_panel",
-    "plywood_base"
-   ]
-  ],
-  "f_panel3": [
-   "machine",
-   41,
-   [
-    "control_panel",
-    "plywood_base"
-   ]
-  ],
-  "f_pcb0": [
-   "bench:panel",
-   40,
-   [
-    "connector_pcb",
-    "control_panel"
-   ]
-  ],
-  "f_pcb1": [
-   "bench:panel",
-   40,
-   [
-    "connector_pcb",
-    "control_panel"
-   ]
-  ],
-  "f_bbtray0": [
-   "machine",
-   43,
-   [
-    "breadboard_tray",
-    "plywood_base"
-   ]
-  ],
-  "f_bbtray1": [
-   "machine",
-   43,
-   [
-    "breadboard_tray",
-    "plywood_base"
-   ]
-  ],
-  "f_bbtray2": [
-   "machine",
-   43,
-   [
-    "breadboard_tray",
-    "plywood_base"
-   ]
-  ],
-  "f_bbtray3": [
-   "machine",
-   43,
-   [
-    "breadboard_tray",
-    "plywood_base"
-   ]
-  ],
-  "f_battray0": [
-   "machine",
-   42,
-   [
-    "battery_tray",
-    "plywood_base"
-   ]
-  ],
-  "f_battray1": [
-   "machine",
-   42,
-   [
-    "battery_tray",
-    "plywood_base"
-   ]
-  ],
-  "f_battray2": [
-   "machine",
-   42,
-   [
-    "battery_tray",
-    "plywood_base"
-   ]
-  ],
-  "f_battray3": [
-   "machine",
-   42,
-   [
-    "battery_tray",
+    "foot_4",
     "plywood_base"
    ]
   ],
   "f_guide0": [
    "machine",
-   44,
+   36,
    [
     "plywood_base",
     "y_chain_guide"
@@ -2947,7 +2532,7 @@
   ],
   "f_guide1": [
    "machine",
-   44,
+   36,
    [
     "plywood_base",
     "y_chain_guide"
@@ -2955,7 +2540,7 @@
   ],
   "f_guide2": [
    "machine",
-   44,
+   36,
    [
     "plywood_base",
     "y_chain_guide"
@@ -2963,7 +2548,7 @@
   ],
   "f_guide3": [
    "machine",
-   44,
+   36,
    [
     "plywood_base",
     "y_chain_guide"

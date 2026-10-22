@@ -21,7 +21,7 @@ MASS_G = {                     # bought parts, grams (datasheet or typical)
     'corner_bracket_top': 20, 'corner_bracket_bottom': 20, 'x_pulley_gt2_20t': 10, 'y_pulley_gt2_20t': 10,
     'x_idler_gt2_20t': 10, 'y_idler_gt2_20t': 10, 'x_belt_gt2': 4, 'y_belt_gt2': 5,
 }
-PREFIX_G = {'tmc2209': 5, 'rubber_foot': 5, 'standoff': 1, 'led_': 1, 'header_': 1, 'battery_strap': 3,
+PREFIX_G = {'tmc2209': 5, 'standoff': 1, 'led_': 1, 'header_': 1, 'battery_strap': 3,
             'wm_brg': 3, 'wm_spacer': 0.2, 'wm_shim': 0.1, 'connector_pcb': 3, 'x_home': 2, 'y_home': 2}
 EXTRA = [  # (group, grams, x, y, z) screws, nuts, wires not in the CAD; y relative to PYC for moving groups
     # the wrist-internal wires are modelled now (cable_wrist_*); screws are modelled

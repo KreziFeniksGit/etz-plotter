@@ -13,6 +13,14 @@ Coordinates: X along the 600 mm side of the polygon, Y along the 500 mm side, Z 
 **Tolerance tests:** `tolerance/` has 11 test coupons (STEP) and `tolerance/README.md` says how to test each one and which
 constant to change. Print them before the real parts.
 
+## Plywood, bolts and feet (v2.14)
+- **Plywood DXF:** `out/plywood_base.dxf` (1:1, mm, origin = the board's -x/-y corner, seen from the top). Layer CUT = outline and through
+  holes; POCKET_BOTTOM = 20.4 mm foot recesses 1 mm deep from below; CBORE_BOTTOM = beam bolt counterbores 9.3 x 2 mm from below;
+  CSK_TOP = countersinks for the foot bolts. Hole list: `out/plywood_base_holes.csv`.
+- No wood screws: bolts through the plywood with a washer and hex nut underneath. Printed PETG feet (`foot_x4`) with an insert.
+- The control board, panel, breadboard and battery are not in the model: place and drill them where you want.
+- Control PCB: `pcb/README.md`.
+
 ## Stack-height sensor (v2.11)
 - **TOF400C (VL53L1X)** under the wrist shelf at x 125.5, looking down, on 2 posts with M2 self-tapping screws; the camera moved to x 150.
   It counts the checkers in a stack, reading with the magnet up (49..74 mm). Wiring and firmware notes: `wiring.md`.

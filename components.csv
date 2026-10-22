@@ -19,8 +19,8 @@ Control,Controller,Espressif ESP32-S3-DevKitC-1-N16R8 (ESP32-S3: 16 MB flash, 8 
 Control,Stepper driver,BIGTREETECH TMC2209 V1.3 module,4,5,"Silent StealthChop, UART current setting; same class as the allowed TMC2208","15.3 x 20.3 on two 1x8 female headers, 2 x 2 grid on the board"
 Power,Battery,4S LiPo 2200 mAh 25C+ with XT60 (14.8 V nominal),1,30,"Rule: drives from batteries on the device, nominal max 16 V; about 30 min of work per charge",
 Power,Charger,LiPo balance charger (e.g. ISDT 608AC or SkyRC B6 class),1,35,Needed if you do not have one,
-Power,Regulator 5 V,Pololu D36V28F5 (5 V 2.6 A),1,22,"ESP32 board, magnet, connector C (5 V >= 200 mA); clean output; cheap alternative: MP1584 module set to 5 V",
-Power,Regulator 6 V,Pololu D36V28F6 (6 V 2.6 A),1,22,"Servo supply separate from logic so servo spikes do not reset the ESP32; cheap alternative: XL4015 set to 6 V",
+Power,Regulator 5 V,"Mini560 Pro step-down module, 5 V version (5 A)",1,2,"Egor (22 Oct). ESP32 board, magnet, connector C. Input 7..32 V, 29 x 18 x 5.4 (VERIFY pads)",
+Power,Regulator servo,"Mini560 Pro step-down module, 5 V version (5 A)",1,2,"Egor (22 Oct). Separate servo rail so servo spikes do not reset the ESP32; no 6 V version exists (never the 9 V one: MG996R max 7.2 V); lift = ~25 % of stall at 5 V; 470 uF + 100 nF on the rail",
 Power,Protection,Inline blade fuse 5 A + XT60 pigtail,1,3,,
 Rules,Stop button,"22 mm mushroom emergency stop, latching, with TWO NC contact blocks (XB2 / LAY37 type)",1,6,"Rule: latching stop that cuts all drive power. Block 1 cuts the drive bus (steppers, servo), block 2 the magnet 5 V. White STOP lettering on the cap (sticker or printed label; modelled as estop_label_STOP)",
 Rules,Start button,16 mm momentary push button,1,2,Rule: start button on the device,
@@ -28,7 +28,7 @@ Rules,LEDs,5 mm green + 5 mm red LED with panel holders + resistors,2,0.5,"Rule:
 Rules,Connectors,Female headers 2.54 mm: 1x3 (A), 1x3 (B), 1x4 (C) on a perfboard strip,1,1,"Rule: connectors A/B/C; B needs a 5 V-tolerant input (divider) because the ESP32 is 3.3 V; C needs a level shifter",
 Rules,Breadboard,400-point solderless breadboard,1,3,Rule (final stage): at least 400 contacts next to the connectors,
 Base,Plywood,Birch plywood 6 mm 250 x 460,1,5,Egor's board (16 Oct: 6 mm; was planned 12),"Z_PLY in frame.py; wood screws engage 4..6 mm and none comes out underneath"
-Base,Feet,"Screw-on rubber feet 20 x 10 mm with steel washer (countersunk hole)",4,0.5,"Clean base (no glue); 1 mm locating recess (20 mm Forstner), 9 mm below the plywood so the plywood top stays at z 15 and the M5 beam bolt heads (3 mm out) clear the table","FOOT_D, FOOT_H, FOOT_POCKET in frame.py (VERIFY the height of your feet)"
+Base,Feet,"Printed PETG foot 20 x 10 (part foot_x4) + Ruthex M3 insert + M3x10 countersunk from the plywood top",4,0,"Egor (22 Oct): printed instead of rubber feet; 1 mm locating recess (20 mm Forstner), 9 mm under the plywood: room for the nuts",
 Cables,Cable chain,"10 x 15 mm open cable chain R18 (outer 15 x 23), 1 m with end links",1,8,"X needs 280 mm, Y 250 mm (plus 2 end links each); R18 keeps the bend height at 51 mm","outer 15 x 23, inner 10 x 15, R18 at the centre line; end links fixed through slots, so any hole spacing fits (VERIFY link pitch)"
 Fasteners,Heat-set inserts,Ruthex RX-M3x5.7,30,0.15,"15 used (one is the magnet stud in the hub), spares for mistakes","hole 4.0 mm, pocket 6.5 mm"
 Fasteners,Screws and nuts,"ISO 4762 / ISO 7380 M2, M3, M4, M5 assortment; M3/M5 drop-in T-nuts",1,20,,

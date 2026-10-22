@@ -25,7 +25,7 @@ def branch(name, kind):
         return 'Fasteners'
     if name in ('polygon_600x500',) or name.startswith(('zone', 'field_area', 'sheet_a4', 'cell_centres', 'marker_')):
         return 'Field_reference'
-    if name.startswith(('plywood', 'rubber_foot', 'y_beam', 'y_beam_riser', 'y_rail', 'y_motor', 'y_pulley', 'y_idler', 'y_belt_gt2', 'y_home', 'y_chain_guide')):
+    if name.startswith(('plywood', 'foot_', 'y_beam', 'y_beam_riser', 'y_rail', 'y_motor', 'y_pulley', 'y_idler', 'y_belt_gt2', 'y_home', 'y_chain_guide')):
         return 'Base_and_Y_axis'
     if name.startswith(('y_block', 'y_carriage', 'y_belt_spacer', 'y_belt_clamp', 'post_', 'boom_', 'corner_bracket', 'x_rail',
                         'x_motor', 'x_pulley', 'x_idler', 'x_belt_gt2', 'x_home')):
@@ -291,7 +291,7 @@ PRINT_ORIENT = {'y_motor_mount': (V(1, 0, 0), 0), 'y_idler_bracket': (V(1, 0, 0)
                 'y_belt_spacer': (V(1, 0, 0), 0), 'y_belt_clamp': (V(1, 0, 0), 0), 'post_cap': (V(1, 0, 0), 180),
                 'x_motor_mount': (V(1, 0, 0), -90), 'x_idler_bracket': (V(0, 1, 0), 90), 'control_panel': (V(1, 0, 0), 180),
                 'x_idler_slider': (V(1, 0, 0), 90), 'y_idler_slider': (V(0, 1, 0), 90),
-                'breadboard_tray': (V(1, 0, 0), 0), 'battery_tray': (V(1, 0, 0), 0), 'y_chain_guide': (V(1, 0, 0), 0), 'y_beam_riser': (V(1, 0, 0), 0)}
+                'breadboard_tray': (V(1, 0, 0), 0), 'battery_tray': (V(1, 0, 0), 0), 'y_chain_guide': (V(1, 0, 0), 0), 'y_beam_riser': (V(1, 0, 0), 0), 'foot': (V(1, 0, 0), 0)}
 
 def print_orient(name):
     if name in PRINT_ORIENT:
@@ -360,6 +360,9 @@ if __name__ == '__main__':
     R['fastener_clips_at_rest'] = fastener_check(wf) or 'none'
     eng, bad = fastener_engagement(wf)
     R['fastener_engagement_problems'] = bad or 'none'
+    # only the feet may touch the table: every other part, nut and bolt tip stays >= 2 mm above it
+    R['near_table'] = {k: round(v[0].BoundBox.ZMin, 2) for k, v in wf.items()
+                       if not k.startswith('foot_') and v[0].BoundBox.ZMin < 2.0 - 1e-3} or 'none'
     R['fastener_engagement'] = eng
     fsweep = {}
     fposes = [p for p in poses if p[0] in (40.0, 376.0) and p[1] in F.PXB_RANGE] + poses[-4:]

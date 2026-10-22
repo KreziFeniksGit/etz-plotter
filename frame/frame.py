@@ -11,7 +11,7 @@ The wrist module (wrist/wrist_module.py) hangs under the X rail block at (PXB, P
 
 Printed parts in this file: y_carriage, y_belt_spacer, y_belt_clamp, y_motor_mount,
 y_idler_bracket, y_idler_slider, x_motor_mount, x_idler_bracket, x_idler_slider, post_cap, control_panel,
-breadboard_tray, battery_tray.
+breadboard_tray, battery_tray, foot (x4).
 """
 import math, os, sys
 import FreeCAD as App
@@ -31,13 +31,17 @@ PYC0, PXB0 = 40.0, 287.0                  # parked Y carriage centre, parked wri
 PYC_RANGE = (40.0, 376.0)
 PXB_RANGE = (287.0, 430.0)                 # = magnet x 397..540 - W.MAG_X (110): covers the cells (397..537); at 287 the wrist carriage is 2 mm clear of the Y carriage (x 245)
 # base
-Z_FOOT, Z_PLY = 9.0, 6.0                  # rubber feet (below the plywood), plywood thickness (Egor's board: 6 mm)
+Z_FOOT, Z_PLY = 9.0, 6.0                  # printed feet (below the plywood), plywood thickness (Egor's board: 6 mm)
 Z_PLY0, Z_PLY1 = Z_FOOT, Z_FOOT + Z_PLY
 PLY = (90.0, 0.0, 340.0, 470.0)           # plywood outline (corner radius 10)
 FEET = [(100.0, 22.0), (330.0, 22.0), (100.0, 458.0), (330.0, 458.0)]
-FOOT_D, FOOT_H, FOOT_POCKET = 20.0, 10.0, 1.0    # screw-on rubber foot 20 x 10 in a 1 mm locating recess: 9 mm below the 6 mm plywood
+FOOT_D, FOOT_H, FOOT_POCKET = 20.0, 10.0, 1.0    # printed PETG foot 20 x 10 in a 1 mm locating recess: 9 mm below the 6 mm plywood
                                                  # (keeps the plywood top, and so everything above it, at z 15 as before)
-FOOT_SCREW_SINK = 2.5                            # wood screw head recess inside the foot
+FOOT_EDGE_R = 1.5                                # rounded bottom edge of the foot
+PLY_DRILL = {3: 3.5, 4: 4.5, 5: 5.5}                    # hand-drilled bolt holes in the plywood (drill sizes, not print tolerances)
+PLY_CSK_D = 6.6                                  # countersink in the plywood top for the M3 foot bolts (head 6.0, flush)
+# Everything on the plywood is held by bolts through it, a washer and a hex nut underneath (no wood screws):
+# the nuts and bolt tips stay >= 2 mm above the table (the feet give 9 mm).
 BEAM_CBORE = 2.0                                 # beam bolt heads sunk 2 mm in the 6 mm plywood (3 mm stick out; the feet are 9 mm)
 # Y axis
 YB_X = 205.0                              # Y beam / rail centre line
@@ -107,6 +111,8 @@ BB = (95.0, 139.0)                        # breadboard corner
 BAT = (105.0, 34.0, 30.0)                 # 4S 2200 mAh pack, L x W x H
 BT = (100.0, 300.0, 100.0 + BAT[1] + 2 * (2.4 + 1.9), 300.0 + BAT[0] + 2 * (2.4 + 1.9))   # battery tray outline
 EB = (246.0, 110.0, 326.0, 210.0)         # electronics board
+ELECTRONICS_ON_BASE = False               # Egor, 22 Oct: control board, panel, breadboard and battery are placed and drilled by hand;
+                                          # not in the model / DXF (their cables stay drawn). True brings the old layout back.
 
 # bought-part data
 NEMA17 = dict(sq=42.3, L=40.0, chamfer=4.0, hole=31.0, pilot=22.0, pilot_h=2.0, shaft=5.0, shaft_L=23.0, flat=4.5)   # 17HS16-2004S1
@@ -297,36 +303,53 @@ def plywood():
     s = box(x0, y0, Z_PLY0, x1, y1, Z_PLY1)
     s = s.makeFillet(10.0, [e for e in s.Edges if abs(e.Length - Z_PLY) < 1e-6])
     cut = []
-    for x, y in FEET:                                         # foot pocket from below (Forstner bit), foot screwed in with a wood screw
+    for x, y in FEET:                                         # foot pocket from below (Forstner bit); M3 csk bolt from the top into the foot's insert
         cut.append(cyl((x, y, Z_PLY0 - 1), (FOOT_D + 0.4) / 2, FOOT_POCKET + 1))
+        cut.append(cyl((x, y, Z_PLY0 - 1), PLY_DRILL[3] / 2, Z_PLY + 2))
+        cut.append(Part.makeCone(PLY_DRILL[3] / 2, PLY_CSK_D / 2, (PLY_CSK_D - PLY_DRILL[3]) / 2, V(x, y, Z_PLY1 - (PLY_CSK_D - PLY_DRILL[3]) / 2)))
+        cut.append(cyl((x, y, Z_PLY1), PLY_CSK_D / 2, 1.0))
+    for x, y, d in base_bolts():                              # through-bolts of the parts on the plywood
+        cut.append(cyl((x, y, Z_PLY0 - 1), PLY_DRILL[d] / 2, Z_PLY + 2))
     for y in BEAM_BOLTS_Y:                                   # beam M5x20 from below: counterbore for the head, through the riser
-        cut.append(cyl((YB_X, y, Z_PLY0 - 1), bolt(5) / 2, Z_PLY + 2))
+        cut.append(cyl((YB_X, y, Z_PLY0 - 1), PLY_DRILL[5] / 2, Z_PLY + 2))
         if BEAM_CBORE > 0:
             cut.append(cyl((YB_X, y, Z_PLY0 - 1), (8.5 + 0.8) / 2, BEAM_CBORE + 1))
-    for x, y in ((EB[0] + 4, EB[1] + 4), (EB[2] - 4, EB[1] + 4), (EB[0] + 4, EB[3] - 4), (EB[2] - 4, EB[3] - 4)):
+    for x, y in ((EB[0] + 4, EB[1] + 4), (EB[2] - 4, EB[1] + 4), (EB[0] + 4, EB[3] - 4), (EB[2] - 4, EB[3] - 4)) if ELECTRONICS_ON_BASE else ():
         cut.append(cyl((x, y, Z_PLY0 - 1), bolt(3) / 2, Z_PLY + 2))
         cut.append(Part.makeCone(3.3, bolt(3) / 2, 1.7, V(x, y, Z_PLY0)))
     return cut_all(s, cut)
 
-def rubber_foot(x, y):
-    """Screw-on rubber foot 20 x 7 (steel washer inside): 3 mm below the plywood, 4 mm in its pocket."""
+def foot(x, y):
+    """Printed PETG foot 20 x 10: 1 mm in its plywood recess, 9 mm below. A Ruthex M3 insert in its top takes an
+    M3x10 countersunk bolt from the plywood top. Prints bottom down (the table face is the smooth first layer)."""
     f = cyl((x, y, 0.0), FOOT_D / 2, FOOT_H)
-    return f.cut(cyl((x, y, -1), 4.2, 1 + FOOT_SCREW_SINK)).cut(cyl((x, y, -1), 1.9, FOOT_H + 2))
+    f = f.makeFillet(FOOT_EDGE_R, [e for e in f.Edges if e.BoundBox.ZMax < 0.01])
+    f = f.makeFillet(0.5, [e for e in f.Edges if e.BoundBox.ZMin > FOOT_H - 0.01])
+    return cut_all(f, [cyl((x, y, FOOT_H + 0.01), INSERT_D / 2, -INSERT_DEPTH)])
+
+def base_bolts():
+    """(x, y, M) of every bolt that goes through the plywood with a nut underneath (feet, standoffs and beam excluded)."""
+    x0, y0, x1, y1, zt = PANEL
+    L = [(x, y, 4) for x, y in YM_BOLTS] + [(x, y, 4) for x, y in IDLER_BOLTS]
+    if ELECTRONICS_ON_BASE:
+        L += [(x, y, 3) for x, y in panel_bolts()] + [(x, y, 3) for x, y in BB_EARS] + [(x, y, 3) for x, y in bt_ears()]
+    L += [(chains.YC_LANE_X, y, 3) for y in chains.GUIDE_BOLTS_Y]
+    return L
 
 def base_items():
     add('plywood_base', plywood(), kind='bought', colour='wood')
     for i, (x, y) in enumerate(FEET):
-        add('rubber_foot_%d' % (i + 1), rubber_foot(x, y), kind='bought', colour='rubber')
+        add('foot_%d' % (i + 1), foot(x, y))
 
 # =============================================================================
 # 4. Y AXIS (static)
 # =============================================================================
 YM_BASE = (152.0, 196.0, 5.0)             # base flange x0, x1, thickness (on the plywood, both sides of the plate)
-YM_WOOD = [(157.0, YM_C[0] - 12.0), (157.0, YM_C[0] + 12.0), (191.0, YM_C[0] - 12.0), (191.0, YM_C[0] + 12.0)]   # 4 mm wood screws, heads clear of the gussets
+YM_BOLTS = [(157.0, YM_C[0] - 12.0), (157.0, YM_C[0] + 12.0), (191.0, YM_C[0] - 12.0), (191.0, YM_C[0] + 12.0)]   # M4 through-bolts, heads clear of the gussets
 
 def y_motor_mount():
     """Rigid stand for the Y motor: 6 mm plate between the motor and its pulley, a 5 mm base on both
-    sides with four fixed wood screws and four gussets (two each side) that make it a box.
+    sides with four M4 through-bolts and four gussets (two each side) that make it a box.
     No tension slots any more: the belt is an open length, tensioned at the Y idler (y_idler_slider).
     The -x screws sit under the motor: screw the mount down first, then bolt the motor on from the
     pulley side. Prints base down."""
@@ -348,11 +371,11 @@ def y_motor_mount():
     for a in (-1, 1):
         for b in (-1, 1):
             cut.append(cyl((x0 - 1, py + a * 15.5, pz + b * 15.5), (3.0 + TOL_MOTOR) / 2, YM_T + 2, 'x'))
-    for x, y in YM_WOOD:
+    for x, y in YM_BOLTS:
         cut.append(cyl((x, y, Z_PLY1 - 1), bolt(4) / 2, bt + 2))
     return cut_all(body, cut)
 
-IDLER_WOOD = [(160.0, 10.0), (223.0, 4.75)]       # 4 mm wood screws (the second clears the beam end plate's x 218)
+IDLER_BOLTS = [(160.0, 10.0), (223.0, 4.75)]      # M4 through-bolts (the second clears the beam end plate's x 218)
 
 def y_idler_bracket():
     """Holds the Y idler and its tension slider, bolts to the beam end and the plywood; carries the
@@ -372,7 +395,7 @@ def y_idler_bracket():
     body = fillet_all(tidy(base.fuse([plate, lug, endp, spacer, post])))
     cut = [slot((px0 - 1, py - YI_TRAVEL - 0.5, pz), (px0 - 1, py, pz), bolt(5) / 2, px1 - px0 + 4.0, 'x'),   # idler axle slot
            cyl((YB_X, 3.0, Z_YB1 - 10.0), bolt(5) / 2, 8.0, 'y'),             # M5 into the beam end
-           cyl((160.0, 10.0, Z_PLY1 - 1), bolt(4) / 2, 6.0), cyl((IDLER_WOOD[1][0], IDLER_WOOD[1][1], Z_PLY1 - 1), bolt(4) / 2, 6.0),
+           cyl((IDLER_BOLTS[0][0], IDLER_BOLTS[0][1], Z_PLY1 - 1), bolt(4) / 2, 6.0), cyl((IDLER_BOLTS[1][0], IDLER_BOLTS[1][1], Z_PLY1 - 1), bolt(4) / 2, 6.0),
            cyl((YI_PUSH_X, YI_LUG_Y[1] + 0.01, pz), INSERT_D / 2, -INSERT_DEPTH, 'y'),          # tension screw insert
            cyl((YI_PUSH_X, YI_LUG_Y[1], pz), bolt(3) / 2, -(YI_LUG_Y[1] - YI_LUG_Y[0] + 1.0), 'y')]
     for zz in (40.0 + Y_RISER - D2F['hole_pitch'] / 2 + 0.5, 40.0 + Y_RISER + D2F['hole_pitch'] / 2 + 0.5):   # M2 self-tapping into the post
@@ -644,6 +667,10 @@ def base_cable_chain():
 # =============================================================================
 # 6. CONTROL PANEL AND TRAYS (base)
 # =============================================================================
+def panel_bolts():
+    x0, y0, x1, y1, zt = PANEL
+    return [(x0 + 6, y0 + 6), (x1 - 6, y0 + 6), (x0 + 6, y1 - 6), (x1 - 6, y1 - 6)]
+
 def control_panel():
     """Open-bottom box: stop and start buttons and both LEDs on top, connectors A/B/C
     in the -X wall. Prints top face down; the connector windows have rounded corners."""
@@ -661,8 +688,8 @@ def control_panel():
            cyl((START_C[0], START_C[1], zt - t - 1), (16.0 + TOL_PANEL) / 2, t + 2),
            cyl((LED_G[0], LED_G[1], zt - t - 1), (6.0 + TOL_PANEL) / 2, t + 2),
            cyl((LED_R[0], LED_R[1], zt - t - 1), (6.0 + TOL_PANEL) / 2, t + 2)]
-    for x, y in ((x0 + 6, y0 + 6), (x1 - 6, y0 + 6), (x0 + 6, y1 - 6), (x1 - 6, y1 - 6)):
-        cut.append(cyl((x, y, Z_PLY1 - 1), (3.5 + TOL_BOLT) / 2, zt - Z_PLY1 + 2))
+    for x, y in panel_bolts():
+        cut.append(cyl((x, y, Z_PLY1 - 1), bolt(3) / 2, zt - Z_PLY1 + 2))
     for yc, n in CONN.values():
         w = n * 2.54 + 0.6
         cut.append(rbox(x0 - 1, yc - w / 2, 30.4, x0 + t + 1, yc + w / 2, 33.6, 0.5, 'x'))
@@ -682,8 +709,7 @@ def breadboard_tray():
     pocket = relief_pocket(x0 - 0.3, y0 - 0.3, x0 + 82.8, y0 + 54.8, Z_PLY1 + 3.0, Z_PLY1 + 10.0, 1.0)
     ears = [cyl((x, y, Z_PLY1), 5.0, 3.0) for x, y in BB_EARS]
     body = fillet_all(tidy(tray.fuse(ears))).cut(pocket)
-    return cut_all(body, [cyl((x, y, Z_PLY1 - 1), (3.5 + TOL_BOLT) / 2, 5.0) for x, y in
-                          BB_EARS])
+    return cut_all(body, [cyl((x, y, Z_PLY1 - 1), bolt(3) / 2, 5.0) for x, y in BB_EARS])
 
 def bt_ears():
     x0, y0, x1, y1 = BT
@@ -696,7 +722,7 @@ def battery_tray():
     tray = tray.cut(box(x0 + t, y0 + t, Z_PLY1 + 2.4, x1 - t, y1 - t, Z_PLY1 + 20.0))
     ears = [cyl((x, y, Z_PLY1), 5.0, 3.0) for x, y in bt_ears()]
     body = fillet_all(tidy(tray.fuse(ears)))
-    cut = [cyl((x, y, Z_PLY1 - 1), (3.5 + TOL_BOLT) / 2, 5.0) for x, y in bt_ears()]
+    cut = [cyl((x, y, Z_PLY1 - 1), bolt(3) / 2, 5.0) for x, y in bt_ears()]
     for yy in (y0 + 30.0, y1 - 30.0):                      # strap slots in the floor
         cut.append(slot((x0 + 8.0, yy, Z_PLY1 - 1), (x1 - 8.0, yy, Z_PLY1 - 1), 1.6, 5.0))
     return cut_all(body, cut)
@@ -800,6 +826,7 @@ def build_frame():
     y_static()
     ycar_items()
     base_cable_chain()
-    panel_items()
-    tmc_fix()
+    if ELECTRONICS_ON_BASE:
+        panel_items()
+        tmc_fix()
     return PARTS

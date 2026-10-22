@@ -49,7 +49,7 @@ POSES = [PARK, (208.0, 287.0, W.H_MAX, 0.0), (376.0, 287.0, W.H_MAX, 0.0), (40.0
 # (step label, context, [part name prefixes]); context 'machine' or 'bench:<name>'; ('mount', '<name>') fits a
 # finished bench sub-assembly onto the machine as one piece. Every rigid part must appear once.
 SEQUENCE = [
-    ('1 base: plywood and rubber feet', 'machine', ['plywood_base', 'rubber_foot']),
+    ('1 base: plywood and printed feet', 'machine', ['plywood_base', 'foot_']),
     ('1 base: Y beam risers', 'machine', ['y_beam_riser']),
     ('1 base: Y beam', 'machine', ['y_beam_2020']),
     ('1 base: Y rail with its block', 'machine', ['y_rail_mgn12_400', 'y_block_mgn12h']),
@@ -93,6 +93,10 @@ SEQUENCE = [
     ('4 base: fit the control panel', ('mount', 'panel'), []),
     ('4 base: battery tray and battery', 'machine', ['battery_tray', 'battery_4s']),
     ('4 base: breadboard tray and breadboard', 'machine', ['breadboard_tray', 'breadboard_400']),
+]
+if not Fr.ELECTRONICS_ON_BASE:      # electronics placed by hand (not in the model)
+    SEQUENCE = [s for s in SEQUENCE if not s[0].startswith('4 ')]
+SEQUENCE += [
     ('5 cables: Y chain guide', 'machine', ['y_chain_guide']),
     ('5 cables: chains', 'machine', ['cable_chain']),
 ]

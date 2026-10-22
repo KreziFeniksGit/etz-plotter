@@ -43,7 +43,7 @@ distance you command.
 
 | Bought | Qty |
 |---|---|
-| Plywood 6 mm 250 x 460 + 4 rubber feet 20 x 10 | 1 |
+| Plywood 6 mm 250 x 470 (cut from `out/plywood_base.dxf`) + 4 printed feet (`foot_x4`) | 1 |
 | 2020 V-slot 400 mm (Y beam) | 1 |
 | MGN12 rail 400 + MGN12H block | 1 |
 | NEMA17 17HS16-2004S1 | 1 |
@@ -133,7 +133,7 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 | Bought | Qty |
 |---|---|
 | Latching E-stop with 2 NC blocks, 16 mm start button, green + red LEDs with holders | 1 each |
-| 4S LiPo 2200 + fuse + XT60, Pololu 5 V and 6 V regulators | 1 each |
+| 4S LiPo 2200 + fuse + XT60, 2x Mini560 Pro 5 V regulators | 1 each |
 | ESP32-S3 board, 4x TMC2209, perfboard with connectors A/B/C, BSS138 level shifter, passives (`wiring.md`) | |
 | 400-point breadboard | 1 |
 | Wood screws 3.5x50 (panel), 3.5x12 (trays), M3x16 countersunk (standoff) | |
@@ -185,7 +185,7 @@ These are the places where the order is not optional:
   Loctite 243, then push the hub onto the motor shaft.
 - **Controller:** screw the perfboard to the standoffs, then plug the ESP32 in (it covers a standoff screw).
 - **Control panel:** fit the connector board through the two small windows in the +x wall (precision PH0 driver, 60 mm shaft), then screw the panel down.
-- **Plywood (6 mm):** beam bolts and feet go in from below; tip the board on its side.
+- **Plywood (6 mm):** beam bolts go in from below; the feet bolt on from the top (M3x10 countersunk into the foot insert). Every other part on the board: bolt from the top, washer + hex nut underneath; hold the nut with a 5.5 / 7 mm spanner with the board tipped on its side or lifted off the table. Controller, panel, breadboard and battery are placed by hand (not modelled since 22 Oct): drill their holes where you want them.
 Not simulated: belts, cables, chains and zip ties (flexible, pushed aside by hand).
 
 ---

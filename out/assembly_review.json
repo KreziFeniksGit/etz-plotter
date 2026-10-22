@@ -2,9 +2,10 @@
  "static_park": {},
  "cable_paths_through_parts": "none",
  "footprint_parked_outside_zones": "none",
- "fasteners_count": 141,
+ "fasteners_count": 119,
  "fastener_clips_at_rest": "none",
  "fastener_engagement_problems": "none",
+ "near_table": "none",
  "fastener_engagement": {
   "wm_f_block0": {
    "screw": "M3 x 6 ISO 4762",
@@ -401,15 +402,15 @@
    "into": "tapped",
    "engagement_mm": 6.25
   },
-  "f_yidler_wood0": {
-   "screw": "wood screw 4x10 (pan head)",
-   "into": "wood",
-   "engagement_mm": 6.0
+  "f_yidler_bolt0": {
+   "screw": "M4 x 16 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 3.2
   },
-  "f_yidler_wood1": {
-   "screw": "wood screw 4x10 (pan head)",
-   "into": "wood",
-   "engagement_mm": 6.0
+  "f_yidler_bolt1": {
+   "screw": "M4 x 16 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 3.2
   },
   "f_yswitch0": {
    "screw": "M2 x 10 pan head self-tapping",
@@ -441,25 +442,25 @@
    "into": "blind",
    "engagement_mm": 4.0
   },
-  "f_ymotor_wood0": {
-   "screw": "wood screw 4x10 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
+  "f_ymotor_bolt0": {
+   "screw": "M4 x 16 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 3.2
   },
-  "f_ymotor_wood1": {
-   "screw": "wood screw 4x10 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
+  "f_ymotor_bolt1": {
+   "screw": "M4 x 16 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 3.2
   },
-  "f_ymotor_wood2": {
-   "screw": "wood screw 4x10 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
+  "f_ymotor_bolt2": {
+   "screw": "M4 x 16 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 3.2
   },
-  "f_ymotor_wood3": {
-   "screw": "wood screw 4x10 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
+  "f_ymotor_bolt3": {
+   "screw": "M4 x 16 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 3.2
   },
   "f_beam0": {
    "screw": "M5 x 20 ISO 4762",
@@ -562,154 +563,44 @@
    "engagement_mm": 2.7
   },
   "f_foot0": {
-   "screw": "wood screw 3.5x12 (pan head)",
-   "into": "wood",
-   "engagement_mm": 4.5
+   "screw": "M3 x 10 ISO 10642",
+   "into": "insert",
+   "engagement_mm": 5.0
   },
   "f_foot1": {
-   "screw": "wood screw 3.5x12 (pan head)",
-   "into": "wood",
-   "engagement_mm": 4.5
+   "screw": "M3 x 10 ISO 10642",
+   "into": "insert",
+   "engagement_mm": 5.0
   },
   "f_foot2": {
-   "screw": "wood screw 3.5x12 (pan head)",
-   "into": "wood",
-   "engagement_mm": 4.5
+   "screw": "M3 x 10 ISO 10642",
+   "into": "insert",
+   "engagement_mm": 5.0
   },
   "f_foot3": {
-   "screw": "wood screw 3.5x12 (pan head)",
-   "into": "wood",
-   "engagement_mm": 4.5
-  },
-  "f_eb_bot0": {
    "screw": "M3 x 10 ISO 10642",
-   "into": "blind",
-   "engagement_mm": 4.0
-  },
-  "f_eb_top0": {
-   "screw": "M3 x 6 ISO 7380",
-   "into": "blind",
-   "engagement_mm": 4.4
-  },
-  "f_eb_bot1": {
-   "screw": "M3 x 10 ISO 10642",
-   "into": "blind",
-   "engagement_mm": 4.0
-  },
-  "f_eb_top1": {
-   "screw": "M3 x 6 ISO 7380",
-   "into": "blind",
-   "engagement_mm": 4.4
-  },
-  "f_eb_bot2": {
-   "screw": "M3 x 10 ISO 10642",
-   "into": "blind",
-   "engagement_mm": 4.0
-  },
-  "f_eb_top2": {
-   "screw": "M3 x 6 ISO 7380",
-   "into": "blind",
-   "engagement_mm": 4.4
-  },
-  "f_eb_bot3": {
-   "screw": "M3 x 10 ISO 10642",
-   "into": "blind",
-   "engagement_mm": 4.0
-  },
-  "f_eb_top3": {
-   "screw": "M3 x 6 ISO 7380",
-   "into": "blind",
-   "engagement_mm": 4.4
-  },
-  "f_panel0": {
-   "screw": "wood screw 3.5x45 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_panel1": {
-   "screw": "wood screw 3.5x45 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_panel2": {
-   "screw": "wood screw 3.5x45 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_panel3": {
-   "screw": "wood screw 3.5x45 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_pcb0": {
-   "screw": "M2 x 6 pan head self-tapping",
-   "into": "self",
-   "engagement_mm": 4.5
-  },
-  "f_pcb1": {
-   "screw": "M2 x 6 pan head self-tapping",
-   "into": "self",
-   "engagement_mm": 4.5
-  },
-  "f_bbtray0": {
-   "screw": "wood screw 3.5x8 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_bbtray1": {
-   "screw": "wood screw 3.5x8 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_bbtray2": {
-   "screw": "wood screw 3.5x8 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_bbtray3": {
-   "screw": "wood screw 3.5x8 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_battray0": {
-   "screw": "wood screw 3.5x8 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_battray1": {
-   "screw": "wood screw 3.5x8 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_battray2": {
-   "screw": "wood screw 3.5x8 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.0
-  },
-  "f_battray3": {
-   "screw": "wood screw 3.5x8 (pan head)",
-   "into": "wood",
+   "into": "insert",
    "engagement_mm": 5.0
   },
   "f_guide0": {
-   "screw": "wood screw 3.5x20 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.5
+   "screw": "M3 x 25 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 2.4
   },
   "f_guide1": {
-   "screw": "wood screw 3.5x20 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.5
+   "screw": "M3 x 25 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 2.4
   },
   "f_guide2": {
-   "screw": "wood screw 3.5x20 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.5
+   "screw": "M3 x 25 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 2.4
   },
   "f_guide3": {
-   "screw": "wood screw 3.5x20 (pan head)",
-   "into": "wood",
-   "engagement_mm": 5.5
+   "screw": "M3 x 25 ISO 7380",
+   "into": "nut",
+   "engagement_mm": 2.4
   }
  },
  "fastener_sweep_poses": 16,
@@ -752,6 +643,78 @@
   417.7
  ],
  "dfm_frame": {
+  "foot_1": {
+   "size": [
+    21.6,
+    21.6,
+    10.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 3.02,
+   "mass_g": 2.3,
+   "min_wall": 3.51,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "foot_2": {
+   "size": [
+    21.6,
+    21.6,
+    10.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 3.02,
+   "mass_g": 2.3,
+   "min_wall": 3.51,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "foot_3": {
+   "size": [
+    21.6,
+    21.6,
+    10.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 3.02,
+   "mass_g": 2.3,
+   "min_wall": 3.51,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
+  "foot_4": {
+   "size": [
+    21.6,
+    21.6,
+    10.0
+   ],
+   "fits_220": true,
+   "volume_cm3": 3.02,
+   "mass_g": 2.3,
+   "min_wall": 3.51,
+   "thin_samples": 0,
+   "thin_examples": [],
+   "steep_overhang_mm2": 0.0,
+   "widest_bridge_mm": 0,
+   "bridges": [],
+   "sharp_internal_edges": [],
+   "n_sharp": 0
+  },
   "y_beam_riser_40": {
    "size": [
     24.0,
@@ -1060,8 +1023,8 @@
     25.0
    ],
    "fits_220": true,
-   "volume_cm3": 92.23,
-   "mass_g": 70.3,
+   "volume_cm3": 92.41,
+   "mass_g": 70.4,
    "min_wall": 2.4,
    "thin_samples": 0,
    "thin_examples": [],
@@ -1114,106 +1077,6 @@
      ]
     ]
    ],
-   "sharp_internal_edges": [],
-   "n_sharp": 0
-  },
-  "control_panel": {
-   "size": [
-    66.0,
-    96.0,
-    40.0
-   ],
-   "fits_220": true,
-   "volume_cm3": 56.19,
-   "mass_g": 42.8,
-   "min_wall": 2.78,
-   "thin_samples": 0,
-   "thin_examples": [],
-   "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 3.0,
-   "bridges": [
-    [
-     3.0,
-     36.0,
-     [
-      31.0,
-      0.5,
-      37.0
-     ]
-    ],
-    [
-     3.0,
-     29.3,
-     [
-      -31.0,
-      -15.5,
-      24.6
-     ]
-    ],
-    [
-     3.0,
-     21.7,
-     [
-      -31.0,
-      27.5,
-      24.6
-     ]
-    ],
-    [
-     3.0,
-     21.7,
-     [
-      -31.0,
-      7.5,
-      24.6
-     ]
-    ],
-    [
-     3.0,
-     12.0,
-     [
-      31.0,
-      30.5,
-      33.5
-     ]
-    ]
-   ],
-   "sharp_internal_edges": [],
-   "n_sharp": 0
-  },
-  "breadboard_tray": {
-   "size": [
-    89.1,
-    81.5,
-    9.0
-   ],
-   "fits_220": true,
-   "volume_cm3": 21.98,
-   "mass_g": 16.7,
-   "min_wall": 2.4,
-   "thin_samples": 0,
-   "thin_examples": [],
-   "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 0,
-   "bridges": [],
-   "sharp_internal_edges": [],
-   "n_sharp": 0
-  },
-  "battery_tray": {
-   "size": [
-    63.6,
-    113.6,
-    12.4
-   ],
-   "fits_220": true,
-   "volume_cm3": 19.27,
-   "mass_g": 14.7,
-   "min_wall": 2.4,
-   "thin_samples": 0,
-   "thin_examples": [],
-   "steep_overhang_mm2": 0.0,
-   "widest_bridge_mm": 0,
-   "bridges": [],
    "sharp_internal_edges": [],
    "n_sharp": 0
   }

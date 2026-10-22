@@ -44,6 +44,7 @@ XC_POST_TOP = XC_V_LOW + 2 * CH_R - CH_H / 2   # 208: top of the chain post plat
 # =============================================================================
 # 3. Y CHAIN LAYOUT (world Y, in the lane x = YC_LANE_X)
 # =============================================================================
+GUIDE_BOLTS_Y = (250.0, 300.0, 350.0, 405.0)  # Y chain guide through-bolts
 YC_LANE_X = 235.5                       # between the Y beam (x <= 215) and the electronics board (x >= 246, y <= 210)
 Z_PLY1 = 15.0
 Z_CARRIAGE_TOP = 68.0                     # Y carriage top (frame.Z_YC1, checked there)
@@ -124,8 +125,8 @@ def y_chain(PYC):
 # =============================================================================
 def y_chain_guide():
     """U-channel under the lower run of the Y chain. The 7 mm floor lifts the chain so the
-    upper run meets the carriage top. Fixed end held by two zip ties; four 3.5 mm wood
-    screws in counterbores (heads below the floor top). Prints floor down."""
+    upper run meets the carriage top. Fixed end held by two zip ties; four M3 through-bolts
+    in counterbores (heads below the floor top, nuts under the plywood). Prints floor down."""
     xc = YC_LANE_X
     half_in = CH_W / 2 + TOL_MOVE + 0.1         # 0.5 mm side play
     wall = WALL_MIN + 0.6
@@ -145,9 +146,9 @@ def y_chain_guide():
             t = box(xs - 4.5, ya, z0 - 1, xs + 4.5, yb, z0 + pk_h)
             t = t.makeFillet(1.0, [e for e in t.Edges if e.BoundBox.ZMin > z0 - 0.5 or e.BoundBox.ZLength > 1])
             cut.append(t)
-    for y in (250.0, 300.0, 350.0, 405.0):          # wood screws 3.5 mm, heads sunk 3 mm
-        cut.append(cyl((xc, y, z0 - 1), (3.5 + 0.25) / 2, GUIDE_FLOOR + 2))
-        cut.append(cyl((xc, y, zf - 2.5), (7.0 + 2 * TOL_MOVE) / 2, 4.0))      # head top 0.1 under the floor; 3.5x20 ends 0.5 above the plywood underside
+    for y in GUIDE_BOLTS_Y:                          # M3x25 button bolts (head 1.65), seat 2.5 mm down, nut under the plywood
+        cut.append(cyl((xc, y, z0 - 1), bolt(3) / 2, GUIDE_FLOOR + 2))
+        cut.append(cyl((xc, y, zf - 2.5), (7.0 + 2 * TOL_MOVE) / 2, 4.0))      # button head 1.65 mm: top 0.85 under the floor
     for y in (220.0, 231.0):                         # zip ties around the fixed end link: down a wall, under the floor, up the other wall
         for s in (-1, 1):
             xs = xc + s * (half_in + (wall + ear) / 2)

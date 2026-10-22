@@ -56,6 +56,10 @@ try:
                 if k != 'y_beam_riser_40':
                     continue
                 fn = 'y_beam_riser_x4'
+            elif k.startswith('foot_'):
+                if k != 'foot_1':
+                    continue
+                fn = 'foot_x4'
             else:
                 fn = k
             ax, deg = A.print_orient(k)
