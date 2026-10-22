@@ -1,4 +1,4 @@
-# Main control PCB: parts list (draft, 22 Oct 2026)
+# Main control PCB: parts list (v1.0, 22 Oct 2026)
 
 Source: `wiring.md` (power tree, ESP32-S3 pin map). One 2-layer board in place of the perfboard (`perfboard_100x80` in the model,
 100 x 80 mm on 4 M3 standoffs). Modules plug into female headers, so a burnt module is a 1-minute swap.
@@ -33,14 +33,14 @@ are 3.3 V and are damaged by 5 V, so the UART TX/RX lines go through it.
 | Ref | Part | Qty | What for |
 |---|---|---|---|
 | Q1 | AO3400A N-MOSFET, SOT-23 (logic level) | 1 | switches the magnet from GPIO21 |
-| D1 | 1N5819 Schottky | 1 | +5V LOGIC -> ESP32 board 5V pin (stops back-feeding the laptop's USB) |
-| D2 | 1N5819 Schottky | 1 | flyback across the magnet coil |
-| F2 | PTC resettable fuse 0.5 A (1206 or radial) | 1 | connector C V pin: a short on an external device cannot pull down the logic rail |
-| C1..C4 | 100 uF 35 V electrolytic | 4 | one at each TMC2209 VM pin |
-| C5 | **470 uF 16 V electrolytic** | 1 | servo rail, at the servo connector: catches the MG996R's current spikes |
-| C6 | **100 nF ceramic** | 1 | servo rail, next to C5 (high-frequency noise) |
-| C7 | 100 uF 10 V electrolytic | 1 | +5V LOGIC, near the ESP32 (magnet switch-on spike) |
-| C8 | 10 nF ceramic | 1 | connector A filter |
+| D1 | SS34 Schottky (SMA) | 1 | +5V LOGIC -> ESP32 board 5V pin (stops back-feeding the laptop's USB) |
+| D2 | SS34 Schottky (SMA) | 1 | flyback across the magnet coil |
+| F2 | PTC resettable fuse 0.5 A, 1206 | 1 | connector C V pin: a short on an external device cannot pull down the logic rail |
+| C1..C4 | 100 uF 35 V SMD electrolytic, 8 x 10 | 4 | one at each TMC2209 VM pin |
+| C5 | **470 uF 16 V SMD electrolytic, 8 x 10** | 1 | servo rail, at the servo connector: catches the MG996R's current spikes |
+| C6 | **100 nF ceramic 0805** | 1 | servo rail, next to C5 (high-frequency noise) |
+| C7 | 100 uF 10 V SMD electrolytic, 6.3 x 7.7 | 1 | +5V LOGIC, near the ESP32 (magnet switch-on spike) |
+| C8 | 10 nF ceramic 0805 | 1 | connector A filter |
 | R1 | 100 k | 1 | stop-sense divider (top) |
 | R2 | 22 k | 1 | stop-sense divider (bottom) -> GPIO47 |
 | R3 | 100 k | 1 | battery divider (top) |
@@ -57,9 +57,9 @@ are 3.3 V and are damaged by 5 V, so the UART TX/RX lines go through it.
 | R15 | 100 k | 1 | MOSFET gate pull-down (magnet off while booting) |
 | R16 | 1.5 k, 0.25 W | 1 | green LED on the drive bus (about 9 mA at 14.8 V) |
 | R17 | 220 R | 1 | red LED from GPIO42 (about 6 mA) |
-| TP1..TP4 | test pads / 1x2 pin | 4 | 3V3, +5V LOGIC, +5V SERVO, GND (multimeter) |
+| TP1..TP4 | test pads (2 mm, through-hole) | 4 | 3V3, +5V LOGIC, +5V SERVO, GND (multimeter) |
 
-Resistors 0.25 W through-hole (or 0805 if you want SMD); everything is hand-solderable.
+Resistors 0805 (0.125 W; R16 dissipates 0.15 W at 16.8 V: use 1206 or 2x 3k in parallel if it gets warm), hand-solder pads.
 TMC2209 addresses 0..3: MS1/MS2 tied to GND / 3V3 by traces (no parts).
 
 ## C. Connectors on the PCB
@@ -71,10 +71,9 @@ TMC2209 addresses 0..3: MS1/MS2 tied to GND / 3V3 by traces (no parts).
 | J6 | JST-XH 2-pin | 2 | magnet |
 | J7, J8 | JST-XH 2-pin | 2 | X home switch, Y home switch |
 | J9 | JST-XH 5-pin | 5 | distance sensor: 3V3, GND, SDA, SCL, XSHUT |
-| J10 | screw terminal 5.08 mm | 2 | battery in (after F1, before the stop) |
-| J11 | screw terminal 5.08 mm | 2 | drive bus in (after stop block 1) |
-| J12 | JST-XH 2-pin | 2 | +5V LOGIC out to stop block 2 |
-| J13 | JST-XH 2-pin | 2 | magnet 5 V back from stop block 2 |
+| J10 | XT60PW-M (PCB, horizontal) | 2 | battery in (after F1, before the stop) |
+| J11 | XT30PW-M (PCB, horizontal) | 2 | drive bus in (after stop block 1) |
+| J12 | JST-XH 2-pin | 2 | stop block 2: pin 1 +5V LOGIC out, pin 2 magnet 5 V back |
 | J14 | JST-XH 2-pin | 2 | green LED |
 | J15 | JST-XH 2-pin | 2 | red LED |
 | J16 | JST-XH 2-pin | 2 | start button |
@@ -84,7 +83,7 @@ TMC2209 addresses 0..3: MS1/MS2 tied to GND / 3V3 by traces (no parts).
 | Part | Qty | Where |
 |---|---|---|
 | 4S LiPo 2200 mAh, XT60 | 1 | battery tray |
-| XT60 male + female pair | 1 | battery lead |
+| XT60 + XT30 plugs (to match J10 / J11; check the genders) | 1 each | battery lead, stop button lead |
 | F1: inline blade fuse holder + 5 A blade fuse (+ spares) | 1 | battery lead, before everything |
 | Emergency stop 22 mm, latching, 2 NC blocks (XB2 / LAY37) | 1 | control panel |
 | Start button 16 mm, momentary | 1 | control panel |

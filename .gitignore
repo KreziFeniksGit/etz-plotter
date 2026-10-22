@@ -6,3 +6,8 @@ out/gui_stdout.txt
 out/export_log.txt
 out/fea/
 out/*_log.txt
+pcb/*.dsn
+pcb/*.ses
+pcb/*_freerouting.log
+pcb/fab/
+pcb/*-backups/
