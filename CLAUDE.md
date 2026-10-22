@@ -46,7 +46,7 @@ Design rules Egor requires: `docs/design_rules.md`.
 | `tolerance/coupons.py` | 11 tolerance test coupons -> `tolerance/out/*.step`; `tolerance/README.md` = how to test |
 | `verify_step.py` | Re-import a STEP and count parts/solids |
 | `tools/plywood_dxf.py` | Plywood base -> `out/plywood_base.dxf` (1:1 mm, layers) + hole list |
-| `pcb/` | Control PCB (KiCad 10): `build_pcb.py` (parts, nets, rules, Freerouting route, pours) with KiCad's Python; `pcb/README.md` |
+| `pcb/` | Control electronics (KiCad 10, run with KiCad's Python). Current: 3 split single-sided hand-routed boards `build_drivers.py`, `build_power.py`, `build_controller.py` (helpers `handroute.py`), see `pcb/split_boards.md`. Older single board: `build_pcb.py`, `build_sch.py` |
 | `vendor/` | Real STEP models of bought parts (Egor's downloads). `W.detailed()` / `F.detailed()` place them; `world(detail=True)` swaps them in (export + `detailed_*` checks) |
 | `components.csv` | Every bought component, why it was chosen, CAD data |
 | `wiring.md` | Power, stop button, ESP32-S3 pin map, harnesses, driver currents |
