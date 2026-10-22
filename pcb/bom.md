@@ -32,15 +32,15 @@ are 3.3 V and are damaged by 5 V, so the UART TX/RX lines go through it.
 ## B. Small parts on the PCB
 | Ref | Part | Qty | What for |
 |---|---|---|---|
-| Q1 | AO3400A N-MOSFET, SOT-23 (logic level) | 1 | switches the magnet from GPIO21 |
+| Q1 | IRLZ44N logic-level N-MOSFET, TO-220 (home board; AO3400A SOT-23 on the factory board) | 1 | switches the magnet from GPIO21 |
 | D1 | SS34 Schottky (SMA) | 1 | +5V LOGIC -> ESP32 board 5V pin (stops back-feeding the laptop's USB) |
 | D2 | SS34 Schottky (SMA) | 1 | flyback across the magnet coil |
 | F2 | PTC resettable fuse 0.5 A, 1206 | 1 | connector C V pin: a short on an external device cannot pull down the logic rail |
 | C1..C4 | 100 uF 35 V SMD electrolytic, 8 x 10 | 4 | one at each TMC2209 VM pin |
 | C5 | **470 uF 16 V SMD electrolytic, 8 x 10** | 1 | servo rail, at the servo connector: catches the MG996R's current spikes |
-| C6 | **100 nF ceramic 0805** | 1 | servo rail, next to C5 (high-frequency noise) |
+| C6 | **100 nF ceramic 1206** | 1 | servo rail, next to C5 (high-frequency noise) |
 | C7 | 100 uF 10 V SMD electrolytic, 6.3 x 7.7 | 1 | +5V LOGIC, near the ESP32 (magnet switch-on spike) |
-| C8 | 10 nF ceramic 0805 | 1 | connector A filter |
+| C8 | 10 nF ceramic 1206 | 1 | connector A filter |
 | R1 | 100 k | 1 | stop-sense divider (top) |
 | R2 | 22 k | 1 | stop-sense divider (bottom) -> GPIO47 |
 | R3 | 100 k | 1 | battery divider (top) |
@@ -59,7 +59,7 @@ are 3.3 V and are damaged by 5 V, so the UART TX/RX lines go through it.
 | R17 | 220 R | 1 | red LED from GPIO42 (about 6 mA) |
 | TP1..TP4 | test pads (2 mm, through-hole) | 4 | 3V3, +5V LOGIC, +5V SERVO, GND (multimeter) |
 
-Resistors 0805 (0.125 W; R16 dissipates 0.15 W at 16.8 V: use 1206 or 2x 3k in parallel if it gets warm), hand-solder pads.
+Resistors and small capacitors 1206 (home board), hand-solder pads; they sit on the copper side.
 TMC2209 addresses 0..3: MS1/MS2 tied to GND / 3V3 by traces (no parts).
 
 ## C. Connectors on the PCB

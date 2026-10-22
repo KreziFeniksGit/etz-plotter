@@ -143,7 +143,8 @@ def module_footprint(name):
 # =============================================================================
 STD = {   # build_pcb footprint key -> (lib, symbol)
     'res': ('Device', 'R'), 'c0805': ('Device', 'C'), 'cp63': ('Device', 'C_Polarized'), 'cp8': ('Device', 'C_Polarized'),
-    'sma': ('Device', 'D_Schottky'), 'sot23': ('Transistor_FET', 'Q_NMOS_GSD'), 'f1206': ('Device', 'Polyfuse'),
+    'sma': ('Device', 'D_Schottky'), 'sot23': ('Transistor_FET', 'Q_NMOS_GSD'), 'to220': ('Transistor_FET', 'Q_NMOS_GDS'),
+    'f1206': ('Device', 'Polyfuse'),
     'xt60': ('Connector_Generic', 'Conn_01x02'), 'xt30': ('Connector_Generic', 'Conn_01x02'),
     'xh2': ('Connector_Generic', 'Conn_01x02'), 'pins3': ('Connector_Generic', 'Conn_01x03'),
     'xh4': ('Connector_Generic', 'Conn_01x04'), 'xh5': ('Connector_Generic', 'Conn_01x05'),

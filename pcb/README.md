@@ -1,5 +1,19 @@
 # Main control PCB (KiCad 10)
 
+**Current version: HOME (single-sided, toner transfer), placed, NOT routed - Egor routes it by hand (22 Oct).**
+`build_pcb.py` has `HOME = True`: 169 x 136 mm, copper on the bottom only, traces >= 0.5 mm (signals 0.6, 5 V 1.2, motors 1.0,
+power 2.0), 0.6 mm gaps (0.8 around power), oval 1.7 x 2.6 pads with 1.0 mm drills on 2.54 mm rows (round 1.9 on the 2x5 header),
+1206 parts and the SMD parts on the copper side, IRLZ44N (TO-220) instead of the SOT-23 MOSFET. DRC with these rules: 0 errors.
+The auto-router could not do it single-sided (66 wire jumpers + 70 drilled holes and still 9 open): route by hand.
+Tips for routing by hand:
+- Route power first (VBAT, VDRIVE, GND), then motors, then signals. Leave GND for a ground pour at the end (Place > Zone, B.Cu).
+- Where a trace cannot cross, use a wire jumper on the top side: drill two holes, insulated wire, solder underneath.
+- **You may swap ESP32 pins** to remove crossings (the firmware is not written yet). Allowed GPIOs: 1, 2, 4..18, 21, 39..42, 47
+  (38 only if your board is v1.0). A_IO and VBAT_SENSE must stay on GPIO 1..10 (ADC1). Never use 0, 3, 19, 20, 26..37, 43..46, 48.
+  Tell Claude which pins you moved: wiring.md, the schematic and the firmware follow.
+- For printing: File > Plot, layer B.Cu + Edge.Cuts, PDF, black, scale 1:1, drill marks "small"; NOT mirrored for the bottom layer
+  (the toner transfer itself mirrors it the right way).
+
 | File | What |
 |---|---|
 | `bom.md` | every part on and off the board, the power tree, what is still VERIFY |

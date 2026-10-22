@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "10.0")
-	(uuid "2b733a15-d291-45f2-a39b-c0b70ce0aa3f")
+	(uuid "3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb")
 	(paper "A2")
 	(title_block
 		(title "ETZ plotter control board - full connection schematic")
@@ -1142,7 +1142,7 @@
 					(name "HV4" (effects (font (size 1.27 1.27))))
 					(number "12" (effects (font (size 1.27 1.27)))))))
 		(symbol
-			"Transistor_FET:Q_NMOS_GSD"
+			"Transistor_FET:Q_NMOS_GDS"
 			(pin_names (offset 0) (hide yes))
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -1158,7 +1158,7 @@
 				(effects (font (size 1.27 1.27)) (justify left)))
 			(property
 				"Value"
-				"Q_NMOS_GSD"
+				"Q_NMOS_GDS"
 				(at 5.08 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1181,7 +1181,7 @@
 				(effects (font (size 1.27 1.27))))
 			(property
 				"Description"
-				"N-MOSFET transistor, gate/source/drain"
+				"N-MOSFET transistor, gate/drain/source"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1196,7 +1196,7 @@
 				(hide yes)
 				(effects (font (size 1.27 1.27))))
 			(symbol
-				"Q_NMOS_GSD_0_1"
+				"Q_NMOS_GDS_0_1"
 				(polyline
 					(pts (xy 0.254 1.905) (xy 0.254 -1.905))
 					(stroke (width 0.254) (type default))
@@ -1257,7 +1257,7 @@
 					(stroke (width 0) (type default))
 					(fill (type none))))
 			(symbol
-				"Q_NMOS_GSD_1_1"
+				"Q_NMOS_GDS_1_1"
 				(pin
 					input
 					line
@@ -1268,16 +1268,16 @@
 				(pin
 					passive
 					line
-					(at 2.54 -5.08 90)
+					(at 2.54 5.08 270)
 					(length 2.54)
-					(name "S" (effects (font (size 1.27 1.27))))
+					(name "D" (effects (font (size 1.27 1.27))))
 					(number "2" (effects (font (size 1.27 1.27)))))
 				(pin
 					passive
 					line
-					(at 2.54 5.08 270)
+					(at 2.54 -5.08 90)
 					(length 2.54)
-					(name "D" (effects (font (size 1.27 1.27))))
+					(name "S" (effects (font (size 1.27 1.27))))
 					(number "3" (effects (font (size 1.27 1.27))))))
 			(embedded_fonts no))
 		(symbol
@@ -2030,7 +2030,7 @@
 		(exclude_from_sim no)
 		(at 20.0 22.0 0)
 		(effects (font (size 2.54 2.54) (thickness 0.5) (bold yes)) (justify left bottom))
-		(uuid "59936e90-49d1-4492-92f3-4a48b966edcf"))
+		(uuid "9d668506-9ffc-4199-ae3a-10b1123e0b3c"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 33.02 35.56 0)
@@ -2039,7 +2039,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "52df8d2b-0002-42cd-9bbf-a90ac821372f")
+		(uuid "30413818-5382-4d05-a88a-8bb8c13e19b6")
 		(property "Reference" "J10" (at 33.02 32.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "XT60 BAT (1 -, 2 +)" (at 33.02 44.1 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2048,24 +2048,24 @@
 			(at 33.02 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 33.02 35.56 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "ee304cbd-ebac-4384-adb3-40cd86ea2806"))
-		(pin "2" (uuid "6cdf8053-cf1b-4b88-9d49-27883b08b094"))
+		(pin "1" (uuid "5914a731-a345-4c1f-8f51-c513ea84f4c3"))
+		(pin "2" (uuid "fa01dc71-ca45-4245-a73c-8881f2921d73"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J10") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J10") (unit 1)))))
 	(label
 		"GND"
 		(at 27.94 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "87cb449d-567d-4f20-83ae-b2844aac66a1"))
+		(uuid "edf36d08-d8fa-4fde-bf2a-239d06b0140c"))
 	(label
 		"VBAT"
 		(at 27.94 38.1 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "336902b9-f71b-46f1-9e08-abe802999983"))
+		(uuid "e1d1c7f2-43b5-453e-a20b-bd7a0267b8af"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 60.96 35.56 0)
@@ -2074,7 +2074,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a362729e-8246-4d77-9391-0898bfac6e64")
+		(uuid "75ae3523-c3a1-4a9b-90dc-13512cfd1152")
 		(property "Reference" "J11" (at 60.96 32.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "XT30 DRIVE (1 +, 2 -)" (at 60.96 44.1 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2083,24 +2083,24 @@
 			(at 60.96 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 60.96 35.56 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "7d297d40-202e-4b18-b5cb-b260baf3770b"))
-		(pin "2" (uuid "c9055b18-e0cc-4b19-a3c0-1f082773f9a7"))
+		(pin "1" (uuid "1016467b-f62b-46b5-9bab-80a62c43c21f"))
+		(pin "2" (uuid "7c4741b2-6584-4511-b5e2-605ea8e5abc2"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J11") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J11") (unit 1)))))
 	(label
 		"VDRIVE"
 		(at 55.88 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "d34d2511-7e80-4fb1-82fd-edf0d92b5699"))
+		(uuid "fe046bc4-9a15-4036-9c53-88c947cd0258"))
 	(label
 		"GND"
 		(at 55.88 38.1 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "111deb3f-420d-442e-b24f-c6a1b2fec6d0"))
+		(uuid "3dd707ff-d80e-4b12-8d4e-8476e24be8b8"))
 	(symbol
 		(lib_id "etz:Mini560_Pro")
 		(at 99.06 38.1 0)
@@ -2109,7 +2109,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e1ba2d3f-a01f-4fe2-977f-716d310d119a")
+		(uuid "1e780fc1-91a9-4ece-859c-c4080b3f8986")
 		(property "Reference" "U5" (at 99.06 33.83 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -2122,38 +2122,38 @@
 			(at 99.06 38.1 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 99.06 38.1 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "f5fd9881-cd3a-48d6-9bd0-e469db0a0678"))
-		(pin "2" (uuid "8dc4ca38-751b-46b5-a103-a380d4936523"))
-		(pin "3" (uuid "8db9800b-4cf0-4c49-95dc-743c90365b77"))
-		(pin "4" (uuid "49e5849d-8f6f-4019-b15e-d3e07ee07f92"))
+		(pin "1" (uuid "6a068324-b919-48e1-bca4-2267b270d3fd"))
+		(pin "2" (uuid "eaa8592e-afd7-45d1-8aaa-b184fbf45b17"))
+		(pin "3" (uuid "0fa2b36e-128c-480a-abde-5043a36e53a4"))
+		(pin "4" (uuid "f08848af-2edc-4a0c-9d1d-f3790135e160"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "U5") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "U5") (unit 1)))))
 	(label
 		"VBAT"
 		(at 81.28 36.83 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "c490f31e-4be0-4eb4-a511-ff9a97365017"))
+		(uuid "ca964165-faf5-4793-80d1-9ccb42af72d2"))
 	(label
 		"GND"
 		(at 81.28 39.37 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "5272a817-5d7a-45fe-92a1-bda9e1dfbdac"))
+		(uuid "709b5711-96a5-4231-bceb-7f1c7a464f61"))
 	(label
 		"+5V"
 		(at 116.84 36.83 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "1446b79c-552e-4bd8-af42-bbe882f972c9"))
+		(uuid "ec83727c-fb05-4a62-8b47-a8c2917f145f"))
 	(label
 		"GND"
 		(at 116.84 39.37 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "70106d15-6911-4ced-8b96-1a67cfcf8d8a"))
+		(uuid "80f3af36-7617-4e08-ac19-782509a21513"))
 	(symbol
 		(lib_id "etz:Mini560_Pro")
 		(at 157.48 38.1 0)
@@ -2162,7 +2162,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "1131136b-43a6-4fe8-bbdc-17c6c90de8de")
+		(uuid "b6d4ae1b-d197-48de-9d57-5a383d65115e")
 		(property "Reference" "U6" (at 157.48 33.83 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -2175,38 +2175,38 @@
 			(at 157.48 38.1 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 157.48 38.1 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "6c809dde-a74b-43ab-919c-80751cd4112a"))
-		(pin "2" (uuid "2460a5bf-7a47-4a3f-9ce2-650a09f20560"))
-		(pin "3" (uuid "8c20a96f-088c-49a5-b375-d22fd0a26e49"))
-		(pin "4" (uuid "1d144e9f-37d6-4d15-8734-2a1e7d27798c"))
+		(pin "1" (uuid "afb34e6d-7f4a-44f1-8027-f4d7b4741a51"))
+		(pin "2" (uuid "f1bb923a-67a8-49e9-98b3-c5867c55b8c8"))
+		(pin "3" (uuid "5c6bf662-122e-4221-a4f5-e9746f47a6dc"))
+		(pin "4" (uuid "564f5f2e-25f3-4bd4-9179-a3ace5e8881a"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "U6") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "U6") (unit 1)))))
 	(label
 		"VDRIVE"
 		(at 139.7 36.83 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "e5a1d20f-9fbe-451c-86b4-d47d1eca03e6"))
+		(uuid "fce6cf44-6162-4e64-ab3d-bf0c541495f3"))
 	(label
 		"GND"
 		(at 139.7 39.37 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "1520e049-c669-4f79-99c3-1122a04267f1"))
+		(uuid "9651cd06-d74a-4c57-9619-07945a1f57a2"))
 	(label
 		"+5VS"
 		(at 175.26 36.83 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "51655d6a-fb0e-4476-a6c7-59136b297ec6"))
+		(uuid "f40dae63-1639-47d9-9792-12b9a88fdfb7"))
 	(label
 		"GND"
 		(at 175.26 39.37 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "7a4e2f47-3190-4bec-8e62-bf95d83de0bd"))
+		(uuid "51529c09-4ff3-4891-9af0-4f82bcade082"))
 	(symbol
 		(lib_id "Device:D_Schottky")
 		(at 205.74 35.56 0)
@@ -2215,7 +2215,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "f8b8b142-9c9a-4178-95dd-abdf9acb44d4")
+		(uuid "7728d006-005e-49ef-a51c-66b77dc5bdf6")
 		(property "Reference" "D1" (at 205.74 32.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "SS34" (at 205.74 41.56 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2224,24 +2224,24 @@
 			(at 205.74 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 205.74 35.56 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "ac9130a1-f80a-4fbb-84c0-a4fc2ab6095b"))
-		(pin "2" (uuid "6d2fb97f-2a31-4d4e-9db6-9c41feed7b7f"))
+		(pin "1" (uuid "7a3194e3-ed25-4e1f-8353-3df3040fc4a9"))
+		(pin "2" (uuid "a3842223-a807-46ca-a6a9-4cd5c4560292"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "D1") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "D1") (unit 1)))))
 	(label
 		"5V_ESP"
 		(at 201.93 35.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "f8d51bcc-66c1-433c-8228-399497bcccbf"))
+		(uuid "915eac23-a5ee-439b-b8f7-ead750dd3647"))
 	(label
 		"+5V"
 		(at 209.55 35.56 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2cd05a34-464d-4135-a0fd-598d1f6a8742"))
+		(uuid "7e306e0d-7e2a-4c97-bade-496a60511c0b"))
 	(symbol
 		(lib_id "Device:C_Polarized")
 		(at 231.14000000000001 43.18 0)
@@ -2250,7 +2250,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "3bba2883-3283-4b26-8d1a-20c3df58f52c")
+		(uuid "4726c6e4-406f-4e81-879c-91fe4cee941c")
 		(property "Reference" "C7" (at 231.14000000000001 33.17 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -2267,24 +2267,24 @@
 			""
 			(at 231.14000000000001 43.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "5abf910d-626b-448c-9316-50a541840a2a"))
-		(pin "2" (uuid "7de23a3a-8584-41f8-a272-3f6e36b4e1db"))
+		(pin "1" (uuid "0f1df886-39ff-46eb-bfe3-bdbdbe303a05"))
+		(pin "2" (uuid "4042a9c1-d07b-4072-9478-44419cf78206"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "C7") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "C7") (unit 1)))))
 	(label
 		"+5V"
 		(at 231.14 39.37 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "d79f929e-7044-47bd-8f27-6e2eb02e93f5"))
+		(uuid "4452c396-ee85-44a1-b545-55d42eb97f7d"))
 	(label
 		"GND"
 		(at 231.14 46.99 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "0d75e1b8-a318-4375-a011-1d793e901ea4"))
+		(uuid "f8761285-1b0e-4408-81f3-b08b1d5bbe62"))
 	(symbol
 		(lib_id "Device:Polyfuse")
 		(at 251.46 43.18 0)
@@ -2293,7 +2293,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "93ddc090-ba9d-497b-aaaa-e12f78c7b7db")
+		(uuid "ca50e9e8-c501-479c-a67d-bc354926d3ac")
 		(property "Reference" "F2" (at 251.46 33.17 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "PTC 0.5A" (at 251.46 54.19 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2302,24 +2302,24 @@
 			(at 251.46 43.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 251.46 43.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "b85f4550-f065-4cd8-924a-88bc18b397c7"))
-		(pin "2" (uuid "4208d299-51c4-4a10-881b-d6bf32810773"))
+		(pin "1" (uuid "52f8f0ae-c978-49d8-b2e1-05632ab08c40"))
+		(pin "2" (uuid "db72cbff-cb3d-4980-a412-04732ccc3d2b"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "F2") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "F2") (unit 1)))))
 	(label
 		"+5V"
 		(at 251.46 39.37 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "37a6ed65-17a7-49da-a3f7-6d0abece6e89"))
+		(uuid "89cc9059-bddd-418a-8f47-b77f7ead63ee"))
 	(label
 		"C_V"
 		(at 251.46 46.99 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "743ad8f4-06e7-47a4-b24b-c4d4ddbbfea4"))
+		(uuid "f82dfa4c-fbb1-4cc6-8863-a5fb916a576b"))
 	(symbol
 		(lib_id "Device:C_Polarized")
 		(at 271.78000000000003 43.18 0)
@@ -2328,7 +2328,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "df6a770a-c06f-4a70-b4d2-98067dc16f28")
+		(uuid "a797b709-5b9e-4eca-99a5-f70fbb1f85b3")
 		(property "Reference" "C5" (at 271.78000000000003 33.17 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -2345,24 +2345,24 @@
 			""
 			(at 271.78000000000003 43.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "a3f44641-467b-4ff4-9f9a-53b17fc6e8cb"))
-		(pin "2" (uuid "4a1f5821-b51a-431a-85f3-29cb1d2bb6c8"))
+		(pin "1" (uuid "c97e332b-57f1-434c-b4fc-6985368f5178"))
+		(pin "2" (uuid "0955bda3-a3d3-4a71-973b-8ccb5bd82fd4"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "C5") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "C5") (unit 1)))))
 	(label
 		"+5VS"
 		(at 271.78 39.37 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "8b37e3f0-ddc6-47d2-a27b-7512ed874fd9"))
+		(uuid "fa050269-e29a-4b52-b422-b89384d9905f"))
 	(label
 		"GND"
 		(at 271.78 46.99 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "fc35fb55-549b-433c-8bbd-d21697699082"))
+		(uuid "c8b2a96e-5c8c-42f7-83a9-6fd910ab018b"))
 	(symbol
 		(lib_id "Device:C")
 		(at 292.1 43.18 0)
@@ -2371,33 +2371,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "dc80a11f-f230-4615-b0de-3ee4fa54b211")
+		(uuid "117d54d9-fdfb-4dba-a8a9-54b9ab838a13")
 		(property "Reference" "C6" (at 292.1 33.17 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "100nF" (at 292.1 54.19 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+			"Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 292.1 43.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 292.1 43.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "390bd2c0-e874-4692-8ec9-dbeb24670be1"))
-		(pin "2" (uuid "4c56a093-c18b-4028-9ea5-31e9c9f48e45"))
+		(pin "1" (uuid "f0473c47-5a1b-4c5f-a8c7-2509df50c9d2"))
+		(pin "2" (uuid "e6625a81-3936-4cc8-a886-6b85edd4d266"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "C6") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "C6") (unit 1)))))
 	(label
 		"+5VS"
 		(at 292.1 39.37 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "4055b7ab-ad9b-4deb-9806-b3476c7a6de6"))
+		(uuid "eabf8405-f795-4992-aa22-365e6d851b1c"))
 	(label
 		"GND"
 		(at 292.1 46.99 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "31cd6d70-7517-4bcf-bc91-871ea22372e5"))
+		(uuid "8d6d9feb-098e-4007-ae84-3589a9d610cf"))
 	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 312.42 35.56 0)
@@ -2406,7 +2406,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "cadcafdf-6ea3-4a55-98a6-f35381361d6c")
+		(uuid "cd327098-e462-4f5e-b031-30fe9d129ccf")
 		(property "Reference" "TP1" (at 312.42 32.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "3V3" (at 312.42 42.760000000000005 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2415,17 +2415,17 @@
 			(at 312.42 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 312.42 35.56 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "d19e7515-c5ee-40d5-b742-19bfa2797d8f"))
+		(pin "1" (uuid "a40ad71f-6dcf-4bd8-8843-662972a802d0"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "TP1") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "TP1") (unit 1)))))
 	(label
 		"3V3"
 		(at 312.42 35.56 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8836eba3-6e66-469e-a9ca-d9a6cd203a4c"))
+		(uuid "53ab0cc3-e245-423b-a566-0893c07697a5"))
 	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 332.74 35.56 0)
@@ -2434,7 +2434,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c1ff7ef2-cdb7-4c80-9edf-f1fcdc38b27d")
+		(uuid "47eeb8d7-c21c-43bc-93a5-c8cdea6d7ad2")
 		(property "Reference" "TP2" (at 332.74 32.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "+5V" (at 332.74 42.760000000000005 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2443,17 +2443,17 @@
 			(at 332.74 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 332.74 35.56 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "4839428b-8879-4510-be34-26eb428bff9e"))
+		(pin "1" (uuid "09069abd-75fb-458c-b8cc-b963cd9f884f"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "TP2") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "TP2") (unit 1)))))
 	(label
 		"+5V"
 		(at 332.74 35.56 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "70f3865a-ef08-4611-a808-ca9fd85a34ad"))
+		(uuid "a2d952c6-b28e-419b-b5e6-a6b3eac8d79c"))
 	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 353.06 35.56 0)
@@ -2462,7 +2462,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "ac57705f-ff5a-4586-8069-7c467edb75b7")
+		(uuid "bce5e3d0-4e82-4082-95aa-c6f1d0c6ebbf")
 		(property "Reference" "TP3" (at 353.06 32.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "+5VS" (at 353.06 42.760000000000005 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2471,17 +2471,17 @@
 			(at 353.06 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 353.06 35.56 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "648a77d3-38ad-4352-b288-874d62944118"))
+		(pin "1" (uuid "ab90b7f9-21c9-418e-aa83-fded3d1d3e99"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "TP3") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "TP3") (unit 1)))))
 	(label
 		"+5VS"
 		(at 353.06 35.56 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8aeda396-25c3-4231-ac19-a389b5aedbca"))
+		(uuid "7153d0c8-04a1-4e11-96d6-5b9f73a83e86"))
 	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 373.38 35.56 0)
@@ -2490,7 +2490,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a767f6c8-3ed7-40e8-a767-5c02f7cd64de")
+		(uuid "72f14ea6-8d6b-4a77-8cfc-b0bf162b506a")
 		(property "Reference" "TP4" (at 373.38 32.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "GND" (at 373.38 42.760000000000005 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2499,23 +2499,23 @@
 			(at 373.38 35.56 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 373.38 35.56 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "6ef0d1cf-790c-41c8-9eb1-20b2ad525e23"))
+		(pin "1" (uuid "34340fa1-66c4-424c-b474-1380cdef84cd"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "TP4") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "TP4") (unit 1)))))
 	(label
 		"GND"
 		(at 373.38 35.56 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "c2cb5ac4-e7f1-48c2-9f72-dafbef6135b2"))
+		(uuid "24c341d3-3633-432d-85ad-5712e3c11834"))
 	(text
 		"CONTROLLER: ESP32-S3-DevKitC-1 (radio never started)"
 		(exclude_from_sim no)
 		(at 20.0 64.02 0)
 		(effects (font (size 2.54 2.54) (thickness 0.5) (bold yes)) (justify left bottom))
-		(uuid "aeeacb07-17da-4c34-8658-549bd9fc1f33"))
+		(uuid "c63b6309-d694-4365-866f-363b73e4f5c5"))
 	(symbol
 		(lib_id "etz:ESP32-S3-DevKitC-1")
 		(at 55.88 104.14 0)
@@ -2524,7 +2524,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "18ea09f5-6f9d-422b-b1d6-418b94edcc2d")
+		(uuid "2a156833-b346-4348-8425-8ee1be675fba")
 		(property "Reference" "U1" (at 55.88 74.47 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -2537,259 +2537,259 @@
 			(at 55.88 104.14 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 55.88 104.14 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "8cfee577-53a6-48e2-80b9-0acbe034b296"))
-		(pin "2" (uuid "a45c5884-9a02-4eea-8f09-14a4ea340bae"))
-		(pin "3" (uuid "c833b39b-2d3a-4881-bd88-210d7da35cb8"))
-		(pin "4" (uuid "d59797c3-303b-4ed1-8f8f-8745ba1befbc"))
-		(pin "5" (uuid "c9ead66e-4384-4d03-a05d-9329873ee8af"))
-		(pin "6" (uuid "2bced028-e263-470a-8bef-c0440cd5e361"))
-		(pin "7" (uuid "961481e5-0222-43f9-a844-084ce369afa9"))
-		(pin "8" (uuid "90d5a1f5-a815-4e6f-97b3-b12995247202"))
-		(pin "9" (uuid "ae41348f-699e-4fb2-8f5b-fc9671c28f0c"))
-		(pin "10" (uuid "cf4ce11a-0f68-4a2b-8335-048034ae8333"))
-		(pin "11" (uuid "f9a78ca5-c71d-4763-acc0-68cca8339189"))
-		(pin "12" (uuid "162e2b83-5a85-4320-bd30-25fc87a6de8b"))
-		(pin "13" (uuid "d04b2509-1e2c-4701-aa25-4263cf308317"))
-		(pin "14" (uuid "e6239390-9e30-421b-8645-736568db14dd"))
-		(pin "15" (uuid "cfc7e6bc-0565-44c3-ada1-c8792faf82ae"))
-		(pin "16" (uuid "c6d17554-fda2-4e6f-999a-3e45fb2771ab"))
-		(pin "17" (uuid "447354f2-016e-47e6-8998-02499f8e78b2"))
-		(pin "18" (uuid "6a82446b-6d28-4dcf-bd5c-f89697141053"))
-		(pin "19" (uuid "d2117bc9-5d96-44e7-8da7-bebae2e8b810"))
-		(pin "20" (uuid "69adfe11-c1c2-4e8e-981f-96900509e597"))
-		(pin "21" (uuid "b3fb958d-d82f-42a2-a389-e19533b32ff3"))
-		(pin "22" (uuid "0b106c4a-d505-44c5-88ad-15a9700aec08"))
-		(pin "23" (uuid "0a7bd762-2358-4945-9dd6-0f561a2732d6"))
-		(pin "24" (uuid "4ade7407-b449-4880-9196-efb301c26c72"))
-		(pin "25" (uuid "caa47c09-b76c-46a2-bdc3-fe3adb4b4a3c"))
-		(pin "26" (uuid "3d110a0d-193b-408d-966c-788ef3ea98a4"))
-		(pin "27" (uuid "ba6d4892-4de8-4ae9-814c-9c68e6af6b06"))
-		(pin "28" (uuid "a995ae7f-8d8c-4461-b9b0-0e1be52efa79"))
-		(pin "29" (uuid "26734eb3-62cd-4957-8f27-acdd6ce913a8"))
-		(pin "30" (uuid "c4b4f544-84c5-4b39-bfec-d1a47b4bfdb7"))
-		(pin "31" (uuid "47a0dc44-94e6-4791-b5ef-6e932bfc1eba"))
-		(pin "32" (uuid "5bb93f7e-cc78-4900-9c3d-f245e49f6c31"))
-		(pin "33" (uuid "cf8261e4-3e4d-40a7-8aa7-5b990c1fd42e"))
-		(pin "34" (uuid "aa938cbe-ca97-46aa-b066-52b3ea5145be"))
-		(pin "35" (uuid "1f898135-947c-4050-9a4f-17337c420779"))
-		(pin "36" (uuid "ea9ed8c8-286e-4641-bdeb-8b71c6c128bd"))
-		(pin "37" (uuid "4f18c700-7cdd-46ae-98ef-560aca396ac5"))
-		(pin "38" (uuid "22b6c7d5-c5de-4b42-a889-61347109696d"))
-		(pin "39" (uuid "5faa05f4-eb36-47d5-8575-486d9f7541da"))
-		(pin "40" (uuid "0e3d16af-49c7-4b22-97e4-987c686b8933"))
-		(pin "41" (uuid "2b4ba400-5468-40be-808d-24a3f05cc273"))
-		(pin "42" (uuid "275ccbca-9de7-48ef-88f1-8b5f881b41ff"))
-		(pin "43" (uuid "c382e761-f9ae-4721-aad5-a56358773564"))
-		(pin "44" (uuid "8ab7e0e0-88ef-4fbf-91fa-bb017c998576"))
+		(pin "1" (uuid "d6709a5b-01c9-41a6-b049-6ce222f2910d"))
+		(pin "2" (uuid "10ebd233-9bb4-4b48-8d35-d48a75c28806"))
+		(pin "3" (uuid "abbbea29-d349-4c7e-8a2c-a1b2915efec7"))
+		(pin "4" (uuid "ed19696b-b5e5-4290-aa50-9a26827f7ddc"))
+		(pin "5" (uuid "5ce6ee1a-3435-4bea-9433-70ec9529b49b"))
+		(pin "6" (uuid "116666fa-6a7c-4b98-9dbc-6fc7ee55c4f3"))
+		(pin "7" (uuid "31667af8-6581-4768-b675-f74dd1e66b4e"))
+		(pin "8" (uuid "b57e8ff3-c1c9-4d89-9439-c3993430c3d7"))
+		(pin "9" (uuid "60ed2225-0722-43da-94c9-138e88b1711a"))
+		(pin "10" (uuid "66e75b34-e6ed-4b74-89d3-8965e020e8a8"))
+		(pin "11" (uuid "bcbaa4b2-ca65-48e0-8c64-0dea912018f3"))
+		(pin "12" (uuid "d1fbf082-0b58-4d00-a9d1-4dd393bd5218"))
+		(pin "13" (uuid "780b14a3-7f46-40fe-bf34-229cb21c84cc"))
+		(pin "14" (uuid "af3f9904-8024-400d-b0e1-a70945a411f2"))
+		(pin "15" (uuid "b4d8058c-f584-4190-a1a4-20d70654bec1"))
+		(pin "16" (uuid "9a9d3914-51bb-42b5-825f-2995c4623764"))
+		(pin "17" (uuid "81f4c2af-f5ab-4e94-8874-a0c5392f36db"))
+		(pin "18" (uuid "293af389-5ccc-41d9-bd76-79eede076aa3"))
+		(pin "19" (uuid "ea4f14aa-5113-4770-a84c-bb098cce9f28"))
+		(pin "20" (uuid "6f534092-1231-4292-a35b-779beb37fd01"))
+		(pin "21" (uuid "1bffc106-db2e-4d79-8300-393688407533"))
+		(pin "22" (uuid "8da8e6c8-cc1a-4a38-a287-93b5b685c85a"))
+		(pin "23" (uuid "9766b8ad-342a-46f1-90f5-9571674f3438"))
+		(pin "24" (uuid "53bbe97e-46b6-4ad3-b523-cef188c6773f"))
+		(pin "25" (uuid "298cfe20-b765-48b6-b8f8-190bc11b4fc1"))
+		(pin "26" (uuid "44a24842-f019-400c-b668-5857510a9a34"))
+		(pin "27" (uuid "8bd252bd-62aa-4bf7-857a-ad1575591bc1"))
+		(pin "28" (uuid "17fe6d52-5c4c-4b53-ade0-1d4e7fa60902"))
+		(pin "29" (uuid "1b3df9be-7ab3-44b3-bdb6-f657008e5193"))
+		(pin "30" (uuid "6dbe7af1-03fe-47fc-a145-7f48848c95de"))
+		(pin "31" (uuid "365b146c-c690-481a-9cee-eb9870f6ac22"))
+		(pin "32" (uuid "1a05d089-6693-4f66-a3ff-a4c2d7ac4b81"))
+		(pin "33" (uuid "914bbece-4c79-48c7-87e4-9377c9ad7fa9"))
+		(pin "34" (uuid "6ddb5237-fd0a-4d56-98c7-1575e7dbec43"))
+		(pin "35" (uuid "89ddd4f5-8b54-46e8-90e2-9bc2d7c63137"))
+		(pin "36" (uuid "769cbb9a-9284-4977-a125-3be4331b947e"))
+		(pin "37" (uuid "2a89491a-1305-48ea-873f-8152635c2151"))
+		(pin "38" (uuid "9b1fdd53-669a-4243-bd97-35c79061f18b"))
+		(pin "39" (uuid "2712289a-c7c4-45f3-934a-0b5704341f43"))
+		(pin "40" (uuid "871d750d-0143-483e-a63b-a0b0b830dce1"))
+		(pin "41" (uuid "3c3eb1e2-4766-4a96-8ad7-ae29d377f326"))
+		(pin "42" (uuid "01424529-4bf2-4463-a278-4b3d295db654"))
+		(pin "43" (uuid "74c1c39a-91bb-4cac-a3aa-01392a40b0eb"))
+		(pin "44" (uuid "3e51e892-82b7-40ab-acd8-65720d07d9cf"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "U1") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "U1") (unit 1)))))
 	(label
 		"3V3"
 		(at 38.1 77.47 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "9b0a4d37-8fd7-435f-b31b-8315bdae8b82"))
+		(uuid "7a9f8b5a-1ec8-41ef-89c5-425067f3b7e7"))
 	(label
 		"3V3"
 		(at 38.1 80.01 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "7270ba3c-7213-4fdb-b905-57667b10c779"))
-	(no_connect (at 38.1 82.55) (uuid "53af9e07-34f0-4b4b-842d-b1ce92554886"))
+		(uuid "e4433ea8-d727-43d4-8e31-effca0edcafa"))
+	(no_connect (at 38.1 82.55) (uuid "79674f15-877e-4610-8f9f-735f261b5a96"))
 	(label
 		"X_STEP"
 		(at 38.1 85.09 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "2a1bbba0-8271-44dc-bd6e-89f44b6234f4"))
+		(uuid "3e2743dc-df57-438d-bb81-af91b6d94046"))
 	(label
 		"X_DIR"
 		(at 38.1 87.63 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "2baa4c59-db5b-4aff-9c72-378a526caa2c"))
+		(uuid "29d32fa7-bfd2-42e3-8708-2adc5211f989"))
 	(label
 		"Y_STEP"
 		(at 38.1 90.17 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "33678cc0-3cc3-444b-8095-b5368c0ca610"))
+		(uuid "6634d73e-793b-49bf-93c2-a50e022347ca"))
 	(label
 		"Y_DIR"
 		(at 38.1 92.71 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "b65cab54-0fcd-468a-a846-b8f3947ca52c"))
+		(uuid "ae0272f8-1aa8-45d8-8cac-d5534e9751e9"))
 	(label
 		"TMC_TX"
 		(at 38.1 95.25 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "559ad501-dd1d-42b5-8bdb-8fa92b083227"))
+		(uuid "dff20eb3-0394-4d1e-a86c-68a80dac05fb"))
 	(label
 		"TMC_UART"
 		(at 38.1 97.79 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "7141d8b3-66cb-4c79-b1f8-1bd177c76526"))
+		(uuid "2a87a7d0-471d-448b-a2dc-b0f6fef88f96"))
 	(label
 		"U1_TX"
 		(at 38.1 100.33 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "b750b553-545c-4e3c-b0d5-c7bb1d984ac0"))
+		(uuid "23611898-9a3b-4f9f-a97b-4a7f6fa659c6"))
 	(label
 		"U1_RX"
 		(at 38.1 102.87 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "e2d1ab22-c82a-48bb-aecc-21d11efe8e34"))
+		(uuid "02cf8677-f2a0-4a0d-8d9d-16dab223bb15"))
 	(label
 		"W_STEP"
 		(at 38.1 105.41 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6010797e-9ae9-4443-9435-2895bc28bd32"))
-	(no_connect (at 38.1 107.95) (uuid "0c699d99-3fef-42d9-b6c2-8cbf0a64189c"))
-	(no_connect (at 38.1 110.49) (uuid "78048960-03cb-4830-aaaa-8992914c95f1"))
+		(uuid "c29ed18e-0ffd-4ca8-92de-667f0dadb1aa"))
+	(no_connect (at 38.1 107.95) (uuid "73b5ea57-63aa-41ab-87ac-cbc6f0a834c1"))
+	(no_connect (at 38.1 110.49) (uuid "a5193027-4c1f-4ea7-95ec-2236f713ac73"))
 	(label
 		"W_DIR"
 		(at 38.1 113.03 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "63408166-323b-4982-a7b5-f6396b07254e"))
+		(uuid "e9170ac4-a23d-4447-b877-63a8e47148ee"))
 	(label
 		"B_IO"
 		(at 38.1 115.57 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "322c075e-4dd4-4f29-a218-db1b79e0c8ab"))
+		(uuid "5dc0a695-bf7e-414d-b592-ba6d96c76cbd"))
 	(label
 		"SDA"
 		(at 38.1 118.11 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "c187ad85-e94f-468f-8149-9ccb52e56697"))
+		(uuid "9831851d-7559-4809-b8fa-c4f06557c4c3"))
 	(label
 		"SCL"
 		(at 38.1 120.65 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8c8fa79c-df6c-4440-8bc5-85c8fe8e9e17"))
+		(uuid "5ca22c4a-5359-48e3-8165-3829db466f6c"))
 	(label
 		"DRV_EN"
 		(at 38.1 123.19 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "431c4222-3517-47b1-a053-ca264c5811ef"))
+		(uuid "84786d9c-0ce9-4f7b-b15f-e5111fed2aa0"))
 	(label
 		"SERVO_IO"
 		(at 38.1 125.73 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6f2b73c2-fc18-4561-99e5-ba17233a1194"))
+		(uuid "d1dbcc43-1320-41e0-b1eb-4dc236122b8b"))
 	(label
 		"5V_ESP"
 		(at 38.1 128.27 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a8e82c7a-1f7b-4e01-a966-1e9a308e0111"))
+		(uuid "a3110947-a898-490a-8fca-21af0a12b4e1"))
 	(label
 		"GND"
 		(at 38.1 130.81 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "14ef98f2-eec0-4ab3-bc37-32bd54897f3f"))
+		(uuid "a735c45f-ece9-44cd-840f-77f306ee1607"))
 	(label
 		"GND"
 		(at 73.66 77.47 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "e38bfdc0-f25d-480f-a374-67bd2940ad4c"))
-	(no_connect (at 73.66 80.01) (uuid "f971316f-68d3-4465-93ed-01c7d324bea2"))
-	(no_connect (at 73.66 82.55) (uuid "42afc179-10b9-485f-a38b-0e00359dca47"))
+		(uuid "ff4c7815-38dc-4e30-815e-adcebaa984ba"))
+	(no_connect (at 73.66 80.01) (uuid "de3527bc-84e6-4052-93ec-f99256da88d3"))
+	(no_connect (at 73.66 82.55) (uuid "bf6e6ad4-3308-4261-b9d4-738df5761347"))
 	(label
 		"A_IO"
 		(at 73.66 85.09 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "770c53c8-bce8-44cb-892c-b85613549bef"))
+		(uuid "df889869-c2af-4f6a-8132-9b3c63b95e26"))
 	(label
 		"VBAT_SENSE"
 		(at 73.66 87.63 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "550bf659-f24d-4077-80f4-16c07b5801ff"))
+		(uuid "4199c215-db27-44f2-9c39-21d707bab63c"))
 	(label
 		"LEDR_IO"
 		(at 73.66 90.17 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "f6ad143e-305c-403e-9bba-556259323e0e"))
+		(uuid "ca46d736-ce5b-4c15-9e26-cd49bd630325"))
 	(label
 		"START"
 		(at 73.66 92.71 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "091a5702-6ea4-4be9-bbd3-80df17dca3a8"))
+		(uuid "a24927cc-58e5-4a53-8704-a1aabebad0fd"))
 	(label
 		"Y_HOME"
 		(at 73.66 95.25 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "f00feab8-65a0-4156-b6c9-38983da2932b"))
+		(uuid "b1bec7da-0de1-4dd4-81aa-b3a516f4cf7e"))
 	(label
 		"X_HOME"
 		(at 73.66 97.79 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ed38d7bf-27b8-4252-9cb2-4e4a12f5c2da"))
+		(uuid "5fbccc47-2d9c-488e-910a-737fc45851b6"))
 	(label
 		"TOF_XSHUT"
 		(at 73.66 100.33 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "f3eb6066-7e2e-4955-abf0-3e5201fbaf73"))
-	(no_connect (at 73.66 102.87) (uuid "1b28c31e-ab4e-4725-8225-a2387b2700ea"))
-	(no_connect (at 73.66 105.41) (uuid "c757e048-a3cd-4d50-af03-92e457e4506b"))
-	(no_connect (at 73.66 107.95) (uuid "862d080b-7c73-4099-b7b5-031d4635c7ff"))
-	(no_connect (at 73.66 110.49) (uuid "3955364d-3b3f-4df8-882a-23b2b07e7b36"))
-	(no_connect (at 73.66 113.03) (uuid "8f354def-78c3-4808-8939-b427efb4d2bc"))
-	(no_connect (at 73.66 115.57) (uuid "4a18bde1-f7ef-452a-b0e6-434aea81b085"))
+		(uuid "779f8095-ba0b-45ea-911c-1b17d40f89af"))
+	(no_connect (at 73.66 102.87) (uuid "b121a62d-34c7-4974-b04b-f52fc924bb13"))
+	(no_connect (at 73.66 105.41) (uuid "bf1f8e7d-db1d-476c-8096-06e65dffaa83"))
+	(no_connect (at 73.66 107.95) (uuid "da2a95e6-5e9a-4ef1-926b-64d799be186d"))
+	(no_connect (at 73.66 110.49) (uuid "99a7716b-6205-4824-87f3-9894644dcbee"))
+	(no_connect (at 73.66 113.03) (uuid "a3c5766c-f949-4817-a246-b7ede164ed3e"))
+	(no_connect (at 73.66 115.57) (uuid "cc2f5226-dec9-4b36-bfd3-812a9b291ae9"))
 	(label
 		"STOP_SENSE"
 		(at 73.66 118.11 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "6eda7b5e-27aa-4251-830f-ca461e69940d"))
+		(uuid "62ebda32-850c-4d6f-8662-87d176db147c"))
 	(label
 		"MAG_IO"
 		(at 73.66 120.65 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2efb1870-439f-405c-a418-2b38730a4a54"))
-	(no_connect (at 73.66 123.19) (uuid "5de3f4de-b7eb-4724-a203-f33685524ed8"))
-	(no_connect (at 73.66 125.73) (uuid "3b234d77-82c4-4f41-aa6d-f3fa0ed3e291"))
+		(uuid "4b3c4da3-bc7c-430a-8ce8-16b6969d3bb2"))
+	(no_connect (at 73.66 123.19) (uuid "8bdcc154-1519-43e4-a7c6-c9e13b31130e"))
+	(no_connect (at 73.66 125.73) (uuid "855fa706-dcdb-4ea6-8239-2306ed04f5cf"))
 	(label
 		"GND"
 		(at 73.66 128.27 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "b24898fa-0ef8-439c-b924-b8a4a512cc81"))
+		(uuid "b564e979-019b-463f-a46f-eb6c86f8768f"))
 	(label
 		"GND"
 		(at 73.66 130.81 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "dd8b199e-4611-4c2a-90ed-290f920930c5"))
+		(uuid "a4713681-a72c-4142-a8f8-3729ba2895e0"))
 	(text
 		"STEPPER DRIVERS: TMC2209, UART addresses 0..3 (MS1/MS2), bulk caps, motor plugs"
 		(exclude_from_sim no)
 		(at 20.0 147.36 0)
 		(effects (font (size 2.54 2.54) (thickness 0.5) (bold yes)) (justify left bottom))
-		(uuid "62e5902d-47b1-4e72-81cc-177807742091"))
+		(uuid "1c65ca34-318d-461b-ab50-c47bbd114d1a"))
 	(symbol
 		(lib_id "etz:TMC2209_Module")
 		(at 58.42 170.18 0)
@@ -2798,7 +2798,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "9e951971-096e-46d5-b781-534492592bdc")
+		(uuid "47922440-3cd0-4524-80c6-4ddcb442e861")
 		(property "Reference" "U2" (at 58.42 158.29000000000002 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "TMC2209 X" (at 58.42 185.07 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2807,112 +2807,112 @@
 			(at 58.42 170.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 58.42 170.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "b55173db-9eef-487e-a4b3-f598914f5849"))
-		(pin "2" (uuid "8f3efc38-c5b4-4ab0-a5dc-f854c9d0b687"))
-		(pin "3" (uuid "e3d8627e-ec92-45cd-b71c-7916922f5dc9"))
-		(pin "4" (uuid "3b61977a-f48e-43d2-9893-c58331282f3b"))
-		(pin "5" (uuid "ae6d3d7c-7d0a-404b-bb56-aba7e21bb63d"))
-		(pin "6" (uuid "713ad07d-e905-4e43-82a7-d622e027e912"))
-		(pin "7" (uuid "733348d3-197f-4cf6-b313-3ec7dab9d688"))
-		(pin "8" (uuid "70f44605-8888-4360-9957-c67ac578b5cb"))
-		(pin "9" (uuid "b0bc9799-4ffe-453f-9498-794990f37b41"))
-		(pin "10" (uuid "90fd3d48-0499-4ae7-a7f4-acd95b7efb1f"))
-		(pin "11" (uuid "dd6c871a-21e1-4164-8914-226b3f7b1629"))
-		(pin "12" (uuid "83ab79c7-5cbe-4c7f-ac08-41fb3050dd48"))
-		(pin "13" (uuid "44e5a6a3-fef5-40d2-93e1-b49169d163c2"))
-		(pin "14" (uuid "e93f9a9d-86b1-4a3f-888c-a2098e8b1964"))
-		(pin "15" (uuid "7774195b-8391-4f4f-a57b-32239acab741"))
-		(pin "16" (uuid "83e6c9ae-5f65-4b9e-8621-bc074483ffb9"))
+		(pin "1" (uuid "fc11c802-c7aa-4f66-8953-2e68cd60722e"))
+		(pin "2" (uuid "97ffde8b-7d80-4ef1-a56e-8659cc43918f"))
+		(pin "3" (uuid "c9577e4b-d338-410d-85cb-e328573ce8e0"))
+		(pin "4" (uuid "f99171bd-e2a0-4a73-9995-f3c71f170f3b"))
+		(pin "5" (uuid "c0cf0806-f940-43cd-9d20-460b4f273b6e"))
+		(pin "6" (uuid "e43eaf04-fb33-4119-925f-463db51c9e5d"))
+		(pin "7" (uuid "2bea25e7-ac8b-42fb-9981-02a30a1289ac"))
+		(pin "8" (uuid "fe980393-9143-4b2f-acd3-3e2e717efa69"))
+		(pin "9" (uuid "1c976f37-a4cf-42b1-bcf7-dffa4c980ab4"))
+		(pin "10" (uuid "6148621f-7889-4758-b150-24e31baa60b5"))
+		(pin "11" (uuid "c1edbd05-fbc7-4515-be71-26c5a544ac6f"))
+		(pin "12" (uuid "04ba57c4-4044-4048-b465-0d278a76ef64"))
+		(pin "13" (uuid "0b5d09bd-ddd8-4846-989f-42b6c8108a93"))
+		(pin "14" (uuid "58bf8020-8a3b-485e-bb49-4ef52c6fac93"))
+		(pin "15" (uuid "66d7576f-30a0-485d-96fd-8b38bf4a51f7"))
+		(pin "16" (uuid "53058e13-2c5c-451f-b8b3-07e0620bb3ce"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "U2") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "U2") (unit 1)))))
 	(label
 		"DRV_EN"
 		(at 35.56 161.29 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "92722b2b-0937-4550-9c99-345215f7ef5c"))
+		(uuid "2982323c-df82-4262-bc37-b9c59206dfda"))
 	(label
 		"GND"
 		(at 35.56 163.83 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6e750c1a-45de-4d80-bc17-31f5d8693e75"))
+		(uuid "540eba7c-b18b-427f-8b69-b057b6b07c5c"))
 	(label
 		"GND"
 		(at 35.56 166.37 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "d7e75d28-5754-4bef-90d7-4e9040d4172c"))
+		(uuid "4bc6d31b-9eb5-4762-b396-7ed535681c6b"))
 	(label
 		"TMC_UART"
 		(at 35.56 168.91 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "b373031b-19a4-437b-bddf-e05b755dcce4"))
-	(no_connect (at 35.56 171.45) (uuid "a5d512de-4bcb-49b3-ae2f-0787320d3ddb"))
-	(no_connect (at 35.56 173.99) (uuid "428e6675-5ffb-4e2e-83a6-f4e2d6898001"))
+		(uuid "450e9e1a-1289-4b2c-801f-b58cf823baae"))
+	(no_connect (at 35.56 171.45) (uuid "1fedb37c-5648-4082-b5cb-71ed0104e385"))
+	(no_connect (at 35.56 173.99) (uuid "9dcb5daa-d16c-45f9-a165-ab5d5af59d1b"))
 	(label
 		"X_STEP"
 		(at 35.56 176.53 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8f76b92d-9525-4b4b-9fe4-c217ec779a1e"))
+		(uuid "71d4bf25-70b5-46d2-b4a2-cabb4d84dcd8"))
 	(label
 		"X_DIR"
 		(at 35.56 179.07 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "5105e6a4-8576-4c66-b2d6-5c4390cd7e2a"))
+		(uuid "6b83643a-cb69-4aad-ba75-680a5fba2806"))
 	(label
 		"VDRIVE"
 		(at 81.28 161.29 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "bbeb0b0a-231f-4689-a593-bf91b93aae9c"))
+		(uuid "949e5d5f-7ba0-4bda-9450-81e76f4adb50"))
 	(label
 		"GND"
 		(at 81.28 163.83 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a853e7f2-3bd5-4374-87e9-16121cf23870"))
+		(uuid "94e1efd2-c9b0-48e8-b36d-df9f736ee2df"))
 	(label
 		"X_2B"
 		(at 81.28 166.37 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2524ce5d-855d-4ceb-9c97-769023169374"))
+		(uuid "ecf72fb9-e806-45ee-827e-e398c407c689"))
 	(label
 		"X_2A"
 		(at 81.28 168.91 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2c0301f5-7f50-44fb-8904-3096b1b512fe"))
+		(uuid "25bf46af-dcf2-4f79-8aec-fcf656a29db2"))
 	(label
 		"X_1A"
 		(at 81.28 171.45 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "5b2dbe8a-33ce-416d-b380-95cbbf1d9414"))
+		(uuid "19c08470-01f5-4590-85c5-83c73fbce81e"))
 	(label
 		"X_1B"
 		(at 81.28 173.99 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ea8a567a-99b5-4c3c-9e8a-972d455ff8af"))
+		(uuid "a7b64e11-184f-4c22-8f4f-53055905c3c4"))
 	(label
 		"3V3"
 		(at 81.28 176.53 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "4a9bd8c9-6e21-4d64-9c5c-c8675e98c4ae"))
+		(uuid "d3cae61e-ca78-4628-bed5-87090e2a8b63"))
 	(label
 		"GND"
 		(at 81.28 179.07 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "58dfcd6b-51a0-432e-adf2-3f122ef9d379"))
+		(uuid "f3e79f77-b8f0-4893-a069-01609da44b25"))
 	(symbol
 		(lib_id "etz:TMC2209_Module")
 		(at 137.16 170.18 0)
@@ -2921,7 +2921,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a3034c73-e4d5-4de6-973b-581705574d6a")
+		(uuid "07c85500-57d0-465c-b3d4-d69c35d75151")
 		(property "Reference" "U3" (at 137.16 158.29000000000002 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "TMC2209 Y" (at 137.16 185.07 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -2930,112 +2930,112 @@
 			(at 137.16 170.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 137.16 170.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "ad570892-be5e-44d2-b9e4-840841e2f42d"))
-		(pin "2" (uuid "629b09a9-4357-49da-912e-67d8450524fa"))
-		(pin "3" (uuid "94abd8c9-8ae5-4ecd-8d67-8371a6e80536"))
-		(pin "4" (uuid "84603785-c36b-4c4d-8606-fe4e9ea6ae99"))
-		(pin "5" (uuid "8c0860b2-c6a7-4c91-ae88-31f6905e92dd"))
-		(pin "6" (uuid "f7a977b2-3d42-45e4-9a46-2edbc5c6eb1a"))
-		(pin "7" (uuid "3aea3ccf-8171-4fc5-87eb-7615a0db81fe"))
-		(pin "8" (uuid "5ce00899-32e8-4ae3-b522-c87564ed682d"))
-		(pin "9" (uuid "77eb8de8-ff56-471a-85ce-f25dffb22eaf"))
-		(pin "10" (uuid "9f43392f-3892-43a6-b676-48cf7e6c1e0e"))
-		(pin "11" (uuid "eec03259-298b-48dd-a164-32dc41501be1"))
-		(pin "12" (uuid "952f7bed-c0f0-4a9a-9117-311c85d68779"))
-		(pin "13" (uuid "da59ecdf-0a11-495d-a408-1cdd57df2065"))
-		(pin "14" (uuid "2499e544-a623-45b5-84b4-fa688ca326b8"))
-		(pin "15" (uuid "3f763923-eb7c-4e76-8749-f50724c84219"))
-		(pin "16" (uuid "61a5c8bd-a337-4f12-91fd-b74ad0b5c353"))
+		(pin "1" (uuid "23b69f3c-71ac-47cf-b830-57840850f363"))
+		(pin "2" (uuid "e0502000-1ecb-483c-949c-b04c318216e3"))
+		(pin "3" (uuid "c6433ee5-e697-4d69-986e-b06632ae7f61"))
+		(pin "4" (uuid "5c6af66b-e52b-48ca-b987-3e0e7bb36100"))
+		(pin "5" (uuid "3da64d4d-ca51-4569-9f53-4e7abb4c1866"))
+		(pin "6" (uuid "1c512c7c-5d8d-446e-bec7-bfab6d35b710"))
+		(pin "7" (uuid "aa340e1b-68dd-4c41-b309-c929b58e316f"))
+		(pin "8" (uuid "8d01fb47-8ec5-4c2d-ad72-f063d5f826b5"))
+		(pin "9" (uuid "c871eec2-55e3-4786-9e49-4eb05375c104"))
+		(pin "10" (uuid "b76cdb5d-8745-49cd-b12b-e1328398b0bb"))
+		(pin "11" (uuid "6322f46e-e2eb-4c0c-aa51-0419daf45408"))
+		(pin "12" (uuid "efa03e5e-15c5-4596-9e22-c16d0fe8c9f0"))
+		(pin "13" (uuid "d0bec294-a036-42b3-97bb-9e1f0373bc2b"))
+		(pin "14" (uuid "b6be63ac-53dc-4e88-8d1b-55b8f5ce33a6"))
+		(pin "15" (uuid "a7a15986-845a-4353-b92d-dd790e96561b"))
+		(pin "16" (uuid "320a2843-1b74-4be7-9d52-ac5c27b3966e"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "U3") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "U3") (unit 1)))))
 	(label
 		"DRV_EN"
 		(at 114.3 161.29 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "97396e3e-75a4-4a6c-abad-c6442d50537b"))
+		(uuid "4300c8c5-a438-4ef6-b42b-77a885914ce6"))
 	(label
 		"3V3"
 		(at 114.3 163.83 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "9cdd1247-86be-45a6-9399-a418ffd652d6"))
+		(uuid "c2d658fe-c8c5-4cd6-be0f-bbf3ec7c37a5"))
 	(label
 		"GND"
 		(at 114.3 166.37 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "67d56bfd-3c5f-43a4-8c87-3582630015be"))
+		(uuid "0e039578-012b-4300-9963-7b8569dc693a"))
 	(label
 		"TMC_UART"
 		(at 114.3 168.91 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "7687d2e5-b4bc-4559-b666-12d9873ef1b1"))
-	(no_connect (at 114.3 171.45) (uuid "206745b8-60e9-45e9-923c-9fa279386f98"))
-	(no_connect (at 114.3 173.99) (uuid "5f89c9c0-1b05-4dc8-925c-d7db7c0c63a1"))
+		(uuid "052f1a3e-fc2b-4f4f-a976-fb2bc7e2fbcd"))
+	(no_connect (at 114.3 171.45) (uuid "e0844037-4516-471c-9fcc-7d728b8f5b8b"))
+	(no_connect (at 114.3 173.99) (uuid "c2f6d180-8759-4570-8e3f-17e57d6b45ef"))
 	(label
 		"Y_STEP"
 		(at 114.3 176.53 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "e904d34a-3463-495b-8a2b-a9af9b30091c"))
+		(uuid "3f9cc30c-0ca3-4a51-b3cb-dd7706b20720"))
 	(label
 		"Y_DIR"
 		(at 114.3 179.07 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "0892f273-2472-4308-bc0f-49aa5c305847"))
+		(uuid "73944319-f357-4ea3-a409-2fd476eac2ad"))
 	(label
 		"VDRIVE"
 		(at 160.02 161.29 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "b153a876-a8af-4d51-9360-d95ed342bf5f"))
+		(uuid "f18b27a1-defa-4fe3-9384-a15a863c1533"))
 	(label
 		"GND"
 		(at 160.02 163.83 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "6c84c0af-996b-44b7-9667-d1eed62d49a8"))
+		(uuid "52ea13b9-e8be-4852-9e8c-22b4958c1315"))
 	(label
 		"Y_2B"
 		(at 160.02 166.37 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "3f4c6809-e0d5-4a16-9284-809a9d61d4fe"))
+		(uuid "3eb1e8cd-61f4-442b-82b9-1b241be17f0f"))
 	(label
 		"Y_2A"
 		(at 160.02 168.91 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "c77f4e5c-c481-4ec0-a6da-244af75c51e1"))
+		(uuid "8a5bdc54-ba12-4c6d-98d1-fa2ad8ce3224"))
 	(label
 		"Y_1A"
 		(at 160.02 171.45 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "849135de-2b2f-44dc-949b-e7e9bc7732ac"))
+		(uuid "cc0ffc47-ce01-44ce-903b-d650ee1ff2c2"))
 	(label
 		"Y_1B"
 		(at 160.02 173.99 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "76461df9-d5ad-4dcf-83fc-79b254413286"))
+		(uuid "777250f9-eba3-4307-93a6-53c07d9d7674"))
 	(label
 		"3V3"
 		(at 160.02 176.53 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "018e225d-575a-4e02-9da6-f3620b0484f7"))
+		(uuid "f0243f9e-0a46-4ab0-a86a-b751fad45695"))
 	(label
 		"GND"
 		(at 160.02 179.07 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "cd074dd8-e185-47b7-a465-c7756db9818b"))
+		(uuid "68b44196-86d1-427c-a395-b28960fd3a58"))
 	(symbol
 		(lib_id "etz:TMC2209_Module")
 		(at 215.9 170.18 0)
@@ -3044,7 +3044,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "2815e348-de67-47cf-aa09-df6e2b1ff9a4")
+		(uuid "730ed1a5-de98-429b-a85d-2ef7401a2717")
 		(property "Reference" "U4" (at 215.9 158.29000000000002 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "TMC2209 wrist" (at 215.9 185.07 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -3053,112 +3053,112 @@
 			(at 215.9 170.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 215.9 170.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "8d8e43ae-fd69-44d9-8d9b-d9be7914865c"))
-		(pin "2" (uuid "10245060-d46c-49a8-b309-1a14fd9c4793"))
-		(pin "3" (uuid "dffcea52-226f-4521-afdb-5e6746a03129"))
-		(pin "4" (uuid "3ccdcf05-16c0-414e-a83a-50af7e24760d"))
-		(pin "5" (uuid "62d7f572-cfe1-4134-b297-6349d7e57d8b"))
-		(pin "6" (uuid "8b6f073d-fcfd-4a88-96c9-dfb75cb21c19"))
-		(pin "7" (uuid "198b0469-2486-4fcb-b35d-581edbdcd778"))
-		(pin "8" (uuid "0de61b64-60e8-4523-bf28-041dd7785975"))
-		(pin "9" (uuid "17c74ed9-8929-4dd7-9c47-b233d87775fa"))
-		(pin "10" (uuid "02b44406-ce69-4249-a564-e9b44e5c57b7"))
-		(pin "11" (uuid "1ef87588-eaeb-40ef-aab3-7b972171a5ee"))
-		(pin "12" (uuid "9eef5785-29f5-488e-9faf-8d6face7df49"))
-		(pin "13" (uuid "48856a02-2f9e-429d-a7dd-e9ea7b66bc30"))
-		(pin "14" (uuid "a057b3aa-f102-47af-9053-8ec7bbeeb11c"))
-		(pin "15" (uuid "e5f6a0fe-eac5-4f69-835a-da0fa4f1d456"))
-		(pin "16" (uuid "36e96143-cecf-4fa0-a166-1ee73626dd49"))
+		(pin "1" (uuid "ef95bded-9fe8-4d55-a7a6-c3b97fc1e1b3"))
+		(pin "2" (uuid "3e90588e-ed56-43d3-b237-3368ab7b9a80"))
+		(pin "3" (uuid "b85ff7b3-df22-4f6e-b11b-595c85750209"))
+		(pin "4" (uuid "24e8f929-64af-406a-a0fe-a4d1e1d6428f"))
+		(pin "5" (uuid "64af9d46-487f-4318-86ff-e252d438fc74"))
+		(pin "6" (uuid "2c16636e-4c88-4f1d-9322-c323fb144a6e"))
+		(pin "7" (uuid "f29cbf95-e388-4e62-ac44-ff67d6ab783d"))
+		(pin "8" (uuid "9ec9feb0-67ef-4d17-8a23-1e11695cb309"))
+		(pin "9" (uuid "73cdfdcc-de5a-4430-8d3e-dc5e5925bfe7"))
+		(pin "10" (uuid "b04d2cb6-26d3-435f-aa4a-68dd6f76045f"))
+		(pin "11" (uuid "5cfdee0a-4d0a-4462-8005-4a13f3106497"))
+		(pin "12" (uuid "3a63975c-2e67-49d3-b649-fe1ddde73d6a"))
+		(pin "13" (uuid "c38035b5-7258-49b7-9b05-6931b5fb670a"))
+		(pin "14" (uuid "45c5e41d-49b0-4dfb-b294-029de22b3a74"))
+		(pin "15" (uuid "2d939037-d173-4717-a750-cda57b3bd456"))
+		(pin "16" (uuid "0fec5adf-4005-458f-a6fe-10444e675267"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "U4") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "U4") (unit 1)))))
 	(label
 		"DRV_EN"
 		(at 193.04 161.29 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "fa7755b7-d4aa-4232-806a-a39f24aec090"))
+		(uuid "e0c2d28c-d7ef-4159-9769-4a507c18d73e"))
 	(label
 		"GND"
 		(at 193.04 163.83 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "b654cb55-e079-4a28-80b7-4aba53a0a879"))
+		(uuid "c7cc593e-cc5a-406d-8b34-2680f1f6f5d9"))
 	(label
 		"3V3"
 		(at 193.04 166.37 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "11946c9f-1cf4-4c47-a6e2-38a0d59f9828"))
+		(uuid "33fb11d5-e303-403b-ac8f-a62ceadde608"))
 	(label
 		"TMC_UART"
 		(at 193.04 168.91 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "2ff60192-5b36-4c7d-8690-787a851c390d"))
-	(no_connect (at 193.04 171.45) (uuid "42f84210-b17b-4575-b213-7ed1a71330ec"))
-	(no_connect (at 193.04 173.99) (uuid "ac91793d-1fa7-40b7-a351-ca0f6f666da8"))
+		(uuid "883aa0d0-70a8-49a3-a451-504c8ae410f1"))
+	(no_connect (at 193.04 171.45) (uuid "d79262f5-be5f-4954-bf4b-5a8b0e69ac81"))
+	(no_connect (at 193.04 173.99) (uuid "2b3f8574-3af3-45aa-9301-2db592007fbc"))
 	(label
 		"W_STEP"
 		(at 193.04 176.53 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6d7be50c-c2ef-4b5b-a4f5-695b82361488"))
+		(uuid "0ffdcd3a-4438-4bd7-be3f-36b4edc93f18"))
 	(label
 		"W_DIR"
 		(at 193.04 179.07 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "cdd03d07-4fb9-4402-9575-876c8536cd92"))
+		(uuid "8f71db04-7159-4c47-a2c0-67737847e788"))
 	(label
 		"VDRIVE"
 		(at 238.76 161.29 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "fb2d2966-c780-43a8-8697-9f4d4c616516"))
+		(uuid "2fc1d1c9-0166-4d2a-ab8a-b5d31b0e11b1"))
 	(label
 		"GND"
 		(at 238.76 163.83 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "3de37e62-2b08-4c21-a11e-55ea8af40fd1"))
+		(uuid "317f7e22-2bb0-47f2-b56f-027363238f1d"))
 	(label
 		"W_2B"
 		(at 238.76 166.37 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "043a2e1d-d321-4925-bcba-e9aa3002b020"))
+		(uuid "ab747e75-eaf8-4aa4-ae0c-34d6d9741657"))
 	(label
 		"W_2A"
 		(at 238.76 168.91 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "591943af-b0bf-4807-a574-cfa7a2926ea1"))
+		(uuid "c29c7229-6e3f-420b-a577-3514d2bacc62"))
 	(label
 		"W_1A"
 		(at 238.76 171.45 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "24cd3b68-db4f-4e04-bcb0-031ba41454aa"))
+		(uuid "ccb1aa35-34d6-42f4-ba7a-8f3a2e4a9819"))
 	(label
 		"W_1B"
 		(at 238.76 173.99 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "1d8ae95b-9cfd-4844-9c4d-224f611bec56"))
+		(uuid "1160799b-a661-4162-9bfb-da042e8a21a6"))
 	(label
 		"3V3"
 		(at 238.76 176.53 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "58fa2f39-6e38-481f-a32f-db4b82ef2d6f"))
+		(uuid "4afd8d9a-3960-4344-8ac6-bb9090eafe73"))
 	(label
 		"GND"
 		(at 238.76 179.07 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "f6816f50-7fd4-404c-9590-308ec819b27b"))
+		(uuid "a1468800-bc47-4cc0-b19c-468a3cd541d2"))
 	(symbol
 		(lib_id "etz:TMC2209_Module")
 		(at 294.64 170.18 0)
@@ -3167,7 +3167,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "19dcdda7-e789-47e4-8493-c6f5382d7d26")
+		(uuid "28313934-4043-4264-9bc3-abef747fb8fa")
 		(property "Reference" "U7" (at 294.64 158.29000000000002 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "TMC2209 spare" (at 294.64 185.07 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -3176,102 +3176,102 @@
 			(at 294.64 170.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 294.64 170.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "afc02810-6e68-45c8-8ad6-49c15fcaee90"))
-		(pin "2" (uuid "209942c7-3933-4921-85fd-24a75fcf63bd"))
-		(pin "3" (uuid "3356678e-db91-42e9-bf00-113c5e5038da"))
-		(pin "4" (uuid "81db2b6b-e4a3-4d55-a0dc-9cb9c8d04261"))
-		(pin "5" (uuid "79930f7c-6360-4817-9290-b9a3c51d689e"))
-		(pin "6" (uuid "89ff4b00-1459-4e96-bb12-cc015b3aefb7"))
-		(pin "7" (uuid "11d2ebb9-9643-4bfd-9c14-03b170e0a966"))
-		(pin "8" (uuid "ce838e0f-c70c-49a3-a0ac-155e94d6e269"))
-		(pin "9" (uuid "7976dbb5-c3de-4664-b113-876fbf1c0c17"))
-		(pin "10" (uuid "074a7d0b-26fb-4772-a12c-109572c244de"))
-		(pin "11" (uuid "b8923667-356c-4de1-a4a4-8bbfa71095b7"))
-		(pin "12" (uuid "465d291e-aa0b-4cad-96a7-101a43336e55"))
-		(pin "13" (uuid "b718650a-e81a-4b6a-88b8-de242ccbf9db"))
-		(pin "14" (uuid "4346087d-5aed-43cf-80da-84c9d0b4fb77"))
-		(pin "15" (uuid "fa7f0efc-9919-464e-8df1-0d8c07fdeac4"))
-		(pin "16" (uuid "8c5e50e4-1113-4f59-8367-815b0562d182"))
+		(pin "1" (uuid "8e7d3490-7179-4dca-acbb-e794d3e47f46"))
+		(pin "2" (uuid "bf88538e-d010-440b-ab29-15c5d0f3fc8a"))
+		(pin "3" (uuid "b186dce2-6fa0-4ca2-a9cc-2bf2bab71581"))
+		(pin "4" (uuid "aedd4c1f-a09a-4edb-afa2-0dcd2c5bd60a"))
+		(pin "5" (uuid "92fcfa08-9700-412a-934c-b7a7fd1a5b76"))
+		(pin "6" (uuid "1e6b43bd-7c57-4672-a353-5f54680b2be8"))
+		(pin "7" (uuid "d0bff668-0038-4fea-a893-b720067c9e47"))
+		(pin "8" (uuid "4e6cb067-ef2e-4c44-a2aa-215a9e4ef256"))
+		(pin "9" (uuid "959565ea-b665-400c-af11-9776033db7de"))
+		(pin "10" (uuid "a7fb0d1b-62f7-4ccb-a814-b2d8d6ef3241"))
+		(pin "11" (uuid "07ec0427-9bce-4f94-bd63-454b90f7dc2c"))
+		(pin "12" (uuid "ca4334b3-012f-45be-a5d2-5ef801ec00b6"))
+		(pin "13" (uuid "7a767bbe-c174-40d2-8ea2-920e11ad8d9b"))
+		(pin "14" (uuid "8cfa60e0-28fb-4e1f-816a-9c6a8937dafb"))
+		(pin "15" (uuid "82e550f6-ae0a-4462-9306-cebbc0a9145d"))
+		(pin "16" (uuid "4423a3c0-9181-4ef2-8dfd-36831e281fca"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "U7") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "U7") (unit 1)))))
 	(label
 		"DRV_EN"
 		(at 271.78 161.29 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "36a7f88b-b583-4f53-97fe-49e796d42a61"))
+		(uuid "e689e059-3c0d-4729-b19a-96f5bfb88fd1"))
 	(label
 		"3V3"
 		(at 271.78 163.83 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "e847ba70-2f9a-4627-bcb5-62041cc40a8d"))
+		(uuid "5617055a-79d3-4397-8d70-251b9e0225b9"))
 	(label
 		"3V3"
 		(at 271.78 166.37 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "496a3d58-e4fa-40fb-bda5-c976442703a0"))
+		(uuid "3bf25918-1ff1-4c0e-ac62-391bb37f3fcb"))
 	(label
 		"TMC_UART"
 		(at 271.78 168.91 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a3a9ddb1-4749-47ef-9f11-a31967cac72a"))
-	(no_connect (at 271.78 171.45) (uuid "d51a1811-cfe7-499a-8d6d-3293f0e980f6"))
-	(no_connect (at 271.78 173.99) (uuid "7b030ac8-b881-4c3a-8a8b-cf9434e904cb"))
-	(no_connect (at 271.78 176.53) (uuid "a6dd23e3-5dfe-4a36-a9cd-8effbee9c140"))
-	(no_connect (at 271.78 179.07) (uuid "aebbffec-98e5-477f-bf81-71f32882f8e1"))
+		(uuid "82eb241a-32d8-4b6c-b87e-658b9e7de057"))
+	(no_connect (at 271.78 171.45) (uuid "cb62b11a-56db-4d80-9b35-bba3b9be068c"))
+	(no_connect (at 271.78 173.99) (uuid "f15ceb87-422a-4f2d-9a80-fd5ed4a76961"))
+	(no_connect (at 271.78 176.53) (uuid "d91f2fa4-2170-4b98-8c4b-edda6f631dd0"))
+	(no_connect (at 271.78 179.07) (uuid "6f5b1e79-0b0d-4722-a272-09ab31fc6020"))
 	(label
 		"VDRIVE"
 		(at 317.5 161.29 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ee41dbec-fff1-4156-8a63-2a6fc69ee651"))
+		(uuid "8abd8b63-845f-4e96-b0ab-96fde1cc91ab"))
 	(label
 		"GND"
 		(at 317.5 163.83 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "3902279d-89dc-45a3-8d3d-4ba9ee10921d"))
+		(uuid "2dd22837-b35d-4a02-b0d0-70506fe75f9b"))
 	(label
 		"S_2B"
 		(at 317.5 166.37 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "43637843-87c2-4b5c-9433-772c369cdaa8"))
+		(uuid "10439580-2298-401b-8ec6-58d1e9c25001"))
 	(label
 		"S_2A"
 		(at 317.5 168.91 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "90dca149-7740-4a96-a85a-f5cf45504096"))
+		(uuid "3b008949-bbd4-457e-b4c3-758b046e8576"))
 	(label
 		"S_1A"
 		(at 317.5 171.45 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "94303e61-65dd-4892-ad00-f7c4a75f9505"))
+		(uuid "b73484f9-f635-4d9c-9f84-f44668eb0ed3"))
 	(label
 		"S_1B"
 		(at 317.5 173.99 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "e18f1de1-02b0-4825-9fa5-bf78d38072d9"))
+		(uuid "a5997b99-d8e3-421e-91ef-c07a4b4e6d23"))
 	(label
 		"3V3"
 		(at 317.5 176.53 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "1a23983c-2f28-4690-8944-3bbddc22816e"))
+		(uuid "0e468c97-fe9d-4faf-a7cb-e37c074c2c15"))
 	(label
 		"GND"
 		(at 317.5 179.07 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "28131ba4-dfcc-4ebe-9637-06fd285f7baa"))
+		(uuid "712650ab-0a20-4ea3-ab59-c5857ddc2323"))
 	(symbol
 		(lib_id "Device:C_Polarized")
 		(at 340.36 170.18 0)
@@ -3280,7 +3280,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e6b51aac-9bf1-4876-91b5-f4794350e333")
+		(uuid "6f0108da-06fe-4c15-bd84-4cf630299702")
 		(property "Reference" "C1" (at 340.36 157.57 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -3293,24 +3293,24 @@
 			(at 340.36 170.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 340.36 170.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "0013eb1d-6158-4c59-9e16-bca525c865b9"))
-		(pin "2" (uuid "c587191d-45bd-4b92-8369-6cb4087cf703"))
+		(pin "1" (uuid "4e8d21f4-d3a2-422d-8c55-85f7c3e174b9"))
+		(pin "2" (uuid "96cb9ea0-6c3a-4504-9cb6-5251f65a7c50"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "C1") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "C1") (unit 1)))))
 	(label
 		"VDRIVE"
 		(at 340.36 166.37 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "af1c48d5-bbfb-431b-a72d-388b1250a61d"))
+		(uuid "28c4b120-3e60-4a8c-8229-f9594e76bf33"))
 	(label
 		"GND"
 		(at 340.36 173.99 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a29a9ec7-4872-454e-8f08-78b12b0a3c18"))
+		(uuid "08362981-a9f2-4159-af05-6f51ffb6783e"))
 	(symbol
 		(lib_id "Device:C_Polarized")
 		(at 360.68 170.18 0)
@@ -3319,7 +3319,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e53b3953-e10f-49d4-aeec-affd3f16a3c9")
+		(uuid "a3866d5c-4552-4f33-b13b-65908652bc4e")
 		(property "Reference" "C2" (at 360.68 157.57 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -3332,24 +3332,24 @@
 			(at 360.68 170.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 360.68 170.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "f6eb7502-937c-45cc-8322-28b8156d0ee7"))
-		(pin "2" (uuid "7b4f796a-25c9-4e80-90fd-8a57fe97e10e"))
+		(pin "1" (uuid "f500b373-4696-4213-9917-9aa51c10266f"))
+		(pin "2" (uuid "f6ad4009-d0c4-4842-9866-68544427063d"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "C2") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "C2") (unit 1)))))
 	(label
 		"VDRIVE"
 		(at 360.68 166.37 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "57e1ee1a-2ac0-42cf-b981-0636317ecc2b"))
+		(uuid "29472ef9-2240-4e52-9c34-cf9a57ec9488"))
 	(label
 		"GND"
 		(at 360.68 173.99 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "de496c48-7a36-48a3-bdd5-0c8d25f1803c"))
+		(uuid "9d82fbab-5640-4aaa-bdcb-6d9891979449"))
 	(symbol
 		(lib_id "Device:C_Polarized")
 		(at 381.0 170.18 0)
@@ -3358,7 +3358,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "d6016246-f6cf-417c-9233-b8977b1d1f16")
+		(uuid "005a5f31-e50f-479a-b6d7-361cbc318b0e")
 		(property "Reference" "C3" (at 381.0 157.57 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -3371,24 +3371,24 @@
 			(at 381.0 170.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 381.0 170.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "105e751a-42d6-48c5-9a5c-9a1fefa02f46"))
-		(pin "2" (uuid "261b42c3-60ce-493e-be5b-7afc68fd3752"))
+		(pin "1" (uuid "142a2347-5062-4104-8dc3-d7b8c153d3d6"))
+		(pin "2" (uuid "155a7569-b555-49e7-a028-6d0b5512daa0"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "C3") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "C3") (unit 1)))))
 	(label
 		"VDRIVE"
 		(at 381.0 166.37 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "84935399-b823-4e8d-b340-fa5c992b9ca1"))
+		(uuid "cd215c6a-2cf2-4bbe-a993-91590b3f630a"))
 	(label
 		"GND"
 		(at 381.0 173.99 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "eb5809a3-d045-4fa7-a128-3d6ab05659b5"))
+		(uuid "f29fe1e6-515f-4699-8b3c-ba4f36092319"))
 	(symbol
 		(lib_id "Device:C_Polarized")
 		(at 401.32 170.18 0)
@@ -3397,7 +3397,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "b56fc352-01fb-442e-ab39-6ee78881ac73")
+		(uuid "405a7585-d0af-48e6-b55f-1e8f53734603")
 		(property "Reference" "C4" (at 401.32 157.57 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -3410,24 +3410,24 @@
 			(at 401.32 170.18 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 401.32 170.18 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "1a6b4b9f-e06d-4f08-9d19-b9efb0e1eab7"))
-		(pin "2" (uuid "67f08daa-c2a3-4ae9-b546-a72579f2c220"))
+		(pin "1" (uuid "5fe3d0a5-f8b1-4205-b41e-fe8859c3e3b5"))
+		(pin "2" (uuid "d8ac8311-11d7-430f-84b3-7ce36409d6c3"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "C4") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "C4") (unit 1)))))
 	(label
 		"VDRIVE"
 		(at 401.32 166.37 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "63e19fe3-0d51-4366-8205-520ddf4e1b30"))
+		(uuid "417ca08b-ac8d-47b2-85ef-6c9a94355617"))
 	(label
 		"GND"
 		(at 401.32 173.99 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "d93886e6-12a0-4ec2-9981-e881f3ea5720"))
+		(uuid "b29a11f8-e7d3-4909-b46d-485c51c0bb15"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 431.8 165.1 0)
@@ -3436,7 +3436,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "2e64aaf0-b697-4c1b-9f7e-e7d7e65d5636")
+		(uuid "9767fb33-5f78-475e-85ee-627eb15e9fe0")
 		(property "Reference" "J1" (at 431.8 159.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "X motor" (at 431.8 176.18 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -3445,38 +3445,38 @@
 			(at 431.8 165.1 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 431.8 165.1 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "d33c3b98-fa92-4224-9390-d5bc0c340357"))
-		(pin "2" (uuid "46f39630-ed23-4898-bd5c-aff8701e06a2"))
-		(pin "3" (uuid "f3d3cdaf-8bcb-44f4-9334-7bda74694eae"))
-		(pin "4" (uuid "80ac9f42-083b-424e-8420-eb0d5dc1565e"))
+		(pin "1" (uuid "988b7b2b-1351-4b73-b9e9-c62f4eff1b1e"))
+		(pin "2" (uuid "a2c732f1-816f-45ca-a769-c8ce52ad5453"))
+		(pin "3" (uuid "18c64bfc-ca05-4198-9ba9-e66d48876d2a"))
+		(pin "4" (uuid "42904a61-7b78-4fda-99cc-76254c80a030"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J1") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J1") (unit 1)))))
 	(label
 		"X_1A"
 		(at 426.72 162.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "2f3b1632-31e1-407c-94cf-c010eb147218"))
+		(uuid "b4a5fd0b-ad46-45eb-9244-0e36b9b577dd"))
 	(label
 		"X_1B"
 		(at 426.72 165.1 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "d77c255b-85b8-4657-a3a9-e7f049c29baa"))
+		(uuid "7fdaadee-c1be-4764-9e9e-26860ba5934c"))
 	(label
 		"X_2A"
 		(at 426.72 167.64 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "1ccb0809-0502-4c35-8088-af87b1e5d482"))
+		(uuid "b6dd106a-daf8-4f6d-88d1-6afbed7f2b16"))
 	(label
 		"X_2B"
 		(at 426.72 170.18 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "85dfc370-f387-4e92-9299-4f4703e46edb"))
+		(uuid "37efac3b-f179-41c2-ab8d-97af41540b4e"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 457.2 165.1 0)
@@ -3485,7 +3485,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "f4a068d3-f2cf-4822-b6aa-c647ae55da9a")
+		(uuid "4330fb54-c3cd-4f62-a6d9-aab306e50807")
 		(property "Reference" "J2" (at 457.2 159.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "Y motor" (at 457.2 176.18 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -3494,38 +3494,38 @@
 			(at 457.2 165.1 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 457.2 165.1 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "d4c6c091-077f-4657-8e4b-37b7dad0c3ab"))
-		(pin "2" (uuid "0b2d58d6-b7c5-4261-8ae9-dd02061f1f4f"))
-		(pin "3" (uuid "494ae2f9-d978-428e-9c57-8c1bab1e9c0c"))
-		(pin "4" (uuid "35d0613c-bebb-4351-8945-9bdfeae03067"))
+		(pin "1" (uuid "dd7369c2-99ee-48ee-a26a-fd75cde5a337"))
+		(pin "2" (uuid "79a25357-23d2-4b17-8e83-1cffd71a7c7d"))
+		(pin "3" (uuid "a7729a43-02e4-4596-ac25-ca4b9f217091"))
+		(pin "4" (uuid "a4cebd6e-e20d-4606-b39b-ade787eb3874"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J2") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J2") (unit 1)))))
 	(label
 		"Y_1A"
 		(at 452.12 162.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "ddfc3880-58cc-4e38-8ac6-46e3162fbe9c"))
+		(uuid "a6b2a184-0722-496a-b6a9-b437c0ff7842"))
 	(label
 		"Y_1B"
 		(at 452.12 165.1 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "076d578a-1f9f-4825-824a-37d8972948c9"))
+		(uuid "53e4962a-6bf2-4fff-b6c6-2bd6a03fb299"))
 	(label
 		"Y_2A"
 		(at 452.12 167.64 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "dfbabaaf-667b-4289-b842-42ecec4d35ef"))
+		(uuid "50828bf4-abcc-48d8-ad91-7fd77f1e4a77"))
 	(label
 		"Y_2B"
 		(at 452.12 170.18 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a5035792-fc84-4705-afb9-42e3f828517f"))
+		(uuid "6da8db62-930d-47b2-9111-a599a12e9137"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 482.6 165.1 0)
@@ -3534,7 +3534,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "276d1e50-c149-46e4-a164-830afe97cec4")
+		(uuid "329f3095-3fe0-46e0-8f46-d95f2064f283")
 		(property "Reference" "J3" (at 482.6 159.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "W motor" (at 482.6 176.18 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -3543,38 +3543,38 @@
 			(at 482.6 165.1 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 482.6 165.1 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "a265a0fb-60be-42fe-8269-dead3383b3ba"))
-		(pin "2" (uuid "7d7c8eee-5780-4ef1-a515-1622c9e73a49"))
-		(pin "3" (uuid "8a9c0618-e5d6-4717-a4cf-911e717bcac4"))
-		(pin "4" (uuid "09bbdea1-37fc-4bf7-8cea-652aa4a18bce"))
+		(pin "1" (uuid "b25e12f9-d09f-4261-91e7-69820d1b65d0"))
+		(pin "2" (uuid "50497a06-f1ff-4c5f-948e-44ad42949ea2"))
+		(pin "3" (uuid "441af576-6599-4f0b-a2a0-cd2cc436d0d7"))
+		(pin "4" (uuid "eaac028e-0022-4207-b5cb-f9c3c0623a26"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J3") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J3") (unit 1)))))
 	(label
 		"W_1A"
 		(at 477.52 162.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "cda10fa5-e493-4a80-8109-e650bcb9e33a"))
+		(uuid "67372626-c3bd-4a3a-93ef-a87f0f6b9220"))
 	(label
 		"W_1B"
 		(at 477.52 165.1 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "4c4e15a5-66e6-45c4-a569-8bea9e84b20b"))
+		(uuid "d9b5aecc-cf2e-4cc2-8780-18d11bd91a57"))
 	(label
 		"W_2A"
 		(at 477.52 167.64 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6bf20cc8-7f0a-40fe-87aa-b4b95f6ce806"))
+		(uuid "908faf77-f036-484e-a806-369361b77cb9"))
 	(label
 		"W_2B"
 		(at 477.52 170.18 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "fba9e95c-2eeb-4785-89c1-2ede1bbf204b"))
+		(uuid "7b7096bc-15ea-40a4-b0df-00cb72bd8b3f"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 508.0 165.1 0)
@@ -3583,7 +3583,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "ac91187e-0d6f-447a-8089-12bde15f96f0")
+		(uuid "96c6ef7d-7a83-485c-b962-ac1ae5de155a")
 		(property "Reference" "J4" (at 508.0 159.56 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "spare motor" (at 508.0 176.18 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -3592,38 +3592,38 @@
 			(at 508.0 165.1 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 508.0 165.1 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "bda92f95-78ae-46f2-8706-2a2e84010704"))
-		(pin "2" (uuid "c0800a15-f88e-4c86-a803-352185852312"))
-		(pin "3" (uuid "4872baa1-ebf0-47e5-8482-b3af44c8133f"))
-		(pin "4" (uuid "3e5d11e2-0d31-4d72-b9e7-531a2af3f74b"))
+		(pin "1" (uuid "ede47cdf-5401-464f-8281-f180c39d9ddc"))
+		(pin "2" (uuid "2d55a8dc-fffe-4fe3-be37-cb24571caaa9"))
+		(pin "3" (uuid "01a83cf3-0493-46bc-9fc2-fcc1d720ad5a"))
+		(pin "4" (uuid "5a57e992-0a70-46c8-9dc1-1649537d56e0"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J4") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J4") (unit 1)))))
 	(label
 		"S_1A"
 		(at 502.92 162.56 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "c123302c-deb3-433f-a2fb-02c4d048dd7c"))
+		(uuid "af0aa0d7-95d0-4223-88b5-90e590109d5e"))
 	(label
 		"S_1B"
 		(at 502.92 165.1 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "d3bca21b-e1ee-4c20-bdb3-9cfe11a347d6"))
+		(uuid "0015bc1e-c68c-474a-9964-c20de020ad49"))
 	(label
 		"S_2A"
 		(at 502.92 167.64 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "68da4eaf-efd0-4210-9c82-52a13e094d81"))
+		(uuid "d66ffb5b-83c1-4ae8-906f-96eb364540eb"))
 	(label
 		"S_2B"
 		(at 502.92 170.18 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "7560d450-41fe-43a0-a333-f014d7071efa"))
+		(uuid "17cfa127-6ae8-4d21-b9c9-afb311878f81"))
 	(symbol
 		(lib_id "Device:R")
 		(at 523.24 172.72 0)
@@ -3632,33 +3632,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e6f3c7c2-7f4a-4be7-9b9c-d3b715759dc9")
+		(uuid "a0b6be32-72d3-4576-9f6e-5b65948fbf6f")
 		(property "Reference" "R8" (at 523.24 157.51 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "1k" (at 523.24 188.93 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 523.24 172.72 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 523.24 172.72 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "ff632ec9-a11a-4d5a-8610-169444fb6264"))
-		(pin "2" (uuid "7a885d52-5093-4ed5-b899-d548ee2eb1c3"))
+		(pin "1" (uuid "55d22d89-3925-4fe3-aa18-0c919f13aac9"))
+		(pin "2" (uuid "a8ecde2e-b6fb-49ab-a2a5-f85792d748c9"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R8") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R8") (unit 1)))))
 	(label
 		"TMC_TX"
 		(at 523.24 168.91 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "dc60f840-c79f-4240-b2da-fed06433808f"))
+		(uuid "f0888808-e87d-4127-91db-8206854574f0"))
 	(label
 		"TMC_UART"
 		(at 523.24 176.53 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "d19bc964-c3f5-4c52-bfa1-12decd666813"))
+		(uuid "eea43b0f-abba-4797-a693-dddbbf0d6523"))
 	(symbol
 		(lib_id "Device:R")
 		(at 25.4 210.82 0)
@@ -3667,39 +3667,39 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "709447d5-1a8d-4562-8171-338221027101")
+		(uuid "60148d49-9b28-4149-a258-e455951390f1")
 		(property "Reference" "R10" (at 25.4 198.20999999999998 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "10k" (at 25.4 224.43 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 25.4 210.82 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 25.4 210.82 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "cdfcbcd8-5109-4551-9ee1-8938b26b523c"))
-		(pin "2" (uuid "23b10a45-f12f-4bcd-ace3-ce0f8c745ad8"))
+		(pin "1" (uuid "25a3f402-41d9-4b5b-b882-0adfbf7631be"))
+		(pin "2" (uuid "91574528-761f-4ab1-8e92-a5b8f0a6c19f"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R10") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R10") (unit 1)))))
 	(label
 		"DRV_EN"
 		(at 25.4 207.01 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "8281d013-ab75-4e07-9ace-ed82c44f7731"))
+		(uuid "59531c3a-f716-434e-bb26-e0a68a09a1bb"))
 	(label
 		"3V3"
 		(at 25.4 214.63 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "9382f8ac-a032-4728-9748-5e2273a892a9"))
+		(uuid "46ce39c0-e490-42b1-822e-a6cd78b176fa"))
 	(text
 		"MAGNET (switched by stop block 2 + MOSFET), SERVO, SENSORS, HOME SWITCHES"
 		(exclude_from_sim no)
 		(at 20.0 235.00000000000003 0)
 		(effects (font (size 2.54 2.54) (thickness 0.5) (bold yes)) (justify left bottom))
-		(uuid "ac2fe2c7-023c-417d-aee5-165f346188e7"))
+		(uuid "7e27e224-7f68-41a8-8b6a-c08421e03dc2"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 33.02 248.92000000000002 0)
@@ -3708,7 +3708,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "b1e678e4-e2cc-4371-94eb-5598d05a6803")
+		(uuid "a98bd171-2ee7-4983-8fe4-f60de8515fb8")
 		(property "Reference" "J12" (at 33.02 245.92000000000002 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "STOP2 5V" (at 33.02 257.46000000000004 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -3721,24 +3721,24 @@
 			""
 			(at 33.02 248.92000000000002 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "8d65a2a9-9d6c-460e-832f-104cd699d884"))
-		(pin "2" (uuid "f1d2da50-cdf5-4a15-ab01-9d9808150353"))
+		(pin "1" (uuid "87b9ae03-e2cb-49c9-ad68-8c66cfae9018"))
+		(pin "2" (uuid "1e6959e8-270e-4654-aaeb-01644fe7003b"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J12") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J12") (unit 1)))))
 	(label
 		"+5V"
 		(at 27.94 248.92 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "78cc3cc3-0de7-45b4-8e2f-99a7de192a5b"))
+		(uuid "04b5d79e-e8cf-490f-9b78-4b406854b394"))
 	(label
 		"MAG5"
 		(at 27.94 251.46 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "b74afed6-7842-49b0-ae55-e53daac68ef0"))
+		(uuid "fc89d8a5-7874-4430-897f-641a7877e9e6"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 60.96 248.92000000000002 0)
@@ -3747,7 +3747,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "7fd27ce2-a16d-4b50-9e00-79f15d33f330")
+		(uuid "150e3728-0f30-4c01-a3cc-75bdaf0d5fd8")
 		(property "Reference" "J6" (at 60.96 245.92000000000002 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "MAGNET" (at 60.96 257.46000000000004 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -3760,66 +3760,66 @@
 			""
 			(at 60.96 248.92000000000002 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "48b60b29-232b-4aa7-ac6e-3afb360297e2"))
-		(pin "2" (uuid "4332d9eb-dc32-4eff-88cb-7a37faba3a76"))
+		(pin "1" (uuid "aa74efe2-d876-49e9-b1ae-9aea3c478512"))
+		(pin "2" (uuid "da6fed20-e9f4-4526-b4da-11fececde5b1"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J6") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J6") (unit 1)))))
 	(label
 		"MAG5"
 		(at 55.88 248.92 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "1e159dcc-8161-44c6-85ba-072d7447b24f"))
+		(uuid "7c19897b-fd0c-4d47-9b1e-d7f87044bc3c"))
 	(label
 		"MAG_SW"
 		(at 55.88 251.46 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "b6111a94-a277-4eb7-b472-d1d4c58e4a78"))
+		(uuid "289bf076-d221-4b92-b8d7-9b84c8067e00"))
 	(symbol
-		(lib_id "Transistor_FET:Q_NMOS_GSD")
+		(lib_id "Transistor_FET:Q_NMOS_GDS")
 		(at 88.9 259.08 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "ca25522b-5930-4e58-b953-baeefa7ffd41")
+		(uuid "e793d752-3922-44b7-b73e-a56a24c39c22")
 		(property "Reference" "Q1" (at 88.9 245.2 0) (effects (font (size 1.27 1.27))))
-		(property "Value" "AO3400A" (at 88.9 273.96 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "IRLZ44N" (at 88.9 273.96 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Package_TO_SOT_SMD:SOT-23"
+			"Package_TO_SOT_THT:TO-220-3_Vertical"
 			(at 88.9 259.08 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 88.9 259.08 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "ad322355-8917-481e-9498-ba2869f4ec1b"))
-		(pin "2" (uuid "18763005-54fc-41e4-a42c-dcd990ed179a"))
-		(pin "3" (uuid "08adef2d-f6a5-4ad6-8728-7436cd90c971"))
+		(pin "1" (uuid "d0e02664-afc1-46f1-8b00-fc1814445db1"))
+		(pin "2" (uuid "cfd7379a-aaa4-4be2-a6a5-e00a8ff61e1d"))
+		(pin "3" (uuid "eeaf4676-d772-4260-871f-ad07d70238e7"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "Q1") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "Q1") (unit 1)))))
 	(label
 		"MAG_G"
 		(at 83.82 259.08 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "00b99457-6f28-46bf-812c-9b2e5a8dacf9"))
-	(label
-		"GND"
-		(at 91.44 264.16 270)
-		(fields_autoplaced yes)
-		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "f387f465-43f6-4c3d-adb1-c579c736b3a2"))
+		(uuid "2426e230-a942-4d78-b7af-7ece4fc8ffa9"))
 	(label
 		"MAG_SW"
 		(at 91.44 254.0 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "48d7c6c1-b2a7-40cb-9d56-e6e9174bb907"))
+		(uuid "488e45a5-16f9-4c7d-9ac7-397502f8eef4"))
+	(label
+		"GND"
+		(at 91.44 264.16 270)
+		(fields_autoplaced yes)
+		(effects (font (size 1.27 1.27)) (justify right bottom))
+		(uuid "1f7633a0-3156-4f73-992d-9eb41ffb780c"))
 	(symbol
 		(lib_id "Device:D_Schottky")
 		(at 121.92 248.92000000000002 0)
@@ -3828,7 +3828,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c54485a6-21b4-4b19-ada5-bc12290544dd")
+		(uuid "4f65a2ea-8108-44ac-93a8-e7b793a2f6c2")
 		(property "Reference" "D2" (at 121.92 245.92000000000002 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -3845,24 +3845,24 @@
 			""
 			(at 121.92 248.92000000000002 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "09bea869-42a9-4c4a-9df7-3b406df0a095"))
-		(pin "2" (uuid "24041e39-81a1-45bf-87cf-00d37b36abd5"))
+		(pin "1" (uuid "1589d1ce-eb65-40b9-a0bf-0051bf7d86b2"))
+		(pin "2" (uuid "77b9c6d2-bd98-45c2-a3b6-559b97b89001"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "D2") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "D2") (unit 1)))))
 	(label
 		"MAG5"
 		(at 118.11 248.92 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "9edb08fd-a8cc-43c7-b4fc-201508640baf"))
+		(uuid "63f6561b-874b-494f-b4c2-91a9659dc98f"))
 	(label
 		"MAG_SW"
 		(at 125.73 248.92 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "bd8836ad-6161-471b-bfe4-d918da63f87d"))
+		(uuid "8ce12b50-22b9-4a59-b4e8-cea3688342e1"))
 	(symbol
 		(lib_id "Device:R")
 		(at 147.32 259.08 0)
@@ -3871,33 +3871,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c3ca9b00-1860-44dc-b6fb-b4eae593d1fe")
+		(uuid "39b85b83-10ce-461a-ae5f-41f55005b003")
 		(property "Reference" "R14" (at 147.32 246.46999999999997 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "100R" (at 147.32 272.69 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 147.32 259.08 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 147.32 259.08 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "c0e5657f-5fec-4bc0-847c-a9354b15e13a"))
-		(pin "2" (uuid "8589b46b-87ae-428d-8f80-e2034063975e"))
+		(pin "1" (uuid "37649713-8306-410b-8fe1-d59a936eb454"))
+		(pin "2" (uuid "2e8d4507-31c5-4abf-93bd-a0ec7f8386c8"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R14") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R14") (unit 1)))))
 	(label
 		"MAG_IO"
 		(at 147.32 255.27 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "36d73bfb-f191-4335-8449-972a96fe70fe"))
+		(uuid "4f401e91-c258-4431-85b3-a86aec69c0ed"))
 	(label
 		"MAG_G"
 		(at 147.32 262.89 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "39a4786f-8d65-452c-abaf-db49c44480c4"))
+		(uuid "35b06626-22f8-4189-af2c-7e02bee54fb1"))
 	(symbol
 		(lib_id "Device:R")
 		(at 167.64000000000001 256.54 0)
@@ -3906,7 +3906,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "3930b18b-6a79-4999-94d9-d3ee21772aaa")
+		(uuid "3b0ac7b4-619f-46c1-b8f5-e8eb6f7c4b5b")
 		(property
 			"Reference"
 			"R15"
@@ -3915,7 +3915,7 @@
 		(property "Value" "100k" (at 167.64000000000001 268.85 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 167.64000000000001 256.54 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property
@@ -3923,24 +3923,24 @@
 			""
 			(at 167.64000000000001 256.54 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "76465805-856a-4946-b3b1-632bb6ad04f3"))
-		(pin "2" (uuid "be3cbc9e-f62c-4148-a885-a75829e9ec14"))
+		(pin "1" (uuid "2f066d6d-be1b-4d4e-bea3-fa8d4d485084"))
+		(pin "2" (uuid "cfcb2981-e74a-426c-a2b9-e5fbf3f75e69"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R15") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R15") (unit 1)))))
 	(label
 		"MAG_G"
 		(at 167.64 252.73 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "7a858fd4-f076-4b54-ab90-3e83eee32a80"))
+		(uuid "72846716-c27d-4026-8bf9-eab2d9dbf1e8"))
 	(label
 		"GND"
 		(at 167.64 260.35 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8bb5f82a-c3af-4d3d-a14e-851c554d2581"))
+		(uuid "05e946d4-c1bb-4f2e-920b-2cce41a735b5"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
 		(at 203.2 251.46 0)
@@ -3949,7 +3949,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "11b54dda-9518-4f9b-abcb-d55ae0b14436")
+		(uuid "0d189577-69b9-4ea1-af4b-9bf084fa5f6c")
 		(property "Reference" "J5" (at 203.2 245.92000000000002 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "SERVO" (at 203.2 260.0 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -3958,31 +3958,31 @@
 			(at 203.2 251.46 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 203.2 251.46 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "21b3e3ec-cc80-4f3f-9440-deaaa337f97c"))
-		(pin "2" (uuid "d4eb51dc-4ee9-4ffe-8b91-d4c7f9ecd667"))
-		(pin "3" (uuid "87131ec1-b81f-4b5b-a334-165101a5eb1c"))
+		(pin "1" (uuid "0f9bb478-4344-41b6-b18d-c2f54640315e"))
+		(pin "2" (uuid "e940b8d5-585b-4430-a65e-1eee5f8805d7"))
+		(pin "3" (uuid "c709cba8-7ce9-412a-8613-46f0e2f4dfdc"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J5") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J5") (unit 1)))))
 	(label
 		"SERVO_SIG"
 		(at 198.12 248.92 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "966a0c14-929e-4fa8-b5e8-46c4cdc03099"))
+		(uuid "c3ddbf9a-4c34-41c9-b49b-34074cbbee66"))
 	(label
 		"+5VS"
 		(at 198.12 251.46 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "a399e8b8-7edc-48f2-9132-e9cbcde299fb"))
+		(uuid "e40da088-7544-48d8-a84e-86536dd54e74"))
 	(label
 		"GND"
 		(at 198.12 254.0 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "26d59615-b948-45bd-af8b-4de4997650fe"))
+		(uuid "f29979d6-9972-4f79-8bb2-5069f3251d8d"))
 	(symbol
 		(lib_id "Device:R")
 		(at 218.44 261.62 0)
@@ -3991,33 +3991,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "b23c9bd0-15b6-41c4-97eb-f3e205e06fa0")
+		(uuid "d2198005-ed44-43c5-b317-9482c9abafe4")
 		(property "Reference" "R9" (at 218.44 245.11 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "1k" (at 218.44 279.13 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 218.44 261.62 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 218.44 261.62 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "76ab85d6-663a-4da7-a7eb-eda7b5e1ef2b"))
-		(pin "2" (uuid "d232ff04-ecd3-4e40-b7a9-5b98d92b01de"))
+		(pin "1" (uuid "07374ae3-8b42-4850-8647-ac4a3a2db56c"))
+		(pin "2" (uuid "5ac3b565-0188-4bd8-8aa3-6aadb7a9dac0"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R9") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R9") (unit 1)))))
 	(label
 		"SERVO_IO"
 		(at 218.44 257.81 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "fe3b92cd-abc4-4862-bc08-41ac9dcb8b40"))
+		(uuid "f3edd529-d1af-4d29-9f88-a5c409fe2ee2"))
 	(label
 		"SERVO_SIG"
 		(at 218.44 265.43 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6a633f76-9da6-40c2-8d6c-2fdd1b0c9280"))
+		(uuid "dc038906-6bf7-45e3-9205-71ccdf07d8de"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x05")
 		(at 254.0 254.0 0)
@@ -4026,7 +4026,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "da57e96d-b3d3-4f77-b4db-a01fab0fd18d")
+		(uuid "e65bb54a-d8a7-429b-a9d6-944d50510c64")
 		(property "Reference" "J9" (at 254.0 245.92 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "TOF400C" (at 254.0 265.08 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -4035,45 +4035,45 @@
 			(at 254.0 254.0 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 254.0 254.0 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "f8e2bc32-d533-400f-8ea6-2b725702453f"))
-		(pin "2" (uuid "70d6fea2-bb42-408d-88ab-0a2378b41792"))
-		(pin "3" (uuid "7a1e1764-6b75-4b39-b193-3646c23c3a07"))
-		(pin "4" (uuid "6e2b5500-f48b-441f-a999-06dbbd041b6b"))
-		(pin "5" (uuid "5bf92741-149b-4085-aca0-ce2b5c439cbb"))
+		(pin "1" (uuid "2e618735-8481-4f10-a53a-6de21a33b035"))
+		(pin "2" (uuid "606ea969-9e19-4117-ac1b-7ab5a11f581c"))
+		(pin "3" (uuid "139489f9-3f4f-4fd3-8d9c-d443dab4ba09"))
+		(pin "4" (uuid "2ab36817-5e36-4829-a4c3-c7fbf4ef0890"))
+		(pin "5" (uuid "668a9eda-e177-4954-ae60-332f74a9f2ad"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J9") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J9") (unit 1)))))
 	(label
 		"3V3"
 		(at 248.92 248.92 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "5c877654-1ea3-4d40-9ae1-9b426d029189"))
+		(uuid "e8f2b044-25ee-48c7-9b87-5e07a6ef4394"))
 	(label
 		"GND"
 		(at 248.92 251.46 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "12bef7a3-6b8a-46ea-a420-09e80c5ff048"))
+		(uuid "65c13766-1088-45e7-98cb-d1c423e98b4b"))
 	(label
 		"SDA"
 		(at 248.92 254.0 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "f9857939-1d5e-4910-bf36-aa181e31b3e8"))
+		(uuid "15068418-cdc0-43e1-9a58-7f7153f9fbb1"))
 	(label
 		"SCL"
 		(at 248.92 256.54 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "f3b6734e-2a60-4d7f-a8cb-3388b1a26fb4"))
+		(uuid "4d07d7f0-4f17-466e-8b42-251ae0ed55c7"))
 	(label
 		"TOF_XSHUT"
 		(at 248.92 259.08 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "88d47a9d-8c59-4459-96b0-2834138922ba"))
+		(uuid "92afdfdf-439c-43e0-a2b3-839b8ed2a172"))
 	(symbol
 		(lib_id "Device:R")
 		(at 269.24 261.62 0)
@@ -4082,33 +4082,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "615799dc-bdb4-47fa-8d9e-0db307a3f7eb")
+		(uuid "5a43f8a5-6aa6-4898-baeb-bb3821fd45d9")
 		(property "Reference" "R11" (at 269.24 245.11 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "10k" (at 269.24 279.13 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 269.24 261.62 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 269.24 261.62 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "da8b58a6-b61f-4a13-bcc9-58bf682a745c"))
-		(pin "2" (uuid "e8f0a835-db5a-4892-9d01-45625855d9bd"))
+		(pin "1" (uuid "bae741fe-c48a-46fa-9d51-4d53257cbff5"))
+		(pin "2" (uuid "45c23544-2324-4b03-9613-76f9869a14c4"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R11") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R11") (unit 1)))))
 	(label
 		"TOF_XSHUT"
 		(at 269.24 257.81 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "9ad98a9e-c1c0-4171-ba84-8cda6e1c3623"))
+		(uuid "13efa68e-d6fc-4618-b7cb-978b7c5cb19c"))
 	(label
 		"3V3"
 		(at 269.24 265.43 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "d71fe9ee-6a62-4a17-af3e-c0f52202b0f2"))
+		(uuid "04dc6b10-893d-4f0a-a399-7ffed6181f31"))
 	(symbol
 		(lib_id "Device:R")
 		(at 289.56 256.54 0)
@@ -4117,33 +4117,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "6cf1197a-1097-4abf-ba9f-ead84028b4c3")
+		(uuid "7f2bc1b1-9d7e-46cd-a9ae-4a17e671dcc5")
 		(property "Reference" "R12" (at 289.56 246.53000000000003 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "4.7k" (at 289.56 267.55 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 289.56 256.54 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 289.56 256.54 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "93a0c825-44c1-4f8f-b394-dfe7b56d5ff4"))
-		(pin "2" (uuid "6c1c9e84-f0e5-46a6-a061-045727129c69"))
+		(pin "1" (uuid "6774e7d4-753b-4a87-b29c-360dc1d18e4b"))
+		(pin "2" (uuid "7735329f-d8fe-48d1-8748-b7448f25a8a2"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R12") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R12") (unit 1)))))
 	(label
 		"SDA"
 		(at 289.56 252.73 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "6b501e30-bd0c-4eeb-8341-aa6509910281"))
+		(uuid "b65981e2-d06f-4f3f-9f8e-a8347166ceb9"))
 	(label
 		"3V3"
 		(at 289.56 260.35 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6b6d8315-ff87-4147-8182-0922bf526a09"))
+		(uuid "1269fa97-9397-4be3-8dfc-160214f9f11d"))
 	(symbol
 		(lib_id "Device:R")
 		(at 309.88 256.54 0)
@@ -4152,33 +4152,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "65fa57ea-e603-498c-9a63-f2680e4429f5")
+		(uuid "a84abe2c-d4bb-4cd0-9801-af43576a12c0")
 		(property "Reference" "R13" (at 309.88 246.53000000000003 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "4.7k" (at 309.88 267.55 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 309.88 256.54 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 309.88 256.54 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "de6133bb-dac0-4eee-8dc6-41f8774f6185"))
-		(pin "2" (uuid "38513aa5-c821-4590-a1ac-d01d812f384f"))
+		(pin "1" (uuid "f787d6a0-122e-49ec-ace6-afb3c518eec4"))
+		(pin "2" (uuid "32065426-eb90-437d-b329-52b2e1d70a40"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R13") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R13") (unit 1)))))
 	(label
 		"SCL"
 		(at 309.88 252.73 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "d3ecfe46-d74e-42ce-a240-1c556e0a8d49"))
+		(uuid "55bf9e35-6fcb-49ce-93db-0816a98eb5a3"))
 	(label
 		"3V3"
 		(at 309.88 260.35 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "82c87972-2322-4ef4-82bb-88b3e884d20f"))
+		(uuid "7f1845b8-1eff-45f2-9d4d-89dfe389b2b3"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 342.9 248.92000000000002 0)
@@ -4187,7 +4187,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "22bdfd0f-2be2-4e95-aa1d-6d1cdf1da105")
+		(uuid "e04c9ae5-2c16-4af1-a4e9-36a6334564cf")
 		(property "Reference" "J7" (at 342.9 245.92000000000002 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "X HOME" (at 342.9 257.46000000000004 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -4200,24 +4200,24 @@
 			""
 			(at 342.9 248.92000000000002 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "3b5914e4-9629-4762-9035-c57f7b8effe2"))
-		(pin "2" (uuid "38b92f5c-ba86-4cdf-af55-d9a56dbde036"))
+		(pin "1" (uuid "2097dcf4-76b2-4dd6-9695-8a475a202368"))
+		(pin "2" (uuid "dd5b8f26-91eb-425a-bc62-79dc22b0ca59"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J7") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J7") (unit 1)))))
 	(label
 		"X_HOME"
 		(at 337.82 248.92 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "5fadbf15-408b-44fd-8a5d-0e56695c8491"))
+		(uuid "2557d9e9-913a-485e-bfad-0bfd891c70ab"))
 	(label
 		"GND"
 		(at 337.82 251.46 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "528900b6-a2bc-4950-b4ad-d3efd68018a3"))
+		(uuid "1fc7e95c-af69-4b77-8f16-4a46d4cd6133"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 370.84000000000003 248.92000000000002 0)
@@ -4226,7 +4226,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "9639a2a8-a1aa-45af-9045-414fd1396296")
+		(uuid "43669a21-b683-4614-a6bd-a4dcdf242d1b")
 		(property
 			"Reference"
 			"J8"
@@ -4247,30 +4247,30 @@
 			""
 			(at 370.84000000000003 248.92000000000002 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "7b141b46-0657-4aa4-89a9-4a9b0f60f61b"))
-		(pin "2" (uuid "79dbd89a-011b-4e21-b20a-47bcdc1a56c7"))
+		(pin "1" (uuid "c531f9ad-6a9c-4878-83f8-b1daee63fc52"))
+		(pin "2" (uuid "4daaef5f-2d5a-4672-86b3-b2ab88ab6fe5"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J8") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J8") (unit 1)))))
 	(label
 		"Y_HOME"
 		(at 365.76 248.92 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "bd494d41-3dec-43df-9ceb-b6cdfbcb8bf9"))
+		(uuid "7688e469-ca8c-4745-9e76-12ff0b284642"))
 	(label
 		"GND"
 		(at 365.76 251.46 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "4db6fea3-66ad-42b1-a079-ba4e6e9dcc3b"))
+		(uuid "da8bb5a9-91e4-4d58-9609-863135f3c540"))
 	(text
 		"PANEL: connectors A / B / C (rules), LEDs, start, stop sense, battery sense"
 		(exclude_from_sim no)
 		(at 20.0 290.02000000000004 0)
 		(effects (font (size 2.54 2.54) (thickness 0.5) (bold yes)) (justify left bottom))
-		(uuid "3071265b-493d-4635-8126-8fd5bbecbfdd"))
+		(uuid "93bf71b4-7c00-45d4-91ce-bd54147ebbd8"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_02x05_Odd_Even")
 		(at 35.56 309.88 0)
@@ -4279,7 +4279,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "d65322a3-db7e-4528-b66b-856608443eb3")
+		(uuid "49f456b4-51c2-4bca-bf81-6169cb20b0c7")
 		(property "Reference" "J17" (at 35.56 301.8 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "PANEL A B C" (at 35.56 320.96 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -4288,80 +4288,80 @@
 			(at 35.56 309.88 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 35.56 309.88 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "ea04c689-305f-4781-8fbe-5738ca6a67f8"))
-		(pin "2" (uuid "518c06d3-d6d8-47f8-9cb4-237918e1b7ad"))
-		(pin "3" (uuid "229a9e90-f829-4821-9f3e-64d07d9df770"))
-		(pin "4" (uuid "129ab28a-98bc-4894-ba2e-95f5d9da046f"))
-		(pin "5" (uuid "0dc88db1-8d51-4892-850d-823869aa8af8"))
-		(pin "6" (uuid "60f6d9b1-86ea-4cdd-8b48-f4791120610f"))
-		(pin "7" (uuid "3fc39d57-9cb4-4388-ba0c-b581c24e8cd7"))
-		(pin "8" (uuid "9cf9cb90-ecd4-4332-add7-f2b450d27077"))
-		(pin "9" (uuid "6f02fc2d-e887-4b46-a965-e8c367fa3d7b"))
-		(pin "10" (uuid "4ef6a787-520c-4d17-9178-e7a1c0513682"))
+		(pin "1" (uuid "3f8c7b0c-d82b-4416-ae72-aa9f617bc1a2"))
+		(pin "2" (uuid "f775028b-06b3-4f7d-8178-40456bbd6b64"))
+		(pin "3" (uuid "3d38450d-6e66-4bdd-b3f0-fe775252471b"))
+		(pin "4" (uuid "20caec6d-7ae6-4314-adf8-20d354234098"))
+		(pin "5" (uuid "9358a1ef-c227-428b-aed7-b9fa553103ca"))
+		(pin "6" (uuid "fb31b5c3-5db7-4d6f-8039-65dede599726"))
+		(pin "7" (uuid "275a34ec-33a0-40d4-a3ac-9871c7e53389"))
+		(pin "8" (uuid "6ef2eee5-6a64-4712-80ba-fd21d604ee47"))
+		(pin "9" (uuid "dad7726b-c6f8-4eaa-b9fc-cf83cfb1b5bf"))
+		(pin "10" (uuid "4f1a411f-023d-4d5f-8bbd-d27277f5f4df"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J17") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J17") (unit 1)))))
 	(label
 		"A_SIG"
 		(at 30.48 304.8 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "b21fc878-88c7-4e40-9bf3-09d09cebee9a"))
+		(uuid "8fb5afeb-62df-41ad-839c-9166f09a3bbe"))
 	(label
 		"3V3"
 		(at 43.18 304.8 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "9c5a4d78-fc43-400d-ad52-cf89d5ea5d71"))
+		(uuid "35d3585b-b034-4911-9f3d-a1c29f45c03a"))
 	(label
 		"GND"
 		(at 30.48 307.34 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "fd419280-51bc-4ab6-88fa-785e1a439479"))
+		(uuid "0852bf2e-bc15-4dfd-9e83-5f59b42024f7"))
 	(label
 		"B_SIG"
 		(at 43.18 307.34 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "8c46d591-2ca6-4c90-9e49-54badbc220c2"))
+		(uuid "3c90615c-f47e-4425-ba54-39415d8a76b3"))
 	(label
 		"+5V"
 		(at 30.48 309.88 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8f806f17-1ed4-44ef-a041-3c4dc5e8c771"))
+		(uuid "764e0851-ea36-499f-adc2-fd91f71415d2"))
 	(label
 		"GND"
 		(at 43.18 309.88 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "9145fb77-087d-4c5b-8300-83f68460f77c"))
+		(uuid "ac3b68de-c489-487a-89d3-0bf3df966426"))
 	(label
 		"C_TX"
 		(at 30.48 312.42 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "f7fabcd6-b75c-4b84-b77c-115cb45b7e06"))
+		(uuid "f1aaee62-24d6-426d-8aae-e4953e6944b2"))
 	(label
 		"C_RX"
 		(at 43.18 312.42 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "f76fd254-945e-4557-a044-81cc90bb0427"))
+		(uuid "73586c3b-ad78-4fe5-8d8f-49a585567a78"))
 	(label
 		"C_V"
 		(at 30.48 314.96 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "c9e5d362-b4f7-4cf9-aee8-398c81e58883"))
+		(uuid "f072e7e4-c6d6-4754-88c1-e92d90f594c2"))
 	(label
 		"GND"
 		(at 43.18 314.96 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "a0730cc9-405c-4578-9127-e946b29fc5ba"))
+		(uuid "9c3407df-2c5a-43a6-acc8-ae6975c0cd6f"))
 	(symbol
 		(lib_id "etz:BSS138_LevelShifter_4ch")
 		(at 83.82000000000001 309.88 0)
@@ -4370,7 +4370,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "16db7721-8f42-43f0-9a21-e4e45689cb74")
+		(uuid "3f06eb21-1e5c-489f-a542-eb9d70b3ce31")
 		(property "Reference" "U8" (at 83.82000000000001 300.53 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -4387,74 +4387,74 @@
 			""
 			(at 83.82000000000001 309.88 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "ad52795e-2ac7-4667-9739-73396e0de48e"))
-		(pin "2" (uuid "8ff92e49-22cc-4a02-9617-8e14f7ab6dea"))
-		(pin "3" (uuid "8f72f0f0-2466-412f-b5ed-034443efec13"))
-		(pin "4" (uuid "888f2642-4dfc-4294-b91d-85e32bb4f180"))
-		(pin "5" (uuid "7da6ad5c-c0c0-45db-9c6b-d6f2f3942442"))
-		(pin "6" (uuid "fe5e8a33-9b7e-42dc-bff0-0764c5f96000"))
-		(pin "7" (uuid "4a5da6b1-7e2c-417a-a604-98c5049b3cd7"))
-		(pin "8" (uuid "7283589c-a581-47e9-be09-d0b999aeab2f"))
-		(pin "9" (uuid "6eab0509-1e3d-489e-aabe-d6af247b1922"))
-		(pin "10" (uuid "6a13b6f1-ddeb-4e2c-9e73-3bc824af5f21"))
-		(pin "11" (uuid "e10fdb52-b87a-4ac7-a3f4-35a5592609d8"))
-		(pin "12" (uuid "52b99ae2-f6e4-412d-937a-7d9be2fc74eb"))
+		(pin "1" (uuid "2e92c2e5-79ab-42db-b3d8-b275f7e54869"))
+		(pin "2" (uuid "f73f14a8-519c-4c0b-af62-a461b81381be"))
+		(pin "3" (uuid "f32a398e-d993-4f01-aa0b-5baf6acb3ed1"))
+		(pin "4" (uuid "9c9c662e-6790-414d-8ceb-78ee8cc84987"))
+		(pin "5" (uuid "84f46826-4fc9-4222-8b6d-30318d0bb949"))
+		(pin "6" (uuid "06754b10-276f-46d7-ae41-468e4c54879e"))
+		(pin "7" (uuid "82250905-b759-4f3a-b4b9-79d8bffc393e"))
+		(pin "8" (uuid "f5813168-6704-4aa5-bed5-045abbd1ddee"))
+		(pin "9" (uuid "664f280c-94a2-43dc-b694-3b7fe137629b"))
+		(pin "10" (uuid "7e8aeb9d-26cc-46ff-adcc-f651d3f6b248"))
+		(pin "11" (uuid "a483865f-a70c-4d9a-ab05-4697a30c001e"))
+		(pin "12" (uuid "90fc008c-77ab-4efe-b705-9a57d0e20d8f"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "U8") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "U8") (unit 1)))))
 	(label
 		"U1_TX"
 		(at 66.04 303.53 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "746b464a-6918-4dbc-9e8e-8d7a24ba8f0b"))
+		(uuid "74da18ca-009f-4aa0-ba7a-0db010e91435"))
 	(label
 		"U1_RX"
 		(at 66.04 306.07 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "51c9732e-fb56-46ed-8a7a-fd33d602874e"))
+		(uuid "9124e157-fdb4-497d-b127-d7b813fa1702"))
 	(label
 		"3V3"
 		(at 66.04 308.61 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "6d10e424-b9b0-492e-aa5d-f8c2b10f3ac5"))
+		(uuid "d821f864-e6ab-410b-bcfd-cd07df7617f2"))
 	(label
 		"GND"
 		(at 66.04 311.15 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "faf10ace-1d44-4cf7-845a-f9e6a6c9d6c7"))
-	(no_connect (at 66.04 313.69) (uuid "c57731a8-2e05-457a-8a5a-79385739cc57"))
-	(no_connect (at 66.04 316.23) (uuid "b507d686-dfd5-49ec-991e-670ff96e8d61"))
+		(uuid "bfd79e27-03b3-402c-b587-843fdee65b93"))
+	(no_connect (at 66.04 313.69) (uuid "ec47084f-57fc-4ea7-a056-9104345c3154"))
+	(no_connect (at 66.04 316.23) (uuid "16a15272-f210-4828-b730-d55a04885b41"))
 	(label
 		"C_TX"
 		(at 101.6 303.53 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "210285ec-c32e-4330-901b-3b4a7d37ac61"))
+		(uuid "56582cc6-ccd0-4930-903e-a952cae2e88a"))
 	(label
 		"C_RX"
 		(at 101.6 306.07 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "8efeaeb9-057e-4085-827d-4ad1e6da574a"))
+		(uuid "e5f5bbe8-1399-4a25-972c-bfad25bf612a"))
 	(label
 		"+5V"
 		(at 101.6 308.61 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2519fb1b-655e-4e5e-add1-2a02c4aadbda"))
+		(uuid "f0465bdb-2751-4d0e-b8ec-c9d6fdf90880"))
 	(label
 		"GND"
 		(at 101.6 311.15 0)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "e42241a1-0846-4fb5-9b89-58ec0ac5f911"))
-	(no_connect (at 101.6 313.69) (uuid "428d2d47-8dba-4ccd-81f8-554a9f71c93e"))
-	(no_connect (at 101.6 316.23) (uuid "bc31f630-dd89-4260-8bfb-d68971c4d35e"))
+		(uuid "5c75c748-8b4e-4981-8499-7e6293a3b367"))
+	(no_connect (at 101.6 313.69) (uuid "1ee4bdef-1832-498f-8275-eaf294487f0a"))
+	(no_connect (at 101.6 316.23) (uuid "3839a764-276c-4f70-af85-746572748f87"))
 	(symbol
 		(lib_id "Device:R")
 		(at 121.92 312.42 0)
@@ -4463,33 +4463,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "6dc30347-0f23-43ac-b91f-bb29f46fc16a")
+		(uuid "c3190c35-581c-4539-b055-48b8606901f8")
 		(property "Reference" "R5" (at 121.92 301.11 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "10k" (at 121.92 324.73 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 121.92 312.42 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 121.92 312.42 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "fa9420db-9455-4bac-a14e-51421ca18a39"))
-		(pin "2" (uuid "277a2b48-7e09-4b41-a27c-a7bd7146e4f1"))
+		(pin "1" (uuid "7ff5d6f1-7642-4916-963b-9811487e99e5"))
+		(pin "2" (uuid "80999f57-1b3f-409f-bcc1-03ce3c62ace4"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R5") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R5") (unit 1)))))
 	(label
 		"B_SIG"
 		(at 121.92 308.61 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "8ce3c9c6-4a0b-4353-b7af-d1a40c837bdd"))
+		(uuid "a2f04613-974f-4369-a97c-975a6c830212"))
 	(label
 		"B_IO"
 		(at 121.92 316.23 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8faea55e-c8cb-4c6e-bd93-e330aa293729"))
+		(uuid "86cad906-5ad7-43a6-8af5-855f5375d5bc"))
 	(symbol
 		(lib_id "Device:R")
 		(at 142.24 309.88 0)
@@ -4498,33 +4498,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "4d3c7980-2bc1-4ca3-89f5-818ed93934a9")
+		(uuid "fa6b073c-eb12-4797-b2e9-26dea06c0d32")
 		(property "Reference" "R6" (at 142.24 299.87 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "20k" (at 142.24 320.89 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 142.24 309.88 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 142.24 309.88 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "d4c0b4d9-4747-4fd2-afef-1d229ace432b"))
-		(pin "2" (uuid "0272d1bf-dc92-4489-a192-6398f1f77d3d"))
+		(pin "1" (uuid "963fa827-ebdd-4334-b6cc-9d462922a9a1"))
+		(pin "2" (uuid "a7a00316-a5b7-4651-9e11-0d7c09b0b712"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R6") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R6") (unit 1)))))
 	(label
 		"B_IO"
 		(at 142.24 306.07 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "695b5d78-ae72-4fbd-97f2-253c8f6c56d5"))
+		(uuid "0281f33a-c1f9-43b4-8984-e7954bdc5ece"))
 	(label
 		"GND"
 		(at 142.24 313.69 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "ea0c8da1-afb7-42b8-85a2-06fde0fc79cf"))
+		(uuid "7e792ba9-76cf-4ae3-9cdd-72b97fd21bbb"))
 	(symbol
 		(lib_id "Device:R")
 		(at 162.56 312.42 0)
@@ -4533,33 +4533,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a5833bc8-f6aa-4a54-93c7-7b0be3c004d4")
+		(uuid "90a9756c-addb-40b0-bc29-e73c69ce5013")
 		(property "Reference" "R7" (at 162.56 301.11 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "1k" (at 162.56 324.73 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 162.56 312.42 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 162.56 312.42 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "e3504e8e-5d5e-4b92-8004-d0074ff1f9c4"))
-		(pin "2" (uuid "a4534745-6b71-4e50-923f-3bf0194dbcbc"))
+		(pin "1" (uuid "beac863b-929b-4118-a2dd-86f93f12601c"))
+		(pin "2" (uuid "e72a311a-8ad3-4c91-a03a-8ae20241923a"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R7") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R7") (unit 1)))))
 	(label
 		"A_SIG"
 		(at 162.56 308.61 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ee81e22f-7634-49ac-8532-774a44dd5f3f"))
+		(uuid "1e6abe92-9174-48b2-85cf-980c35151307"))
 	(label
 		"A_IO"
 		(at 162.56 316.23 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "14bee64a-d6d9-4e83-a45c-e7ae26c29b72"))
+		(uuid "93a9597d-c203-4ead-88b2-d4b717e448f0"))
 	(symbol
 		(lib_id "Device:C")
 		(at 182.88 309.88 0)
@@ -4568,33 +4568,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "846a9269-df33-446d-9137-d9409d21b35a")
+		(uuid "18014a5c-75df-43a8-a3b3-84951ab8382f")
 		(property "Reference" "C8" (at 182.88 299.87 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "10nF" (at 182.88 320.89 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+			"Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 182.88 309.88 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 182.88 309.88 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "8b498786-fc86-4f7b-bf43-dc678ab4c0d1"))
-		(pin "2" (uuid "c8fe7f52-e77c-4677-a2a8-03dc9558bdc1"))
+		(pin "1" (uuid "a73f52e3-6e44-44c7-9c08-8d303ab2cc9d"))
+		(pin "2" (uuid "1a3a9d56-9b1c-454d-b66d-32e1e14b07cc"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "C8") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "C8") (unit 1)))))
 	(label
 		"A_IO"
 		(at 182.88 306.07 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "77487ede-0cd6-4703-83bf-b9bfa0508eb7"))
+		(uuid "15a83b80-4469-4220-9ebc-d524acfdf5fa"))
 	(label
 		"GND"
 		(at 182.88 313.69 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "ca83ea31-ae11-4c04-9f90-42263d6a8ce0"))
+		(uuid "1f4a474b-2723-432a-b252-768c331b89c2"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 215.9 304.8 0)
@@ -4603,7 +4603,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "f7504782-d030-405e-b311-9340965091ec")
+		(uuid "9c5c3063-f1ab-4da8-9beb-d99b799eb9c0")
 		(property "Reference" "J14" (at 215.9 301.8 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -4616,24 +4616,24 @@
 			(at 215.9 304.8 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 215.9 304.8 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "ff89c700-eb99-43ab-9cf4-f9c0c1a7fd72"))
-		(pin "2" (uuid "60464664-24d8-4ecf-a3e7-494cd4780daa"))
+		(pin "1" (uuid "ba384513-e000-4a99-a1c6-c24cafcc3036"))
+		(pin "2" (uuid "30a5f873-fb67-4c2d-b129-f0fd0ba99ed1"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J14") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J14") (unit 1)))))
 	(label
 		"LEDG_A"
 		(at 210.82 304.8 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "90e04e73-47b9-46fe-8b50-4bcdddcd8f08"))
+		(uuid "e569a11b-2e07-4d88-87f5-bdceb3aaf954"))
 	(label
 		"GND"
 		(at 210.82 307.34 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "73e4c7ee-eb45-4096-b85d-efca5f5ce16a"))
+		(uuid "0f5326a8-addd-46f9-8e30-5ffdbdf6dc6e"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 243.84 304.8 0)
@@ -4642,7 +4642,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "54890297-355d-4446-b38d-fa5f54dde6e2")
+		(uuid "4b627dbf-06cb-4bd6-ac2b-00843ac7c6d3")
 		(property "Reference" "J15" (at 243.84 301.8 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "RED LED" (at 243.84 313.34000000000003 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -4651,24 +4651,24 @@
 			(at 243.84 304.8 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 243.84 304.8 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "bec76467-d9be-4212-b511-85c0f1fd65f6"))
-		(pin "2" (uuid "3c22a2f7-af28-4e09-b986-4c94a5171140"))
+		(pin "1" (uuid "afc3da26-fddc-4553-be15-37b564db6dd1"))
+		(pin "2" (uuid "73258a60-907f-4c27-9682-5d0c2624b2aa"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J15") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J15") (unit 1)))))
 	(label
 		"LEDR_A"
 		(at 238.76 304.8 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "7c412fd9-cada-4165-98ec-19f2bb08cdb9"))
+		(uuid "055a52bf-e8e6-4ed7-8627-1ff2eed78bd5"))
 	(label
 		"GND"
 		(at 238.76 307.34 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "44364dbf-0e3e-4c5e-8d2d-3e229b1bb53b"))
+		(uuid "0ea02235-583b-4c6c-b93c-4d3eca81fd6f"))
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 269.24 304.8 0)
@@ -4677,7 +4677,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "15b8f404-5402-4d5b-bf95-66fa1661fca6")
+		(uuid "01d816d1-71e2-47e6-b00a-dbb27dd218bb")
 		(property "Reference" "J16" (at 269.24 301.8 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "START" (at 269.24 313.34000000000003 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -4686,24 +4686,24 @@
 			(at 269.24 304.8 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 269.24 304.8 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "5612c41c-1726-4235-be42-36064bd08ae6"))
-		(pin "2" (uuid "955a60e3-a8e7-4c39-b088-5681706d7b56"))
+		(pin "1" (uuid "dec0a1c3-752a-416b-af0d-cf8556f402de"))
+		(pin "2" (uuid "cba30eef-59a3-46bc-9fb1-bb18a33c7fe5"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "J16") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "J16") (unit 1)))))
 	(label
 		"START"
 		(at 264.16 304.8 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "e003df67-dec7-4fee-9271-a6557f2b58ef"))
+		(uuid "0940582d-98f0-485c-999f-72468927b293"))
 	(label
 		"GND"
 		(at 264.16 307.34 180)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "36273041-e4c4-4289-81be-7a544c53542d"))
+		(uuid "888fdadc-ffa5-483a-853b-05ceaa72feda"))
 	(symbol
 		(lib_id "Device:R")
 		(at 284.48 312.42 0)
@@ -4712,7 +4712,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "036d5a05-f7c6-4aba-a588-bd9de861ed59")
+		(uuid "b781172e-0283-48ca-8707-d2e702e4bfe4")
 		(property "Reference" "R16" (at 284.48 299.81 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Value"
@@ -4721,28 +4721,28 @@
 			(effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 284.48 312.42 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 284.48 312.42 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "1801c8c1-fc1d-4ea3-9791-fa498f8f5b2a"))
-		(pin "2" (uuid "65b34ebd-fe6f-4acf-aa7f-4eb63d444aa9"))
+		(pin "1" (uuid "764e31d4-bee0-4661-b128-01fd943ab2e4"))
+		(pin "2" (uuid "7a1c2d98-b75f-40e8-b186-ab36f6b79d94"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R16") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R16") (unit 1)))))
 	(label
 		"VDRIVE"
 		(at 284.48 308.61 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "19c7488d-6617-4d27-b325-cf80aacdfef0"))
+		(uuid "1b5a0a60-5e8f-4d3d-969b-f72259ee4ff9"))
 	(label
 		"LEDG_A"
 		(at 284.48 316.23 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8409519b-3510-4f0f-987b-0fde504c3590"))
+		(uuid "53c7bbb0-e871-4973-ae4b-83faa584ebe5"))
 	(symbol
 		(lib_id "Device:R")
 		(at 304.8 314.96 0)
@@ -4751,33 +4751,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "ae04ba0e-f485-4a82-ba2f-aa84518284d6")
+		(uuid "ab8acedb-5fdf-4d43-8236-8ee54cf6d15f")
 		(property "Reference" "R17" (at 304.8 301.04999999999995 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "220R" (at 304.8 329.87 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 304.8 314.96 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 304.8 314.96 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "4e73dd30-731f-4846-9bc5-c27314e8eb56"))
-		(pin "2" (uuid "b916e3c7-a4a2-4f40-b5f4-d16821120ece"))
+		(pin "1" (uuid "4613cb25-c192-441c-a7ac-2cc04e9704da"))
+		(pin "2" (uuid "15f97445-fa89-4d6e-9c4b-8fd6cfca2402"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R17") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R17") (unit 1)))))
 	(label
 		"LEDR_IO"
 		(at 304.8 311.15 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "16a49ae7-f018-4333-8cee-c56190451db6"))
+		(uuid "9a088cfe-959e-4886-8623-b2b7ad77ccb6"))
 	(label
 		"LEDR_A"
 		(at 304.8 318.77 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "af6083c2-b8ad-4039-9968-bad2cd858c33"))
+		(uuid "4c0e55a2-6a5b-4239-a7f7-c8e7ceab6eb6"))
 	(symbol
 		(lib_id "Device:R")
 		(at 325.12 320.04 0)
@@ -4786,33 +4786,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "9cf5fcc7-055f-4132-ad79-173a4651cff5")
+		(uuid "b437a12e-4cf0-4217-b11c-fab83f5a3e57")
 		(property "Reference" "R1" (at 325.12 302.23 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "100k" (at 325.12 338.85 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 325.12 320.04 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 325.12 320.04 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "e0052a1f-8982-4387-acdf-8bd06d9f9c1d"))
-		(pin "2" (uuid "d79fc58a-3df3-4654-8df8-c39ffc72392b"))
+		(pin "1" (uuid "dd4e9825-6986-4af8-a6ca-c8d00e9eb412"))
+		(pin "2" (uuid "c87758e3-0c18-4f85-92fb-ced989f59ace"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R1") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R1") (unit 1)))))
 	(label
 		"VDRIVE"
 		(at 325.12 316.23 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "d00a7be1-086d-4b64-8112-6a6f65401f33"))
+		(uuid "7f137c32-2695-47d1-80b5-c35483d487fd"))
 	(label
 		"STOP_SENSE"
 		(at 325.12 323.85 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "ad3c44ce-0ca5-4966-b594-c668bff81032"))
+		(uuid "ce585fd3-e585-410f-b0d5-45a805013cde"))
 	(symbol
 		(lib_id "Device:R")
 		(at 345.44 320.04 0)
@@ -4821,33 +4821,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a05a0308-33b8-43c2-be03-dbeb61af4419")
+		(uuid "6bb89e1a-c39d-4167-a756-421b7033f2fd")
 		(property "Reference" "R2" (at 345.44 302.23 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "22k" (at 345.44 338.85 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 345.44 320.04 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 345.44 320.04 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "bd770ae8-aced-401b-b8a8-a68f41be1165"))
-		(pin "2" (uuid "9297a353-1962-4594-aa9d-e786ecd9dd98"))
+		(pin "1" (uuid "62a9fb2b-24bb-4300-82fb-e8a8b44a3cc9"))
+		(pin "2" (uuid "b0c5abcb-c956-4eeb-8345-fc615d494669"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R2") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R2") (unit 1)))))
 	(label
 		"STOP_SENSE"
 		(at 345.44 316.23 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "15511b72-73e3-4823-ad60-d582405f6799"))
+		(uuid "6881feb9-adc4-45f7-9098-b5162776900d"))
 	(label
 		"GND"
 		(at 345.44 323.85 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "2c63a0ab-ad5a-4459-a406-cd4aca881fac"))
+		(uuid "d7f87697-1101-4ad9-94b5-c439cdefa9ec"))
 	(symbol
 		(lib_id "Device:R")
 		(at 365.76 320.04 0)
@@ -4856,33 +4856,33 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "433be058-5b4c-4f0f-bb19-f75fb9ba564b")
+		(uuid "aa36f776-e242-495c-bfcf-cc82291e382a")
 		(property "Reference" "R3" (at 365.76 302.23 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "100k" (at 365.76 338.85 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 365.76 320.04 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 365.76 320.04 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "d936c72e-a987-41e4-86b9-b3f0aa6b0ebf"))
-		(pin "2" (uuid "efe0c197-da60-4322-a399-2d66f5a4c619"))
+		(pin "1" (uuid "59ecd351-e57d-4ebf-90eb-d9ce3b6f8ffd"))
+		(pin "2" (uuid "7e5d823b-eea3-4862-8c20-abd6e6be4c98"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R3") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R3") (unit 1)))))
 	(label
 		"VBAT"
 		(at 365.76 316.23 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "e1f04525-150e-4534-b8df-9b0867ebc518"))
+		(uuid "abda59c7-b95c-473c-a329-7be6bb819056"))
 	(label
 		"VBAT_SENSE"
 		(at 365.76 323.85 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "8eaf51e0-04d2-4b1b-a35a-7f1e380b62da"))
+		(uuid "1883cd62-b6ca-48c4-9149-da8cc10cc596"))
 	(symbol
 		(lib_id "Device:R")
 		(at 386.08 320.04 0)
@@ -4891,39 +4891,39 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "fb751e98-83fc-4a10-945d-a59a731cb7f3")
+		(uuid "6b673985-6e74-4510-a523-d57ab56073fd")
 		(property "Reference" "R4" (at 386.08 302.23 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "15k" (at 386.08 338.85 0) (effects (font (size 1.27 1.27))))
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			"Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 386.08 320.04 0)
 			(effects (font (size 1.27 1.27)) (hide yes)))
 		(property "Datasheet" "" (at 386.08 320.04 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid "e896b3e0-0563-4780-a8e2-91e90e271854"))
-		(pin "2" (uuid "7519b578-b998-4fbf-8109-deb14f4db659"))
+		(pin "1" (uuid "f8256b06-6c98-437c-94fa-e18558c6064d"))
+		(pin "2" (uuid "c21a559c-437a-4f98-9cc7-a1271297d472"))
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "R4") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "R4") (unit 1)))))
 	(label
 		"VBAT_SENSE"
 		(at 386.08 316.23 90)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ba3eaffd-82a4-4c63-83c5-42cc78c7e288"))
+		(uuid "4f5b274a-6e24-42ab-84b9-b553c565e836"))
 	(label
 		"GND"
 		(at 386.08 323.85 270)
 		(fields_autoplaced yes)
 		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "7658de6e-cac3-4d20-8bdd-ab3ad7dd91d9"))
+		(uuid "24256b3f-ad43-4666-8958-753212d1842f"))
 	(text
 		"MOUNTING"
 		(exclude_from_sim no)
 		(at 20.0 347.64000000000004 0)
 		(effects (font (size 2.54 2.54) (thickness 0.5) (bold yes)) (justify left bottom))
-		(uuid "dce78a7b-dccb-41c9-bc12-80641806e6d9"))
+		(uuid "e6b7ba44-068f-49c0-83c1-7388ad3ae5bd"))
 	(symbol
 		(lib_id "Mechanical:MountingHole")
 		(at 25.4 360.68 0)
@@ -4932,7 +4932,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "7f3543a7-c699-4b5f-9273-6b45a3c37f86")
+		(uuid "514bfb34-4dc8-4aa9-8a4c-2fbc5f759323")
 		(property "Reference" "H1" (at 25.4 357.68 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "M3" (at 25.4 366.68 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -4944,7 +4944,7 @@
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "H1") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "H1") (unit 1)))))
 	(symbol
 		(lib_id "Mechanical:MountingHole")
 		(at 45.72 360.68 0)
@@ -4953,7 +4953,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "15369b68-12b1-4b9e-bb73-d667c3796c6e")
+		(uuid "a25a4174-0e7f-45c9-b643-35906984eb90")
 		(property "Reference" "H2" (at 45.72 357.68 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "M3" (at 45.72 366.68 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -4965,7 +4965,7 @@
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "H2") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "H2") (unit 1)))))
 	(symbol
 		(lib_id "Mechanical:MountingHole")
 		(at 66.04 360.68 0)
@@ -4974,7 +4974,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "4d03038e-f682-43f7-b6c7-4662009d829f")
+		(uuid "0bbe010a-b227-4c7a-b2c3-064ab5833fb8")
 		(property "Reference" "H3" (at 66.04 357.68 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "M3" (at 66.04 366.68 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -4986,7 +4986,7 @@
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "H3") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "H3") (unit 1)))))
 	(symbol
 		(lib_id "Mechanical:MountingHole")
 		(at 86.36 360.68 0)
@@ -4995,7 +4995,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "94e4b481-eacc-49af-aafd-12ba43f75a9d")
+		(uuid "0e66cadb-e8bf-4407-b76e-ccf9183d30f9")
 		(property "Reference" "H4" (at 86.36 357.68 0) (effects (font (size 1.27 1.27))))
 		(property "Value" "M3" (at 86.36 366.68 0) (effects (font (size 1.27 1.27))))
 		(property
@@ -5007,5 +5007,5 @@
 		(instances
 			(project
 				"etz_control"
-				(path "/2b733a15-d291-45f2-a39b-c0b70ce0aa3f" (reference "H4") (unit 1)))))
+				(path "/3e8f3ff9-d491-4fe2-8e1c-26b9b29dafcb" (reference "H4") (unit 1)))))
 	(sheet_instances (path "/" (page "1"))))
