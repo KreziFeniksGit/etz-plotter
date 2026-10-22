@@ -1,5 +1,8 @@
 # Main control PCB (KiCad 10)
 
+**Current design (23 Oct): three split single-sided boards, hand-routed - see split_boards.md** (drivers/, power/, controller/).
+The single-board files below (etz_control.*) are the earlier versions, kept for reference.
+
 **Current version: HOME (single-sided, toner transfer), placed, NOT routed - Egor routes it by hand (22 Oct).**
 `build_pcb.py` has `HOME = True`: 169 x 136 mm, copper on the bottom only, traces >= 0.5 mm (signals 0.6, 5 V 1.2, motors 1.0,
 power 2.0), 0.6 mm gaps (0.8 around power), oval 1.7 x 2.6 pads with 1.0 mm drills on 2.54 mm rows (round 1.9 on the 2x5 header),

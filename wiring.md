@@ -34,38 +34,46 @@ it (do not call `esp_wifi_init` / start BLE; build with Bluetooth disabled). Be 
 - All grounds join at one point on the board: battery minus, both regulators, the drivers, the ESP32 GND.
 - TMC2209 logic (VIO) comes from the board's 3V3 pin.
 
-## 2. ESP32-S3 pins
+## 2. ESP32-S3 pins (split boards, 23 Oct - chosen so the single-sided controller board has no crossings)
 
 Not used on purpose: GPIO 0, 3, 45, 46 (boot strapping), 19 / 20 (native USB), 26..32 (flash) and 33..37 (the N16R8's
-octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop link), 48 (RGB LED on the board).
+octal PSRAM), 43 / 44 (UART0, wired to the board's USB-UART port = the laptop link). GPIO 4, 13, 14 are free.
+GPIO 38 and 48: one of them drives the board's RGB LED (48 on v1.0, 38 on v1.1); both are used here as INPUTS only
+(home switch, start), which cannot harm the LED. Never configure them as outputs.
 
 | GPIO | Function | Notes |
 |---|---|---|
-| 17 / 18 | UART1 TX / RX -> connector C | TX through 1 k (3.3 V is read as high by a 5 V device); RX through a 10 k / 20 k divider (5 V -> 3.3 V); 9600 8-N-1 (no level shifter since 22 Oct) |
-| 15 / 16 | UART2 TX / RX -> TMC2209 PDN_UART bus | 1 k from TX to the bus, RX direct; driver addresses 0..3 set with MS1/MS2 |
-| 4 / 5 | X STEP / DIR | step pulses from the RMT or MCPWM peripheral |
-| 6 / 7 | Y STEP / DIR | |
-| 8 / 9 | Wrist STEP / DIR | wrist NEMA17 pancake 17HS4023S |
-| 11 / 12 | I2C SDA / SCL -> distance sensor (TOF400C, VL53L1X) | 4.7 k pull-ups to 3V3 (CHECK whether the module has its own); 100 kHz. Was the spare driver's STEP / DIR: the 4th TMC2209 stays on the board as a hot spare |
-| 13 | EN, all drivers (low = on) | 10 k pull-up to 3V3, so the drivers stay off while the ESP32 boots |
-| 14 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series; servo powered from its own 5 V rail (Mini560 #2) |
-| 21 | Magnet MOSFET gate (AO3400) | 100 R in series, 100 k gate to GND; 1N5819 across the magnet |
-| 38 | Distance sensor XSHUT | low = sensor off / reset; 10 k pull-up to 3V3 |
-| 39 | X home switch | to GND, internal pull-up; wire the NC contact so a broken wire reads as "pressed" |
-| 40 | Y home switch | same as X |
-| 41 | Start button | to GND, internal pull-up, debounce in software |
-| 42 | Red LED ("program running") | 220 R to the LED |
-| 47 | Stop sense | high = drive bus on (divider 100 k / 22 k) |
-| 10 | Connector B, SIG | 10 k / 20 k divider: a 5 V signal reads as 3.3 V (the ESP32 is not 5 V tolerant) |
-| 1 | Connector A, SIG (ADC1_CH0) | 0..5 V sensor -> 10 k / 20 k divider -> 0..3.3 V; 10 nF to GND |
-| 2 | Battery voltage (ADC1_CH1) | ADC1 only (ADC2 shares hardware with the radio) |
+| 5 | TMC2209 UART bus, RX | UART2 RX, direct on the single-wire PDN_UART bus to all three drivers |
+| 6 | TMC2209 UART bus, TX | UART2 TX through R8 1 k onto the same bus; addresses by MS1/MS2: X 0, Y 2, wrist 3 |
+| 7 / 15 | X STEP / DIR | step pulses from the RMT or MCPWM peripheral |
+| 16 / 17 | Y STEP / DIR | |
+| 18 / 8 | Wrist STEP / DIR | wrist NEMA17 pancake 17HS4023S |
+| - | Driver EN | tied to GND on the controller board: drivers always enabled. The firmware turns a driver off over UART (TOFF = 0); the stop button cuts their power |
+| 9 | Connector A, SIG (ADC1_CH8) | 0..5 V sensor -> 10 k / 20 k divider -> 0..3.3 V; 10 nF to GND |
+| 10 | Connector B, SIG | 10 k / 20 k divider: a 5 V signal reads as 3.3 V |
+| 11 / 12 | UART1 TX / RX -> connector C | TX through 1 k; RX through a 10 k / 20 k divider (5 V -> 3.3 V); 9600 8-N-1 |
+| 1 | Magnet MOSFET gate (on the power board) | 100 R in series, 100 k gate to GND there; IRLZ44N; SS34 across the magnet |
+| 2 | Battery voltage (ADC1_CH1) | divider 100 k / 15 k on the power board; stop the run below 14.0 V |
+| 42 | Stop sense | high = drive bus on (divider 100 k / 22 k on the power board) |
+| 41 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series on the power board; servo on its own 5 V rail |
+| 40 / 39 | I2C SDA / SCL -> distance sensor (TOF400C) | 4.7 k pull-ups to 3V3 at the plug; XSHUT tied to 3V3 (sensor always on) |
+| 38 | X home switch (input only) | to GND, internal pull-up; wire the NC contact so a broken wire reads as "pressed" |
+| 48 | Y home switch (input only) | same as X |
+| 47 | Start button | to GND, internal pull-up, debounce in software |
+| 21 | Red LED ("program running") | 220 R to the LED |
 | USB (UART port) | Laptop (wired, offline) | also powers the board while you develop |
+
+Board-to-board cables (straight 1:1 JST-XH, pin 1 to pin 1), see `pcb/split_boards.md`:
+- controller J1 / J2 / J3 -> driver board J1 / J2 / J3 (X, Y, wrist): 1 GND, 2 EN (GND), 3 UART, 4 STEP, 5 DIR, 6 3V3
+- controller J4 -> power board J5: 1 MAG_IO, 2 GND, 3 +5V, 4 VBAT_SENSE, 5 STOP_SENSE, 6 SERVO_IO
+- power board J3 (XT30) -> driver board J7 (XT30): VDRIVE
+
 Connector pins on the panel (2.54 mm female headers on a small strip board, Egor 22 Oct):
-- One 6-wire cable from the main board (JST-XH 6, J17): 1 A_SIG, 2 B_SIG, 3 C_TX, 4 C_RX, 5 +5 V (through the 0.5 A PTC), 6 GND.
-  On the strip, pin 5 feeds all three V pins and pin 6 all three GND pins. All dividers / resistors stay on the main board.
-- **A** (1x3): SIG -> 10 k / 20 k -> GPIO1, V = 5 V, GND. CHECK the V voltage in the full rules text.
+- One 6-wire cable from the controller board (JST-XH 6, J5): 1 A_SIG, 2 B_SIG, 3 C_TX, 4 C_RX, 5 +5 V (through the 0.5 A PTC), 6 GND.
+  On the strip, pin 5 feeds all three V pins and pin 6 all three GND pins. All dividers / resistors stay on the controller board.
+- **A** (1x3): SIG -> 10 k / 20 k -> GPIO9, V = 5 V, GND. CHECK the V voltage in the full rules text.
 - **B** (1x3): SIG -> 10 k / 20 k -> GPIO10, V = 5 V, GND.
-- **C** (1x4): TX (1 k from GPIO17), RX (divider to GPIO18), V = 5 V through the 0.5 A PTC fuse (>= 200 mA is easy), GND.
+- **C** (1x4): TX (1 k from GPIO11), RX (divider to GPIO12), V = 5 V through the 0.5 A PTC fuse (>= 200 mA is easy), GND.
 
 ## 3. Harnesses (model names)
 
@@ -119,7 +127,7 @@ The X/Y currents are about half the rated values: the load is tiny and the motor
 
 
 ## Distance sensor (TOF400C, VL53L1X), added 16 Oct
-- Under the wrist shelf, component side down; 5 wires soldered to its pads (no header): VIN 3V3, GND, SDA GPIO11, SCL GPIO12, XSHUT GPIO38.
+- Under the wrist shelf, component side down; 5 wires soldered to its pads (no header): VIN 3V3, GND, SDA GPIO40, SCL GPIO39, XSHUT tied to 3V3 on the controller board.
   They go up through the hole beside the board and join the wrist harness; twist SDA/SCL with GND (about 1 m).
 - Read it with the magnet up (h 40): about 74 mm to the field, 49 mm to the top of a 5-stack (the VL53L1X needs >= 40 mm).
 - Firmware: short distance mode, 50..100 ms timing budget, a small ROI (e.g. 4 x 4 SPADs) so only the stack under it is seen. Levels = round((field - reading) / 5 mm).

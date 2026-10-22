@@ -63,14 +63,28 @@ class Board:
                 return (pcbnew.ToMM(q.x), pcbnew.ToMM(q.y))
         raise KeyError((ref, num))
 
-    def track(self, pts, net, width):
-        """bottom-copper track through the waypoints (mm)"""
+    def track(self, pts, net, width, layer=None):
+        """copper track through the waypoints (mm); bottom copper unless layer = pcbnew.F_Cu (= a wire link on the top)"""
         n = self.net(net)
         for a, b in zip(pts[:-1], pts[1:]):
             t = pcbnew.PCB_TRACK(self.b)
             t.SetStart(mm(*a)); t.SetEnd(mm(*b)); t.SetWidth(pcbnew.FromMM(width))
-            t.SetLayer(pcbnew.B_Cu); t.SetNet(n)
+            t.SetLayer(pcbnew.B_Cu if layer is None else layer); t.SetNet(n)
             self.b.Add(t)
+
+    def link(self, ref, net, a, b, first_exists=False):
+        """wire link: two 2 mm through-hole pads joined by an insulated wire on the component side (drawn as a top track).
+        first_exists: the first end is a pad of an earlier link (a chain of links)"""
+        for k, q in enumerate((a, b)):
+            if k == 0 and first_exists:
+                continue
+            fp = self.part('%s%s' % (ref, 'AB'[k]), 'tp', 'wire link', q[0], q[1], 0, {1: net})
+            for p in fp.Pads():
+                ls = pcbnew.LSET()
+                for l in (pcbnew.F_Cu, pcbnew.B_Cu, pcbnew.F_Mask, pcbnew.B_Mask):
+                    ls.AddLayer(l)
+                p.SetLayerSet(ls)
+        self.track([a, b], net, 0.8, pcbnew.F_Cu)
 
     def holes(self, inset=4.0):
         for k, (x, y) in enumerate(((inset, inset), (self.w - inset, inset), (inset, self.h - inset), (self.w - inset, self.h - inset))):

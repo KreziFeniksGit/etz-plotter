@@ -1,0 +1,221 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-22T13:19:37",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.7",
+    "schematic_parity": [],
+    "source": "controller.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Thermal relief connection to zone incomplete (layer B.Cu; zone min spoke count 2; actual 1)",
+            "items": [
+                {
+                    "description": "Zone [GND] on B.Cu, priority 0",
+                    "pos": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "uuid": "67b45361-2bea-4103-8fa6-5029898aecde"
+                },
+                {
+                    "description": "PTH pad 2 [GND] of J6",
+                    "pos": {
+                        "x": 108.0,
+                        "y": 46.5
+                    },
+                    "uuid": "4e637d7b-3f53-44b0-8232-c234e4a4426a"
+                }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Value field of J3 (W driver)",
+                    "pos": {
+                        "x": 10.4,
+                        "y": 65.25
+                    },
+                    "uuid": "2186c1f0-3b47-483d-b8e0-064cde4f59d8"
+                },
+                {
+                    "description": "Circle of L2B on F.Silkscreen",
+                    "pos": {
+                        "x": 9.0,
+                        "y": 64.0
+                    },
+                    "uuid": "2633fb5f-dfea-4116-8282-c0dd8daa0221"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Circle of L1B on F.Silkscreen",
+                    "pos": {
+                        "x": 9.0,
+                        "y": 45.0
+                    },
+                    "uuid": "6f4f323a-f13b-4067-8ef2-6db93b190601"
+                },
+                {
+                    "description": "Value field of J2 (Y driver)",
+                    "pos": {
+                        "x": 10.4,
+                        "y": 46.25
+                    },
+                    "uuid": "e31c174d-6956-4f34-8263-65f98ddb6443"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Circle of L1A on F.Silkscreen",
+                    "pos": {
+                        "x": 9.0,
+                        "y": 26.0
+                    },
+                    "uuid": "3aeb39e0-6c52-4494-a45a-c9df7fc78d3c"
+                },
+                {
+                    "description": "Value field of J1 (X driver)",
+                    "pos": {
+                        "x": 10.4,
+                        "y": 27.25
+                    },
+                    "uuid": "f8f71ca5-2ac9-4dca-8b18-e0220036b567"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Segment of C8 on B.Silkscreen",
+                    "pos": {
+                        "x": 53.211252,
+                        "y": 51.93
+                    },
+                    "uuid": "4f67d952-9020-4bb2-ad99-547f4cac6b0c"
+                },
+                {
+                    "description": "Reference field of R21",
+                    "pos": {
+                        "x": 52.5,
+                        "y": 51.73
+                    },
+                    "uuid": "9b5aaa26-7cfe-4a56-947f-e8c3dd4d5b1e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of R6",
+                    "pos": {
+                        "x": 52.5,
+                        "y": 54.27
+                    },
+                    "uuid": "82b39128-5c74-449c-aa37-1d6e13e4842a"
+                },
+                {
+                    "description": "Segment of R21 on B.Silkscreen",
+                    "pos": {
+                        "x": 53.227064,
+                        "y": 54.47
+                    },
+                    "uuid": "c4bb53f2-70fd-4df8-b0a4-951b6d3affa9"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of R21",
+                    "pos": {
+                        "x": 52.5,
+                        "y": 51.73
+                    },
+                    "uuid": "9b5aaa26-7cfe-4a56-947f-e8c3dd4d5b1e"
+                },
+                {
+                    "description": "Pad 1 [GND] of C8 on B.Cu",
+                    "pos": {
+                        "x": 54.0625,
+                        "y": 51.02
+                    },
+                    "uuid": "9dc3ab2c-b184-4716-a0d0-b327fec963a4"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of R21",
+                    "pos": {
+                        "x": 52.5,
+                        "y": 51.73
+                    },
+                    "uuid": "9b5aaa26-7cfe-4a56-947f-e8c3dd4d5b1e"
+                },
+                {
+                    "description": "Pad 2 [A_IO] of C8 on B.Cu",
+                    "pos": {
+                        "x": 50.9375,
+                        "y": 51.02
+                    },
+                    "uuid": "c7be2beb-5bb8-4cc6-a152-e1a246ea571f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}
