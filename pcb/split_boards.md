@@ -7,8 +7,8 @@ KiCad DRC on each: **0 unconnected**, no clearance errors (only "starved thermal
 
 | Board | Folder / script | Size | What is on it | Wire links |
 |---|---|---|---|---|
-| Driver | `drivers/`, `build_drivers.py` | 64 x 112 | 3x TMC2209 (X, Y, wrist) + 100 uF each, 3 motor plugs, XT30 VDRIVE in | 0 |
-| Power | `power/`, `build_power.py` | 94 x 84 | XT60 battery in, XT30 drive in / out, 2x Mini560 Pro 5 V, servo plug + 470 uF + 100 nF, magnet switch (IRLZ44N, SS34), stop block 2 plug, green LED, battery and stop dividers | 0 |
+| Driver | `drivers/`, `build_drivers.py` | 64 x 112 | 3x TMC2209 (X, Y, wrist) + 100 uF 25 V each, 3 motor plugs, XT30 VDRIVE in | 0 |
+| Power | `power/`, `build_power.py` | 94 x 84 | XT60 battery in, XT30 drive in / out, 2x Mini560 Pro 5 V, servo plug + 470 uF + 100 nF, magnet switch (100N03A TO-252, SS34), stop block 2 plug, green LED, battery and stop dividers | 0 |
 | Controller | `controller/`, `build_controller.py` | 118 x 115 | ESP32-S3-DevKitC-1 on sockets, all small parts, plugs to the other boards, TOF, home switches, start, red LED, panel A/B/C | 7 |
 
 **Wire links** (controller only): insulated wire on the component side between two 2 mm pads, soldered underneath.

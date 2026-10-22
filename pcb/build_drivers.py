@@ -44,7 +44,7 @@ def place(b):
                {1: 'GND', 2: pre + 'EN', 3: pre + 'UART', 4: pre + 'STEP', 5: pre + 'DIR', 6: V33(ax)})
         b.part('J%d' % (k + 4), 'xh4', '%s motor' % ax, ux + MOT_DX, uy + 5.0, 270,
                {1: pre + '2B', 2: pre + '2A', 3: pre + '1A', 4: pre + '1B'})
-        b.part('C%d' % (k + 1), 'cp8', '100uF 35V', ux + ROW + 12.0, uy - 6.5, 0, {1: 'VDRIVE', 2: 'GND'})
+        b.part('C%d' % (k + 1), 'cp8', '100uF 25V', ux + ROW + 12.0, uy - 6.5, 0, {1: 'VDRIVE', 2: 'GND'})
     b.part('J7', 'xt30', 'VDRIVE in', BUS_X - 12.0, 13.0, 0, {1: 'VDRIVE', 2: 'GND'})
     b.holes()
 

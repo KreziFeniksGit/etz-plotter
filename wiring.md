@@ -52,7 +52,7 @@ GPIO 38 and 48: one of them drives the board's RGB LED (48 on v1.0, 38 on v1.1);
 | 9 | Connector A, SIG (ADC1_CH8) | 0..5 V sensor -> 10 k / 20 k divider -> 0..3.3 V; 10 nF to GND |
 | 10 | Connector B, SIG | 10 k / 20 k divider: a 5 V signal reads as 3.3 V |
 | 11 / 12 | UART1 TX / RX -> connector C | TX through 1 k; RX through a 10 k / 20 k divider (5 V -> 3.3 V); 9600 8-N-1 |
-| 1 | Magnet MOSFET gate (on the power board) | 100 R in series, 100 k gate to GND there; IRLZ44N; SS34 across the magnet |
+| 1 | Magnet MOSFET gate (on the power board) | 100 R in series, 100 k gate to GND there; 100N03A (UMW, TO-252, logic level); SS34 across the magnet |
 | 2 | Battery voltage (ADC1_CH1) | divider 100 k / 15 k on the power board; stop the run below 14.0 V |
 | 42 | Stop sense | high = drive bus on (divider 100 k / 22 k on the power board) |
 | 41 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series on the power board; servo on its own 5 V rail |

@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-10-22T13:19:37",
+    "date": "2026-10-22T15:56:42",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -42,7 +42,7 @@
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "uuid": "67b45361-2bea-4103-8fa6-5029898aecde"
+                    "uuid": "f7cbb202-dc0f-4bf0-82c9-43c3b0f8e989"
                 },
                 {
                     "description": "PTH pad 2 [GND] of J6",
@@ -50,34 +50,11 @@
                         "x": 108.0,
                         "y": 46.5
                     },
-                    "uuid": "4e637d7b-3f53-44b0-8232-c234e4a4426a"
+                    "uuid": "403d519f-9bcd-4d7a-9c12-b2e646471934"
                 }
             ],
             "severity": "error",
             "type": "starved_thermal"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "Value field of J3 (W driver)",
-                    "pos": {
-                        "x": 10.4,
-                        "y": 65.25
-                    },
-                    "uuid": "2186c1f0-3b47-483d-b8e0-064cde4f59d8"
-                },
-                {
-                    "description": "Circle of L2B on F.Silkscreen",
-                    "pos": {
-                        "x": 9.0,
-                        "y": 64.0
-                    },
-                    "uuid": "2633fb5f-dfea-4116-8282-c0dd8daa0221"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
         },
         {
             "description": "Silkscreen clearance",
@@ -88,7 +65,7 @@
                         "x": 9.0,
                         "y": 45.0
                     },
-                    "uuid": "6f4f323a-f13b-4067-8ef2-6db93b190601"
+                    "uuid": "21c8c1d2-4979-44fb-ac73-bae991c5a9b0"
                 },
                 {
                     "description": "Value field of J2 (Y driver)",
@@ -96,7 +73,7 @@
                         "x": 10.4,
                         "y": 46.25
                     },
-                    "uuid": "e31c174d-6956-4f34-8263-65f98ddb6443"
+                    "uuid": "aafa4395-3432-402e-986d-3c528b173f61"
                 }
             ],
             "severity": "warning",
@@ -106,43 +83,43 @@
             "description": "Silkscreen clearance",
             "items": [
                 {
-                    "description": "Circle of L1A on F.Silkscreen",
+                    "description": "Circle of L2B on F.Silkscreen",
                     "pos": {
                         "x": 9.0,
-                        "y": 26.0
+                        "y": 64.0
                     },
-                    "uuid": "3aeb39e0-6c52-4494-a45a-c9df7fc78d3c"
+                    "uuid": "476cf8f4-4256-417b-bb2c-13db64d8969c"
                 },
+                {
+                    "description": "Value field of J3 (W driver)",
+                    "pos": {
+                        "x": 10.4,
+                        "y": 65.25
+                    },
+                    "uuid": "8304c4d8-e32c-4ec0-918f-d075082f730e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
                 {
                     "description": "Value field of J1 (X driver)",
                     "pos": {
                         "x": 10.4,
                         "y": 27.25
                     },
-                    "uuid": "f8f71ca5-2ac9-4dca-8b18-e0220036b567"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "Segment of C8 on B.Silkscreen",
-                    "pos": {
-                        "x": 53.211252,
-                        "y": 51.93
-                    },
-                    "uuid": "4f67d952-9020-4bb2-ad99-547f4cac6b0c"
+                    "uuid": "72337a9c-369d-4977-9b6e-e12706545d29"
                 },
                 {
-                    "description": "Reference field of R21",
+                    "description": "Circle of L1A on F.Silkscreen",
                     "pos": {
-                        "x": 52.5,
-                        "y": 51.73
+                        "x": 9.0,
+                        "y": 26.0
                     },
-                    "uuid": "9b5aaa26-7cfe-4a56-947f-e8c3dd4d5b1e"
+                    "uuid": "878dbcb7-c438-4f03-964a-8b2443ae4d57"
                 }
             ],
             "severity": "warning",
@@ -157,7 +134,7 @@
                         "x": 52.5,
                         "y": 54.27
                     },
-                    "uuid": "82b39128-5c74-449c-aa37-1d6e13e4842a"
+                    "uuid": "28c0c372-d27b-4e6f-b56a-44f372e01ce2"
                 },
                 {
                     "description": "Segment of R21 on B.Silkscreen",
@@ -165,7 +142,30 @@
                         "x": 53.227064,
                         "y": 54.47
                     },
-                    "uuid": "c4bb53f2-70fd-4df8-b0a4-951b6d3affa9"
+                    "uuid": "a5c9bdba-e8e1-4c89-b583-d0c37a461a84"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Segment of C8 on B.Silkscreen",
+                    "pos": {
+                        "x": 53.211252,
+                        "y": 51.93
+                    },
+                    "uuid": "1d71a3c0-5111-4fcc-beb5-d0feb33364ce"
+                },
+                {
+                    "description": "Reference field of R21",
+                    "pos": {
+                        "x": 52.5,
+                        "y": 51.73
+                    },
+                    "uuid": "cc421b90-6635-44d8-ad0c-c2eacc21a2c5"
                 }
             ],
             "severity": "warning",
@@ -180,7 +180,7 @@
                         "x": 52.5,
                         "y": 51.73
                     },
-                    "uuid": "9b5aaa26-7cfe-4a56-947f-e8c3dd4d5b1e"
+                    "uuid": "cc421b90-6635-44d8-ad0c-c2eacc21a2c5"
                 },
                 {
                     "description": "Pad 1 [GND] of C8 on B.Cu",
@@ -188,7 +188,7 @@
                         "x": 54.0625,
                         "y": 51.02
                     },
-                    "uuid": "9dc3ab2c-b184-4716-a0d0-b327fec963a4"
+                    "uuid": "e3c25825-1bb9-4831-9154-dae0b13446dc"
                 }
             ],
             "severity": "warning",
@@ -203,7 +203,7 @@
                         "x": 52.5,
                         "y": 51.73
                     },
-                    "uuid": "9b5aaa26-7cfe-4a56-947f-e8c3dd4d5b1e"
+                    "uuid": "cc421b90-6635-44d8-ad0c-c2eacc21a2c5"
                 },
                 {
                     "description": "Pad 2 [A_IO] of C8 on B.Cu",
@@ -211,7 +211,7 @@
                         "x": 50.9375,
                         "y": 51.02
                     },
-                    "uuid": "c7be2beb-5bb8-4cc6-a152-e1a246ea571f"
+                    "uuid": "78295b53-1758-4f8c-ba80-445e6dc55710"
                 }
             ],
             "severity": "warning",

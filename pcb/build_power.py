@@ -7,7 +7,7 @@ Out: J3 XT30  VDRIVE to the driver board
      J5 JST-XH 6 to the controller: 1 MAG_IO, 2 +5V, 3 GND, 4 VBAT_SENSE, 5 STOP_SENSE, 6 SERVO_IO
      J6 JST-XH 2 magnet: 1 MAG5, 2 MAG_SW      J7 JST-XH 2 stop block 2: 1 +5V out, 2 MAG5 back
      J8 JST-XH 2 green LED (drives powered): 1 LEDG_A, 2 GND
-U1 Mini560 Pro 5 V (logic, from VBAT), U2 Mini560 Pro 5 V (servo, from VDRIVE). Q1 IRLZ44N switches the magnet.
+U1 Mini560 Pro 5 V (logic, from VBAT), U2 Mini560 Pro 5 V (servo, from VDRIVE). Q1 100N03A (UMW, TO-252, logic level) switches the magnet.
 Run: "C:\\Program Files\\KiCad\\10.0\\bin\\python.exe" pcb\\build_power.py
 """
 import os, sys
@@ -38,9 +38,9 @@ def place(b):
     b.part('J7', 'xh2', 'STOP2 5V', 6.0, 44.0, 270, {1: '+5V', 2: 'MAG5'})
     b.part('J6', 'xh2', 'MAGNET', 6.0, 58.0, 270, {1: 'MAG5', 2: 'MAG_SW'})
     b.part('D1', 'sma', 'SS34 flyback', 12.0, 54.0, 270, {1: 'MAG5', 2: 'MAG_SW'})
-    b.part('Q1', 'to220', 'IRLZ44N', 8.0, 68.0, 0, {1: 'MAG_G', 2: 'MAG_SW', 3: 'GND'})
+    b.part('Q1', 'dpak', '100N03A', 9.0, 68.0, 90, {1: 'MAG_G', 2: 'MAG_SW', 3: 'GND'})
     b.part('R2', 'res', '100R', 15.0, 78.0, 0, {1: 'MAG_IO', 2: 'MAG_G'})
-    b.part('R3', 'res', '100k', 4.0, 73.0, 90, {1: 'GND', 2: 'MAG_G'})
+    b.part('R3', 'res', '100k', 8.5, 78.0, 0, {1: 'MAG_G', 2: 'GND'})
     b.part('R7', 'res', '100k', 30.0, 30.0, 90, {1: 'VBAT_SENSE', 2: 'VBAT'})
     b.part('R8', 'res', '15k', 33.0, 36.0, 0, {1: 'GND', 2: 'VBAT_SENSE'})
     b.part('R5', 'res', '100k', 38.0, 46.0, 90, {1: 'STOP_SENSE', 2: 'VDRIVE'})
@@ -71,9 +71,9 @@ def route(b):
     b.track([p('J7', 2), p('J6', 1)], 'MAG5', R5_W)
     b.track([(6.0, p('D1', 1)[1]), p('D1', 1)], 'MAG5', R5_W)
     b.track([p('D1', 2), (12.0, 60.5), p('J6', 2)], 'MAG_SW', R5_W)
-    b.track([(12.0, 60.5), (10.54, 63.0), p('Q1', 2)], 'MAG_SW', R5_W)
-    b.track([p('Q1', 1), (8.0, 76.0), (10.0, 78.0), p('R2', 2)], 'MAG_G', SIG_W)
-    b.track([(8.0, p('R3', 2)[1]), p('R3', 2)], 'MAG_G', SIG_W)
+    b.track([(12.0, 60.5), (9.0, 63.0), p('Q1', 2)], 'MAG_SW', R5_W)
+    b.track([p('Q1', 1), (p('Q1', 1)[0], 78.0), p('R2', 2)], 'MAG_G', SIG_W)
+    b.track([(p('Q1', 1)[0], 78.0), p('R3', 1)], 'MAG_G', SIG_W)
     b.track([p('J5', 1), (20.0, 78.5), (18.0, 78.5), p('R2', 1)], 'MAG_IO', SIG_W)
     # servo: signal through R1 into the plug from below; +5VS from the servo Mini560 via the 470 uF
     b.track([p('J5', 6), (38.0, 74.0), p('R1', 2)], 'SERVO_IO', SIG_W)

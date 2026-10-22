@@ -48,6 +48,8 @@ F = dict(
     to220='Package_TO_SOT_THT:TO-220-3_Vertical',                # IRLZ44N: 1 G, 2 D, 3 S
     cp63='Capacitor_SMD:CP_Elec_6.3x7.7',                        # pad 1 = +
     cp8='Capacitor_SMD:CP_Elec_8x10',
+    cp5='Capacitor_SMD:CP_Elec_5x5.4',
+    dpak='Package_TO_SOT_SMD:TO-252-2',                          # 100N03A (UMW): 1 G, 2 D (tab), 3 S
     sma='Diode_SMD:D_SMA_Handsoldering',                         # SS34 Schottky, pad 1 = cathode
     sot23='Package_TO_SOT_SMD:SOT-23',                           # AO3400: 1 G, 2 S, 3 D
     f1206='Fuse:Fuse_1206_3216Metric_Pad1.42x1.75mm_HandSolder',

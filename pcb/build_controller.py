@@ -72,7 +72,7 @@ def place(b):
     b.part('R17', 'res', '220R', 76.5, esp(18, True)[1], 0, {1: 'LEDR_A', 2: 'LEDR_IO'})
     b.part('D1', 'sma', 'SS34', 40.0, 90.0, 270, {1: '5V_ESP', 2: '+5V'})
     b.part('F2', 'f1206', 'PTC 0.5A', 19.0, 99.0, 270, {1: 'C_V', 2: '+5V'})
-    b.part('C7', 'cp63', '100uF 10V', 56.0, 100.0, 0, {1: '+5V', 2: 'GND'})
+    b.part('C7', 'cp5', '100uF 10V', 56.0, 100.0, 0, {1: '+5V', 2: 'GND'})
     b.holes()
 
 def route(b):

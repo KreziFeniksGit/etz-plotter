@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-10-22T13:07:20",
+    "date": "2026-10-22T15:56:34",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -42,99 +42,7 @@
                         "x": 0.0,
                         "y": 0.0
                     },
-                    "uuid": "48048d5d-ac0a-4f52-8403-5f344b4d59f3"
-                },
-                {
-                    "description": "Segment of J1 on F.Silkscreen",
-                    "pos": {
-                        "x": 9.74,
-                        "y": -4.46
-                    },
-                    "uuid": "38f7edd9-b429-4d45-84ef-5a3e98bf942d"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_edge_clearance"
-        },
-        {
-            "description": "Silkscreen clipped by board edge",
-            "items": [
-                {
-                    "description": "Rectangle on Edge.Cuts",
-                    "pos": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "uuid": "48048d5d-ac0a-4f52-8403-5f344b4d59f3"
-                },
-                {
-                    "description": "Segment of J1 on F.Silkscreen",
-                    "pos": {
-                        "x": 25.46,
-                        "y": -4.46
-                    },
-                    "uuid": "dc2dd9b5-6c9d-4772-8b17-5ec84e948b10"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_edge_clearance"
-        },
-        {
-            "description": "Silkscreen clipped by board edge",
-            "items": [
-                {
-                    "description": "Rectangle on Edge.Cuts",
-                    "pos": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "uuid": "48048d5d-ac0a-4f52-8403-5f344b4d59f3"
-                },
-                {
-                    "description": "Segment of J2 on F.Silkscreen",
-                    "pos": {
-                        "x": 36.44,
-                        "y": -1.21
-                    },
-                    "uuid": "fab71c04-7922-41ed-87ee-cdce12e7eaff"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_edge_clearance"
-        },
-        {
-            "description": "Silkscreen clipped by board edge",
-            "items": [
-                {
-                    "description": "Rectangle on Edge.Cuts",
-                    "pos": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "uuid": "48048d5d-ac0a-4f52-8403-5f344b4d59f3"
-                },
-                {
-                    "description": "Segment of J2 on F.Silkscreen",
-                    "pos": {
-                        "x": 46.56,
-                        "y": -1.21
-                    },
-                    "uuid": "5c88712a-23ad-40ab-a336-01620ef12aae"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_edge_clearance"
-        },
-        {
-            "description": "Silkscreen clipped by board edge",
-            "items": [
-                {
-                    "description": "Rectangle on Edge.Cuts",
-                    "pos": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "uuid": "48048d5d-ac0a-4f52-8403-5f344b4d59f3"
+                    "uuid": "32d49740-2c32-418c-b463-7f9f0749d765"
                 },
                 {
                     "description": "Segment of J3 on F.Silkscreen",
@@ -142,7 +50,7 @@
                         "x": 68.44,
                         "y": -1.21
                     },
-                    "uuid": "dcae199f-1f83-4475-8857-7b80d8a7075f"
+                    "uuid": "1b7d792f-0d17-4ea1-b099-50ea73f33240"
                 }
             ],
             "severity": "warning",
@@ -157,7 +65,7 @@
                         "x": 0.0,
                         "y": 0.0
                     },
-                    "uuid": "48048d5d-ac0a-4f52-8403-5f344b4d59f3"
+                    "uuid": "32d49740-2c32-418c-b463-7f9f0749d765"
                 },
                 {
                     "description": "Segment of J3 on F.Silkscreen",
@@ -165,7 +73,99 @@
                         "x": 78.56,
                         "y": -1.21
                     },
-                    "uuid": "696d9ddb-e6b6-4d9c-84c6-28a593829c93"
+                    "uuid": "043c792f-1837-43ed-9649-074668d137d2"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "32d49740-2c32-418c-b463-7f9f0749d765"
+                },
+                {
+                    "description": "Segment of J2 on F.Silkscreen",
+                    "pos": {
+                        "x": 36.44,
+                        "y": -1.21
+                    },
+                    "uuid": "c35bf9b4-10be-477a-b507-c4b9f91c664c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "32d49740-2c32-418c-b463-7f9f0749d765"
+                },
+                {
+                    "description": "Segment of J2 on F.Silkscreen",
+                    "pos": {
+                        "x": 46.56,
+                        "y": -1.21
+                    },
+                    "uuid": "008498c7-dd42-4944-b5a5-e1500449f37d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "32d49740-2c32-418c-b463-7f9f0749d765"
+                },
+                {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                        "x": 9.74,
+                        "y": -4.46
+                    },
+                    "uuid": "c47e89e3-ed5d-4637-95a8-c7627f7a2e9e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "32d49740-2c32-418c-b463-7f9f0749d765"
+                },
+                {
+                    "description": "Segment of J1 on F.Silkscreen",
+                    "pos": {
+                        "x": 25.46,
+                        "y": -4.46
+                    },
+                    "uuid": "e3cf456d-2287-4756-9699-033b7e627e10"
                 }
             ],
             "severity": "warning",
