@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-10-23T15:35:08",
+    "date": "2026-10-22T15:56:49",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -42,7 +42,7 @@
                         "x": 1.0,
                         "y": 1.0
                     },
-                    "uuid": "0cd9a947-b4f5-4988-84ae-ede32875dcad"
+                    "uuid": "dbd792ea-8af2-4674-840e-3dd09ad59303"
                 },
                 {
                     "description": "PTH pad 2 [GND] of U2A",
@@ -50,7 +50,7 @@
                         "x": 22.0,
                         "y": 56.54
                     },
-                    "uuid": "d59d1992-e770-4986-bfd5-779bc569d8e6"
+                    "uuid": "15bfd489-8aca-4b9e-a554-437b21694f16"
                 }
             ],
             "severity": "error",
@@ -65,15 +65,15 @@
                         "x": 0.0,
                         "y": 0.0
                     },
-                    "uuid": "d220b8b9-118b-4804-a99a-fedf6fd4cf96"
+                    "uuid": "d6b95e4f-1ed9-447a-ae1e-7217bac5362e"
                 },
                 {
                     "description": "Segment of J7 on F.Silkscreen",
                     "pos": {
-                        "x": 39.97,
-                        "y": -1.16
+                        "x": 39.44,
+                        "y": -0.21
                     },
-                    "uuid": "537938b0-b82c-4bf2-a93d-061ac9e69064"
+                    "uuid": "aa7b5de8-3ba1-4126-a0d6-db56c4821a7d"
                 }
             ],
             "severity": "warning",
@@ -88,15 +88,15 @@
                         "x": 0.0,
                         "y": 0.0
                     },
-                    "uuid": "d220b8b9-118b-4804-a99a-fedf6fd4cf96"
+                    "uuid": "d6b95e4f-1ed9-447a-ae1e-7217bac5362e"
                 },
                 {
                     "description": "Segment of J7 on F.Silkscreen",
                     "pos": {
-                        "x": 49.03,
-                        "y": -1.16
+                        "x": 49.56,
+                        "y": -0.21
                     },
-                    "uuid": "58082a6b-3725-4ef4-be63-a137c6a221cf"
+                    "uuid": "0106ede1-7ea9-42c7-af7d-cc539ba496bb"
                 }
             ],
             "severity": "warning",
@@ -111,15 +111,15 @@
                         "x": 46.7,
                         "y": 14.3
                     },
-                    "uuid": "cf405876-5f09-436d-8d68-da9c55a796fe"
+                    "uuid": "aed272c9-a779-4225-b273-b6135d3deb13"
                 },
                 {
-                    "description": "PTH pad 2 [VDRIVE] of J7",
+                    "description": "PTH pad 1 [VDRIVE] of J7",
                     "pos": {
                         "x": 47.0,
                         "y": 13.0
                     },
-                    "uuid": "272452ea-dc17-44d0-af54-1436fe3ce41d"
+                    "uuid": "7034c8e1-6dc0-4617-9d6c-71b4d9d06393"
                 }
             ],
             "severity": "warning",

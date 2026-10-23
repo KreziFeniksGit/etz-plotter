@@ -20,7 +20,7 @@ driver plugs (a copper chain there would cut the ground pour into islands); L3 =
 |---|---|---|
 | controller J1 / J2 / J3 | driver J1 / J2 / J3 (X / Y / wrist) | 1 GND, 2 EN (GND), 3 UART, 4 STEP, 5 DIR, 6 3V3 |
 | controller J4 | power J5 | 1 MAG_IO, 2 GND, 3 +5V, 4 VBAT_SENSE, 5 STOP_SENSE, 6 SERVO_IO |
-| power J3 (XT30 **female**) | driver J7 (XT30 **female**) | VDRIVE, GND: cable with an XT30 **male** plug at both ends |
+| power J3 (XT30 female) | driver J7 (XT30, as built) | VDRIVE, GND: male plugs at both ends, wired as in "XT plugs" below |
 | controller J5 | panel header strip | 1 A_SIG, 2 B_SIG, 3 C_TX, 4 C_RX, 5 +5 V (PTC), 6 GND |
 Checked by script: the plug pins of the three boards match net for net.
 
@@ -31,9 +31,13 @@ Checked by script: the plug pins of the three boards match net for net.
 - Small parts under the ESP32 board between its pin rows (they are on the copper side, the ESP32 sits on top on sockets).
 
 ## XT plugs (polarity checked 23 Oct)
-XT30 and XT60 footprints: pad 1 = -, pad 2 = + (the + / - marks on the silkscreen). Rule: the side that supplies power is
-female (hidden contacts). Power board: J1 XT60 male (battery lead is female), J2 DRIVE in XT30 male (lead from the stop
-button ends in a female plug), J3 DRIVE out XT30 female. Driver board: J7 XT30 female.
+KiCad XT30 / XT60 footprints: pad 1 = -, pad 2 = + (the + / - marks on the silkscreen).
+- Power board (fixed 23 Oct): J1 XT60 male (battery lead is female), J2 DRIVE in XT30 male (the lead from the stop button
+  ends in a female plug), J3 DRIVE out XT30 **female**, VDRIVE on its + contact.
+- Driver board (already built, left as it is): J7 XT30, VDRIVE on footprint pad 1. The etched board has no silkscreen, so
+  **check with a multimeter which contact of its XT30 connects to the thick VDRIVE track** (the VM pins of the drivers).
+- Cable power J3 -> driver J7: XT30 male plug at both ends. Wire the power-board end's **+** contact to the driver-end
+  contact that measured as VDRIVE, and - to the other. Check with the multimeter before plugging in the battery.
 
 ## Mini560 Pro footprint (from Egor's photo, 23 Oct)
 8 pins: IN column (EN side) and OUT column 29 mm apart; in each column two + pins (2.54 apart), 8.92 mm gap, two - pins.

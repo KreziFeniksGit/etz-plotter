@@ -13,3 +13,5 @@ pcb/fab/
 pcb/*-backups/
 pcb/.history/
 pcb/*.lck
+pcb/**/*.lck
+pcb/**/.history/

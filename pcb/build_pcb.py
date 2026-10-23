@@ -104,7 +104,7 @@ part('J4', 'xh4', 'spare motor', 124.0, 69.0, 90, {1: 'S_1A', 2: 'S_1B', 3: 'S_2
 
 # power
 part('J10', 'xt60', 'BAT', 17.0, 14.0, 0, {1: 'GND', 2: 'VBAT'})
-part('J11', 'xt30', 'DRIVE', 42.0, 13.0, 0, {1: 'GND', 2: 'VDRIVE'})
+part('J11', 'xt30', 'DRIVE', 42.0, 13.0, 0, {1: 'VDRIVE', 2: 'GND'})
 for ref, x, vin, vout, val in (('U5', 62.0, 'VBAT', '+5V', 'Mini560 Pro 5V logic'), ('U6', 96.0, 'VDRIVE', '+5VS', 'Mini560 Pro 5V servo')):
     part(ref + 'A', 'pins2', val + ' IN', x, 94.0, 90, {1: vin, 2: 'GND'})
     part(ref + 'B', 'pins2', val + ' OUT', x + MINI560_PITCH, 94.0, 90, {1: vout, 2: 'GND'})
