@@ -1,6 +1,6 @@
 """
 POWER BOARD (split board 2 of 3), hand-routed, single-sided (bottom copper), toner transfer -> pcb/power/power.kicad_pcb
-In:  J1 XT60  battery (after the inline 5 A fuse): 1 GND, 2 VBAT
+In:  J1 XT30  battery (after the inline 5 A fuse): 1 GND, 2 VBAT (male; pad 2 = +)
      J2 XT30  drive bus back from stop block 1:     1 VDRIVE, 2 GND
 Out: J3 XT30  VDRIVE to the driver board
      J4 1x3   MG996R servo: 1 SIG, 2 +5VS, 3 GND (470 uF + 100 nF at the plug)
@@ -21,7 +21,7 @@ U1X, U2X, UY = 26.0, 62.0, 24.0   # Mini560 Pro: right-most + pin of the IN row 
 PWR_W, R5_W, SIG_W = 2.0, 1.2, 0.6
 
 def place(b):
-    b.part('J1', 'xt60', 'BAT in', 14.0, 12.0, 0, {1: 'GND', 2: 'VBAT'})
+    b.part('J1', 'xt30', 'BAT in (male)', 22.0, 12.0, 0, {1: 'GND', 2: 'VBAT'})        # XT30 (Egor, 23 Oct); pad 2 = +
     # XT30: pad 1 = -, pad 2 = +. Power-supplying side female (contacts hidden): DRIVE out = female, DRIVE in = male
     b.part('J2', 'xt30', 'DRIVE in (male)', 44.0, 12.0, 0, {1: 'GND', 2: 'VDRIVE'})
     b.part('J3', 'xt30f', 'DRIVE out (female)', 76.0, 12.0, 0, {1: 'GND', 2: 'VDRIVE'})
@@ -51,8 +51,8 @@ def place(b):
 def route(b):
     p = b.pad
     # VBAT: battery -> logic Mini560 IN and the battery divider
-    b.track([p('J1', 2), (U1X - 2.54, 15.0), (U1X - 2.54, UY), (U1X, UY)], 'VBAT', PWR_W)      # both IN+ pins
-    b.track([(U1X - 2.54, 15.0), (24.0, 15.0), (30.0, 21.0), p('R7', 2)], 'VBAT', R5_W)
+    b.track([p('J1', 2), (p('J1', 2)[0], 16.0), (U1X - 2.54, 16.0), (U1X - 2.54, UY), (U1X, UY)], 'VBAT', PWR_W)   # both IN+ pins
+    b.track([(U1X - 2.54, 16.0), (25.0, 16.0), (30.0, 21.0), p('R7', 2)], 'VBAT', R5_W)
     b.track([p('R7', 1), (30.0, 36.0), p('J5', 4)], 'VBAT_SENSE', SIG_W)
     b.track([(30.0, 36.0), p('R8', 2)], 'VBAT_SENSE', SIG_W)
     # VDRIVE: stop block 1 -> driver board out, servo Mini560 IN, stop divider, green LED

@@ -8,7 +8,7 @@ KiCad DRC on each: **0 unconnected**, no clearance errors (only "starved thermal
 | Board | Folder / script | Size | What is on it | Wire links |
 |---|---|---|---|---|
 | Driver | `drivers/`, `build_drivers.py` | 64 x 112 | 3x TMC2209 (X, Y, wrist) + 100 uF 25 V each, 3 motor plugs, XT30 VDRIVE in | 0 |
-| Power | `power/`, `build_power.py` | 94 x 84 | XT60 battery in, XT30 drive in / out, 2x Mini560 Pro 5 V, servo plug + 470 uF + 100 nF, magnet switch (100N03A TO-252, SS34), stop block 2 plug, green LED, battery and stop dividers | 0 |
+| Power | `power/`, `build_power.py` | 94 x 84 | XT30 battery in, XT30 drive in / out, 2x Mini560 Pro 5 V, servo plug + 470 uF + 100 nF, magnet switch (100N03A TO-252, SS34), stop block 2 plug, green LED, battery and stop dividers | 0 |
 | Controller | `controller/`, `build_controller.py` | 118 x 115 | ESP32-S3-DevKitC-1 on sockets, all small parts, plugs to the other boards, TOF, home switches, start, red LED, panel A/B/C | 7 |
 
 **Wire links** (controller only): insulated wire on the component side between two 2 mm pads, soldered underneath.
@@ -32,7 +32,7 @@ Checked by script: the plug pins of the three boards match net for net.
 
 ## XT plugs (polarity checked 23 Oct)
 KiCad XT30 / XT60 footprints: pad 1 = -, pad 2 = + (the + / - marks on the silkscreen).
-- Power board (fixed 23 Oct): J1 XT60 male (battery lead is female), J2 DRIVE in XT30 male (the lead from the stop button
+- Power board (fixed 23 Oct): J1 XT30 male for the battery (Egor: XT30, not XT60; battery lead needs a female XT30), J2 DRIVE in XT30 male (the lead from the stop button
   ends in a female plug), J3 DRIVE out XT30 **female**, VDRIVE on its + contact.
 - Driver board (already built, left as it is): J7 XT30, VDRIVE on footprint pad 1. The etched board has no silkscreen, so
   **check with a multimeter which contact of its XT30 connects to the thick VDRIVE track** (the VM pins of the drivers).
