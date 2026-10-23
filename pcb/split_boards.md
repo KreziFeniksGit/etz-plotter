@@ -30,9 +30,13 @@ Checked by script: the plug pins of the three boards match net for net.
 - Motor plug order 2B, 2A, 1A, 1B (swapping a coil's ends only reverses the motor: fix the direction in firmware).
 - Small parts under the ESP32 board between its pin rows (they are on the copper side, the ESP32 sits on top on sockets).
 
+## Mini560 Pro footprint (from Egor's photo, 23 Oct)
+8 pins: IN column (EN side) and OUT column 29 mm apart; in each column two + pins (2.54 apart), 8.92 mm gap, two - pins.
+Mounted component side up, IN end toward the board top edge, + pins on the right. EN is left open (module on). Check that
+the back of your module says IN on the EN side.
+
 ## VERIFY before etching
-ESP32-S3-DevKitC-1 pin row spacing (22.86) and pinout, TMC2209 module pin order, Mini560 Pro pad positions (IN and OUT
-25.4 mm apart in the model), XT60 / XT30 genders, motor cable order. Photos of the modules with a ruler settle them.
+ESP32-S3-DevKitC-1 pin row spacing (22.86) and pinout, TMC2209 module pin order, XT60 / XT30 genders, motor cable order. Photos of the modules with a ruler settle them.
 
 ## Printing for toner transfer
 KiCad: File > Plot, layer B.Cu + Edge.Cuts, PDF, black, scale 1:1, drill marks "small", NOT mirrored (the copper is on the

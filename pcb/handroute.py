@@ -55,8 +55,39 @@ class Board:
         self.fp[ref] = fp
         return fp
 
+    def mini560(self, ref, x, y, nin, nout, value='Mini560 Pro 5V'):
+        """Mini560 Pro (Egor's photo, 23 Oct): 33 x 18 board, 8 pins. IN column (EN side) and OUT column 29 mm apart;
+        each column: two + pins 2.54 apart, 8.92 gap, two - pins 2.54 apart (0, 2.54, 11.46, 14.0).
+        Placed with the columns as rows: IN row at y, OUT row at y + 29; + pins at x and x - 2.54, - pins at
+        x - 11.46 and x - 14.0. nin / nout = (+ net, - net). Pads: 1 IN+ (x2), 2 IN- (x2), 3 OUT+ (x2), 4 OUT- (x2)."""
+        fp = pcbnew.FOOTPRINT(self.b)
+        fp.SetReference(ref); fp.SetValue(value)
+        fp.SetPosition(mm(x, y))
+        ls = pcbnew.LSET(); ls.AddLayer(pcbnew.B_Cu); ls.AddLayer(pcbnew.B_Mask)
+        for num, row, dxs, net in (('1', 0.0, (0.0, -2.54), nin[0]), ('2', 0.0, (-11.46, -14.0), nin[1]),
+                                   ('3', 29.0, (0.0, -2.54), nout[0]), ('4', 29.0, (-11.46, -14.0), nout[1])):
+            for dx in dxs:
+                p = pcbnew.PAD(fp)
+                p.SetNumber(num); p.SetAttribute(pcbnew.PAD_ATTRIB_PTH); p.SetShape(pcbnew.PAD_SHAPE_OVAL)
+                p.SetSize(mm(1.7, 2.6)); p.SetDrillSize(mm(1.0, 1.0)); p.SetLayerSet(ls)
+                p.SetPosition(mm(x + dx, y + row)); p.SetNet(self.net(net))
+                p.SetThermalSpokeAngleDegrees(0)
+                fp.Add(p)
+        for (ax, ay), (bx, by) in (((2.0, -2.0), (2.0, 31.0)), ((2.0, 31.0), (-16.0, 31.0)), ((-16.0, 31.0), (-16.0, -2.0)),
+                                   ((-16.0, -2.0), (2.0, -2.0))):
+            s = pcbnew.PCB_SHAPE(fp); s.SetShape(pcbnew.SHAPE_T_SEGMENT)
+            s.SetStart(mm(x + ax, y + ay)); s.SetEnd(mm(x + bx, y + by)); s.SetLayer(pcbnew.F_SilkS); s.SetWidth(pcbnew.FromMM(0.15))
+            fp.Add(s)
+        for txt, dy in (('IN (EN side)', 3.5), ('OUT', 25.5)):
+            t = pcbnew.PCB_TEXT(fp); t.SetText(txt); t.SetLayer(pcbnew.F_SilkS)
+            t.SetPosition(mm(x - 7.0, y + dy)); t.SetTextSize(pcbnew.VECTOR2I(pcbnew.FromMM(1.0), pcbnew.FromMM(1.0)))
+            fp.Add(t)
+        self.b.Add(fp)
+        self.fp[ref] = fp
+        return fp
+
     def pad(self, ref, num):
-        """(x, y) of a pad centre in mm"""
+        """(x, y) of a pad centre in mm (the first pad with that number)"""
         for p in self.fp[ref].Pads():
             if p.GetNumber() == str(num):
                 q = p.GetPosition()

@@ -17,17 +17,15 @@ import handroute as H
 OUT_DIR = os.path.join(H.HERE, 'power')
 OUT = os.path.join(OUT_DIR, 'power.kicad_pcb')
 W, HGT = 94.0, 84.0
-M560 = 25.4                 # Mini560 Pro: IN pads to OUT pads (VERIFY on your module)
+U1X, U2X, UY = 26.0, 62.0, 24.0   # Mini560 Pro: right-most + pin of the IN row (OUT row 29 mm lower), see H.Board.mini560
 PWR_W, R5_W, SIG_W = 2.0, 1.2, 0.6
 
 def place(b):
     b.part('J1', 'xt60', 'BAT in', 14.0, 12.0, 0, {1: 'GND', 2: 'VBAT'})
     b.part('J2', 'xt30', 'DRIVE in', 44.0, 12.0, 0, {1: 'VDRIVE', 2: 'GND'})
     b.part('J3', 'xt30', 'DRIVE out', 76.0, 12.0, 0, {1: 'VDRIVE', 2: 'GND'})
-    b.part('U1A', 'pins2', 'Mini560 5V logic IN', 24.0, 24.0, 270, {1: 'VBAT', 2: 'GND'})
-    b.part('U1B', 'pins2', 'Mini560 5V logic OUT', 24.0, 24.0 + M560, 270, {1: '+5V', 2: 'GND'})
-    b.part('U2A', 'pins2', 'Mini560 5V servo IN', 60.0, 24.0, 270, {1: 'VDRIVE', 2: 'GND'})
-    b.part('U2B', 'pins2', 'Mini560 5V servo OUT', 60.0, 24.0 + M560, 270, {1: '+5VS', 2: 'GND'})
+    b.mini560('U1', U1X, UY, ('VBAT', 'GND'), ('+5V', 'GND'), 'Mini560 Pro 5V logic')
+    b.mini560('U2', U2X, UY, ('VDRIVE', 'GND'), ('+5VS', 'GND'), 'Mini560 Pro 5V servo')
     # controller plug: GND sits between MAG_IO and +5V so the magnet loop cannot cut off a piece of the ground pour
     b.part('J5', 'xh6', 'CONTROLLER', 22.5, 76.0, 0,
            {1: 'MAG_IO', 2: 'GND', 3: '+5V', 4: 'VBAT_SENSE', 5: 'STOP_SENSE', 6: 'SERVO_IO'})
@@ -35,12 +33,12 @@ def place(b):
     b.part('C1', 'cp8', '470uF 16V', 66.0, 60.0, 0, {1: '+5VS', 2: 'GND'})
     b.part('C2', 'c0805', '100nF', 48.2, 70.5, 0, {1: '+5VS', 2: 'GND'})
     b.part('R1', 'res', '1k', 44.0, 74.0, 0, {1: 'SERVO_SIG', 2: 'SERVO_IO'})
-    b.part('J7', 'xh2', 'STOP2 5V', 6.0, 44.0, 270, {1: '+5V', 2: 'MAG5'})
-    b.part('J6', 'xh2', 'MAGNET', 6.0, 58.0, 270, {1: 'MAG5', 2: 'MAG_SW'})
-    b.part('D1', 'sma', 'SS34 flyback', 12.0, 54.0, 270, {1: 'MAG5', 2: 'MAG_SW'})
-    b.part('Q1', 'dpak', '100N03A', 9.0, 68.0, 90, {1: 'MAG_G', 2: 'MAG_SW', 3: 'GND'})
-    b.part('R2', 'res', '100R', 15.0, 78.0, 0, {1: 'MAG_IO', 2: 'MAG_G'})
-    b.part('R3', 'res', '100k', 8.5, 78.0, 0, {1: 'MAG_G', 2: 'GND'})
+    b.part('J7', 'xh2', 'STOP2 5V', 5.0, 38.0, 270, {1: '+5V', 2: 'MAG5'})
+    b.part('J6', 'xh2', 'MAGNET', 5.0, 62.0, 270, {1: 'MAG5', 2: 'MAG_SW'})
+    b.part('D1', 'sma', 'SS34 flyback', 9.0, 60.0, 270, {1: 'MAG5', 2: 'MAG_SW'})
+    b.part('Q1', 'dpak', '100N03A', 10.0, 72.0, 90, {1: 'MAG_G', 2: 'MAG_SW', 3: 'GND'})
+    b.part('R2', 'res', '100R', 16.0, 80.5, 0, {1: 'MAG_IO', 2: 'MAG_G'})
+    b.part('R3', 'res', '100k', 9.5, 80.5, 0, {1: 'MAG_G', 2: 'GND'})
     b.part('R7', 'res', '100k', 30.0, 30.0, 90, {1: 'VBAT_SENSE', 2: 'VBAT'})
     b.part('R8', 'res', '15k', 33.0, 36.0, 0, {1: 'GND', 2: 'VBAT_SENSE'})
     b.part('R5', 'res', '100k', 38.0, 46.0, 90, {1: 'STOP_SENSE', 2: 'VDRIVE'})
@@ -52,34 +50,35 @@ def place(b):
 def route(b):
     p = b.pad
     # VBAT: battery -> logic Mini560 IN and the battery divider
-    b.track([p('J1', 2), (24.0, 15.0), p('U1A', 1)], 'VBAT', PWR_W)
-    b.track([(24.0, 15.0), (30.0, 21.0), p('R7', 2)], 'VBAT', R5_W)
+    b.track([p('J1', 2), (U1X - 2.54, 15.0), (U1X - 2.54, UY), (U1X, UY)], 'VBAT', PWR_W)      # both IN+ pins
+    b.track([(U1X - 2.54, 15.0), (24.0, 15.0), (30.0, 21.0), p('R7', 2)], 'VBAT', R5_W)
     b.track([p('R7', 1), (30.0, 36.0), p('J5', 4)], 'VBAT_SENSE', SIG_W)
     b.track([(30.0, 36.0), p('R8', 2)], 'VBAT_SENSE', SIG_W)
     # VDRIVE: stop block 1 -> driver board out, servo Mini560 IN, stop divider, green LED
     b.track([p('J2', 1), (44.0, 17.0), (76.0, 17.0), p('J3', 1)], 'VDRIVE', PWR_W)
-    b.track([(60.0, 17.0), p('U2A', 1)], 'VDRIVE', PWR_W)
+    b.track([(U2X - 2.54, 17.0), (U2X - 2.54, UY), (U2X, UY)], 'VDRIVE', PWR_W)              # both IN+ pins
     b.track([(76.0, 17.0), (86.0, 17.0), p('R4', 2)], 'VDRIVE', R5_W)
     b.track([(44.0, 17.0), (38.0, 23.0), p('R5', 2)], 'VDRIVE', R5_W)
     b.track([p('R4', 1), p('J8', 1)], 'LEDG_A', SIG_W)
     b.track([p('R5', 1), (38.0, 50.0), p('R6', 1)], 'STOP_SENSE', SIG_W)
     b.track([(38.0, 50.0), (38.0, 52.0), (32.0, 58.0), p('J5', 5)], 'STOP_SENSE', SIG_W)
     # +5V logic: Mini560 OUT -> controller plug and stop block 2
-    b.track([p('U1B', 1), (24.0, 53.0), (27.5, 56.5), p('J5', 3)], '+5V', R5_W)
-    b.track([p('U1B', 1), (24.0, 42.0), (6.0, 42.0), p('J7', 1)], '+5V', R5_W)
+    o1 = UY + 29.0
+    b.track([(U1X - 2.54, o1), (U1X, o1), (27.5, o1 + 3.5), p('J5', 3)], '+5V', R5_W)       # both OUT+ pins
+    b.track([(U1X - 2.54, o1), (U1X - 2.54, 38.0), p('J7', 1)], '+5V', R5_W)
     # magnet: MAG5 (back from stop block 2) -> magnet and flyback cathode; MAG_SW -> MOSFET drain
     b.track([p('J7', 2), p('J6', 1)], 'MAG5', R5_W)
     b.track([(6.0, p('D1', 1)[1]), p('D1', 1)], 'MAG5', R5_W)
-    b.track([p('D1', 2), (12.0, 60.5), p('J6', 2)], 'MAG_SW', R5_W)
-    b.track([(12.0, 60.5), (9.0, 63.0), p('Q1', 2)], 'MAG_SW', R5_W)
-    b.track([p('Q1', 1), (p('Q1', 1)[0], 78.0), p('R2', 2)], 'MAG_G', SIG_W)
-    b.track([(p('Q1', 1)[0], 78.0), p('R3', 1)], 'MAG_G', SIG_W)
-    b.track([p('J5', 1), (20.0, 78.5), (18.0, 78.5), p('R2', 1)], 'MAG_IO', SIG_W)
+    b.track([p('D1', 2), (p('D1', 2)[0], p('J6', 2)[1]), p('J6', 2)], 'MAG_SW', R5_W)
+    b.track([(p('D1', 2)[0], p('J6', 2)[1]), (10.0, 67.0), p('Q1', 2)], 'MAG_SW', R5_W)
+    b.track([p('Q1', 1), (p('Q1', 1)[0], 80.5), p('R2', 2)], 'MAG_G', SIG_W)
+    b.track([(p('Q1', 1)[0], 80.5), p('R3', 1)], 'MAG_G', SIG_W)
+    b.track([p('J5', 1), (20.0, 80.5), p('R2', 1)], 'MAG_IO', SIG_W)
     # servo: signal through R1 into the plug from below; +5VS from the servo Mini560 via the 470 uF
     b.track([p('J5', 6), (38.0, 74.0), p('R1', 2)], 'SERVO_IO', SIG_W)
     b.track([p('R1', 1), (52.0, 74.0), p('J4', 1)], 'SERVO_SIG', SIG_W)
-    b.track([p('U2B', 1), (60.0, 55.0), (p('C1', 1)[0], 55.0), p('C1', 1)], '+5VS', R5_W)
-    b.track([(60.0, 55.0), (49.46, 58.0), p('J4', 2)], '+5VS', R5_W)
+    b.track([(U2X - 2.54, o1), (U2X, o1), (U2X, 56.0), (p('C1', 1)[0], 56.0), p('C1', 1)], '+5VS', R5_W)   # both OUT+ pins
+    b.track([(U2X, 56.0), (49.46, 58.5), p('J4', 2)], '+5VS', R5_W)
     b.track([p('J4', 2), p('C2', 1)], '+5VS', R5_W)
 
 if __name__ == '__main__':
