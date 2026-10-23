@@ -20,7 +20,7 @@ driver plugs (a copper chain there would cut the ground pour into islands); L3 =
 |---|---|---|
 | controller J1 / J2 / J3 | driver J1 / J2 / J3 (X / Y / wrist) | 1 GND, 2 EN (GND), 3 UART, 4 STEP, 5 DIR, 6 3V3 |
 | controller J4 | power J5 | 1 MAG_IO, 2 GND, 3 +5V, 4 VBAT_SENSE, 5 STOP_SENSE, 6 SERVO_IO |
-| power J3 (XT30) | driver J7 (XT30) | VDRIVE, GND |
+| power J3 (XT30 **female**) | driver J7 (XT30 **female**) | VDRIVE, GND: cable with an XT30 **male** plug at both ends |
 | controller J5 | panel header strip | 1 A_SIG, 2 B_SIG, 3 C_TX, 4 C_RX, 5 +5 V (PTC), 6 GND |
 Checked by script: the plug pins of the three boards match net for net.
 
@@ -29,6 +29,11 @@ Checked by script: the plug pins of the three boards match net for net.
 - UART addresses X 0, Y 2, wrist 3 (address 1 would need a crossing). No spare driver socket: a spare module replaces a failed one.
 - Motor plug order 2B, 2A, 1A, 1B (swapping a coil's ends only reverses the motor: fix the direction in firmware).
 - Small parts under the ESP32 board between its pin rows (they are on the copper side, the ESP32 sits on top on sockets).
+
+## XT plugs (polarity checked 23 Oct)
+XT30 and XT60 footprints: pad 1 = -, pad 2 = + (the + / - marks on the silkscreen). Rule: the side that supplies power is
+female (hidden contacts). Power board: J1 XT60 male (battery lead is female), J2 DRIVE in XT30 male (lead from the stop
+button ends in a female plug), J3 DRIVE out XT30 female. Driver board: J7 XT30 female.
 
 ## Mini560 Pro footprint (from Egor's photo, 23 Oct)
 8 pins: IN column (EN side) and OUT column 29 mm apart; in each column two + pins (2.54 apart), 8.92 mm gap, two - pins.

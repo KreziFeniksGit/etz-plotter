@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-10-23T15:30:37",
+    "date": "2026-10-23T15:34:59",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -42,7 +42,7 @@
                         "x": 0.0,
                         "y": 0.0
                     },
-                    "uuid": "cb89f707-0cd2-4fe3-96f2-d2fd22e97fbe"
+                    "uuid": "e31c5d2e-b674-4baa-8663-b323e91ccfa0"
                 },
                 {
                     "description": "Segment of J1 on F.Silkscreen",
@@ -50,7 +50,7 @@
                         "x": 9.74,
                         "y": -4.46
                     },
-                    "uuid": "93311ce6-c12b-4cd2-b80e-36a138cb6f91"
+                    "uuid": "5205cbef-4276-4f8d-98db-6915ebe91988"
                 }
             ],
             "severity": "warning",
@@ -65,7 +65,7 @@
                         "x": 0.0,
                         "y": 0.0
                     },
-                    "uuid": "cb89f707-0cd2-4fe3-96f2-d2fd22e97fbe"
+                    "uuid": "e31c5d2e-b674-4baa-8663-b323e91ccfa0"
                 },
                 {
                     "description": "Segment of J1 on F.Silkscreen",
@@ -73,7 +73,7 @@
                         "x": 25.46,
                         "y": -4.46
                     },
-                    "uuid": "3cff9744-478a-4814-b197-cc702be85b11"
+                    "uuid": "f59b862a-6eab-4b42-9f01-b8fb2c171d9a"
                 }
             ],
             "severity": "warning",
@@ -88,76 +88,7 @@
                         "x": 0.0,
                         "y": 0.0
                     },
-                    "uuid": "cb89f707-0cd2-4fe3-96f2-d2fd22e97fbe"
-                },
-                {
-                    "description": "Segment of J2 on F.Silkscreen",
-                    "pos": {
-                        "x": 36.44,
-                        "y": -1.21
-                    },
-                    "uuid": "f010ccce-0737-4228-b0ec-c2a8ba204117"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_edge_clearance"
-        },
-        {
-            "description": "Silkscreen clipped by board edge",
-            "items": [
-                {
-                    "description": "Rectangle on Edge.Cuts",
-                    "pos": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "uuid": "cb89f707-0cd2-4fe3-96f2-d2fd22e97fbe"
-                },
-                {
-                    "description": "Segment of J2 on F.Silkscreen",
-                    "pos": {
-                        "x": 46.56,
-                        "y": -1.21
-                    },
-                    "uuid": "78b1e937-fe05-4f5c-ae36-e16de1e51fed"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_edge_clearance"
-        },
-        {
-            "description": "Silkscreen clipped by board edge",
-            "items": [
-                {
-                    "description": "Rectangle on Edge.Cuts",
-                    "pos": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "uuid": "cb89f707-0cd2-4fe3-96f2-d2fd22e97fbe"
-                },
-                {
-                    "description": "Value field of J7 (STOP2 5V)",
-                    "pos": {
-                        "x": 0.4,
-                        "y": 39.25
-                    },
-                    "uuid": "fa846433-7822-4400-a893-bee0ad39fe19"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_edge_clearance"
-        },
-        {
-            "description": "Silkscreen clipped by board edge",
-            "items": [
-                {
-                    "description": "Rectangle on Edge.Cuts",
-                    "pos": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "uuid": "cb89f707-0cd2-4fe3-96f2-d2fd22e97fbe"
+                    "uuid": "e31c5d2e-b674-4baa-8663-b323e91ccfa0"
                 },
                 {
                     "description": "Value field of J6 (MAGNET)",
@@ -165,7 +96,7 @@
                         "x": 0.4,
                         "y": 63.25
                     },
-                    "uuid": "401af40f-f5bf-4876-beb6-a5b8f7d28d16"
+                    "uuid": "9eee7919-5085-4982-ba53-0ba2b6e161d6"
                 }
             ],
             "severity": "warning",
@@ -180,15 +111,15 @@
                         "x": 0.0,
                         "y": 0.0
                     },
-                    "uuid": "cb89f707-0cd2-4fe3-96f2-d2fd22e97fbe"
+                    "uuid": "e31c5d2e-b674-4baa-8663-b323e91ccfa0"
                 },
                 {
                     "description": "Segment of J3 on F.Silkscreen",
                     "pos": {
-                        "x": 68.44,
-                        "y": -1.21
+                        "x": 73.97,
+                        "y": -2.16
                     },
-                    "uuid": "1980aafe-d704-4697-a988-e678de82701a"
+                    "uuid": "6f3a2135-de31-4167-afb4-ab0847df0fda"
                 }
             ],
             "severity": "warning",
@@ -203,15 +134,84 @@
                         "x": 0.0,
                         "y": 0.0
                     },
-                    "uuid": "cb89f707-0cd2-4fe3-96f2-d2fd22e97fbe"
+                    "uuid": "e31c5d2e-b674-4baa-8663-b323e91ccfa0"
                 },
                 {
                     "description": "Segment of J3 on F.Silkscreen",
                     "pos": {
-                        "x": 78.56,
+                        "x": 83.03,
+                        "y": -2.16
+                    },
+                    "uuid": "f13bc5c7-7822-48fe-a4e7-62e8bbaebcd9"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "e31c5d2e-b674-4baa-8663-b323e91ccfa0"
+                },
+                {
+                    "description": "Segment of J2 on F.Silkscreen",
+                    "pos": {
+                        "x": 36.44,
                         "y": -1.21
                     },
-                    "uuid": "80b909c7-e020-4eaf-8632-7b48865c9bab"
+                    "uuid": "e014d7a0-8c1a-4617-b3c1-8ee0a5ee76d4"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "e31c5d2e-b674-4baa-8663-b323e91ccfa0"
+                },
+                {
+                    "description": "Segment of J2 on F.Silkscreen",
+                    "pos": {
+                        "x": 46.56,
+                        "y": -1.21
+                    },
+                    "uuid": "7765ea84-28ef-4801-9fa2-2c717c63684c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "e31c5d2e-b674-4baa-8663-b323e91ccfa0"
+                },
+                {
+                    "description": "Value field of J7 (STOP2 5V)",
+                    "pos": {
+                        "x": 0.4,
+                        "y": 39.25
+                    },
+                    "uuid": "39a998dc-2a41-43ec-8636-6ec2bf1feca0"
                 }
             ],
             "severity": "warning",

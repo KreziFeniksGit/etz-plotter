@@ -22,8 +22,9 @@ PWR_W, R5_W, SIG_W = 2.0, 1.2, 0.6
 
 def place(b):
     b.part('J1', 'xt60', 'BAT in', 14.0, 12.0, 0, {1: 'GND', 2: 'VBAT'})
-    b.part('J2', 'xt30', 'DRIVE in', 44.0, 12.0, 0, {1: 'VDRIVE', 2: 'GND'})
-    b.part('J3', 'xt30', 'DRIVE out', 76.0, 12.0, 0, {1: 'VDRIVE', 2: 'GND'})
+    # XT30: pad 1 = -, pad 2 = +. Power-supplying side female (contacts hidden): DRIVE out = female, DRIVE in = male
+    b.part('J2', 'xt30', 'DRIVE in (male)', 44.0, 12.0, 0, {1: 'GND', 2: 'VDRIVE'})
+    b.part('J3', 'xt30f', 'DRIVE out (female)', 76.0, 12.0, 0, {1: 'GND', 2: 'VDRIVE'})
     b.mini560('U1', U1X, UY, ('VBAT', 'GND'), ('+5V', 'GND'), 'Mini560 Pro 5V logic')
     b.mini560('U2', U2X, UY, ('VDRIVE', 'GND'), ('+5VS', 'GND'), 'Mini560 Pro 5V servo')
     # controller plug: GND sits between MAG_IO and +5V so the magnet loop cannot cut off a piece of the ground pour
@@ -55,7 +56,7 @@ def route(b):
     b.track([p('R7', 1), (30.0, 36.0), p('J5', 4)], 'VBAT_SENSE', SIG_W)
     b.track([(30.0, 36.0), p('R8', 2)], 'VBAT_SENSE', SIG_W)
     # VDRIVE: stop block 1 -> driver board out, servo Mini560 IN, stop divider, green LED
-    b.track([p('J2', 1), (44.0, 17.0), (76.0, 17.0), p('J3', 1)], 'VDRIVE', PWR_W)
+    b.track([p('J2', 2), (p('J2', 2)[0], 17.0), (p('J3', 2)[0], 17.0), p('J3', 2)], 'VDRIVE', PWR_W)
     b.track([(U2X - 2.54, 17.0), (U2X - 2.54, UY), (U2X, UY)], 'VDRIVE', PWR_W)              # both IN+ pins
     b.track([(76.0, 17.0), (86.0, 17.0), p('R4', 2)], 'VDRIVE', R5_W)
     b.track([(44.0, 17.0), (38.0, 23.0), p('R5', 2)], 'VDRIVE', R5_W)

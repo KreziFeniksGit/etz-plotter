@@ -45,7 +45,7 @@ def place(b):
         b.part('J%d' % (k + 4), 'xh4', '%s motor' % ax, ux + MOT_DX, uy + 5.0, 270,
                {1: pre + '2B', 2: pre + '2A', 3: pre + '1A', 4: pre + '1B'})
         b.part('C%d' % (k + 1), 'cp8', '100uF 25V', ux + ROW + 12.0, uy - 6.5, 0, {1: 'VDRIVE', 2: 'GND'})
-    b.part('J7', 'xt30', 'VDRIVE in', BUS_X - 12.0, 13.0, 0, {1: 'VDRIVE', 2: 'GND'})
+    b.part('J7', 'xt30f', 'VDRIVE in (female)', BUS_X - 17.0, 13.0, 0, {1: 'GND', 2: 'VDRIVE'})   # pad 1 = -, pad 2 = +
     b.holes()
 
 # =============================================================================
@@ -84,7 +84,7 @@ def route(b):
         b.track([r(1), (BUS_X, r(1)[1])], 'VDRIVE', PWR_W)
         b.track([b.pad(C, 1), (BUS_X, b.pad(C, 1)[1])], 'VDRIVE', PWR_W)
     last = UY0 + (len(DRIVERS) - 1) * UPITCH
-    x30 = b.pad('J7', 1)
+    x30 = b.pad('J7', 2)
     b.track([x30, (BUS_X, x30[1] + 2.0), (BUS_X, last)], 'VDRIVE', PWR_W)
 
 if __name__ == '__main__':

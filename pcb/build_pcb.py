@@ -54,7 +54,8 @@ F = dict(
     sot23='Package_TO_SOT_SMD:SOT-23',                           # AO3400: 1 G, 2 S, 3 D
     f1206='Fuse:Fuse_1206_3216Metric_Pad1.42x1.75mm_HandSolder',
     xt60='Connector_AMASS:AMASS_XT60PW-M_1x02_P7.20mm_Horizontal',   # pad 1 = -, pad 2 = +
-    xt30='Connector_AMASS:AMASS_XT30PW-M_1x02_P2.50mm_Horizontal',   # pad 1 = +, pad 2 = -
+    xt30='Connector_AMASS:AMASS_XT30PW-M_1x02_P2.50mm_Horizontal',   # male;   pad 1 = -, pad 2 = + (checked 23 Oct)
+    xt30f='Connector_AMASS:AMASS_XT30PW-F_1x02_P2.50mm_Horizontal',  # female; pad 1 = -, pad 2 = +
     tp='TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm',
     hole='MountingHole:MountingHole_3.2mm_M3',
 )
@@ -103,7 +104,7 @@ part('J4', 'xh4', 'spare motor', 124.0, 69.0, 90, {1: 'S_1A', 2: 'S_1B', 3: 'S_2
 
 # power
 part('J10', 'xt60', 'BAT', 17.0, 14.0, 0, {1: 'GND', 2: 'VBAT'})
-part('J11', 'xt30', 'DRIVE', 42.0, 13.0, 0, {1: 'VDRIVE', 2: 'GND'})
+part('J11', 'xt30', 'DRIVE', 42.0, 13.0, 0, {1: 'GND', 2: 'VDRIVE'})
 for ref, x, vin, vout, val in (('U5', 62.0, 'VBAT', '+5V', 'Mini560 Pro 5V logic'), ('U6', 96.0, 'VDRIVE', '+5VS', 'Mini560 Pro 5V servo')):
     part(ref + 'A', 'pins2', val + ' IN', x, 94.0, 90, {1: vin, 2: 'GND'})
     part(ref + 'B', 'pins2', val + ' OUT', x + MINI560_PITCH, 94.0, 90, {1: vout, 2: 'GND'})
