@@ -7,6 +7,7 @@ Run:  laptop\\.venv\\Scripts\\python laptop\\camera_test.py [camera number, defa
 import sys, time
 import cv2
 import field as F
+sys.stdout.reconfigure(encoding="utf-8")      # Cyrillic cell names (А0 ... Е8) on any Windows console
 from vision import Vision, annotate
 
 def main():

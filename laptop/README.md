@@ -5,9 +5,9 @@ codes, and tells which **cell** each one is in. Own algorithms on OpenCV buildin
 
 | File | What |
 |---|---|
-| `field.py` | field layout (A4, 9 x 6 cells of 28 mm + buffer column, marks) and a drawing of it. **VERIFY `LAYOUT` against the rules drawing** |
+| `field.py` | the real ETZ field (A4 portrait): columns А..Е (А right), rows 0..8, buffer row above (А..Д), marks 27 (origin, bottom-right), 28, 29. Measured from the official drawing: marks fit to 0.2 mm, cell centres to 0.3 mm |
 | `vision.py` | field homography, checker detection (colour + cell), QR reading (whole picture, then cell by cell) |
-| `show_field.py` | shows a test field full-screen with random checkers and QR codes (no printer needed) |
+| `show_field.py` | shows the test field in a window with random checkers and QR codes (no printer needed) |
 | `camera_test.py` | live camera: draws what it found, prints it |
 | `selftest.py` | no camera: fake photos (tilt, blur, noise, colour cast) of known layouts -> must find everything. Now: 10 / 10 |
 
@@ -18,9 +18,9 @@ laptop\.venv\Scripts\python -m pip install opencv-contrib-python numpy
 ```
 
 ## Test with a webcam and the laptop screen
-1. Terminal 1: `laptop\.venv\Scripts\python laptop\show_field.py` - the field fills the screen; N = new layout (the
+1. Terminal 1: `laptop\.venv\Scripts\python laptop\show_field.py` - the field opens in a window (resize it); N = new layout (the
    true layout is printed), Q = quit.
-2. Terminal 2: `laptop\.venv\Scripts\python laptop\camera_test.py` (or `camera_test.py 1` for a second camera). Point
+2. Terminal 2: `laptop\.venv\Scripts\python laptop\camera_test.py` (**USB webcam is usually `camera_test.py 1`**; 0 = laptop camera). Point
    the webcam at the screen so all three marks are visible. Q quit, P print, S save a snapshot.
 3. Compare what it prints with what `show_field.py` printed.
 

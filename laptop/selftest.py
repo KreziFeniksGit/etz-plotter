@@ -29,7 +29,7 @@ def main(trials=10):
     good = 0
     for t in range(trials):
         random.seed(t)
-        cells = [(c, r) for c in range(0, 10) for r in range(1, 7)]
+        cells = F.all_cells()
         random.shuffle(cells)
         ch = [(c, r, random.choice(F.COLOURS)) for c, r in cells[:6]]
         st = [(c, r, 'T%d' % k) for k, (c, r) in enumerate(cells[6:9])]
