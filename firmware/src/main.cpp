@@ -25,6 +25,8 @@ struct Axis {
   StepAxis mot;
   // last telemetry
   bool ok = false;
+  bool sleeping = false;   // driver turned off by the idle timer (wakes by itself on the next move)
+  uint32_t lastActive = 0; // millis() when it last moved or was commanded
   uint32_t drvStatus = 0;
   uint16_t sg = 0;
   uint8_t stepPin, dirPin;
@@ -45,6 +47,7 @@ uint32_t accel = 6400;       // steps/s^2
 uint32_t streamMs = 0, lastStream = 0;     // automatic json status lines
 uint32_t wdMs = 0, lastCmd = 0;            // watchdog
 bool wdTripped = false;
+uint32_t idleMs = 60000;                   // driver off after this long without moving (0 = never)
 
 // ---------------------------------------------------------------- drivers
 void readTelemetry(Axis &a) {
@@ -56,16 +59,16 @@ void readTelemetry(Axis &a) {
 
 // DRV_STATUS bits: see lib/Tmc2209/Tmc2209.h
 void printJson() {
-  Serial.printf("{\"t\":%lu,\"spd\":%lu,\"acc\":%lu,\"wd\":%lu,\"wdtrip\":%d,\"ax\":[", (unsigned long)millis(),
-                (unsigned long)maxSpeed, (unsigned long)accel, (unsigned long)wdMs, wdTripped ? 1 : 0);
+  Serial.printf("{\"t\":%lu,\"spd\":%lu,\"acc\":%lu,\"wd\":%lu,\"wdtrip\":%d,\"idle\":%lu,\"ax\":[", (unsigned long)millis(),
+                (unsigned long)maxSpeed, (unsigned long)accel, (unsigned long)wdMs, wdTripped ? 1 : 0, (unsigned long)idleMs);
   for (int i = 0; i < 3; i++) {
     Axis &a = axes[i];
     uint32_t s = a.drvStatus;
     int temp = (s & (1UL << 11)) ? 157 : (s & (1UL << 10)) ? 150 : (s & (1UL << 9)) ? 143 : (s & (1UL << 8)) ? 120 : 0;
-    Serial.printf("%s{\"n\":\"%s\",\"pos\":%ld,\"tgt\":%ld,\"run\":%d,\"ok\":%d,\"on\":%d,\"mA\":%u,\"inv\":%d,"
+    Serial.printf("%s{\"n\":\"%s\",\"pos\":%ld,\"tgt\":%ld,\"run\":%d,\"ok\":%d,\"on\":%d,\"mA\":%u,\"inv\":%d,\"sleep\":%d,"
                   "\"sg\":%u,\"cs\":%lu,\"otpw\":%d,\"ot\":%d,\"s2g\":%d,\"ol\":%d,\"temp\":%d}",
                   i ? "," : "", a.name, (long)a.mot.position(), (long)a.mot.target(), a.mot.running() ? 1 : 0,
-                  a.ok ? 1 : 0, a.drv.enabled() ? 1 : 0, a.drv.current(), a.mot.inverted() ? 1 : 0,
+                  a.ok ? 1 : 0, a.drv.enabled() ? 1 : 0, a.drv.current(), a.mot.inverted() ? 1 : 0, a.sleeping ? 1 : 0,
                   a.sg, (unsigned long)((s >> 16) & 0x1F), (s & 1) ? 1 : 0, (s & 2) ? 1 : 0,
                   (s & (3UL << 2)) ? 1 : 0, (s & (3UL << 6)) ? 1 : 0, temp);
   }
@@ -93,6 +96,18 @@ void stopAll() { for (auto &a : axes) a.mot.stop(); }           // decelerate to
 bool anyMoving() { for (auto &a : axes) if (a.mot.running()) return true; return false; }
 void waitStill(StepAxis &m) { while (m.running()) delay(1); }
 
+// idle timer: a driver that has not moved for idleMs is turned off (cool, no hold current); the next move
+// turns it back on first. Careful: while off, the motor can be turned by hand and the position may be lost.
+StepAxis &wake(Axis &a) {
+  a.lastActive = millis();
+  if (a.sleeping) {
+    a.drv.enable(true); a.sleeping = false;
+    delay(5);                                  // coils back on before the first step
+    Serial.printf("event idle %s: driver back on\r\n", a.name);
+  }
+  return a.mot;
+}
+
 // ---------------------------------------------------------------- commands
 void help() {
   Serial.print(
@@ -109,6 +124,7 @@ void help() {
     "  on <axis> / off <axis>   driver output on / off (off = motor turns freely)\r\n"
     "  dir <axis>          reverse this motor's direction (when it stands)\r\n"
     "  stop                stop all motors (decelerate)\r\n"
+    "  idle <s>            driver off after s seconds standing (default 60, 0 = never); wakes by itself\r\n"
     "  checks: pulse <axis> <steps> [us]   plain even pulses from the main loop, no timer, no acceleration\r\n"
     "          reg <axis>                  driver registers (did our UART writes arrive?)\r\n"
     "  for programs: json | stream <ms> | wd <ms> | ping | echo 0/1\r\n");
@@ -127,6 +143,7 @@ void command() {
     for (auto &a : axes) printStatus(a);
     return;
   }
+  if (con.is(0, "idle")) { idleMs = con.argInt(1) * 1000UL; con.reply("ok idle %lu", (unsigned long)(idleMs / 1000)); return; }
   if (con.is(0, "stop")) { stopAll(); con.reply("ok stop"); return; }
   if (con.is(0, "pulse")) {                 // check: steps made by hand, like the simplest possible program
     Axis *a = findAxis(con.word(1));
@@ -169,29 +186,29 @@ void command() {
   if (con.is(0, "test")) {
     for (auto &a : axes) {
       Serial.printf("[%s] 1 turn forward, 1 back\r\n", a.name);
-      a.mot.move(STEPS_PER_REV);  waitStill(a.mot); delay(300);
-      a.mot.move(-STEPS_PER_REV); waitStill(a.mot); delay(300);
+      wake(a).move(STEPS_PER_REV);  waitStill(a.mot); delay(300);
+      wake(a).move(-STEPS_PER_REV); waitStill(a.mot); delay(300);
     }
     con.reply("ok test"); return;
   }
   if (con.is(0, "all")) {
     long s = lroundf(con.argFloat(1) * STEPS_PER_REV);
-    for (auto &a : axes) a.mot.move(s);
+    for (auto &a : axes) wake(a).move(s);
     con.reply("ok all"); return;
   }
 
   Axis *a = findAxis(con.word(1));
   if (!a) { con.reply("err unknown command or axis - type help"); return; }
-  if (con.is(0, "m"))    { a->mot.move(con.argInt(2)); con.reply("ok m %s", a->name); return; }
-  if (con.is(0, "r"))    { a->mot.move(lroundf(con.argFloat(2) * STEPS_PER_REV)); con.reply("ok r %s", a->name); return; }
-  if (con.is(0, "g"))    { a->mot.moveTo(con.argInt(2)); con.reply("ok g %s", a->name); return; }
+  if (con.is(0, "m"))    { wake(*a).move(con.argInt(2)); con.reply("ok m %s", a->name); return; }
+  if (con.is(0, "r"))    { wake(*a).move(lroundf(con.argFloat(2) * STEPS_PER_REV)); con.reply("ok r %s", a->name); return; }
+  if (con.is(0, "g"))    { wake(*a).moveTo(con.argInt(2)); con.reply("ok g %s", a->name); return; }
   if (con.is(0, "zero")) { a->mot.setPosition(0); con.reply("ok zero %s", a->name); return; }
   if (con.is(0, "cur"))  {
     uint16_t mA = constrain(con.argInt(2), 100L, 1500L);
     a->drv.setCurrent(mA); con.reply("ok cur %s %u", a->name, mA); return;
   }
-  if (con.is(0, "on"))   { a->drv.enable(true); con.reply("ok on %s", a->name); return; }
-  if (con.is(0, "off"))  { a->mot.halt(); a->drv.enable(false); con.reply("ok off %s", a->name); return; }
+  if (con.is(0, "on"))   { a->drv.enable(true); a->sleeping = false; a->lastActive = millis(); con.reply("ok on %s", a->name); return; }
+  if (con.is(0, "off"))  { a->mot.halt(); a->drv.enable(false); a->sleeping = false; con.reply("ok off %s", a->name); return; }
   if (con.is(0, "dir"))  {
     if (a->mot.running()) { con.reply("err %s is moving - stop it first", a->name); return; }
     a->mot.setInvert(!a->mot.inverted()); con.reply("ok dir %s %d", a->name, a->mot.inverted() ? 1 : 0); return;
@@ -234,6 +251,13 @@ void loop() {
     telemetryNext = (telemetryNext + 1) % 3;
   }
   if (streamMs && now - lastStream >= streamMs) { lastStream = now; printJson(); }
+  for (auto &a : axes) {                          // idle timer
+    if (a.mot.running()) a.lastActive = now;
+    else if (idleMs && a.drv.enabled() && now - a.lastActive > idleMs) {
+      a.drv.enable(false); a.sleeping = true;
+      Serial.printf("event idle %s: not used for %lu s, driver off\r\n", a.name, (unsigned long)(idleMs / 1000));
+    }
+  }
   if (wdMs && !wdTripped && now - lastCmd > wdMs) {       // laptop silent: stop everything
     stopAll(); wdTripped = true;
     Serial.print("event watchdog: no ping, motors stopped\r\n");

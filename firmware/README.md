@@ -35,6 +35,7 @@ v3 (24 Oct) replaced all of them with our own code.
 | `dir x` | reverse a motor's direction (only while it stands) |
 | `g x 6400`, `zero x` | go to an absolute position / call the present position 0 |
 | `stop` | stop everything |
+| `idle 60` | a driver that has not moved for 60 s turns itself off (cool, no hum); the next move turns it back on by itself. `idle 0` = never. Default 60 s. While asleep the motor can be turned by hand, so the position may be lost |
 | `json`, `stream 150`, `wd 1500`, `ping`, `echo 0` | for programs: one status line / status every 150 ms / stop the motors if no ping for 1.5 s / keep-alive / no echo |
 
 ## If a driver says NO ANSWER

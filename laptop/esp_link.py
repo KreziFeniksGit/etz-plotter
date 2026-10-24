@@ -118,8 +118,9 @@ class FakeEsp:
     STEPS = 3200
 
     def __init__(self):
-        self.ax = {n: dict(n=n, pos=0.0, tgt=0, ok=1, on=1, mA=m, inv=0) for n, m in (('x', 900), ('y', 900), ('w', 600))}
-        self.spd, self.acc, self.stream, self.wd = 3200, 6400, 0, 0
+        self.ax = {n: dict(n=n, pos=0.0, tgt=0, ok=1, on=1, mA=m, inv=0, sleep=0, t_act=time.time())
+                   for n, m in (('x', 900), ('y', 900), ('w', 600))}
+        self.spd, self.acc, self.stream, self.wd, self.idle = 3200, 6400, 0, 0, 60000
         self.out = b''
         self.t_last = time.time(); self.t_stream = 0; self.t_cmd = time.time(); self.wdtrip = 0
         self.lock = threading.Lock()
@@ -129,7 +130,10 @@ class FakeEsp:
         for a in self.ax.values():
             d = a['tgt'] - a['pos']
             if abs(d) > 0.5 and a['on']:
-                a['pos'] += max(-self.spd * dt, min(self.spd * dt, d))
+                a['pos'] += max(-self.spd * dt, min(self.spd * dt, d)); a['t_act'] = now
+            elif self.idle and a['on'] and (now - a['t_act']) * 1000 > self.idle:     # idle timer, like the firmware
+                a['on'], a['sleep'] = 0, 1
+                self.out += ('event idle %s: not used for %d s, driver off\r\n' % (a['n'], self.idle // 1000)).encode()
         if self.stream and (now - self.t_stream) * 1000 >= self.stream:
             self.t_stream = now; self.out += (self._json() + '\r\n').encode()
         if self.wd and not self.wdtrip and (now - self.t_cmd) * 1000 > self.wd:
@@ -142,8 +146,8 @@ class FakeEsp:
         for a in self.ax.values():
             run = int(abs(a['tgt'] - a['pos']) > 0.5 and a['on'])
             axs.append(dict(n=a['n'], pos=int(a['pos']), tgt=a['tgt'], run=run, ok=a['ok'], on=a['on'], mA=a['mA'], inv=a['inv'],
-                            sg=random.randint(150, 260) if run else 0, cs=20 if a['on'] else 0, otpw=0, ot=0, s2g=0, ol=0, temp=0))
-        return json.dumps(dict(t=int(time.time() * 1000) % 10 ** 9, spd=self.spd, acc=self.acc, wd=self.wd, wdtrip=self.wdtrip, ax=axs),
+                            sleep=a['sleep'], sg=random.randint(150, 260) if run else 0, cs=20 if a['on'] else 0, otpw=0, ot=0, s2g=0, ol=0, temp=0))
+        return json.dumps(dict(t=int(time.time() * 1000) % 10 ** 9, spd=self.spd, acc=self.acc, wd=self.wd, wdtrip=self.wdtrip, idle=self.idle, ax=axs),
                           separators=(',', ':'))
 
     def write(self, data):
@@ -168,11 +172,18 @@ class FakeEsp:
         if c == 'accel': self.acc = int(a[0]); r('ok accel %s' % a[0]); return
         if c == 'status': r('[demo] all drivers OK'); return
         if c == 'test': r('ok test'); return
+        if c == 'idle': self.idle = int(a[0]) * 1000; r('ok idle %s' % a[0]); return
+        def wake(x):
+            x['t_act'] = time.time()
+            if x['sleep']:
+                x['on'], x['sleep'] = 1, 0; r('event idle %s: driver back on' % x['n'])
         if c == 'all':
-            for x in self.ax.values(): x['tgt'] += round(float(a[0]) * self.STEPS)
+            for x in self.ax.values(): wake(x); x['tgt'] += round(float(a[0]) * self.STEPS)
             r('ok all'); return
         x = self.ax.get(a[0]) if a else None
         if not x: r('err unknown command or axis - type help'); return
+        if c in ('r', 'm', 'g'): wake(x)
+        if c in ('on', 'off'): x['sleep'] = 0; x['t_act'] = time.time()
         if c == 'r': x['tgt'] += round(float(a[1]) * self.STEPS); r('ok r ' + a[0]); return
         if c == 'm': x['tgt'] += int(a[1]); r('ok m ' + a[0]); return
         if c == 'g': x['tgt'] = int(a[1]); r('ok g ' + a[0]); return
@@ -192,3 +203,33 @@ class FakeEsp:
 
     def close(self):
         pass
+
+# ---------------------------------------------------------------- quick check from a terminal
+if __name__ == '__main__':
+    # python esp_link.py          -> list ports;   python esp_link.py COM5   -> connect, show status, type commands
+    # python esp_link.py demo     -> the same with the demo board
+    import sys
+    if len(sys.argv) < 2:
+        for d, desc in list_ports(): print(d, ' ', desc)
+        print('run again with the port, e.g.  python esp_link.py COM5   (or  demo)'); sys.exit()
+    link = EspLink()
+    link.connect(None if sys.argv[1] == 'demo' else sys.argv[1], fake=sys.argv[1] == 'demo')
+    def show():
+        while not link.log.empty():
+            k, t = link.log.get(); print(('> ' if k == 'tx' else '  ') + t)
+        s = link.state
+        if s:
+            print('  status: ' + '   '.join('%s pos %d %s%s' % (a['n'], a['pos'], 'OK' if a['ok'] else 'NO ANSWER',
+                  ' moving' if a['run'] else ' sleeping' if a.get('sleep') else '' if a['on'] else ' off') for a in s['ax']))
+        else:
+            print('  no status line yet')
+    time.sleep(0.6); show()
+    print('type a command (e.g.  r x 1 ), Enter alone = refresh, q = quit')
+    try:
+        while True:
+            c = input('cmd> ').strip()
+            if c == 'q': break
+            if c: link.send(c)
+            time.sleep(0.4); show()
+    finally:
+        link.disconnect()

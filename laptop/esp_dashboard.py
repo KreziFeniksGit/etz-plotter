@@ -56,10 +56,11 @@ class AxisPanel(ttk.LabelFrame):
             return
         ok = a['ok']
         self.drv.config(text='driver OK' if ok else 'NO ANSWER', bg=GREEN if ok else RED)
-        self.is_on = bool(a['on'])
+        self.is_on = bool(a['on']) or bool(a.get('sleep', 0))
         self.onoff.config(text='Off' if self.is_on else 'On')
-        self.mov.config(text='moving' if a['run'] else ('free' if not a['on'] else 'holding'),
-                        bg=AMBER if a['run'] else ('#cccccc' if not a['on'] else '#bfe3c6'))
+        sleep = a.get('sleep', 0)        # turned off by the idle timer: wakes by itself on the next move
+        self.mov.config(text='moving' if a['run'] else ('sleeping' if sleep else 'free' if not a['on'] else 'holding'),
+                        bg=AMBER if a['run'] else ('#cfd8ef' if sleep else '#cccccc' if not a['on'] else '#bfe3c6'))
         self.pos.config(text='pos %d  (%.3f turns)' % (a['pos'], a['pos'] / STEPS_PER_REV))
         self.info.config(text='target %d   current %d mA   %s' % (a['tgt'], a['mA'], 'reversed' if a['inv'] else 'normal dir'))
         self.load['value'] = a['sg'] if a['run'] else 0
@@ -159,7 +160,8 @@ class App(tk.Tk):
         if s and self.link.connected:
             for a in s['ax']:
                 if a['n'] in self.panels: self.panels[a['n']].update_from(a)
-            self.wd.config(text='watchdog %s ms%s' % (s['wd'], '  TRIPPED' if s['wdtrip'] else ''),
+            self.wd.config(text='watchdog %s ms%s   idle off %s' % (s['wd'], '  TRIPPED' if s['wdtrip'] else '',
+                                                               '%d s' % (s['idle'] // 1000) if s.get('idle') else 'never'),
                            foreground=RED if s['wdtrip'] else '#555')
         self.after(100, self.tick)
 
