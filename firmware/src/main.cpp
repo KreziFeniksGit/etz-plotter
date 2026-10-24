@@ -30,8 +30,11 @@ struct Axis {
   uint32_t drvStatus = 0;
   uint16_t sg = 0;
   uint8_t stepPin, dirPin;
+  uint32_t spd = 3200, acc = 6400;   // this motor's max speed (steps/s) and acceleration (steps/s^2)
   Axis(const char *n, uint8_t a, uint8_t step, uint8_t dir)
     : name(n), addr(a), drv(Serial2, a, R_SENSE), mot(step, dir), stepPin(step), dirPin(dir) {}
+  void setSpeed(uint32_t v) { spd = constrain(v, 50UL, StepAxis::MAX_SPEED); mot.setMaxSpeed(spd); }
+  void setAccel(uint32_t v) { acc = constrain(v, 100UL, 200000UL); mot.setAccel(acc); }
 };
 
 Axis axes[3] = {
@@ -42,12 +45,37 @@ Axis axes[3] = {
 const uint16_t START_MA[3] = {900, 900, 600};    // RMS current (wiring.md section 4)
 
 Console con(Serial);
-uint32_t maxSpeed = 3200;    // steps/s (1 rev/s at 16 microsteps)
-uint32_t accel = 6400;       // steps/s^2
 uint32_t streamMs = 0, lastStream = 0;     // automatic json status lines
 uint32_t wdMs = 0, lastCmd = 0;            // watchdog
 bool wdTripped = false;
 uint32_t idleMs = 60000;                   // driver off after this long without moving (0 = never)
+uint32_t loopHz = 0, loopCount = 0, loopT0 = 0;   // main loop passes per second (how busy the ESP32 is)
+
+// ---------------------------------------------------------------- the ESP32 itself
+const char *resetReason() {
+  switch (esp_reset_reason()) {
+    case ESP_RST_POWERON: return "power on";
+    case ESP_RST_SW: return "software restart";
+    case ESP_RST_PANIC: return "CRASH (panic)";
+    case ESP_RST_INT_WDT: case ESP_RST_TASK_WDT: case ESP_RST_WDT: return "CRASH (watchdog)";
+    case ESP_RST_BROWNOUT: return "BROWNOUT (supply voltage dipped)";
+    case ESP_RST_EXT: return "reset pin / USB";
+    default: return "other";
+  }
+}
+
+void printMem() {
+  Serial.printf("  RAM free %lu bytes of %lu (lowest so far %lu), biggest block %lu\r\n",
+                (unsigned long)ESP.getFreeHeap(), (unsigned long)ESP.getHeapSize(),
+                (unsigned long)ESP.getMinFreeHeap(), (unsigned long)ESP.getMaxAllocHeap());
+  Serial.printf("  PSRAM free %lu bytes of %lu\r\n", (unsigned long)ESP.getFreePsram(), (unsigned long)ESP.getPsramSize());
+  Serial.printf("  loop() stack never used: %lu bytes\r\n", (unsigned long)uxTaskGetStackHighWaterMark(nullptr));
+  Serial.printf("  flash %lu MB, program %lu kB, CPU %lu MHz, chip %.1f C\r\n",
+                (unsigned long)(ESP.getFlashChipSize() >> 20), (unsigned long)(ESP.getSketchSize() >> 10),
+                (unsigned long)ESP.getCpuFreqMHz(), temperatureRead());
+  Serial.printf("  up %lu s, loop %lu passes/s, last reset: %s\r\n", (unsigned long)(millis() / 1000),
+                (unsigned long)loopHz, resetReason());
+}
 
 // ---------------------------------------------------------------- drivers
 // The drivers lose their settings when the drive power goes off (battery, stop button) and wake up on their
@@ -73,16 +101,20 @@ void readTelemetry(Axis &a) {
 
 // DRV_STATUS bits: see lib/Tmc2209/Tmc2209.h
 void printJson() {
-  Serial.printf("{\"t\":%lu,\"spd\":%lu,\"acc\":%lu,\"wd\":%lu,\"wdtrip\":%d,\"idle\":%lu,\"ax\":[", (unsigned long)millis(),
-                (unsigned long)maxSpeed, (unsigned long)accel, (unsigned long)wdMs, wdTripped ? 1 : 0, (unsigned long)idleMs);
+  Serial.printf("{\"t\":%lu,\"wd\":%lu,\"wdtrip\":%d,\"idle\":%lu,\"heap\":%lu,\"heapmin\":%lu,\"heapsize\":%lu,"
+                "\"loop\":%lu,\"ctemp\":%.1f,\"ax\":[", (unsigned long)millis(), (unsigned long)wdMs, wdTripped ? 1 : 0,
+                (unsigned long)idleMs, (unsigned long)ESP.getFreeHeap(), (unsigned long)ESP.getMinFreeHeap(),
+                (unsigned long)ESP.getHeapSize(), (unsigned long)loopHz, temperatureRead());
   for (int i = 0; i < 3; i++) {
     Axis &a = axes[i];
     uint32_t s = a.drvStatus;
     int temp = (s & (1UL << 11)) ? 157 : (s & (1UL << 10)) ? 150 : (s & (1UL << 9)) ? 143 : (s & (1UL << 8)) ? 120 : 0;
     Serial.printf("%s{\"n\":\"%s\",\"pos\":%ld,\"tgt\":%ld,\"run\":%d,\"ok\":%d,\"on\":%d,\"mA\":%u,\"inv\":%d,\"sleep\":%d,"
+                  "\"spd\":%lu,\"acc\":%lu,\"v\":%lu,"
                   "\"sg\":%u,\"cs\":%lu,\"otpw\":%d,\"ot\":%d,\"s2g\":%d,\"ol\":%d,\"temp\":%d}",
                   i ? "," : "", a.name, (long)a.mot.position(), (long)a.mot.target(), a.mot.running() ? 1 : 0,
                   a.ok ? 1 : 0, a.drv.enabled() ? 1 : 0, a.drv.current(), a.mot.inverted() ? 1 : 0, a.sleeping ? 1 : 0,
+                  (unsigned long)a.spd, (unsigned long)a.acc, (unsigned long)a.mot.speed(),
                   a.sg, (unsigned long)((s >> 16) & 0x1F), (s & 1) ? 1 : 0, (s & 2) ? 1 : 0,
                   (s & (3UL << 2)) ? 1 : 0, (s & (3UL << 6)) ? 1 : 0, temp);
   }
@@ -98,7 +130,7 @@ void printStatus(Axis &a) {
                   (ds & (1UL << 1)) ? "OVERTEMP " : "", (ds & (1UL << 0)) ? "PRE-WARN " : "",
                   (ds & (3UL << 2)) ? "SHORT-GND " : "", (ds & (3UL << 6)) ? "OPEN-LOAD " : "");
   }
-  Serial.printf("  pos %ld\r\n", (long)a.mot.position());
+  Serial.printf("  speed %lu accel %lu  pos %ld\r\n", (unsigned long)a.spd, (unsigned long)a.acc, (long)a.mot.position());
 }
 
 Axis *findAxis(const char *s) {
@@ -133,7 +165,8 @@ void help() {
     "  zero <axis>         call the present position 0\r\n"
     "  test                each motor: 1 turn forward, 1 back, one after another\r\n"
     "  all <turns>         all three motors at once\r\n"
-    "  speed <steps/s>     max speed (up to 16000);  accel <steps/s^2>\r\n"
+    "  speed [axis] <steps/s>   max speed (up to 16000), one motor or all;  accel [axis] <steps/s^2>\r\n"
+    "  mem                 ESP32 memory, CPU, temperature, uptime, why it last restarted\r\n"
     "  cur <axis> <mA>     RMS current (X/Y 900, wrist 600 by default; max ~1500)\r\n"
     "  on <axis> / off <axis>   driver output on / off (off = motor turns freely)\r\n"
     "  dir <axis>          reverse this motor's direction (when it stands)\r\n"
@@ -153,11 +186,8 @@ void command() {
   if (con.is(0, "wd")) { wdMs = con.argInt(1); wdTripped = false; con.reply("ok wd %lu", (unsigned long)wdMs); return; }
   if (con.is(0, "echo")) { con.setEcho(con.argInt(1) != 0); con.reply("ok echo %d", con.echo() ? 1 : 0); return; }
   if (con.is(0, "help") || con.is(0, "?")) { help(); return; }
-  if (con.is(0, "status")) {
-    Serial.printf("speed %lu steps/s, accel %lu steps/s^2\r\n", (unsigned long)maxSpeed, (unsigned long)accel);
-    for (auto &a : axes) printStatus(a);
-    return;
-  }
+  if (con.is(0, "status")) { for (auto &a : axes) printStatus(a); return; }
+  if (con.is(0, "mem")) { printMem(); return; }
   if (con.is(0, "idle")) { idleMs = con.argInt(1) * 1000UL; con.reply("ok idle %lu", (unsigned long)(idleMs / 1000)); return; }
   if (con.is(0, "stop")) { stopAll(); con.reply("ok stop"); return; }
   if (con.is(0, "pulse")) {                 // check: steps made by hand, like the simplest possible program
@@ -211,15 +241,17 @@ void command() {
     Serial.print("  expect GCONF 0x000001C0, CHOPCONF 0x14028054 (900 mA) or 0x14008054, IFCNT = writes accepted\r\n");
     return;
   }
-  if (con.is(0, "speed")) {
-    maxSpeed = constrain(con.argInt(1), 50L, (long)StepAxis::MAX_SPEED);
-    for (auto &a : axes) a.mot.setMaxSpeed(maxSpeed);
-    con.reply("ok speed %lu", (unsigned long)maxSpeed); return;
-  }
-  if (con.is(0, "accel")) {
-    accel = constrain(con.argInt(1), 100L, 200000L);
-    for (auto &a : axes) a.mot.setAccel(accel);
-    con.reply("ok accel %lu", (unsigned long)accel); return;
+  if (con.is(0, "speed") || con.is(0, "accel")) {   // "speed 3200" = all motors, "speed x 3200" = only X
+    bool isSpeed = con.is(0, "speed");
+    Axis *one = findAxis(con.word(1));
+    long v = con.argInt(one ? 2 : 1);
+    for (auto &a : axes) {
+      if (one && one != &a) continue;
+      if (isSpeed) a.setSpeed(v); else a.setAccel(v);
+    }
+    Axis &shown = one ? *one : axes[0];
+    con.reply("ok %s %s %lu", con.word(0), one ? one->name : "all", (unsigned long)(isSpeed ? shown.spd : shown.acc));
+    return;
   }
   if (con.is(0, "test")) {
     for (auto &a : axes) {
@@ -265,14 +297,15 @@ void setup() {
   StepAxis *motors[3];
   for (int i = 0; i < 3; i++) {
     Axis &a = axes[i];
-    a.mot.setMaxSpeed(maxSpeed);
-    a.mot.setAccel(accel);
+    a.setSpeed(a.spd);
+    a.setAccel(a.acc);
     motors[i] = &a.mot;
     a.ok = a.drv.begin(START_MA[i], MICROSTEPS);
     Serial.printf("[%s] UART address %u: %s\r\n", a.name, a.addr,
                   a.ok ? "driver answered, configured" : "NO ANSWER (is the battery / drive power on? cable? address?)");
   }
   if (!StepAxis::begin(motors, 3)) Serial.print("err step timer did not start\r\n");
+  Serial.printf("last reset: %s\r\n", resetReason());
   help();
   lastCmd = millis();
   con.prompt();
@@ -283,6 +316,8 @@ uint32_t lastTelemetry = 0;
 void loop() {
   if (con.poll()) { command(); con.prompt(); }
   uint32_t now = millis();
+  loopCount++;
+  if (now - loopT0 >= 1000) { loopHz = loopCount * 1000 / (now - loopT0); loopCount = 0; loopT0 = now; }
   if (!anyMoving() && now - lastTelemetry >= TELEMETRY_MS) {   // like v1: no UART traffic while a motor moves
     lastTelemetry = now;
     readTelemetry(axes[telemetryNext]);

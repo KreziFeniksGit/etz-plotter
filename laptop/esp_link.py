@@ -118,9 +118,10 @@ class FakeEsp:
     STEPS = 3200
 
     def __init__(self):
-        self.ax = {n: dict(n=n, pos=0.0, tgt=0, ok=1, on=1, mA=m, inv=0, sleep=0, t_act=time.time())
+        self.ax = {n: dict(n=n, pos=0.0, tgt=0, ok=1, on=1, mA=m, inv=0, sleep=0, t_act=time.time(), spd=3200, acc=6400)
                    for n, m in (('x', 900), ('y', 900), ('w', 600))}
-        self.spd, self.acc, self.stream, self.wd, self.idle = 3200, 6400, 0, 0, 60000
+        self.stream, self.wd, self.idle = 0, 0, 60000
+        self.t0 = time.time()
         self.out = b''
         self.t_last = time.time(); self.t_stream = 0; self.t_cmd = time.time(); self.wdtrip = 0
         self.lock = threading.Lock()
@@ -130,7 +131,7 @@ class FakeEsp:
         for a in self.ax.values():
             d = a['tgt'] - a['pos']
             if abs(d) > 0.5 and a['on']:
-                a['pos'] += max(-self.spd * dt, min(self.spd * dt, d)); a['t_act'] = now
+                a['pos'] += max(-a['spd'] * dt, min(a['spd'] * dt, d)); a['t_act'] = now
             elif self.idle and a['on'] and (now - a['t_act']) * 1000 > self.idle:     # idle timer, like the firmware
                 a['on'], a['sleep'] = 0, 1
                 self.out += ('event idle %s: not used for %d s, driver off\r\n' % (a['n'], self.idle // 1000)).encode()
@@ -146,8 +147,9 @@ class FakeEsp:
         for a in self.ax.values():
             run = int(abs(a['tgt'] - a['pos']) > 0.5 and a['on'])
             axs.append(dict(n=a['n'], pos=int(a['pos']), tgt=a['tgt'], run=run, ok=a['ok'], on=a['on'], mA=a['mA'], inv=a['inv'],
-                            sleep=a['sleep'], sg=random.randint(150, 260) if run else 0, cs=20 if a['on'] else 0, otpw=0, ot=0, s2g=0, ol=0, temp=0))
-        return json.dumps(dict(t=int(time.time() * 1000) % 10 ** 9, spd=self.spd, acc=self.acc, wd=self.wd, wdtrip=self.wdtrip, idle=self.idle, ax=axs),
+                            sleep=a['sleep'], spd=a['spd'], acc=a['acc'], v=a['spd'] if run else 0, sg=random.randint(150, 260) if run else 0, cs=20 if a['on'] else 0, otpw=0, ot=0, s2g=0, ol=0, temp=0))
+        return json.dumps(dict(t=int((time.time() - self.t0) * 1000), wd=self.wd, wdtrip=self.wdtrip, idle=self.idle, heap=231000 + random.randint(0, 2000), heapmin=226500,
+                               heapsize=327680, loop=random.randint(95000, 99000), ctemp=38.5, ax=axs),
                           separators=(',', ':'))
 
     def write(self, data):
@@ -168,8 +170,12 @@ class FakeEsp:
         if c == 'stop':
             for x in self.ax.values(): x['tgt'] = round(x['pos'])
             r('ok stop'); return
-        if c == 'speed': self.spd = int(a[0]); r('ok speed %s' % a[0]); return
-        if c == 'accel': self.acc = int(a[0]); r('ok accel %s' % a[0]); return
+        if c in ('speed', 'accel'):
+            one = a[0] if a and a[0] in self.ax else None
+            for x in self.ax.values():
+                if not one or x['n'] == one: x['spd' if c == 'speed' else 'acc'] = int(a[-1])
+            r('ok %s %s %s' % (c, one or 'all', a[-1])); return
+        if c == 'mem': r('  RAM free 231000 bytes of 327680 (demo board)'); return
         if c == 'status': r('[demo] all drivers OK'); return
         if c == 'test': r('ok test'); return
         if c == 'idle': self.idle = int(a[0]) * 1000; r('ok idle %s' % a[0]); return

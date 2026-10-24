@@ -29,7 +29,9 @@ v3 (24 Oct) replaced all of them with our own code.
 | `r x 2` / `r w -0.5` | turn a motor 2 turns / half a turn back |
 | `m y 1600` | move 1600 microsteps (3200 = 1 turn) |
 | `all 1` | all three motors 1 turn at once |
-| `speed 3200`, `accel 6400` | max speed (steps/s, up to 16000), acceleration |
+| `speed 3200`, `accel 6400` | max speed (steps/s, up to 16000), acceleration, all motors |
+| `speed x 1600`, `accel w 3200` | the same for one motor only (each motor keeps its own) |
+| `mem` | ESP32 RAM (free / lowest ever / biggest block), PSRAM, loop stack left, chip temperature, uptime, loop passes per second, why it last restarted (crash, brownout ...) |
 | `cur x 700` | RMS current in mA (X/Y 900, wrist 600 by default) |
 | `off w` / `on w` | driver output off (motor turns freely by hand) / on |
 | `dir x` | reverse a motor's direction (only while it stands) |

@@ -44,7 +44,19 @@ class AxisPanel(ttk.LabelFrame):
         self.cur.set(900 if key != 'w' else 600)
         self.cur.grid(row=0, column=1, padx=3)
         ttk.Button(d, text='Set', width=5, command=lambda: app.cmd('cur %s %s' % (key, self.cur.get()))).grid(row=0, column=2)
+        m = ttk.Frame(self); m.grid(row=8, column=0, columnspan=4, pady=(4, 0))   # this motor's own speed / accel
+        ttk.Label(m, text='speed').grid(row=0, column=0)
+        self.spd = ttk.Spinbox(m, from_=50, to=16000, increment=400, width=6); self.spd.set(3200)
+        self.spd.grid(row=0, column=1, padx=2)
+        ttk.Label(m, text='accel').grid(row=0, column=2)
+        self.acc = ttk.Spinbox(m, from_=100, to=200000, increment=1600, width=7); self.acc.set(6400)
+        self.acc.grid(row=0, column=3, padx=2)
+        ttk.Button(m, text='Set', width=5, command=self.set_motion).grid(row=0, column=4)
         self.is_on = True
+
+    def set_motion(self):
+        self.app.cmd('speed %s %s' % (self.key, self.spd.get()))
+        self.app.cmd('accel %s %s' % (self.key, self.acc.get()))
 
     def toggle(self):
         self.app.cmd(('off ' if self.is_on else 'on ') + self.key)
@@ -62,7 +74,8 @@ class AxisPanel(ttk.LabelFrame):
         self.mov.config(text='moving' if a['run'] else ('sleeping' if sleep else 'free' if not a['on'] else 'holding'),
                         bg=AMBER if a['run'] else ('#cfd8ef' if sleep else '#cccccc' if not a['on'] else '#bfe3c6'))
         self.pos.config(text='pos %d  (%.3f turns)' % (a['pos'], a['pos'] / STEPS_PER_REV))
-        self.info.config(text='target %d   current %d mA   %s' % (a['tgt'], a['mA'], 'reversed' if a['inv'] else 'normal dir'))
+        self.info.config(text='target %d   %d mA   %s\nspeed now %d / max %s steps/s   accel %s' % (
+            a['tgt'], a['mA'], 'reversed' if a['inv'] else 'normal dir', a.get('v', 0), a.get('spd', '?'), a.get('acc', '?')))
         self.load['value'] = a['sg'] if a['run'] else 0
         f = []
         if a['ot']: f.append('OVERHEATED - stopped')
@@ -89,8 +102,13 @@ class App(tk.Tk):
         self.panels = {}
         for i, (k, t) in enumerate(AXES):
             p = AxisPanel(mid, self, k, t); p.grid(row=0, column=i, padx=4, sticky='n'); self.panels[k] = p
+        sysf = ttk.LabelFrame(self, text='ESP32', padding=(6, 2)); sysf.pack(fill='x', padx=6, pady=(0, 4))
+        ttk.Label(sysf, text='RAM used').pack(side='left')
+        self.ram = ttk.Progressbar(sysf, maximum=100, length=160); self.ram.pack(side='left', padx=4)
+        self.sys = ttk.Label(sysf, text='-'); self.sys.pack(side='left', padx=6)
+        ttk.Button(sysf, text='Memory details', command=lambda: self.cmd('mem')).pack(side='right')
         g = ttk.Frame(self, padding=(6, 0)); g.pack(fill='x')
-        ttk.Label(g, text='speed steps/s').pack(side='left')
+        ttk.Label(g, text='all motors: speed steps/s').pack(side='left')
         self.spd = ttk.Entry(g, width=7); self.spd.insert(0, '3200'); self.spd.pack(side='left', padx=3)
         ttk.Button(g, text='Set', width=4, command=lambda: self.cmd('speed ' + self.spd.get())).pack(side='left')
         ttk.Label(g, text='   accel steps/s²').pack(side='left')
@@ -160,6 +178,13 @@ class App(tk.Tk):
         if s and self.link.connected:
             for a in s['ax']:
                 if a['n'] in self.panels: self.panels[a['n']].update_from(a)
+            if 'heap' in s:
+                used = s['heapsize'] - s['heap']
+                self.ram['value'] = 100.0 * used / max(1, s['heapsize'])
+                up = s['t'] // 1000
+                self.sys.config(text='%d kB used of %d kB  (most ever %d kB)   loop %d /s   chip %.0f C   up %d:%02d:%02d' % (
+                    used // 1024, s['heapsize'] // 1024, (s['heapsize'] - s['heapmin']) // 1024, s['loop'], s['ctemp'],
+                    up // 3600, up // 60 % 60, up % 60))
             self.wd.config(text='watchdog %s ms%s   idle off %s' % (s['wd'], '  TRIPPED' if s['wdtrip'] else '',
                                                                '%d s' % (s['idle'] // 1000) if s.get('idle') else 'never'),
                            foreground=RED if s['wdtrip'] else '#555')
