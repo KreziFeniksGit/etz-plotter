@@ -141,6 +141,7 @@ void help() {
     "  idle <s>            driver off after s seconds standing (default 60, 0 = never); wakes by itself\r\n"
     "  checks: pulse <axis> <steps> [us]   plain even pulses from the main loop, no timer, no acceleration\r\n"
     "          reg <axis>                  driver registers (did our UART writes arrive?)\r\n"
+    "          pins <axis>                 does the driver see our STEP / DIR pins?\r\n"
     "  for programs: json | stream <ms> | wd <ms> | ping | echo 0/1\r\n");
 }
 
@@ -173,12 +174,30 @@ void command() {
     a->mot.setInvert(a->mot.inverted());    // put the DIR pin back where StepGen expects it
     con.reply("ok pulse %s %ld", a->name, n); return;
   }
+  if (con.is(0, "pins")) {                  // check: does the driver see our STEP and DIR pins? (IOIN bit 7 STEP, bit 9 DIR)
+    Axis *a = findAxis(con.word(1));
+    if (!a || a->mot.running()) { con.reply("err pins <axis>, motor standing"); return; }
+    uint32_t v;
+    struct { const char *what; uint8_t pin; int level; uint8_t bit; } t[] = {
+      {"STEP high", a->stepPin, HIGH, 7}, {"STEP low ", a->stepPin, LOW, 7},
+      {"DIR high ", a->dirPin, HIGH, 9}, {"DIR low  ", a->dirPin, LOW, 9}};
+    for (auto &c : t) {
+      digitalWrite(c.pin, c.level); delay(2);
+      bool ok = a->drv.readReg(Tmc2209::IOIN, v);
+      Serial.printf("  GPIO%-2u %s -> driver sees %s%s", c.pin, c.what,
+                    ok ? ((v >> c.bit) & 1 ? "HIGH" : "LOW") : "no answer",
+                    ok && (((v >> c.bit) & 1) != (c.level == HIGH)) ? "   <-- WRONG" : "");
+      Serial.print("\r\n");
+    }
+    a->mot.setInvert(a->mot.inverted());    // DIR pin back where StepGen expects it
+    con.reply("ok pins %s", a->name); return;
+  }
   if (con.is(0, "reg")) {                   // check: read back what the driver holds
     Axis *a = findAxis(con.word(1));
     if (!a) { con.reply("err reg <axis>"); return; }
     const struct { const char *n; uint8_t r; } regs[] = {
       {"GCONF", Tmc2209::GCONF}, {"GSTAT", Tmc2209::GSTAT}, {"IFCNT", Tmc2209::IFCNT}, {"IOIN", Tmc2209::IOIN},
-      {"CHOPCONF", Tmc2209::CHOPCONF}, {"DRV_STATUS", Tmc2209::DRV_STATUS}, {"PWMCONF", Tmc2209::PWMCONF}};
+      {"CHOPCONF", Tmc2209::CHOPCONF}, {"DRV_STATUS", Tmc2209::DRV_STATUS}, {"PWMCONF", Tmc2209::PWMCONF}, {"MSCNT", 0x6A}};
     for (auto &g : regs) {
       uint32_t v;
       if (a->drv.readReg(g.r, v)) Serial.printf("  %-10s 0x%08lX\r\n", g.n, (unsigned long)v);
