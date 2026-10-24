@@ -21,7 +21,9 @@ public:
   void writeReg(uint8_t reg, uint32_t value);
 
   uint8_t version();                             // 0x21 for a TMC2209, 0 = no answer
-  void setCurrent(uint16_t rmsMilliAmps);        // RMS motor current; hold current = half
+  void setCurrent(uint16_t rmsMilliAmps);        // RMS motor current while moving
+  void setHoldPercent(uint8_t pct);              // current while standing, % of the moving current (default 50)
+  uint8_t holdPercent() const { return holdPct_; }
   uint16_t current() const { return mA_; }
   void setMicrosteps(uint16_t microsteps);       // 1, 2, 4 ... 256
   void enable(bool on);                          // on = chopper running; off = motor free (TOFF = 0)
@@ -39,10 +41,12 @@ private:
   static uint8_t crc8(const uint8_t *data, uint8_t len);
   static uint8_t mres(uint16_t microsteps);
   void writeChopconf();
+  void writeIhold();
   HardwareSerial &uart_;
   uint8_t addr_;
   float rSense_;
   uint16_t mA_ = 0;
+  uint8_t cs_ = 0, holdPct_ = 50;
   uint8_t mres_ = 4;          // 16 microsteps
   bool vsense_ = false;
   bool on_ = true;

@@ -69,8 +69,9 @@ void Tmc2209::setCurrent(uint16_t rmsMilliAmps) {
   int c = (int)(cs + 0.5f);
   if (c < 0) c = 0;
   if (c > 31) c = 31;
+  cs_ = c;
   writeChopconf();                        // vsense lives in CHOPCONF
-  writeReg(IHOLD_IRUN, (1UL << 16) | ((uint32_t)c << 8) | (uint32_t)(c / 2));   // IHOLDDELAY 1, IRUN, IHOLD = half
+  writeIhold();
 }
 
 // MRES: 0 = 256 microsteps, 1 = 128 ... 8 = full steps
@@ -96,6 +97,17 @@ void Tmc2209::writeChopconf() {
   writeReg(CHOPCONF, v);
 }
 
+// IHOLD_IRUN: IHOLDDELAY 1, IRUN = CS, IHOLD = CS * hold% (the motor standing still needs much less current)
+void Tmc2209::writeIhold() {
+  uint32_t h = (uint32_t)cs_ * holdPct_ / 100;
+  writeReg(IHOLD_IRUN, (1UL << 16) | ((uint32_t)cs_ << 8) | h);
+}
+
+void Tmc2209::setHoldPercent(uint8_t pct) {
+  holdPct_ = pct > 100 ? 100 : pct;
+  writeIhold();
+}
+
 bool Tmc2209::readLoad(uint16_t &sg) {
   uint32_t v;
   if (!readReg(SG_RESULT, v)) return false;
@@ -106,8 +118,8 @@ bool Tmc2209::readLoad(uint16_t &sg) {
 bool Tmc2209::begin(uint16_t rmsMilliAmps, uint16_t microsteps) {
   // GCONF: pdn_disable (UART on the PDN pin), mstep_reg_select (microsteps from MRES, MS pins = address),
   // multistep_filt; I_scale_analog 0 (current from the register, not the pot); en_spreadcycle 0 = StealthChop
-  // (same settings as firmware v1, which turned the motors fine; TCOOLTHRS / TPOWERDOWN are left at reset values)
   writeReg(GCONF, (1UL << 6) | (1UL << 7) | (1UL << 8));
+  writeReg(TCOOLTHRS, 0xFFFFF);           // StallGuard (load reading) valid at all speeds: crash detection, auto-tune
   mres_ = mres(microsteps);
   on_ = true;
   setCurrent(rmsMilliAmps);               // also writes CHOPCONF (TOFF, MRES, vsense)
