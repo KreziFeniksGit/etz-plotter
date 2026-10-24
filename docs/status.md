@@ -57,4 +57,7 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
 5. Organisers: is a self-designed PCB with plug-in TMC2209 allowed; V pin of connectors A and B.
 6. PCB v1.0 routed (`pcb/`): before ordering, Egor sends photos of the ESP32 board, TMC2209, Mini560 Pro, BSS138 module, motor plugs; fix pinouts, re-route, order from JLCPCB.
 7. Not modelled: magnet leads (loose coil, they turn with the wrist). VERIFY which side the 17HS4023S connector is on (modelled on +x) and where the servo lead leaves its case.
-8. Next big items: firmware plan (ESP32-S3, RMT/MCPWM steppers, radio never started, UART to laptop, OpenCV on the laptop), reworked project plan.
+8. Firmware v3 (24 Oct, `firmware/`): no outside libraries - own `Tmc2209` (UART), `StepGen` (timer-interrupt steps
+   with acceleration) and `Console` libraries; same command protocol as v2, so the laptop dashboard is unchanged. Compiled,
+   motion maths checked in a simulation; not yet run on the board.
+9. Next big items: firmware plan (ESP32-S3, RMT/MCPWM steppers, radio never started, UART to laptop, OpenCV on the laptop), reworked project plan.

@@ -1,9 +1,18 @@
 # ETZ plotter firmware (PlatformIO, ESP32-S3-DevKitC-1 N16R8)
 
-Current program: **v2** - the three steppers (X, Y, wrist) through the TMC2209 drivers, controlled by text commands
-from the serial monitor **or the laptop dashboard** (`laptop/esp_dashboard.py`). Pins: `include/pins.h` (= `wiring.md` section 2). Libraries: TMCStepper (driver
-setup and status over UART), FastAccelStepper (step pulses with acceleration made by the ESP32 hardware, so reading the drivers never disturbs the motion) - both general libraries, allowed by the rules.
+Current program: **v3** - the three steppers (X, Y, wrist) through the TMC2209 drivers, controlled by text commands
+from the serial monitor **or the laptop dashboard** (`laptop/esp_dashboard.py`). Pins: `include/pins.h` (= `wiring.md` section 2).
 Wi-Fi and Bluetooth are never started.
+
+**No outside libraries** - only the Arduino core and our own code in `lib/`:
+| Library | Does |
+|---|---|
+| `lib/Tmc2209` | TMC2209 single-wire UART: datagrams with CRC8, our own echo skipped, register write/read; setup (GCONF, current in IHOLD_IRUN, microsteps and on/off in CHOPCONF), status (DRV_STATUS) and load (SG_RESULT) |
+| `lib/StepGen` | step pulses from a 40 kHz hardware-timer interrupt with trapezoid acceleration (integer maths only), up to 16000 steps/s per motor. Loop code (UART reads, printing) can never disturb the motion |
+| `lib/Console` | line editor (echo, Backspace, arrow keys ignored) and splitting a line into words |
+
+History: v1 used AccelStepper + TMCStepper (worked), v2 FastAccelStepper (motors moved randomly on Egor's board),
+v3 (24 Oct) replaced all of them with our own code.
 
 ## Run it
 1. VS Code -> PlatformIO -> Open Project -> this `firmware` folder.
@@ -20,10 +29,10 @@ Wi-Fi and Bluetooth are never started.
 | `r x 2` / `r w -0.5` | turn a motor 2 turns / half a turn back |
 | `m y 1600` | move 1600 microsteps (3200 = 1 turn) |
 | `all 1` | all three motors 1 turn at once |
-| `speed 3200`, `accel 6400` | max speed (steps/s), acceleration |
+| `speed 3200`, `accel 6400` | max speed (steps/s, up to 16000), acceleration |
 | `cur x 700` | RMS current in mA (X/Y 900, wrist 600 by default) |
 | `off w` / `on w` | driver output off (motor turns freely by hand) / on |
-| `dir x` | reverse a motor's direction |
+| `dir x` | reverse a motor's direction (only while it stands) |
 | `g x 6400`, `zero x` | go to an absolute position / call the present position 0 |
 | `stop` | stop everything |
 | `json`, `stream 150`, `wd 1500`, `ping`, `echo 0` | for programs: one status line / status every 150 ms / stop the motors if no ping for 1.5 s / keep-alive / no echo |
