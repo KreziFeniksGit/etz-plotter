@@ -17,3 +17,6 @@ pcb/**/*.lck
 pcb/**/.history/
 firmware/.pio/
 firmware/.vscode/
+laptop/.venv/
+laptop/__pycache__/
+laptop/snap_*.png
