@@ -1,0 +1,173 @@
+"""
+ETZ plotter dashboard: live status of the ESP32 and the three drivers, manual control, command log.
+Run:   laptop\\.venv\\Scripts\\python laptop\\esp_dashboard.py          (with the ESP32 on USB, port marked UART)
+       laptop\\.venv\\Scripts\\python laptop\\esp_dashboard.py --demo   (no hardware: a simulated board)
+Close the PlatformIO serial monitor first - only one program can use the port.
+"""
+import sys
+import tkinter as tk
+from tkinter import ttk
+from esp_link import EspLink, list_ports
+
+STEPS_PER_REV = 3200
+AXES = (('x', 'X axis'), ('y', 'Y axis'), ('w', 'Wrist'))
+GREEN, RED, GREY, AMBER = '#2e9e44', '#d23b3b', '#9a9a9a', '#e0a020'
+
+class AxisPanel(ttk.LabelFrame):
+    def __init__(self, master, app, key, title):
+        super().__init__(master, text=title, padding=8)
+        self.app, self.key = app, key
+        self.drv = tk.Label(self, text='driver ?', fg='white', bg=GREY, width=14)
+        self.drv.grid(row=0, column=0, columnspan=2, sticky='w')
+        self.mov = tk.Label(self, text='', width=10)
+        self.mov.grid(row=0, column=2, columnspan=2, sticky='e')
+        self.pos = ttk.Label(self, text='pos -', font=('Segoe UI', 14, 'bold'))
+        self.pos.grid(row=1, column=0, columnspan=4, sticky='w', pady=(6, 0))
+        self.info = ttk.Label(self, text='', foreground='#555')
+        self.info.grid(row=2, column=0, columnspan=4, sticky='w')
+        ttk.Label(self, text='load').grid(row=3, column=0, sticky='w')
+        self.load = ttk.Progressbar(self, maximum=510, length=160)
+        self.load.grid(row=3, column=1, columnspan=3, sticky='we', pady=2)
+        self.flags = tk.Label(self, text='', fg=RED)
+        self.flags.grid(row=4, column=0, columnspan=4, sticky='w')
+        b = ttk.Frame(self); b.grid(row=5, column=0, columnspan=4, pady=(6, 0))
+        for i, (t, turns) in enumerate((('-1 turn', -1), ('-0.1', -0.1), ('+0.1', 0.1), ('+1 turn', 1))):
+            ttk.Button(b, text=t, width=7, command=lambda v=turns: app.cmd('r %s %g' % (key, v))).grid(row=0, column=i, padx=1)
+        c = ttk.Frame(self); c.grid(row=6, column=0, columnspan=4, pady=(4, 0))
+        ttk.Button(c, text='Zero', width=6, command=lambda: app.cmd('zero ' + key)).grid(row=0, column=0, padx=1)
+        self.onoff = ttk.Button(c, text='Off', width=6, command=self.toggle)
+        self.onoff.grid(row=0, column=1, padx=1)
+        ttk.Button(c, text='Reverse', width=8, command=lambda: app.cmd('dir ' + key)).grid(row=0, column=2, padx=1)
+        d = ttk.Frame(self); d.grid(row=7, column=0, columnspan=4, pady=(4, 0))
+        ttk.Label(d, text='current mA').grid(row=0, column=0)
+        self.cur = ttk.Spinbox(d, from_=100, to=1500, increment=50, width=6)
+        self.cur.set(900 if key != 'w' else 600)
+        self.cur.grid(row=0, column=1, padx=3)
+        ttk.Button(d, text='Set', width=5, command=lambda: app.cmd('cur %s %s' % (key, self.cur.get()))).grid(row=0, column=2)
+        self.is_on = True
+
+    def toggle(self):
+        self.app.cmd(('off ' if self.is_on else 'on ') + self.key)
+
+    def update_from(self, a):
+        if a is None:
+            self.drv.config(text='driver ?', bg=GREY); self.pos.config(text='pos -'); self.info.config(text='')
+            self.mov.config(text='', bg=self.cget('background') if False else '#f0f0f0'); self.flags.config(text=''); self.load['value'] = 0
+            return
+        ok = a['ok']
+        self.drv.config(text='driver OK' if ok else 'NO ANSWER', bg=GREEN if ok else RED)
+        self.is_on = bool(a['on'])
+        self.onoff.config(text='Off' if self.is_on else 'On')
+        self.mov.config(text='moving' if a['run'] else ('free' if not a['on'] else 'holding'),
+                        bg=AMBER if a['run'] else ('#cccccc' if not a['on'] else '#bfe3c6'))
+        self.pos.config(text='pos %d  (%.3f turns)' % (a['pos'], a['pos'] / STEPS_PER_REV))
+        self.info.config(text='target %d   current %d mA   %s' % (a['tgt'], a['mA'], 'reversed' if a['inv'] else 'normal dir'))
+        self.load['value'] = a['sg'] if a['run'] else 0
+        f = []
+        if a['ot']: f.append('OVERHEATED - stopped')
+        elif a['otpw'] or a['temp']: f.append('HOT (%d C+)' % a['temp'] if a['temp'] else 'HOT (pre-warning)')
+        if a['s2g']: f.append('SHORT to GND')
+        if a['ol'] and a['run']: f.append('OPEN LOAD (motor wire?)')
+        self.flags.config(text='  '.join(f))
+
+class App(tk.Tk):
+    def __init__(self, demo=False):
+        super().__init__()
+        self.title('ETZ plotter - ESP32 dashboard' + (' (DEMO)' if demo else ''))
+        self.geometry('980x640')
+        self.link, self.demo = EspLink(), demo
+        top = ttk.Frame(self, padding=6); top.pack(fill='x')
+        ttk.Label(top, text='Port').pack(side='left')
+        self.port = ttk.Combobox(top, width=38, state='readonly'); self.port.pack(side='left', padx=4)
+        ttk.Button(top, text='Refresh', command=self.refresh_ports).pack(side='left')
+        self.conn_btn = ttk.Button(top, text='Connect', command=self.toggle_conn); self.conn_btn.pack(side='left', padx=6)
+        self.lamp = tk.Label(top, text='  not connected  ', bg=GREY, fg='white'); self.lamp.pack(side='left', padx=6)
+        stop = tk.Button(top, text='STOP ALL', bg=RED, fg='white', font=('Segoe UI', 11, 'bold'), command=lambda: self.cmd('stop'))
+        stop.pack(side='right')
+        mid = ttk.Frame(self, padding=6); mid.pack(fill='x')
+        self.panels = {}
+        for i, (k, t) in enumerate(AXES):
+            p = AxisPanel(mid, self, k, t); p.grid(row=0, column=i, padx=4, sticky='n'); self.panels[k] = p
+        g = ttk.Frame(self, padding=(6, 0)); g.pack(fill='x')
+        ttk.Label(g, text='speed steps/s').pack(side='left')
+        self.spd = ttk.Entry(g, width=7); self.spd.insert(0, '3200'); self.spd.pack(side='left', padx=3)
+        ttk.Button(g, text='Set', width=4, command=lambda: self.cmd('speed ' + self.spd.get())).pack(side='left')
+        ttk.Label(g, text='   accel steps/s²').pack(side='left')
+        self.acc = ttk.Entry(g, width=7); self.acc.insert(0, '6400'); self.acc.pack(side='left', padx=3)
+        ttk.Button(g, text='Set', width=4, command=lambda: self.cmd('accel ' + self.acc.get())).pack(side='left')
+        ttk.Button(g, text='All +1 turn', command=lambda: self.cmd('all 1')).pack(side='left', padx=(16, 2))
+        ttk.Button(g, text='All -1 turn', command=lambda: self.cmd('all -1')).pack(side='left', padx=2)
+        ttk.Button(g, text='Driver status', command=lambda: self.cmd('status')).pack(side='left', padx=(16, 2))
+        self.wd = ttk.Label(g, text=''); self.wd.pack(side='right')
+        lf = ttk.LabelFrame(self, text='Log', padding=4); lf.pack(fill='both', expand=True, padx=6, pady=6)
+        self.logbox = tk.Text(lf, height=10, font=('Consolas', 9), state='disabled')
+        self.logbox.pack(fill='both', expand=True)
+        for tag, col in (('tx', '#1a5fb4'), ('rx', '#222'), ('info', '#2e7d32'), ('err', RED)):
+            self.logbox.tag_config(tag, foreground=col)
+        e = ttk.Frame(lf); e.pack(fill='x', pady=(4, 0))
+        ttk.Label(e, text='command').pack(side='left')
+        self.entry = ttk.Entry(e); self.entry.pack(side='left', fill='x', expand=True, padx=4)
+        self.entry.bind('<Return>', lambda ev: self.send_entry())
+        ttk.Button(e, text='Send', command=self.send_entry).pack(side='left')
+        self.refresh_ports()
+        self.protocol('WM_DELETE_WINDOW', self.on_close)
+        self.after(100, self.tick)
+
+    def refresh_ports(self):
+        ports = [] if self.demo else list_ports()
+        self.port['values'] = ['DEMO board'] if self.demo else ['%s  %s' % p for p in ports]
+        if self.port['values']:
+            self.port.current(0)
+
+    def toggle_conn(self):
+        if self.link.connected:
+            self.link.disconnect(); self.conn_btn.config(text='Connect'); return
+        try:
+            self.link.connect(self.port.get().split()[0] if not self.demo else None, fake=self.demo)
+            self.conn_btn.config(text='Disconnect')
+        except Exception as e:
+            self.write('err', 'could not open the port: %s  (is the PlatformIO monitor still open?)' % e)
+
+    def cmd(self, line):
+        if not self.link.connected:
+            self.write('err', 'not connected'); return
+        self.link.send(line)
+
+    def send_entry(self):
+        t = self.entry.get().strip()
+        if t:
+            self.cmd(t); self.entry.delete(0, 'end')
+
+    def write(self, kind, text):
+        self.logbox.config(state='normal')
+        self.logbox.insert('end', ('> ' if kind == 'tx' else '') + text + '\n', kind)
+        self.logbox.see('end'); self.logbox.config(state='disabled')
+
+    def tick(self):
+        while not self.link.log.empty():
+            self.write(*self.link.log.get())
+        age = self.link.alive()
+        if not self.link.connected:
+            self.lamp.config(text='  not connected  ', bg=GREY)
+            for p in self.panels.values(): p.update_from(None)
+            if self.conn_btn.cget('text') != 'Connect': self.conn_btn.config(text='Connect')
+        elif age is None or age > 1.0:
+            self.lamp.config(text='  no data from ESP32  ', bg=RED)
+        else:
+            self.lamp.config(text='  ESP32 alive  ', bg=GREEN)
+        s = self.link.state
+        if s and self.link.connected:
+            for a in s['ax']:
+                if a['n'] in self.panels: self.panels[a['n']].update_from(a)
+            self.wd.config(text='watchdog %s ms%s' % (s['wd'], '  TRIPPED' if s['wdtrip'] else ''),
+                           foreground=RED if s['wdtrip'] else '#555')
+        self.after(100, self.tick)
+
+    def on_close(self):
+        try:
+            self.link.disconnect()
+        finally:
+            self.destroy()
+
+if __name__ == '__main__':
+    App(demo='--demo' in sys.argv).mainloop()

@@ -1,4 +1,13 @@
-# Laptop vision (Python 3.12 + OpenCV)
+# Laptop programs (Python 3.12)
+
+## ESP32 dashboard
+`laptop\.venv\Scripts\python laptop\esp_dashboard.py` (add `--demo` to try it without the board). Close the PlatformIO
+monitor first. Shows each driver live (answers?, position, moving / holding / free, current, load, overheating, short,
+open wire), the watchdog, and has buttons: turns, zero, on / off (free), reverse, current, speed / accel, STOP ALL, a
+command line and a log. `esp_link.py` = the connection (no board reset on connect, status stream, ping every 0.4 s:
+the firmware stops the motors if the laptop goes silent for 1.5 s).
+
+## Vision (OpenCV)
 
 Finds the field by its ArUco marks (27, 28, 29), then the coloured checkers (red, green, blue, yellow, magenta) and QR
 codes, and tells which **cell** each one is in. Own algorithms on OpenCV building blocks (allowed by the rules).

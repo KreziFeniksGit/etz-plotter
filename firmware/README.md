@@ -1,8 +1,8 @@
 # ETZ plotter firmware (PlatformIO, ESP32-S3-DevKitC-1 N16R8)
 
-Current program: **bench test** of the three steppers (X, Y, wrist) through the TMC2209 drivers, controlled by text
-commands from the serial monitor. Pins: `include/pins.h` (= `wiring.md` section 2). Libraries: TMCStepper (driver
-setup over UART), AccelStepper (step pulses with acceleration) - both general libraries, allowed by the rules.
+Current program: **v2** - the three steppers (X, Y, wrist) through the TMC2209 drivers, controlled by text commands
+from the serial monitor **or the laptop dashboard** (`laptop/esp_dashboard.py`). Pins: `include/pins.h` (= `wiring.md` section 2). Libraries: TMCStepper (driver
+setup and status over UART), FastAccelStepper (step pulses with acceleration made by the ESP32 hardware, so reading the drivers never disturbs the motion) - both general libraries, allowed by the rules.
 Wi-Fi and Bluetooth are never started.
 
 ## Run it
@@ -24,7 +24,9 @@ Wi-Fi and Bluetooth are never started.
 | `cur x 700` | RMS current in mA (X/Y 900, wrist 600 by default) |
 | `off w` / `on w` | driver output off (motor turns freely by hand) / on |
 | `dir x` | reverse a motor's direction |
+| `g x 6400`, `zero x` | go to an absolute position / call the present position 0 |
 | `stop` | stop everything |
+| `json`, `stream 150`, `wd 1500`, `ping`, `echo 0` | for programs: one status line / status every 150 ms / stop the motors if no ping for 1.5 s / keep-alive / no echo |
 
 ## If a driver says NO ANSWER
 - Drive power off (battery, stop button pressed?) - the most common reason.
