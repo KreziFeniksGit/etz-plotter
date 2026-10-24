@@ -60,4 +60,11 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
 8. Firmware v3 (24 Oct, `firmware/`): no outside libraries - own `Tmc2209` (UART), `StepGen` (timer-interrupt steps
    with acceleration) and `Console` libraries; same command protocol as v2, so the laptop dashboard is unchanged. Compiled,
    motion maths checked in a simulation; runs on the board (25 Oct; the shaking was a loose motor connection).
+   Firmware v4 (25 Oct): heat guard (motor temperature model), `selftest`, StallGuard crash detection, black box
+   (survives crashes), `tune`, settings profiles in flash, S-curve and coordinated XY `line` (checked on the board: X and Y
+   arrive together), own libraries `Settings`, `BlackBox`, `Guard`. X / wrist STEP-DIR pins swapped in `pins.h` for the
+   crossed J1/J3 cables. Laptop: dashboard with all of it, `route_planner.py` (best order of moves, ~18 % faster than
+   checker-by-checker on 200 random tasks; "Run on the plotter" drives X/Y with `line`). Ideas list: `docs/ideas.md`.
+   VERIFY: battery reads 11.8 V with the drive power off - measure the battery with a multimeter (divider / ADC check);
+   heat model numbers (80 K rated rise, tau) and PARK / field-to-plotter mapping in the planner.
 9. Next big items: firmware plan (ESP32-S3, RMT/MCPWM steppers, radio never started, UART to laptop, OpenCV on the laptop), reworked project plan.
