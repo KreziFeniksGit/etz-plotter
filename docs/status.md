@@ -59,5 +59,5 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
 7. Not modelled: magnet leads (loose coil, they turn with the wrist). VERIFY which side the 17HS4023S connector is on (modelled on +x) and where the servo lead leaves its case.
 8. Firmware v3 (24 Oct, `firmware/`): no outside libraries - own `Tmc2209` (UART), `StepGen` (timer-interrupt steps
    with acceleration) and `Console` libraries; same command protocol as v2, so the laptop dashboard is unchanged. Compiled,
-   motion maths checked in a simulation; not yet run on the board.
+   motion maths checked in a simulation; runs on the board (25 Oct; the shaking was a loose motor connection).
 9. Next big items: firmware plan (ESP32-S3, RMT/MCPWM steppers, radio never started, UART to laptop, OpenCV on the laptop), reworked project plan.
