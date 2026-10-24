@@ -27,7 +27,9 @@ struct Axis {
   bool ok = false;
   uint32_t drvStatus = 0;
   uint16_t sg = 0;
-  Axis(const char *n, uint8_t a, uint8_t step, uint8_t dir) : name(n), addr(a), drv(Serial2, a, R_SENSE), mot(step, dir) {}
+  uint8_t stepPin, dirPin;
+  Axis(const char *n, uint8_t a, uint8_t step, uint8_t dir)
+    : name(n), addr(a), drv(Serial2, a, R_SENSE), mot(step, dir), stepPin(step), dirPin(dir) {}
 };
 
 Axis axes[3] = {
@@ -107,6 +109,8 @@ void help() {
     "  on <axis> / off <axis>   driver output on / off (off = motor turns freely)\r\n"
     "  dir <axis>          reverse this motor's direction (when it stands)\r\n"
     "  stop                stop all motors (decelerate)\r\n"
+    "  checks: pulse <axis> <steps> [us]   plain even pulses from the main loop, no timer, no acceleration\r\n"
+    "          reg <axis>                  driver registers (did our UART writes arrive?)\r\n"
     "  for programs: json | stream <ms> | wd <ms> | ping | echo 0/1\r\n");
 }
 
@@ -124,6 +128,34 @@ void command() {
     return;
   }
   if (con.is(0, "stop")) { stopAll(); con.reply("ok stop"); return; }
+  if (con.is(0, "pulse")) {                 // check: steps made by hand, like the simplest possible program
+    Axis *a = findAxis(con.word(1));
+    if (!a || a->mot.running()) { con.reply("err pulse <axis> <steps> [us between steps], motor standing"); return; }
+    long n = con.argInt(2);
+    long us = con.words() > 3 ? constrain(con.argInt(3), 100L, 100000L) : 1000L;   // 1000 us = 1000 steps/s
+    digitalWrite(a->dirPin, (n > 0) != a->mot.inverted() ? HIGH : LOW);
+    delayMicroseconds(50);
+    for (long i = 0; i < labs(n); i++) {
+      digitalWrite(a->stepPin, HIGH); delayMicroseconds(5);
+      digitalWrite(a->stepPin, LOW);  delayMicroseconds(us);
+    }
+    a->mot.setInvert(a->mot.inverted());    // put the DIR pin back where StepGen expects it
+    con.reply("ok pulse %s %ld", a->name, n); return;
+  }
+  if (con.is(0, "reg")) {                   // check: read back what the driver holds
+    Axis *a = findAxis(con.word(1));
+    if (!a) { con.reply("err reg <axis>"); return; }
+    const struct { const char *n; uint8_t r; } regs[] = {
+      {"GCONF", Tmc2209::GCONF}, {"GSTAT", Tmc2209::GSTAT}, {"IFCNT", Tmc2209::IFCNT}, {"IOIN", Tmc2209::IOIN},
+      {"CHOPCONF", Tmc2209::CHOPCONF}, {"DRV_STATUS", Tmc2209::DRV_STATUS}, {"PWMCONF", Tmc2209::PWMCONF}};
+    for (auto &g : regs) {
+      uint32_t v;
+      if (a->drv.readReg(g.r, v)) Serial.printf("  %-10s 0x%08lX\r\n", g.n, (unsigned long)v);
+      else Serial.printf("  %-10s no answer\r\n", g.n);
+    }
+    Serial.print("  expect GCONF 0x000001C0, CHOPCONF 0x14028054 (900 mA) or 0x14008054, IFCNT = writes accepted\r\n");
+    return;
+  }
   if (con.is(0, "speed")) {
     maxSpeed = constrain(con.argInt(1), 50L, (long)StepAxis::MAX_SPEED);
     for (auto &a : axes) a.mot.setMaxSpeed(maxSpeed);
@@ -196,7 +228,7 @@ uint32_t lastTelemetry = 0;
 void loop() {
   if (con.poll()) { command(); con.prompt(); }
   uint32_t now = millis();
-  if (now - lastTelemetry >= TELEMETRY_MS) {   // the steps come from the timer: reading while moving is fine
+  if (!anyMoving() && now - lastTelemetry >= TELEMETRY_MS) {   // like v1: no UART traffic while a motor moves
     lastTelemetry = now;
     readTelemetry(axes[telemetryNext]);
     telemetryNext = (telemetryNext + 1) % 3;

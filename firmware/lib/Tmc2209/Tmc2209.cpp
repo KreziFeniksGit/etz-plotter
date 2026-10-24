@@ -69,7 +69,7 @@ void Tmc2209::setCurrent(uint16_t rmsMilliAmps) {
   if (c < 0) c = 0;
   if (c > 31) c = 31;
   writeChopconf();                        // vsense lives in CHOPCONF
-  writeReg(IHOLD_IRUN, (8UL << 16) | ((uint32_t)c << 8) | (uint32_t)(c / 2));   // IHOLDDELAY 8, IRUN, IHOLD = half
+  writeReg(IHOLD_IRUN, (1UL << 16) | ((uint32_t)c << 8) | (uint32_t)(c / 2));   // IHOLDDELAY 1, IRUN, IHOLD = half
 }
 
 // MRES: 0 = 256 microsteps, 1 = 128 ... 8 = full steps
@@ -89,9 +89,9 @@ void Tmc2209::enable(bool on) {
   writeChopconf();
 }
 
-// CHOPCONF (datasheet 5.5): TOFF 3 (0 = off), HSTRT 5, HEND 0, TBL 2 (24 clocks), vsense, MRES, interpolation on.
+// CHOPCONF (datasheet 5.5): TOFF 4 (0 = off), HSTRT 5, HEND 0, TBL 1 (24 clocks), vsense, MRES, interpolation on.
 void Tmc2209::writeChopconf() {
-  uint32_t v = 0x10000050UL | (on_ ? 3UL : 0UL) | (2UL << 15) | ((vsense_ ? 1UL : 0UL) << 17) | ((uint32_t)mres_ << 24);
+  uint32_t v = 0x10000050UL | (on_ ? 4UL : 0UL) | (1UL << 15) | ((vsense_ ? 1UL : 0UL) << 17) | ((uint32_t)mres_ << 24);
   writeReg(CHOPCONF, v);
 }
 
@@ -105,9 +105,8 @@ bool Tmc2209::readLoad(uint16_t &sg) {
 bool Tmc2209::begin(uint16_t rmsMilliAmps, uint16_t microsteps) {
   // GCONF: pdn_disable (UART on the PDN pin), mstep_reg_select (microsteps from MRES, MS pins = address),
   // multistep_filt; I_scale_analog 0 (current from the register, not the pot); en_spreadcycle 0 = StealthChop
+  // (same settings as firmware v1, which turned the motors fine; TCOOLTHRS / TPOWERDOWN are left at reset values)
   writeReg(GCONF, (1UL << 6) | (1UL << 7) | (1UL << 8));
-  writeReg(TPOWERDOWN, 20);               // ~0.4 s standstill, then hold current
-  writeReg(TCOOLTHRS, 0xFFFFF);           // StallGuard result valid at all speeds (load reading)
   mres_ = mres(microsteps);
   on_ = true;
   setCurrent(rmsMilliAmps);               // also writes CHOPCONF (TOFF, MRES, vsense)
