@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 import field as F
 
-PX_MM = 4.0                       # resolution of the top-down (rectified) view
+PX_MM = 2.5                       # resolution of the straightened view (2.5 px/mm: a 26 mm checker = 65 px, plenty)
 CHECKER_D = 26.0                  # checker diameter, mm (rules)
 SAT_MIN, VAL_MIN = 80, 60         # "coloured" = saturated and not dark (screens / prints differ: tune here)
 HUE = [('red', 0, 9), ('yellow', 18, 38), ('green', 39, 88), ('blue', 89, 130), ('magenta', 131, 166), ('red', 167, 180)]
@@ -21,7 +21,8 @@ class Vision:
 
     # ------------------------------------------------------------ field
     def find_field(self, img):
-        """Homography from the ArUco marks (needs at least 2 of 27/28/29: 8 corner points). Returns True if found."""
+        """Homography from the ArUco marks: ONE mark (4 corners) is enough - the wrist camera rarely sees more.
+        More marks in view = more accurate far from them. Returns True if found."""
         corners, ids, _ = self.det.detectMarkers(img)
         self.marks = {}
         src, dst = [], []
@@ -30,7 +31,7 @@ class Vision:
                 if int(i) in F.MARK_IDS:
                     self.marks[int(i)] = c.reshape(4, 2)
                     src.extend(c.reshape(4, 2)); dst.extend(F.mark_corners_field(int(i)))
-        if len(self.marks) >= 2:
+        if len(self.marks) >= 1:
             self.H, _ = cv2.findHomography(np.array(src, np.float32), np.array(dst, np.float32), cv2.RANSAC, 3.0)
             return self.H is not None
         return False
@@ -68,20 +69,24 @@ class Vision:
             if all((x - a) ** 2 + (y - b) ** 2 > (1.2 * R) ** 2 for a, b in centres):
                 centres.append((x, y))
         out = []
-        disc = np.zeros(mask.shape, np.uint8)
+        r = int(0.6 * R)
+        yy, xx = np.mgrid[-r:r + 1, -r:r + 1]
+        inside = xx ** 2 + yy ** 2 <= r * r
         for cx, cy in centres:
-            disc[:] = 0
-            cv2.circle(disc, (int(cx), int(cy)), int(0.6 * R), 255, -1)
-            h = hsv[..., 0][(disc > 0) & (mask > 0)]
+            x0, y0 = int(cx) - r, int(cy) - r
+            if x0 < 0 or y0 < 0 or x0 + 2 * r + 1 > mask.shape[1] or y0 + 2 * r + 1 > mask.shape[0]:
+                continue                                       # disc cut by the edge of the view: skip
+            sl = (slice(y0, y0 + 2 * r + 1), slice(x0, x0 + 2 * r + 1))
+            h = hsv[..., 0][sl][inside & (mask[sl] > 0)]
             colour = classify_hue(h)
             fx, fy = (np.linalg.inv(T) @ np.array([cx, cy, 1.0]))[:2]
             out.append((colour, float(fx), float(fy), F.cell_of(fx, fy)))
         return sorted(out, key=lambda t: (t[3] or (99, 99)))
 
     # ------------------------------------------------------------ QR codes
-    def qrcodes(self, img):
-        """[(text, x_mm, y_mm, cell, corners_in_image)]: first the whole picture, then (if the field is known) every
-        cell on its own in the straightened, enlarged view - small, tilted codes read much better that way."""
+    def qrcodes(self, img, thorough=False):
+        """[(text, x_mm, y_mm, cell, corners_in_image)]: the whole picture at once (fast); with thorough=True also
+        every visible cell on its own, straightened and enlarged (slow, but reads small tilted codes)."""
         out, seen = [], set()
         try:
             ok, texts, pts, _ = self.qr.detectAndDecodeMulti(img)
@@ -96,11 +101,15 @@ class Vision:
                 cell = F.cell_of(fx, fy) if self.H is not None else None
                 seen.add(cell)
                 out.append((t, float(fx), float(fy), cell, p.reshape(4, 2)))
-        if self.H is None:
+        if self.H is None or not thorough:
             return out
         s = 10.0                                               # px per mm for the cell crops
+        hh, ww = img.shape[:2]
         for col, row in F.all_cells():
                 if (col, row) in seen:
+                    continue
+                px, py = self.to_image([F.cell_centre(col, row)])[0]
+                if not (0 <= px < ww and 0 <= py < hh):        # cell not in the picture
                     continue
                 fx, fy = F.cell_centre(col, row)
                 h = F.CELL / 2 + 2.0

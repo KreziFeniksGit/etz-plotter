@@ -36,7 +36,7 @@ def main(trials=10):
         img = fake_photo(F.render(8.0, ch, st), t)          # 8 px/mm: a 1080p camera seeing ~ 240 mm, or closer
         found = v.find_field(img)
         got_ch = {(cell, col) for col, _, _, cell in v.checkers(img)} if found else set()
-        got_qr = {(cell, txt) for txt, _, _, cell, _ in v.qrcodes(img)}
+        got_qr = {(cell, txt) for txt, _, _, cell, _ in v.qrcodes(img, thorough=True)}
         want_ch = {((c, r), col) for c, r, col in ch}
         want_qr = {((c, r), txt) for c, r, txt in st}
         ok = found and got_ch == want_ch and got_qr == want_qr
