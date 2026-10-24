@@ -15,3 +15,5 @@ pcb/.history/
 pcb/*.lck
 pcb/**/*.lck
 pcb/**/.history/
+firmware/.pio/
+firmware/.vscode/
