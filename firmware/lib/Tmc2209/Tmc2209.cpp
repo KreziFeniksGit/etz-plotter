@@ -40,6 +40,7 @@ bool Tmc2209::readReg(uint8_t reg, uint32_t &value) {
   uint8_t n = 0;
   uint32_t t = millis();
   while (n < 12 && millis() - t < 10) { if (uart_.available()) b[n++] = uart_.read(); }
+  memcpy(rx_, b, n); rxLen_ = n;
   for (uint8_t i = 0; i + 8 <= n; i++) {                 // find the reply in what came back
     if (b[i] == 0x05 && b[i + 1] == 0xFF && b[i + 2] == reg && crc8(&b[i], 7) == b[i + 7]) {
       value = ((uint32_t)b[i + 3] << 24) | ((uint32_t)b[i + 4] << 16) | ((uint32_t)b[i + 5] << 8) | b[i + 6];

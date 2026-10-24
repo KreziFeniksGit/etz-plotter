@@ -50,9 +50,23 @@ bool wdTripped = false;
 uint32_t idleMs = 60000;                   // driver off after this long without moving (0 = never)
 
 // ---------------------------------------------------------------- drivers
+// The drivers lose their settings when the drive power goes off (battery, stop button) and wake up on their
+// defaults (pot current, microsteps from the MS pins). So: when a driver starts answering again, or says it was
+// reset (GSTAT bit 0), it is set up again here.
 void readTelemetry(Axis &a) {
+  bool was = a.ok;
   a.ok = a.drv.version() == 0x21;
-  if (!a.ok) return;
+  if (!a.ok) {
+    if (was) Serial.printf("event driver %s: no answer (drive power off?)\r\n", a.name);
+    return;
+  }
+  uint32_t gstat = 0;
+  if (!was || (a.drv.readReg(Tmc2209::GSTAT, gstat) && (gstat & 1))) {
+    bool on = a.drv.enabled();
+    a.ok = a.drv.begin(a.drv.current(), MICROSTEPS);
+    if (!on) a.drv.enable(false);           // keep "off" / "sleeping"
+    Serial.printf("event driver %s: answered, configured again\r\n", a.name);
+  }
   a.drv.readStatus(a.drvStatus);
   a.drv.readLoad(a.sg);
 }
@@ -170,6 +184,11 @@ void command() {
       if (a->drv.readReg(g.r, v)) Serial.printf("  %-10s 0x%08lX\r\n", g.n, (unsigned long)v);
       else Serial.printf("  %-10s no answer\r\n", g.n);
     }
+    a->drv.version();
+    Serial.printf("  raw bytes back for a read (%u):", a->drv.lastRxLen());
+    for (uint8_t i = 0; i < a->drv.lastRxLen(); i++) Serial.printf(" %02X", a->drv.lastRx()[i]);
+    Serial.print("\r\n  0 bytes = nothing on the wire (RX/TX pins, 1k resistor, cable); 4 bytes = only our echo, the driver"
+                 " is silent (drive power off? address?); 12 = echo + answer\r\n");
     Serial.print("  expect GCONF 0x000001C0, CHOPCONF 0x14028054 (900 mA) or 0x14008054, IFCNT = writes accepted\r\n");
     return;
   }

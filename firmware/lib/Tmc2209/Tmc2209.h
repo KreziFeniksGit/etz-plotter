@@ -31,6 +31,10 @@ public:
   bool readStatus(uint32_t &drvStatus) { return readReg(DRV_STATUS, drvStatus); }
   bool readLoad(uint16_t &sg);                   // StallGuard result 0..510: lower = more load
 
+  // what came back on the wire for the last read (our 4 echo bytes, then the 8-byte reply): for checks
+  const uint8_t *lastRx() const { return rx_; }
+  uint8_t lastRxLen() const { return rxLen_; }
+
 private:
   static uint8_t crc8(const uint8_t *data, uint8_t len);
   static uint8_t mres(uint16_t microsteps);
@@ -42,4 +46,5 @@ private:
   uint8_t mres_ = 4;          // 16 microsteps
   bool vsense_ = false;
   bool on_ = true;
+  uint8_t rx_[16] = {0}, rxLen_ = 0;
 };
