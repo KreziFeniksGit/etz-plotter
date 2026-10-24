@@ -5,10 +5,11 @@
 constexpr int PIN_TMC_RX = 5;
 constexpr int PIN_TMC_TX = 6;
 
-// STEP / DIR
-constexpr int PIN_X_STEP = 7,  PIN_X_DIR = 15;
+// STEP / DIR. Egor's cables cross X and wrist (controller J1 -> driver J3, J3 -> J1; 25 Oct), so the
+// X driver gets the controller's J3 pins (18 / 8) and the wrist driver gets J1 (7 / 15). Swapped here, not in the cables.
+constexpr int PIN_X_STEP = 18, PIN_X_DIR = 8;
 constexpr int PIN_Y_STEP = 16, PIN_Y_DIR = 17;
-constexpr int PIN_W_STEP = 18, PIN_W_DIR = 8;      // W = wrist (NEMA17 pancake)
+constexpr int PIN_W_STEP = 7,  PIN_W_DIR = 15;     // W = wrist (NEMA17 pancake)
 
 // Driver EN pins are tied to GND on the controller board: drivers are always enabled.
 // They are switched off over UART (TOFF = 0); the stop button cuts their power (VM).

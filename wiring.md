@@ -45,9 +45,9 @@ GPIO 38 and 48: one of them drives the board's RGB LED (48 on v1.0, 38 on v1.1);
 |---|---|---|
 | 5 | TMC2209 UART bus, RX | UART2 RX, direct on the single-wire PDN_UART bus to all three drivers |
 | 6 | TMC2209 UART bus, TX | UART2 TX through R8 1 k onto the same bus; addresses by MS1/MS2: X 0, Y 2, wrist 3 |
-| 7 / 15 | X STEP / DIR | step pulses from the RMT or MCPWM peripheral |
+| 7 / 15 | X STEP / DIR (board J1) | **as built the J1 and J3 cables are crossed: J1 drives the wrist driver, so the firmware uses 7 / 15 for the wrist and 18 / 8 for X** (`firmware/include/pins.h`). Step pulses from a timer interrupt (`firmware/lib/StepGen`) |
 | 16 / 17 | Y STEP / DIR | |
-| 18 / 8 | Wrist STEP / DIR | wrist NEMA17 pancake 17HS4023S |
+| 18 / 8 | Wrist STEP / DIR (board J3) | wrist NEMA17 pancake 17HS4023S; used for X as built (see the 7 / 15 row) |
 | - | Driver EN | tied to GND on the controller board: drivers always enabled. The firmware turns a driver off over UART (TOFF = 0); the stop button cuts their power |
 | 9 | Connector A, SIG (ADC1_CH8) | 0..5 V sensor -> 10 k / 20 k divider -> 0..3.3 V; 10 nF to GND |
 | 10 | Connector B, SIG | 10 k / 20 k divider: a 5 V signal reads as 3.3 V |
