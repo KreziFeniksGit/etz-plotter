@@ -26,6 +26,17 @@ Design rules Egor requires: `docs/design_rules.md`.
   ask first and do not leave work uncommitted at the end of a turn (a session can die mid-way: on 16 Oct a finished
   MG996R revert sat uncommitted for days). Bump the version (v2.x) in `docs/status.md` for model changes.
 
+## How to work (Egor's request, 27 Oct)
+- **Think critically and doubt Egor's decisions.** If a request looks wrong, wasteful or risky for this project, say
+  so and explain why, before doing it.
+- **Compare options first.** Before building something, list the possible solutions (short: pros / cons for our case),
+  pick the most optimal / useful one and say why. Then build it.
+- **Research before building.** Search the internet for existing solutions (projects, datasheets, app notes, papers,
+  forum fixes) and adapt the good ones to this project instead of inventing from zero. Name the sources.
+  (Firmware still uses no outside libraries: adapt ideas and algorithms, write the code ourselves.)
+- **Find the risks.** When adding something, list its risks and blind spots (what can fail, what is not tested, what
+  depends on an unverified number) and research known failure modes / weak points of that kind of solution.
+
 ## Repository map
 | Path | What |
 |---|---|
