@@ -1,0 +1,2 @@
+65d20cb6e3d951434bf408215309bb8aa094135a Mon Oct 26 12:42:29 2026 -0700
+from https://github.com/vercel-labs/skills (skills/find-skills)
