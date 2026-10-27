@@ -1,0 +1,2 @@
+2fd9aa0fe2d620f36627d9221e8b1393987ae38e Thu Oct 22 23:41:16 2026 -0700
+from https://github.com/aklofas/kicad-happy (skills/kicad), MIT
