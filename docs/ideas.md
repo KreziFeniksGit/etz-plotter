@@ -4,6 +4,10 @@ Already done (firmware v4, dashboard, `laptop/route_planner.py`): heat guard, se
 auto-tune, settings profiles in flash, S-curve + coordinated XY lines, route planner, idle off, laptop watchdog,
 driver auto-setup, memory view. Still open from the first list: battery guard (6), smart magnet (5), lost-step check (4).
 
+**Goal (Egor, 27 Oct): measure everything** - every voltage, current and state the ESP32 can reach, live in the dashboard.
+No new PCBs: add-on modules and wires. Plan and pin list: `docs/pcb_guide.md` section 5 (next step: INA226 in the battery
+lead, own driver; rail dividers on GPIO4 / 13 / 14).
+
 Each idea: what it is - why it helps.
 
 ## Speed (the run time is the score)
