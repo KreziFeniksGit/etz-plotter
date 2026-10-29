@@ -1,107 +1,62 @@
 # ETZ plotter - instructions for Claude
 
-You are continuing Egor's olympiad robotics project with him. Read this file fully, then `docs/status.md`
-(where we are, decisions, open items). Rules of the competition: `docs/etz_rules_summary.md`.
-Design rules Egor requires: `docs/design_rules.md`.
+You are continuing Egor's olympiad robotics project with him. Read `docs/status.md` first (where we are, decisions,
+open items). Competition rules: `docs/etz_rules_summary.md` (official PDF `docs/etz_kratko_26_27.pdf`).
+Per-area rules load by themselves from `.claude/rules/` (cad, firmware, laptop, pcb) when you open files there.
 
 ## Who and what
 - Egor, grade 11, VsOSh (all-Russian olympiad) informatics, robotics profile, ETZ 2026-27 final stage.
 - The device: a Cartesian XY plotter that picks checkers (26 x 5 mm, steel washer inside) with an electromagnet,
-  rotates them (wrist) and stacks them up to 5, on a 600 x 500 polygon. It is designed here as parametric
-  FreeCAD Python scripts; Egor opens the results in FreeCAD.
-- Egor writes in English: answer in English, plainly, short. He is not a mechanical engineer: explain what a
-  thing is for when it is not obvious, and show pictures (renders) when it helps.
-- He works on Windows (PC, laptop) and his phone; sessions may run locally or in the cloud.
+  rotates them (wrist) and stacks them up to 5, on a 600 x 500 polygon. Designed here as parametric FreeCAD Python
+  scripts; ESP32-S3 firmware; laptop programs (digital twin, planner, run program, vision).
+- Egor writes in English: answer in English, plainly, short. He is not a mechanical engineer: explain what a thing
+  is for when it is not obvious, and show pictures (renders) when it helps.
+- He works on Windows (PC, laptop) and his phone; sessions may run locally or in the cloud. The plotter is not
+  built yet (29 Oct): hardware results come from the twin and the checks until bring-up (`docs/bringup.md`).
 
-## Standing instructions (always)
-- **STEP only. Never produce STL files** (not even as an extra). Slicers open STEP.
-- Follow `docs/design_rules.md` for every printed part: parameters at the top, tolerances from the named
-  constants, walls >= 2.4 mm, fillets on internal corners, overhang <= 45 deg, bridges < 10 mm, fits 220 x 220,
-  M2..M5 + Ruthex M3 inserts, zip-tie features. Never guess a bought-part dimension: mark it `VERIFY` and ask.
-- After any geometry change, run the checks (below) and do not deliver until they are clean. Say plainly when
-  something is a placeholder or not modelled.
-- Keep `README.md`, `docs/status.md`, `components.csv`, `wiring.md` true after each change. Commit with a clear
-  message and push, so his other devices get it.
-- **Push right away after every finished change** (model, docs, BOM, coupons) once its checks are clean - do not
-  ask first and do not leave work uncommitted at the end of a turn (a session can die mid-way: on 16 Oct a finished
-  MG996R revert sat uncommitted for days). Bump the version (v2.x) in `docs/status.md` for model changes.
+## Standing instructions
+- STEP only, never STL files (not even as an extra): his slicer opens STEP. A stop hook also checks for `*.stl`.
+- Keep `README.md`, `docs/status.md`, `components.csv`, `wiring.md` true after each change.
+- Commit with a clear message and push right after every finished change whose checks are clean, without asking.
+  Why: a session can die mid-way (on 16 Oct a finished MG996R revert sat uncommitted for days) and his other devices
+  pull from GitHub. A stop hook reminds you when tracked changes are left uncommitted or unpushed.
+- Say plainly what is a placeholder, not modelled, only compiled, or only tested on the twin.
 
 ## How to work (Egor's request, 27 Oct)
-- **Think critically and doubt Egor's decisions.** If a request looks wrong, wasteful or risky for this project, say
-  so and explain why, before doing it.
-- **Compare options first.** Before building something, list the possible solutions (short: pros / cons for our case),
-  pick the most optimal / useful one and say why. Then build it.
-- **Research before building.** Search the internet for existing solutions (projects, datasheets, app notes, papers,
-  forum fixes) and adapt the good ones to this project instead of inventing from zero. Name the sources.
-  (Firmware still uses no outside libraries: adapt ideas and algorithms, write the code ourselves.)
-- **Find the risks.** When adding something, list its risks and blind spots (what can fail, what is not tested, what
-  depends on an unverified number) and research known failure modes / weak points of that kind of solution.
+For new features, design choices and bought parts (not for small fixes, where this only costs time):
+- **Doubt the request.** If it looks wrong, wasteful or risky for this project, say so and why, before doing it.
+- **Compare options.** List the possible solutions briefly (pros / cons for our case), pick one and say why.
+- **Research first.** Look for existing solutions (projects, datasheets, app notes, forum fixes), adapt the good ones,
+  name the sources. Firmware still uses no outside libraries: adapt ideas, write the code ourselves.
+- **Find the risks.** What can fail, what is not tested, what depends on an unverified number.
+
+## Check your own work
+- Every area has its own checks (see `.claude/rules/`); run the ones that cover the change before saying it is done,
+  and report the result honestly (paste the failing line).
+- After a commit, confirm it landed: `git status` clean and `git log -1 --stat` shows the files. A failed command in
+  a `&&` chain silently skips the rest (on 29 Oct three doc edits were lost that way).
+- On Windows the Bash tool is Git Bash: heredocs and `sed -i` mangle CRLF files and non-ASCII (Cyrillic) text. Edit
+  files with the Edit / Write tools, not shell tricks.
+- When Egor corrects the same thing twice, add a one-line rule here or in the right `.claude/rules/` file.
 
 ## Repository map
 | Path | What |
 |---|---|
-| `wrist/wrist_module.py` | Wrist module: all tolerance constants (section 1), bought-part data, 9 printed parts, `pose()` for lift and wrist angle |
-| `wrist/dfm.py` | Print-rule checks (walls, overhangs, bridges, sharp internal corners) |
-| `wrist/review.py` | Wrist interference sweep + DFM -> `wrist/out/review.json`, `wrist/out/*.step` |
-| `frame/frame.py` | Base, Y axis, Y carriage, post, boom, X axis, panel, trays, electronics; layout parameters at the top |
-| `frame/chains.py` | X and Y cable chains (built per pose), `y_chain_guide` |
-| `frame/cables.py` | Cable harness tubes (paths per group); `wrist_harness()` rebuilds the wrist harness per pose from `W.harness_paths()` |
-| `frame/fasteners.py` | Every screw / nut / washer / insert / T-nut, placed per group; `bom()` |
-| `assembly.py` | `world(PYC, PXB, h, wrist_deg, fasteners=...)` places everything; all whole-device checks -> `out/assembly_review.json`, `out/fastener_bom.csv` |
-| `export_gui.py` | Coloured, grouped STEP + FCStd (parked and working pose) and `out/printed/*.step` (print orientation) - needs the FreeCAD GUI |
-| `tools/stability.py` | Masses, tipping, rail moments, sag, backlash budget -> `out/stability.json` |
-| `tools/fea.py` | FEA (gmsh + CalculiX from FreeCAD) of the motor mounts, idler brackets, Y carriage -> `out/fea.json`; see `docs/stiffness_review.md` |
-| `tools/render_pose.py` | PNG render of any pose (crop optional) |
-| `tools/assembly_sim.py` | Assembly simulation: build order, part insertion paths, screw entry, tool / nut / T-nut / iron access -> `out/assembly_sim.json` |
-| `tools/anim_export.py` | Meshes for the 3D build-steps page (`out/anim/`, artifact "ETZ Plotter Build Steps") |
-| `tolerance/coupons.py` | 11 tolerance test coupons -> `tolerance/out/*.step`; `tolerance/README.md` = how to test |
-| `verify_step.py` | Re-import a STEP and count parts/solids |
-| `tools/plywood_dxf.py` | Plywood base -> `out/plywood_base.dxf` (1:1 mm, layers) + hole list |
-| `pcb/` | Control electronics (KiCad 10, run with KiCad's Python). Current: 3 split single-sided hand-routed boards `build_drivers.py`, `build_power.py`, `build_controller.py` (helpers `handroute.py`), see `pcb/split_boards.md`. Older single board: `build_pcb.py`, `build_sch.py` |
-| `firmware/` | ESP32-S3 firmware (PlatformIO). NO outside libraries (Egor's rule): own libs in `firmware/lib/` (Tmc2209, StepGen, Console, Settings, BlackBox, Guard, Inputs, Magnet, MoveQueue, SlewServo). Build: `~/.platformio/penv/Scripts/pio.exe run` (upload `-t upload --upload-port COM3`). Commands: `firmware/README.md` |
-| `laptop/` | Python 3.12 venv `laptop/.venv`. `field.py` (OFFICIAL ETZ field coordinates), `machine.py` (machine numbers, field<->machine, motion times, `machine_cal.json`), `twin.py` (digital twin = fake ESP32 + field physics, `--test`), `tasks.py` (task registry, `--test`), `route_planner.py` (`--test`), `run.py` (competition run program, `--test` = end-to-end on the twin), `esp_dashboard.py` (GUI, `--demo` runs on the twin), `esp_link.py`, vision (`vision.py`, `camera_test.py`, `selftest.py`) |
-| `docs/bringup.md`, `docs/competition.md` | First power-on to first task on the real plotter; competition-day checklist and playbook |
-| `docs/ideas.md` | List of features still to build |
-| `vendor/` | Real STEP models of bought parts (Egor's downloads). `W.detailed()` / `F.detailed()` place them; `world(detail=True)` swaps them in (export + `detailed_*` checks) |
-| `components.csv` | Every bought component, why it was chosen, CAD data |
-| `wiring.md` | Power, stop button, ESP32-S3 pin map, harnesses, driver currents |
+| `wrist/` | `wrist_module.py` (tolerance constants in section 1, bought-part data, 9 printed parts, `pose()`), `dfm.py` (print-rule checks), `review.py` (interference + DFM) |
+| `frame/` | `frame.py` (base, axes, carriage, post, boom, panel, trays, electronics), `chains.py`, `cables.py`, `fasteners.py` (`bom()`) |
+| `assembly.py` | `world(PYC, PXB, h, wrist_deg, ...)` places everything; all whole-device checks -> `out/assembly_review.json` |
+| `export_gui.py` | Coloured, grouped STEP + FCStd and `out/printed/*.step` (needs the FreeCAD GUI) |
+| `tools/` | `stability.py`, `fea.py` (see `docs/stiffness_review.md`), `render_pose.py`, `assembly_sim.py`, `anim_export.py`, `plywood_dxf.py` |
+| `tolerance/` | 11 tolerance test coupons; `tolerance/README.md` = how to test |
+| `pcb/` | 3 split single-sided hand-routed boards (`build_drivers.py`, `build_power.py`, `build_controller.py`), see `pcb/split_boards.md`; `docs/pcb_guide.md` |
+| `firmware/` | ESP32-S3 firmware, own libs in `firmware/lib/`; commands in `firmware/README.md` |
+| `laptop/` | `field.py` (official field), `machine.py`, `twin.py`, `tasks.py`, `route_planner.py`, `run.py`, `esp_dashboard.py`, `esp_link.py`, vision |
+| `docs/` | `status.md`, `bringup.md`, `competition.md`, `ideas.md`, `design_rules.md`, `history/` (old SCARA design etc., history only) |
+| `vendor/` | Real STEP models of bought parts (Egor's downloads), swapped in by `world(detail=True)` |
+| `components.csv`, `wiring.md` | Every bought component and why; power, pin map, harnesses, driver currents |
 
-Coordinates: X along the 600 mm side (zone 1 x 0..350, field from x 350), Y along 500, Z up from the table, mm.
+Machine coordinates: X along the 600 mm side (zone 1 x 0..350, field from x 350), Y along 500, Z up from the table, mm.
 Y-carriage parts are built at PYC0 = 40 and moved by (0, PYC-40, 0); wrist parts are built in module coordinates
 (x from PXB, y from PYC, absolute z) and moved by `W.pose()` then (PXB, PYC, 0). Travel: PYC 40..376, PXB 287..430,
 magnet face h 5..40 mm, wrist any angle. Groups: base, ycar, wm_xcar, wm_armT, wm_armB, wm_end, wm_wrist, chainX, chainY.
-
-## Running things
-FreeCAD 1.0.x or 1.1.x is the CAD kernel (OpenCascade); Egor's PC has 1.1. Scripts run with FreeCAD's own Python:
-- Windows: `fcpy.bat assembly.py`, GUI export `fcgui.bat export_gui.py` (finds `C:\Program Files\FreeCAD 1.*`,
-  or set `FREECAD_DIR`). In subfolders: `..\fcpy.bat review.py`.
-- Linux / cloud: `./fcpy assembly.py`, `./fcgui export_gui.py` (offscreen Qt). If FreeCAD is missing (cloud
-  session, pip/apt blocked), run `tools/setup_freecad_linux.sh` (AppImage from GitHub releases, no root).
-
-Full check and export after a change (about 15 minutes in total):
-1. `cd wrist && ../fcpy review.py` - interference none, DFM clean.
-2. `./fcpy assembly.py` - static_park {}, cable_paths_through_parts none, fastener_clips_at_rest none,
-   fastener_engagement_problems none, fastener_sweep none, sweep none, detailed_* none, worst_outside_polygon 0, parked in zones,
-   every frame part DFM clean (thin 0, sharp 0, overhang 0).
-3. `./fcpy tools/assembly_sim.py` (problems: 0), `./fcpy tools/fea.py` (all ok) then `./fcpy tools/stability.py`
-4. `./fcgui export_gui.py` then `./fcpy verify_step.py out/ETZ_plotter_parked.step`
-5. If tolerances changed: `cd tolerance && ../fcpy coupons.py`
-
-## Known gotchas
-- Without the GUI, `Part.export()` writes an EMPTY STEP: use `shape.exportStep(path)`. Colours and the grouped
-  tree need `export_gui.py` run inside FreeCAD (it ends with `os._exit(0)`).
-- DFM on engraved text is very slow: coupons are checked with `LABELS = False`; check compounds per solid.
-- Tessellating many detailed STEP files at fine tolerance runs out of memory: use 0.25-0.3 for renders.
-- Vendor models: the fast checks use simple shapes sized from the vendor STEP; `assembly.py` also runs `detailed_static_park`,
-  `detailed_fastener_clips`, `detailed_sweep` with the real models. Wire stubs and stray features are trimmed when placing them.
-- Zip ties: `zip_pair` slots sit either side of the cable (cable runs along 'along'); a tie entry in `W.ZIPS` / `frame.ZIPS`
-  cuts the slots (`zip_slots`) and places the tie (`zip_tie`) from one line, so they always match.
-- `fillet_all()` fillets every concave/convex edge; very small features may fail to fillet (logged in `FILLET_LOG`).
-- FreeCAD 1.1: a failed `makeFillet` can damage the shape it was called on, and can return a broken solid that
-  passes `isValid()`. `_fillet()` works on a copy and uses `check(True)`; never call `makeFillet` in `fillet_all` directly.
-- The matplotlib renders use a painter's algorithm, so some faces show through; fine for checks, not pretty.
-- Engagement for tapped holes ('self', 'tapped' targets) is measured by sampling, for solid targets by volume.
-
-## Older material
-The old claude.ai Project "проект етз" docs (abandoned SCARA design, first project plan,
-independent review, hardware BOM) are copied to `docs/history/`. They are history; this repository is the source of truth.
+The ETZ field frame (laptop) is different: see `laptop/field.py` and `laptop/machine.py`.
