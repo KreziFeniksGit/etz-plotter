@@ -58,8 +58,9 @@ Design rules Egor requires: `docs/design_rules.md`.
 | `verify_step.py` | Re-import a STEP and count parts/solids |
 | `tools/plywood_dxf.py` | Plywood base -> `out/plywood_base.dxf` (1:1 mm, layers) + hole list |
 | `pcb/` | Control electronics (KiCad 10, run with KiCad's Python). Current: 3 split single-sided hand-routed boards `build_drivers.py`, `build_power.py`, `build_controller.py` (helpers `handroute.py`), see `pcb/split_boards.md`. Older single board: `build_pcb.py`, `build_sch.py` |
-| `firmware/` | ESP32-S3 firmware (PlatformIO). NO outside libraries (Egor's rule): own libs in `firmware/lib/` (Tmc2209, StepGen, Console, Settings, BlackBox, Guard). Build: `~/.platformio/penv/Scripts/pio.exe run` (upload `-t upload --upload-port COM3`). Commands: `firmware/README.md` |
-| `laptop/` | Python 3.12 venv `laptop/.venv`: `esp_dashboard.py` (GUI, `--demo`), `esp_link.py` (serial link + demo board), `route_planner.py` (`--test`), vision (`vision.py`, `field.py`, `camera_test.py`) |
+| `firmware/` | ESP32-S3 firmware (PlatformIO). NO outside libraries (Egor's rule): own libs in `firmware/lib/` (Tmc2209, StepGen, Console, Settings, BlackBox, Guard, Inputs, Magnet, MoveQueue, SlewServo). Build: `~/.platformio/penv/Scripts/pio.exe run` (upload `-t upload --upload-port COM3`). Commands: `firmware/README.md` |
+| `laptop/` | Python 3.12 venv `laptop/.venv`. `field.py` (OFFICIAL ETZ field coordinates), `machine.py` (machine numbers, field<->machine, motion times, `machine_cal.json`), `twin.py` (digital twin = fake ESP32 + field physics, `--test`), `tasks.py` (task registry, `--test`), `route_planner.py` (`--test`), `run.py` (competition run program, `--test` = end-to-end on the twin), `esp_dashboard.py` (GUI, `--demo` runs on the twin), `esp_link.py`, vision (`vision.py`, `camera_test.py`, `selftest.py`) |
+| `docs/bringup.md`, `docs/competition.md` | First power-on to first task on the real plotter; competition-day checklist and playbook |
 | `docs/ideas.md` | List of features still to build |
 | `vendor/` | Real STEP models of bought parts (Egor's downloads). `W.detailed()` / `F.detailed()` place them; `world(detail=True)` swaps them in (export + `detailed_*` checks) |
 | `components.csv` | Every bought component, why it was chosen, CAD data |
