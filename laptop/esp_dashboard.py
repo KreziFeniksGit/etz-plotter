@@ -175,6 +175,7 @@ class App(tk.Tk):
         ttk.Button(h, text='Defaults', command=self.defaults).pack(side='left', padx=2)
         self.prof_now = ttk.Label(h, text=''); self.prof_now.pack(side='left', padx=6)
         ttk.Button(h, text='Route planner', command=self.planner).pack(side='right', padx=2)
+        ttk.Button(h, text='Run program', command=self.open_run).pack(side='right', padx=2)
         lf = ttk.LabelFrame(self, text='Log', padding=4); lf.pack(fill='both', expand=True, padx=6, pady=6)
         self.logbox = tk.Text(lf, height=10, font=('Consolas', 9), state='disabled')
         self.logbox.pack(fill='both', expand=True)
@@ -238,6 +239,12 @@ class App(tk.Tk):
                 msg = '  WARN  camera check not possible: %s' % e
             self.link.log.put(('rx', msg))
         threading.Thread(target=cam, daemon=True).start()
+
+    def open_run(self):
+        if self.link.connected and not self.demo:
+            self.write('err', 'the run window opens its own connection: Disconnect here first'); return
+        import run
+        run.window(self)
 
     def planner(self):
         import route_planner

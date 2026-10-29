@@ -123,17 +123,23 @@ def _done_height(stack, goal_stack):
         k += 1
     return k
 
-def _free_places(task, stacks, goal_places):
-    """where a checker may be put aside: buffer first (if allowed), then empty cells nobody needs"""
-    out = [q for q in F.buffer_cells() if task.buffer_ok and not stacks.get(q)]
-    occupied = [xy(p) for p, s in stacks.items() if s]
-    for q in F.field_cells():
-        if q in goal_places or stacks.get(q):
-            continue
-        if any(math.dist(F.cell_centre(*q), o) < 26.0 for o in occupied):   # an off-centre checker overlaps it
-            continue
-        out.append(q)
+def _free_places(task, stacks, goal_places, rpos=None, moving_from=None):
+    """where a checker may be put aside: buffer first (if allowed), then empty cells nobody needs; never a place an
+    off-centre neighbour overlaps"""
+    rpos = rpos or {}
+    occupied = [rpos.get(p, xy(p)) for p, s in stacks.items() if s and p != moving_from]
+    def clear(q):
+        return not stacks.get(q) and all(math.dist(xy(q), o) >= 26.5 for o in occupied)
+    out = [q for q in F.buffer_cells() if task.buffer_ok and clear(q)]
+    out += [q for q in F.field_cells() if q not in goal_places and clear(q)]
     return out
+
+def _overlapped(stacks, cell, moving_from, rpos=None):
+    """another checker (an off-centre spot or a neighbour) lies over part of this cell: a checker put there would
+    land half on it and tip over (checkers are 26 mm across, cells 28 mm apart). rpos = real stack positions."""
+    c = xy(cell)
+    where = (lambda p: rpos.get(p, xy(p))) if rpos else xy
+    return any(s and p != cell and p != moving_from and math.dist(where(p), c) < 26.5 for p, s in stacks.items())
 
 def plan(task, tries=300, greed=0.25, seed=0, order=None, polish=True, tool=None):
     """best of `tries` randomised greedy plans, then polished. order = a fixed checker order (naive plan).
@@ -157,14 +163,20 @@ def plan(task, tries=300, greed=0.25, seed=0, order=None, polish=True, tool=None
 def _replay(task, steps, tool):
     """total time of a step list, or (None, None) if a move is illegal / the goal is not reached"""
     stacks = {p: list(s) for p, s in task.start.items()}
+    rpos = dict(getattr(task, 'pos', {}))
     total, out = 0.0, []
     for c, p, q, dt, kind in steps:
         s = stacks.get(p)
         if not s or s[-1] != c or len(stacks.get(q, [])) >= MAX_STACK:
             return None, None
+        if p != q and _overlapped(stacks, q, p, rpos):            # it would land half on a neighbour
+            return None, None
         turn = task.angle.get(c, 0) if kind == 'goal' else 0.0
         dt = move_time(tool, xy(p), xy(q), len(s), len(stacks.get(q, [])), turn)
         s.pop(); stacks.setdefault(q, []).append(c)
+        if not stacks[p]:
+            rpos.pop(p, None)
+        rpos.setdefault(q, xy(q))
         out.append((c, p, q, dt, kind)); total += dt
         tool = xy(q)
     for c, (gp, lvl) in task.goal.items():
@@ -204,6 +216,7 @@ def _one_plan(task, gst, rnd, greed, order, tool):
     # checkers already in their goal place that must be turned: they need one lift-turn-put-back move
     needs_turn = {c for c, (gp, lvl) in task.goal.items() if task.angle.get(c) and where[c] == gp
                   and stacks[gp].index(c) == lvl}
+    rpos = dict(getattr(task, 'pos', {}))          # real positions of the detected stacks (off-centre in their cells)
     moved = set()
     for _ in range(10 * len(task.goal) + 20):
         def final_ok(p):            # stack at p: bottom part that is final
@@ -223,7 +236,7 @@ def _one_plan(task, gst, rnd, greed, order, tool):
             if p == gp and final_ok(p) > stacks[p].index(c):
                 continue            # already final
             gs = stacks.get(gp, [])
-            if len(gs) == lvl and final_ok(gp) == lvl and p != gp:
+            if len(gs) == lvl and final_ok(gp) == lvl and p != gp and not _overlapped(stacks, gp, p, rpos):
                 cands.append((c, p, gp, 'goal'))
         if order:                   # naive: only the next checker of the fixed order, else unblock
             nxt = next((c for c in order if (c in needs_turn and c not in moved) or not (where[c] == task.goal[c][0] and
@@ -238,22 +251,24 @@ def _one_plan(task, gst, rnd, greed, order, tool):
                 fh = final_ok(p)
                 # the top blocks something if it sits on a goal place that is not right yet,
                 # or if another non-final checker is under it, or if it covers a goal cell (off-centre spot)
-                covers_goal = p[0] == 'p' and any(math.dist(xy(p), F.cell_centre(*g)) < 26.0 for g in goal_places
-                                                  if len(stacks.get(g, [])) < len(gst[g]))
+                covers_goal = any(g != p and math.dist(rpos.get(p, xy(p)), F.cell_centre(*g)) < 26.5 for g in goal_places
+                                  if len(stacks.get(g, [])) < len(gst[g]))
                 buried_turn = any(x in needs_turn and x not in moved for x in s[:-1])   # must uncover it to turn it
-                if (p in goal_places and len(s) > fh) or len(s) - fh >= 2 or (covers_goal and s[-1] not in task.goal) \
+                if (p in goal_places and len(s) > fh) or len(s) - fh >= 2 or covers_goal \
                         or buried_turn:
                     blocked.append(p)
             if not blocked:
                 return None
-            free = _free_places(task, stacks, goal_places)
-            if not free:
-                return None
             for p in blocked:
+                free = _free_places(task, stacks, goal_places, rpos, moving_from=p)
+                if not free:
+                    continue
                 c = stacks[p][-1]
                 tgt = xy(task.goal[c][0]) if c in task.goal else xy(p)
                 q = min(free, key=lambda q: math.dist(xy(p), xy(q)) + math.dist(xy(q), tgt))
                 cands.append((c, p, q, 'aside'))
+            if not cands:
+                return None                            # nowhere to put anything aside
         def cost(x):
             c, p, q, kind = x
             turn = task.angle.get(c, 0) if kind == 'goal' else 0.0
@@ -269,6 +284,9 @@ def _one_plan(task, gst, rnd, greed, order, tool):
         stacks.setdefault(q, []).append(c)
         where[c] = q
         moved.add(c)
+        if not stacks[p]:
+            rpos.pop(p, None)
+        rpos.setdefault(q, xy(q))
         steps.append((c, p, q, dt, kind))
         total += dt
         tool = xy(q)
@@ -278,12 +296,18 @@ def _one_plan(task, gst, rnd, greed, order, tool):
     return Plan(steps, total)
 
 def check(task, pl):
-    """replay a plan: every move legal (top only, stack <= 5, not into the service area) and the end state = the goal"""
+    """replay a plan: every move legal (top only, stack <= 5, not into the service area, not half on a neighbour) and
+    the end state = the goal"""
     stacks = {p: list(s) for p, s in task.start.items()}
+    rpos = dict(getattr(task, 'pos', {}))
     for c, p, q, dt, kind in pl.steps:
         assert stacks.get(p) and stacks[p][-1] == c, 'took a checker that is not on top'
         assert q[0] != 'p' and not F.in_service_area(*xy(q), r=0.0), 'put down outside a cell'
+        assert p == q or not _overlapped(stacks, q, p, rpos), 'put down half on a neighbour'
         stacks[p].pop()
+        if not stacks[p]:
+            rpos.pop(p, None)
+        rpos.setdefault(q, xy(q))
         stacks.setdefault(q, []).append(c)
         assert len(stacks[q]) <= MAX_STACK, 'stack above 5'
     for c, (gp, lvl) in task.goal.items():

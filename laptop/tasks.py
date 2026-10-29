@@ -43,6 +43,7 @@ class Scene:
     def planner_start(self):
         """route_planner start stacks: {place: [ids]}, colours, tags; hidden (lower) checkers get colour '?'"""
         start, colour, tag, info = {}, {}, {}, {}
+        self.pos = {}                                   # place -> where the stack really is (field mm)
         nid = 0
         for s in self.stacks:
             cell = F.cell_of(s['X'], s['Y'])
@@ -55,6 +56,7 @@ class Scene:
                 info[nid] = dict(s, level=lvl, place=place)
                 ids.append(nid); nid += 1
             start[place] = ids
+            self.pos[place] = (s['X'], s['Y'])
         return start, colour, tag, info
 
 def _top_at(info, start, cell):
@@ -217,7 +219,9 @@ TASKS = {
 def build(number, scene, params):
     td = TASKS[number]
     p = {k: params.get(k, d) for k, d in td.params}
-    return td.build(scene, p)
+    task = td.build(scene, p)
+    task.pos = dict(getattr(scene, 'pos', {}))          # real positions for picking (planning uses cell centres)
+    return task
 
 # ---------------------------------------------------------------- test
 def _scene(cells):

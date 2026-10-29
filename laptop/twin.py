@@ -196,9 +196,12 @@ class Twin:
         mx, my = self.magnet_xy()
         face = self.face_h()
         # held checker follows the magnet; the wrist turns it
-        if self.held is not None:
+        if self.held is not None:                   # the wrist turns the hub: an off-centre checker swings round
             c = self.held
-            c.hx, c.hy = mx + self.held_off[0], my + self.held_off[1]
+            a = math.radians(self.wrist_deg() - c.w0)
+            ox, oy = self.held_off
+            c.hx = mx + ox * math.cos(a) - oy * math.sin(a)
+            c.hy = my + ox * math.sin(a) + oy * math.cos(a)
         # crash: the magnet (or the held checker) runs into a stack while X/Y move low
         if any(self.running(n) for n in ('x', 'y')):
             bottom = face - (M.CHECKER_H if self.held is not None else 0.0)
