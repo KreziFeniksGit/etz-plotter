@@ -67,4 +67,20 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
    checker-by-checker on 200 random tasks; "Run on the plotter" drives X/Y with `line`). Ideas list: `docs/ideas.md`.
    VERIFY: battery reads 11.8 V with the drive power off - measure the battery with a multimeter (divider / ADC check);
    heat model numbers (80 K rated rise, tau) and PARK / field-to-plotter mapping in the planner.
-9. Next big items: firmware plan (ESP32-S3, RMT/MCPWM steppers, radio never started, UART to laptop, OpenCV on the laptop), reworked project plan.
+9. Laptop software without the plotter (29 Oct): `laptop/field.py` now in the OFFICIAL ETZ coordinates (cell = row letter
+   + column, X = 28 n, Y = 28 k; was transposed / mirrored; vision self-test 10/10); `machine.py` (field <-> machine fit
+   from the marks, carriage / firmware-axis mapping, lift, motion times); `twin.py` (digital twin: firmware protocol +
+   field physics; the dashboard demo runs on it); `tasks.py` (task registry: ETZ 4.2 debug tasks + colours, tags, stack,
+   rotate; numbers are ours until the full ETZ); `route_planner.py` (official coords, off-centre checkers, real times);
+   `run.py` (the competition run program; end-to-end on the twin: debug tasks + 30/30 random tasks + fault aborts).
+   Firmware v5 (29 Oct, separate session): homing + soft limits, `gomm` / `linemm`, servo lift (slew-limited LEDC),
+   magnet (full then hold PWM, on-time guard; no reverse release pulse with one low-side MOSFET), `wrist <deg>`,
+   `led red`, Start button event, battery guard, move queue (`q` / `qrun`); own libs Inputs, Magnet, MoveQueue,
+   SlewServo. Builds clean (0 warnings); NOT run on the board yet (first test: docs/bringup.md). Its command syntax
+   matches the twin, so run.py drives both the same way. Docs: `docs/bringup.md`, `docs/competition.md`.
+   **Found 29 Oct (open): X reach.** The X travel (PXB 287..430, magnet x 397..540) only just covers the field: with
+   the sheet at the ETZ limits (5 mm off, 3 deg turned) a cell centre can lie 11.9 mm (row Е) / 8.1 mm (row А, buffer А)
+   outside the magnet's reach (`machine.worst_reach_shortfall()`). run.py clamps and compensates the carry offset; a
+   real fix is ~20 mm more X travel (longer X rail + boom). Decide after measuring the real build (bringup.md 10).
+   Also: firmware default speed 3200 steps/s = 40 mm/s is below the ETZ minimum 100 mm/s (run.py sets 8000 per run).
+10. Next big items: the full ETZ (scoring, the 10 final tasks -> tasks.py), camera choice + scan on the real plotter.
