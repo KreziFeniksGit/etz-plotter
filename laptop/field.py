@@ -1,11 +1,16 @@
 """
-The ETZ 2026-27 field (A4 portrait), measured from the official drawing (Egor's picture, 24 Oct):
-- 6 columns  А Б В Г Д Е  (А on the right, next to the marks 27 / 28), 9 rows 0..8 (0 at the bottom), cells 28 mm.
-- buffer row above row 8: 5 places, columns А..Д (mark 29 stands where Е would be).
-- ArUco DICT_4X4_50, 18 mm: 27 bottom-right = ORIGIN, 28 top-right, 29 top-left; printed turned 90 deg.
-Field coordinates: mm, origin = centre of mark 27, x to the right, y up (as the sheet is seen in the drawing).
-Everything sits on the 28 mm grid of mark 27: cell (col, row) centre = (-28 * (col + 1), 28 * row).
-Column index col: 0 = А ... 5 = Е; row 0..8, row 9 = buffer.
+The ETZ 2026-27 operational field, in the OFFICIAL coordinates of the ETZ (short version 02.10.2026, sections 2.2 and
+appendix A; copy in docs/etz_kratko_26_27.pdf):
+- origin O = centre of ArUco mark 27 (DICT_4X4_50, 18 mm); X along the long side of the sheet from mark 27 towards
+  mark 28; Y along the short side from mark 27 towards the cells; millimetres.
+- 9 columns 0..8 and 6 rows А..Е (А nearest the marks 27 / 28), cells 28 mm. A cell is named row letter + column
+  number, e.g. Б3; its centre is X = 28 * n, Y = 28 * k (n = column, k = row number: А = 1 ... Е = 6). Б3 = (84, 56).
+- buffer ("столбец отбоя"): column 9 (X = 252), rows А..Д (k = 1..5).
+- marks: 27 at (0, 0) under column 0, 28 at (224, 0) under column 8, 29 at (252, 168) in the buffer column at row Е.
+- service area under the field (Y about -18..+9 between the marks) is the organisers': no checkers there.
+- black bands 6 mm wide bound the grid on the left (X < -14) and at the top (Y > 182).
+A cell is a tuple (n, k); the buffer places are (9, 1) .. (9, 5).
+(Up to 29 Oct the code used a transposed, mirrored frame; the cell names were the same.)
 """
 import numpy as np
 import cv2
@@ -13,91 +18,153 @@ import cv2
 ARUCO_DICT = cv2.aruco.DICT_4X4_50
 MARK_IDS = (27, 28, 29)
 CELL = 28.0
-COLS, ROWS = 6, 9
-BUFFER_ROW = 9
-BUFFER_COLS = 5                       # А..Д
+COLS = 9                               # columns n = 0..8
+ROWS = 6                               # rows k = 1..6 (А..Е)
+BUFFER_COL = 9                         # buffer column, rows 1..5 (А..Д)
+BUFFER_ROWS = 5
 MARK_SIZE = 18.0
-MARKS = {27: (0.0, 0.0), 28: (0.0, 224.0), 29: (-168.0, 252.0)}
-COL_RU = 'АБВГДЕ'
-COL_LAT = 'ABVGDE'                    # for text drawn on images (OpenCV fonts have no Cyrillic)
-VIEW = (-200.0, -24.0, 14.0, 270.0)   # field area shown in the straightened view (x0, y0, x1, y1)
+MARKS = {27: (0.0, 0.0), 28: (224.0, 0.0), 29: (252.0, 168.0)}
+ROW_RU = 'АБВГДЕ'
+ROW_LAT = 'ABVGDE'                     # transliteration (OpenCV fonts have no Cyrillic): A Б=B В=V Г=G Д=D Е=E
+BAND = 6.0                             # black bands left and top
+VIEW = (-24.0, -16.0, 270.0, 196.0)    # field area shown in the straightened view (x0, y0, x1, y1)
 COLOURS = ('red', 'green', 'blue', 'yellow', 'magenta')
 BGR = {'red': (40, 40, 220), 'green': (60, 170, 40), 'blue': (200, 90, 20), 'yellow': (30, 210, 240), 'magenta': (190, 40, 200)}
+SERVICE_AREA = (8.0, -16.0, 216.0, 9.0)   # under the field between the marks (x0, y0, x1, y1): never place a checker here
+PLACE_TOL = 10.0                       # ETZ 2.4: placed if the centre is within 10 mm of the cell centre
 
 def mark_corners_field(mid):
-    """corners of a mark in field mm, in the order OpenCV reports them. The marks are printed turned 90 deg, so
-    OpenCV's corner 0 is at the bottom-left of each mark (measured on the drawing), then clockwise."""
+    """corners of a mark in field mm, in the order OpenCV reports them (top-left, top-right, bottom-right,
+    bottom-left of the marker image). In the official frame the marks stand upright (Y up)."""
     cx, cy = MARKS[mid]
     h = MARK_SIZE / 2
-    return np.array([(cx - h, cy - h), (cx - h, cy + h), (cx + h, cy + h), (cx + h, cy - h)], np.float32)
+    return np.array([(cx - h, cy + h), (cx + h, cy + h), (cx + h, cy - h), (cx - h, cy - h)], np.float32)
 
-def cell_centre(col, row):
-    return -CELL * (col + 1), CELL * row
+def cell_centre(n, k):
+    """centre of cell (column n, row k) in field mm; also works for the buffer (n = 9)"""
+    return CELL * n, CELL * k
+
+def buffer_centre(k):
+    return cell_centre(BUFFER_COL, k)
+
+def is_buffer(cell):
+    return cell is not None and cell[0] == BUFFER_COL
+
+def field_cells():
+    return [(n, k) for k in range(1, ROWS + 1) for n in range(COLS)]
+
+def buffer_cells():
+    return [(BUFFER_COL, k) for k in range(1, BUFFER_ROWS + 1)]
 
 def all_cells():
-    cells = [(c, r) for r in range(ROWS) for c in range(COLS)]
-    return cells + [(c, BUFFER_ROW) for c in range(BUFFER_COLS)]
+    return field_cells() + buffer_cells()
 
 def cell_of(x, y):
-    """field mm -> (col, row) of the cell it is in, or None"""
-    col = int(np.floor(-x / CELL + 0.5)) - 1
-    row = int(np.floor(y / CELL + 0.5))
-    if 0 <= col < COLS and 0 <= row < ROWS:
-        return col, row
-    if row == BUFFER_ROW and 0 <= col < BUFFER_COLS:
-        return col, row
+    """field mm -> the cell (n, k) whose centre is nearest, or None outside the grid and the buffer"""
+    n = int(np.floor(x / CELL + 0.5))
+    k = int(np.floor(y / CELL + 0.5))
+    if 0 <= n < COLS and 1 <= k <= ROWS:
+        return n, k
+    if n == BUFFER_COL and 1 <= k <= BUFFER_ROWS:
+        return n, k
     return None
 
-def cell_name(cr, latin=False):
-    if cr is None:
-        return '-'
-    col, row = cr
-    letter = (COL_LAT if latin else COL_RU)[col]
-    return ('buf-' if latin else 'буфер ') + letter if row == BUFFER_ROW else letter + str(row)
+def placed_in(x, y, cell):
+    """ETZ 2.4: a checker counts as placed in a cell if its centre is within 10 mm of the cell centre"""
+    cx, cy = cell_centre(*cell)
+    return (x - cx) ** 2 + (y - cy) ** 2 <= PLACE_TOL ** 2
 
-# ---------------------------------------------------------------- drawing (for the screen test)
-SHEET = (210.0, 297.0)
-ORIGIN_ON_SHEET = (193.4, 23.9)       # mark 27 centre from the sheet's lower-left (measured)
+def in_service_area(x, y, r=13.0):
+    x0, y0, x1, y1 = SERVICE_AREA
+    return x0 - r < x < x1 + r and y0 - r < y < y1 + r
+
+def cell_name(cell, latin=False):
+    """(n, k) -> 'Б3' ('B3' with latin=True); buffer -> 'отбой Б' / 'buf-B'"""
+    if cell is None:
+        return '-'
+    n, k = cell
+    letter = (ROW_LAT if latin else ROW_RU)[k - 1]
+    if n == BUFFER_COL:
+        return ('buf-' if latin else 'отбой ') + letter
+    return letter + str(n)
+
+_LETTERS = {}
+for _i, (_ru, _lat) in enumerate(zip(ROW_RU, ROW_LAT)):
+    _LETTERS[_ru] = _LETTERS[_ru.lower()] = _LETTERS[_lat] = _LETTERS[_lat.lower()] = _i + 1
+
+def parse_cell(text):
+    """'Б3', 'b3', 'B 3', 'отбой Б', 'buf-B' -> (n, k); raises ValueError"""
+    t = text.strip().replace(' ', '').replace('-', '')
+    low = t.lower()
+    for pre in ('отбой', 'buf', 'буфер'):
+        if low.startswith(pre):
+            k = _LETTERS.get(t[len(pre):])
+            if k is None or k > BUFFER_ROWS:
+                raise ValueError('no buffer place %r (А..Д)' % text)
+            return BUFFER_COL, k
+    if len(t) >= 2 and t[0] in _LETTERS and t[1:].isdigit():
+        n, k = int(t[1:]), _LETTERS[t[0]]
+        if 0 <= n < COLS:
+            return n, k
+    raise ValueError('no cell %r: use a row letter А..Е and a column 0..8, e.g. Б3' % text)
+
+# ---------------------------------------------------------------- drawing (for the screen test and the self-test)
+SHEET = (297.0, 210.0)                 # A4 landscape as in ETZ fig. 2 (X to the right, Y up)
+ORIGIN_ON_SHEET = (23.9, 16.6)         # mark 27 centre from the sheet's lower-left (measured on the drawing)
 
 def render(px_per_mm=3.0, checkers=(), stickers=()):
-    """The sheet as in the drawing. checkers: [(col, row, colour)], stickers: [(col, row, text)] = QR on a white disc."""
+    """The sheet as in ETZ fig. 2. checkers: [(n, k, colour)], stickers: [(n, k, text)] = QR on a white disc."""
     W, H = SHEET
     s = px_per_mm
     img = np.full((int(round(H * s)), int(round(W * s)), 3), 255, np.uint8)
     ox, oy = ORIGIN_ON_SHEET
     P = lambda x, y: (int(round((x + ox) * s)), int(round((H - (y + oy)) * s)))   # field mm -> pixel
     th = max(1, int(round(0.35 * s)))
-    x0, x1 = -CELL * (COLS + 0.5), -CELL * 0.5
-    y0, y1 = -CELL * 0.5, CELL * (ROWS - 0.5)
-    # thick black edges left and bottom, red grid, dashed-looking green circles, centre dots
-    cv2.rectangle(img, P(x0 - 6, y0 - 6), P(x0, y1), (0, 0, 0), -1)
-    cv2.rectangle(img, P(x0 - 6, y0 - 6), P(x1, y0), (0, 0, 0), -1)
-    for k in range(COLS + 1):
-        cv2.line(img, P(x0 + k * CELL, y0), P(x0 + k * CELL, y1), (60, 60, 220), th)
-    for k in range(ROWS + 1):
-        cv2.line(img, P(x0, y0 + k * CELL), P(x1, y0 + k * CELL), (60, 60, 220), th)
-    for col, row in all_cells():
-        cx, cy = P(*cell_centre(col, row))
-        cv2.circle(img, (cx, cy), int(13 * s), (90, 170, 90), th, cv2.LINE_AA)
-        if row < ROWS:
+    x0, x1 = -CELL / 2, CELL * (COLS - 0.5)
+    y0, y1 = CELL / 2, CELL * (ROWS + 0.5)
+    # black bands left and top, red grid, green circles, centre dots
+    cv2.rectangle(img, P(x0 - BAND, y0), P(x0, y1 + BAND), (0, 0, 0), -1)
+    cv2.rectangle(img, P(x0 - BAND, y1 + BAND), P(x1, y1), (0, 0, 0), -1)
+    for i in range(COLS + 1):
+        cv2.line(img, P(x0 + i * CELL, y0), P(x0 + i * CELL, y1), (60, 60, 220), th)
+    for i in range(ROWS + 1):
+        cv2.line(img, P(x0, y0 + i * CELL), P(x1, y0 + i * CELL), (60, 60, 220), th)
+    for cell in all_cells():
+        cx, cy = P(*cell_centre(*cell))
+        cv2.circle(img, (cx, cy), int(12.25 * s), (90, 170, 90), th, cv2.LINE_AA)
+        if not is_buffer(cell):
             cv2.circle(img, (cx, cy), int(3 * s), (0, 0, 0), -1, cv2.LINE_AA)
-    for col in range(COLS):
-        cv2.putText(img, COL_LAT[col], P(-CELL * (col + 1) - 2, CELL * 9.55), cv2.FONT_HERSHEY_SIMPLEX, 0.12 * s, (120, 120, 120), 1)
-    for row in range(ROWS):
-        cv2.putText(img, str(row), P(-CELL * 0.4, CELL * row + 10), cv2.FONT_HERSHEY_SIMPLEX, 0.12 * s, (120, 120, 120), 1)
+    for k in range(1, ROWS + 1):
+        cv2.putText(img, ROW_LAT[k - 1], P(CELL * 9.6, CELL * k - 2), cv2.FONT_HERSHEY_SIMPLEX, 0.12 * s, (120, 120, 120), 1)
+    for n in range(COLS):
+        cv2.putText(img, str(n), P(CELL * n + 10, CELL * 0.35), cv2.FONT_HERSHEY_SIMPLEX, 0.12 * s, (120, 120, 120), 1)
     d = cv2.aruco.getPredefinedDictionary(ARUCO_DICT)
-    n = int(round(MARK_SIZE * s))
+    m = int(round(MARK_SIZE * s))
     for mid, (mx, my) in MARKS.items():
-        m = np.rot90(cv2.aruco.generateImageMarker(d, mid, n), 1)     # turned 90 deg as on the official sheet
+        mk = cv2.aruco.generateImageMarker(d, mid, m)              # upright in the official frame
         x, y = P(mx - MARK_SIZE / 2, my + MARK_SIZE / 2)
-        img[y:y + n, x:x + n] = cv2.cvtColor(np.ascontiguousarray(m), cv2.COLOR_GRAY2BGR)
-    for col, row, colour in checkers:
-        cv2.circle(img, P(*cell_centre(col, row)), int(13 * s), BGR[colour], -1, cv2.LINE_AA)
+        img[y:y + m, x:x + m] = cv2.cvtColor(mk, cv2.COLOR_GRAY2BGR)
+    for n, k, colour in checkers:
+        cv2.circle(img, P(*cell_centre(n, k)), int(13 * s), BGR[colour], -1, cv2.LINE_AA)
     enc = cv2.QRCodeEncoder.create()
-    for col, row, text in stickers:
-        cx, cy = P(*cell_centre(col, row))
+    for n, k, text in stickers:
+        cx, cy = P(*cell_centre(n, k))
         cv2.circle(img, (cx, cy), int(13 * s), (235, 235, 235), -1, cv2.LINE_AA)
         q = cv2.resize(enc.encode(text), (int(17 * s),) * 2, interpolation=cv2.INTER_NEAREST)
-        k = q.shape[0]
-        img[cy - k // 2:cy - k // 2 + k, cx - k // 2:cx - k // 2 + k] = cv2.cvtColor(q, cv2.COLOR_GRAY2BGR)
+        a = q.shape[0]
+        img[cy - a // 2:cy - a // 2 + a, cx - a // 2:cx - a // 2 + a] = cv2.cvtColor(q, cv2.COLOR_GRAY2BGR)
     return img
+
+def _self_check():
+    assert cell_centre(*parse_cell('Б3')) == (84.0, 56.0)              # ETZ fig. 2 example
+    assert parse_cell('B3') == parse_cell('б3') == (3, 2)
+    assert buffer_centre(1) == (252.0, 28.0) and parse_cell('отбой Д') == (9, 5)
+    assert cell_name((3, 2)) == 'Б3' and cell_name((9, 5)) == 'отбой Д' and cell_name((0, 6), latin=True) == 'E0'
+    assert MARKS[28] == cell_centre(8, 0) and MARKS[29] == cell_centre(9, 6)   # marks on the same 28 mm grid
+    assert all(cell_of(*cell_centre(*c)) == c for c in all_cells())
+    assert cell_of(8, 3) is None and cell_of(260, 168) is None        # below row А / on mark 29: no cell
+    assert placed_in(84 + 9.9, 56, (3, 2)) and not placed_in(84 + 10.1, 56, (3, 2))
+    return True
+
+if __name__ == '__main__':
+    print('field self-check:', _self_check())

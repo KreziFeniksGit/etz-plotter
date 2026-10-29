@@ -147,7 +147,7 @@ def annotate(img, v, checkers, qrs):
         cv2.putText(out, str(i), tuple(c[0].astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
     if v.H is not None:
         c = F.CELL
-        x0, x1, y0, y1 = -c * (F.COLS + 0.5), -c * 0.5, -c * 0.5, c * (F.ROWS - 0.5)
+        x0, x1, y0, y1 = -c * 0.5, c * (F.COLS - 0.5), c * 0.5, c * (F.ROWS + 0.5)
         for k in range(F.COLS + 1):
             a, b = v.to_image([(x0 + k * c, y0), (x0 + k * c, y1)])
             cv2.line(out, tuple(a.astype(int)), tuple(b.astype(int)), (255, 200, 0), 1)

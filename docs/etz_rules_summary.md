@@ -7,6 +7,20 @@ Source: the short version of the unified technical task (VsOSh informatics, robo
 - Final stage (grade 11) adds: colour detection, reading ArUco / AprilTag / QR on the stickers, stacking up to 5 checkers, taking the top checker from a stack, recognising pictures on stickers, rotating the held checker by any angle 0 to 360 degrees.
 - Checker: 26 mm diameter, 5 mm high, 0.8 mm lid, steel M8 washer inside, about 7 g, lid up. Colours red, green, blue, yellow, magenta (others possible). Any gripping method allowed.
 - Field: A4 sheet, grid 9 x 6 cells of 28 mm, buffer column, three ArUco marks (DICT_4X4_50, ids 27, 28, 29, 18 mm). Origin is the centre of mark 27.
+- **Coordinates (ETZ 2.2, checked against the PDF 29 Oct)**: X along the long side from mark 27 to mark 28, Y along the
+  short side from 27 towards the cells, mm. A cell = row letter А..Е (А next to the marks) + column 0..8, e.g. Б3;
+  centre X = 28 * column, Y = 28 * row number (А = 1 .. Е = 6): Б3 = (84, 56). Buffer = column 9 (X 252), rows А..Д.
+  Marks: 27 (0, 0), 28 (224, 0), 29 (252, 168). Service area under the field: never put checkers there.
+  `laptop/field.py` uses exactly this frame.
+- The sheet may sit up to 5 mm off and 3 deg turned: the device must find the field itself (camera + marks) every run.
+- Placed = the checker covers the 6 mm black dot (centre within 10 mm), lid up; buffer: covers the green circle centre;
+  stack: lies on another checker, only the bottom one touches the field, position = bottom checker.
+- Checker start positions are detected by the device (not necessarily centred in cells). Any room lighting (own light allowed).
+- Task: regional one of 6, final one of 10; task number and parameters entered before the red LED; laptop allowed as the interface.
+- Stickers: ArUco DICT_4X4_50 (not 27/28/29), AprilTag tag36h11, QR >= 15 x 15 mm (21 x 21 modules), pictures from a given set.
+- First debugging tasks (ETZ 4.2): move one checker (e.g. Д1 -> Д5) and return; move a checker as far as possible along
+  one axis only; three checkers: move one so all three centres lie on a line parallel to an axis or a cell diagonal.
+- Full copy of the short ETZ: `docs/etz_kratko_26_27.pdf`. Testing order and scoring are only in the FULL version (not in the repo yet).
 - Placement tolerance: checker centre within 10 mm of the cell centre. Manipulator speed at least 100 mm/s.
 
 ## Footprint (grades 10 and 11)
