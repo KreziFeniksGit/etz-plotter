@@ -15,7 +15,7 @@ bool Console::poll() {
       if (!len_) { prompt(); continue; }
       line_[len_] = 0;
       len_ = 0;
-      split();
+      load(line_);
       if (n_) return true;
       prompt();
     } else if (c == '\b' || c == 0x7f) {  // Backspace / Delete
@@ -28,9 +28,15 @@ bool Console::poll() {
   return false;
 }
 
+void Console::load(const char *line) {
+  strlcpy(cmd_, line, sizeof cmd_);
+  strlcpy(words_, line, sizeof words_);
+  split();
+}
+
 void Console::split() {
   n_ = 0;
-  char *p = line_;
+  char *p = words_;
   while (*p && n_ < MAX_ARGS) {
     while (*p == ' ') *p++ = 0;
     if (!*p) break;

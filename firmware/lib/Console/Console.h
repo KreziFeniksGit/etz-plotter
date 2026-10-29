@@ -23,13 +23,22 @@ public:
   long argInt(uint8_t i) const { return strtol(word(i), nullptr, 10); }
   float argFloat(uint8_t i) const { return strtof(word(i), nullptr); }
 
+  // run a stored line (move queue) through the same parser; a half-typed line is kept
+  void load(const char *line);
+  const char *line() const { return cmd_; }   // the whole line to run, before splitting
+
   void reply(const char *fmt, ...);      // printf-style line ending in \r\n
+  bool lastWasErr() const { return err_; }   // the last reply started with "err"
+  void clearErr() { err_ = false; }
+  void setErr(bool e) { err_ = e; }
 
 private:
   void split();
   Stream &io_;
   bool echo_ = true;
-  char line_[MAX_LINE + 1];
+  char line_[MAX_LINE + 1];              // being typed
+  char cmd_[MAX_LINE + 1], words_[MAX_LINE + 1];   // the line to run: as typed / split into words
   uint8_t len_ = 0, n_ = 0, esc_ = 0;
+  bool err_ = false;
   char *w_[MAX_ARGS];
 };

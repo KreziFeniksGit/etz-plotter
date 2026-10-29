@@ -1,12 +1,16 @@
-// ETZ plotter firmware v4 - three steppers (X, Y, wrist) through TMC2209 drivers, for the bench and the laptop app.
+// ETZ plotter firmware v5 - three steppers (X, Y, wrist) through TMC2209 drivers, servo lift, magnet, homing, mm units,
+// start button, red LED, battery guard and a move queue; for the bench and the laptop app.
 // No outside libraries: only the Arduino core and our own libraries in lib/:
-//   Tmc2209  - driver setup and status over the single-wire UART
-//   StepGen  - step pulses from a timer interrupt, trapezoid or S-curve, coordinated XY lines
-//   Console  - line editor (echo, Backspace) and command splitter
-//   Settings - settings profiles kept in flash (NVS)
-//   BlackBox - last 64 events, survive a crash restart (copied to flash after a crash)
-//   Guard    - motor heat model and crash (stall) detector
-// Protection that always runs (service()): heat guard, crash detection, idle switch-off, laptop watchdog.
+//   Tmc2209   - driver setup and status over the single-wire UART
+//   StepGen   - step pulses from a timer interrupt, trapezoid or S-curve, coordinated XY lines
+//   Console   - line editor (echo, Backspace) and command splitter
+//   Settings  - settings profiles kept in flash (NVS)
+//   BlackBox  - last 64 events, survive a crash restart (copied to flash after a crash)
+//   Guard     - motor heat model and crash (stall) detector
+//   SlewServo - lift servo pulse with a speed limit;  Magnet - peak-and-hold PWM with an on-time guard
+//   MoveQueue - command lines run one after another;  Inputs - button debounce, moving average
+// Protection that always runs (service()): heat guard, crash detection, idle switch-off, laptop watchdog,
+// battery guard, magnet on-time guard.
 // Protocol (used by laptop/esp_dashboard.py): typed commands, replies "ok ..." / "err ...", events "event ...",
 // "echo 0" + "stream <ms>" + "json" status lines, "wd <ms>" + "ping" watchdog (motors stop if the laptop goes quiet).
 // Wi-Fi and Bluetooth are never started (competition rule): there is no WiFi / BLE code anywhere.
@@ -17,6 +21,10 @@
 #include <Settings.h>
 #include <BlackBox.h>
 #include <Guard.h>
+#include <SlewServo.h>
+#include <Magnet.h>
+#include <MoveQueue.h>
+#include <Inputs.h>
 #include "pins.h"
 
 // ---------------------------------------------------------------- fixed settings
@@ -27,7 +35,8 @@ constexpr uint32_t TELEMETRY_MS = 100;    // one driver status read every 100 ms
 constexpr uint32_t LOAD_MS = 5;           // one load (StallGuard) read every 5 ms while moving: crash detection
 constexpr float AMBIENT_C = 25.0f;        // room temperature for the motor heat model
 constexpr float VBAT_SCALE = (100.0f + 15.0f) / 15.0f;   // battery divider 100 k / 15 k (wiring.md)
-constexpr float VBAT_MIN = 14.0f;         // 4S LiPo: stop the run below this
+constexpr float VBAT_NONE = 5.0f;         // below this no battery is connected (USB only): battery guard not used
+constexpr uint32_t VBAT_MS = 100;         // one battery reading every 100 ms, averaged over ~8 (EMA)
 
 // ---------------------------------------------------------------- settings kept in flash (profiles)
 struct Cfg {
@@ -35,15 +44,35 @@ struct Cfg {
   struct Ax { uint32_t spd, acc; uint16_t jerk, mA, ratedmA, tau; uint8_t inv, hold, crashPct, pad; } ax[3];
   uint32_t idleS;
   uint8_t warnC, limitC, pad[2];
+  // v5 (all float so the "set" command can change any of them)
+  float spm[3];                    // X, Y steps per mm; wrist steps per degree
+  float minMm[2], maxMm[2];        // X, Y soft limits (used after homing)
+  float homeOff[2], homeDir[2];    // position given to the switch point (mm); direction to the switch (-1 / +1)
+  float homeFast, homeSlow, homeBack, homeTimeS;   // mm/s search, mm/s touch, mm back off, s for one axis
+  float servoMin, servoMax, servoSlew;             // us, us, us per second
+  float magHold, magKickMs, magMaxS;               // %, ms at 100 %, s on-time guard (0 = off)
+  float batLow, batStop;                           // V (0 = off)
+  float wristTurn;                                 // deg either side of the mark the wrist may go (magnet leads coil)
 };
-constexpr uint32_t CFG_MAGIC = 0xE7202604;
+constexpr uint32_t CFG_MAGIC = 0xE7202605;
 // motors (wiring.md section 4): X/Y StepperOnline 17HS16-2004S1 rated 2.0 A, wrist 17HS4023S rated 0.7 A.
 // tau = thermal time constant in s (VERIFY: not in the datasheets, typical NEMA17 10-15 min, pancake less)
+// 80 steps/mm = GT2 belt on 20-tooth pulleys (40 mm per turn) at 3200 microsteps per turn; wrist direct, 3200 per 360 deg.
+// Soft limits X 0..143, Y 0..336 = the modelled travel (PXB 287..430, PYC 40..376), switch at the 0 end: VERIFY
+// once built (where the switch really triggers, which end, any overtravel).
 const Cfg DEFAULTS = {CFG_MAGIC, sizeof(Cfg), {
   {3200, 6400, 0, 900, 2000, 900, 0, 50, 30, 0},
   {3200, 6400, 0, 900, 2000, 900, 0, 50, 30, 0},
   {3200, 6400, 0, 600, 700, 600, 0, 50, 30, 0}},
-  60, 70, 90, {0, 0}};
+  60, 70, 90, {0, 0},
+  {80.0f, 80.0f, 3200.0f / 360.0f},
+  {0.0f, 0.0f}, {143.0f, 336.0f},
+  {0.0f, 0.0f}, {-1.0f, -1.0f},
+  25.0f, 2.0f, 3.0f, 25.0f,
+  500.0f, 2500.0f, 1500.0f,
+  40.0f, 150.0f, 30.0f,
+  14.8f, 14.0f,
+  360.0f};
 Cfg cfg = DEFAULTS;
 char profileName[16] = "defaults";
 
@@ -60,6 +89,7 @@ struct Axis {
   bool sleeping = false;   // turned off by the idle timer or after cooling: wakes by itself on the next move
   bool warm = false, hot = false;   // heat guard state
   bool lost = false;       // position not trusted any more (crash, driver off by hand): home before real work
+  bool homed = false;      // found its home switch since the position was last lost: soft limits apply
   bool otpwSeen = false;
   uint32_t lastActive = 0, drvStatus = 0, lastLoad = 0;
   uint16_t sg = 0;
@@ -73,7 +103,18 @@ Axis axes[3] = {
   {"y", 2, PIN_Y_STEP, PIN_Y_DIR},
   {"w", 3, PIN_W_STEP, PIN_W_DIR},
 };
-Axis &AX = axes[0], &AY = axes[1];
+Axis &AX = axes[0], &AY = axes[1], &AW = axes[2];
+
+SlewServo lift;                            // MG996R parallelogram lift
+Magnet magnet;
+MoveQueue queue;
+bool qRunning = false;
+uint16_t qDone = 0;
+uint32_t qWaitUntil = 0;
+bool ledRed = false;
+Debounce startBtn(30);
+Ema vbatAvg(8);
+uint8_t vbatN = 0, batState = 0;           // readings since a battery appeared; 0 ok, 1 low, 2 stop (moves refused)
 
 Console con(Serial);
 uint32_t streamMs = 0, lastStream = 0;     // automatic json status lines
@@ -100,6 +141,28 @@ Axis *findAxis(const char *s) {
 bool anyMoving() { for (auto &a : axes) if (a.mot.running()) return true; return false; }
 void stopAll() { for (auto &a : axes) a.mot.stop(); }           // decelerate to a stop
 void haltAll() { for (auto &a : axes) a.mot.halt(); }           // stop at once
+void loseAxis(Axis &a) { a.lost = true; a.homed = false; }      // position not trusted: home again
+
+void queueStop() {                          // stop / crash / watchdog / heat / battery: the rest of the queue is dropped
+  if (!qRunning && !queue.size()) return;
+  qRunning = false; queue.clear(); qWaitUntil = 0;
+  event("q stopped");
+}
+
+// axis units: X, Y in mm, wrist in degrees
+int axisIndex(const Axis &a) { return &a - axes; }
+int32_t toSteps(const Axis &a, float units) { return lroundf(units * cfg.spm[axisIndex(a)]); }
+float toUnits(const Axis &a, int32_t steps) { return steps / cfg.spm[axisIndex(a)]; }
+
+// soft limits (X, Y, only once homed): false + "err limit x" when the target is outside
+bool limitOk(Axis &a, int32_t target) {
+  int i = axisIndex(a);
+  if (i > 1 || !a.homed) return true;
+  float mm = toUnits(a, target);
+  if (mm >= cfg.minMm[i] - 0.001f && mm <= cfg.maxMm[i] + 0.001f) return true;
+  con.reply("err limit %s", a.name);
+  return false;
+}
 
 float batteryVolts() { return analogReadMilliVolts(PIN_VBAT_SENSE) * VBAT_SCALE / 1000.0f; }
 bool drivePowerOn() { return digitalRead(PIN_STOP_SENSE) == HIGH; }
@@ -186,6 +249,7 @@ void readTelemetry(Axis &a) {
 // ---------------------------------------------------------------- moves
 // every move goes through here: refuses a motor that is too hot, wakes a sleeping one, arms the crash detector
 bool prepMove(Axis &a) {
+  if (batState == 2) { con.reply("err battery"); return false; }
   if (a.hot) {
     con.reply("err %s too hot (about %.0f C) - wait until it cools below %u C", a.name, a.temp(), cfg.warnC - 5);
     return false;
@@ -202,8 +266,9 @@ bool prepMove(Axis &a) {
 
 void onCrash(Axis &a) {
   haltAll();
-  a.lost = true; crashes++;
+  loseAxis(a); crashes++;
   if (busy) abortReq = true;
+  queueStop();
   event("CRASH %s: load %u (normal %u) at %lu steps/s, pos %ld - all motors stopped, position not trusted",
         a.name, a.sg, a.crash.average(), (unsigned long)a.mot.speed(), (long)a.mot.position());
 }
@@ -236,6 +301,7 @@ void heatGuard(float dt) {
       a.hot = true;
       a.mot.halt(); a.drv.enable(false);
       if (busy) abortReq = true;
+      queueStop();
       event("HOT %s: about %.0f C - driver off until it cools", a.name, t);
     } else if (t >= cfg.warnC && !a.warm) {
       a.warm = true;
@@ -253,8 +319,27 @@ void heatGuard(float dt) {
   }
 }
 
+// battery: the average of the last ~8 readings (100 ms apart) against two thresholds. The divider sits before the
+// stop button, so pressing stop does not look like a flat battery. Below VBAT_NONE no battery is connected
+// (bench on USB): nothing is refused, and the average starts again when one appears (no false "stop" while it rises).
+void batteryGuard() {
+  float raw = batteryVolts();
+  if (raw < VBAT_NONE) { vbatAvg.reset(); vbatN = 0; batState = 0; return; }
+  float v = vbatAvg.add(raw);
+  if (vbatN < 8) { vbatN++; return; }
+  if (batState == 0 && cfg.batLow > 0 && v < cfg.batLow) { batState = 1; event("battery low (%.2f V)", v); }
+  if (batState < 2 && cfg.batStop > 0 && v < cfg.batStop) {
+    batState = 2;
+    stopAll();
+    if (busy) abortReq = true;
+    queueStop();
+    event("battery stop (%.2f V)", v);
+  }
+  if (batState && v > max(cfg.batLow, cfg.batStop) + 0.3f) { batState = 0; event("battery ok (%.2f V)", v); }
+}
+
 uint8_t telemetryNext = 0, loadNext = 0;
-uint32_t lastTelemetry = 0, lastLoad = 0, lastHeat = 0;
+uint32_t lastTelemetry = 0, lastLoad = 0, lastHeat = 0, lastVbat = 0;
 void printJson();
 
 void service() {
@@ -285,10 +370,15 @@ void service() {
       event("idle %s: not used for %lu s, driver off", a.name, (unsigned long)cfg.idleS);
     }
   }
+  if (lift.update()) Serial.print("event servo done\r\n");      // routine: not in the black box
+  if (magnet.update()) event("magnet timeout");
+  if (startBtn.update(digitalRead(PIN_START)) && startBtn.level() == LOW) event("start");
+  if (now - lastVbat >= VBAT_MS) { lastVbat = now; batteryGuard(); }
   if (streamMs && now - lastStream >= streamMs) { lastStream = now; printJson(); }
   if (wdMs && !wdTripped && now - lastCmd > wdMs) {  // laptop silent: stop everything
     stopAll(); wdTripped = true;
     if (busy) abortReq = true;
+    queueStop();
     event("watchdog: no ping, motors stopped");
   }
 }
@@ -297,10 +387,12 @@ void service() {
 void busyPoll() {
   if (!con.poll()) return;
   lastCmd = millis();
+  bool wasErr = con.lastWasErr();             // a queued long command (home) keeps its own err / ok result
   if (con.is(0, "ping")) { wdTripped = false; con.reply("pong"); }
   else if (con.is(0, "json")) printJson();
-  else if (con.is(0, "stop")) { stopAll(); abortReq = true; con.reply("ok stop"); }
+  else if (con.is(0, "stop")) { stopAll(); abortReq = true; queueStop(); con.reply("ok stop"); }
   else con.reply("err busy (%s) - send stop to abort", busy);
+  con.setErr(wasErr);
 }
 
 bool waitMoves() {                            // false = aborted (stop, watchdog, crash, heat)
@@ -318,24 +410,26 @@ bool waitMs(uint32_t ms) {
 void printJson() {
   Serial.printf("{\"t\":%lu,\"wd\":%lu,\"wdtrip\":%d,\"idle\":%lu,\"heap\":%lu,\"heapmin\":%lu,\"heapsize\":%lu,"
                 "\"loop\":%lu,\"ctemp\":%.1f,\"vbat\":%.2f,\"drive\":%d,\"busy\":\"%s\",\"prof\":\"%s\",\"crashes\":%lu,"
-                "\"warn\":%u,\"limit\":%u,\"ax\":[",
+                "\"warn\":%u,\"limit\":%u,\"vbatavg\":%.2f,\"bat\":%u,\"servo\":%u,\"mag\":%d,\"led\":%d,"
+                "\"qlen\":%u,\"qrun\":%d,\"ax\":[",
                 (unsigned long)millis(), (unsigned long)wdMs, wdTripped ? 1 : 0, (unsigned long)cfg.idleS * 1000UL,
                 (unsigned long)ESP.getFreeHeap(), (unsigned long)ESP.getMinFreeHeap(), (unsigned long)ESP.getHeapSize(),
                 (unsigned long)loopHz, temperatureRead(), batteryVolts(), drivePowerOn() ? 1 : 0, busy ? busy : "",
-                profileName, (unsigned long)crashes, cfg.warnC, cfg.limitC);
+                profileName, (unsigned long)crashes, cfg.warnC, cfg.limitC, vbatAvg.value(), batState, lift.us(),
+                magnet.isOn() ? 1 : 0, ledRed ? 1 : 0, queue.size(), qRunning ? 1 : 0);
   for (int i = 0; i < 3; i++) {
     Axis &a = axes[i];
     uint32_t s = a.drvStatus;
     int temp = (s & (1UL << 11)) ? 157 : (s & (1UL << 10)) ? 150 : (s & (1UL << 9)) ? 143 : (s & (1UL << 8)) ? 120 : 0;
     Serial.printf("%s{\"n\":\"%s\",\"pos\":%ld,\"tgt\":%ld,\"run\":%d,\"ok\":%d,\"on\":%d,\"mA\":%u,\"inv\":%d,\"sleep\":%d,"
                   "\"spd\":%lu,\"acc\":%lu,\"jerk\":%u,\"v\":%lu,\"hold\":%u,\"mt\":%.1f,\"warm\":%d,\"hot\":%d,\"lost\":%d,"
-                  "\"cpct\":%u,\"sgavg\":%u,"
+                  "\"cpct\":%u,\"sgavg\":%u,\"homed\":%d,"
                   "\"sg\":%u,\"cs\":%lu,\"otpw\":%d,\"ot\":%d,\"s2g\":%d,\"ol\":%d,\"temp\":%d}",
                   i ? "," : "", a.name, (long)a.mot.position(), (long)a.mot.target(), a.mot.running() ? 1 : 0,
                   a.ok ? 1 : 0, a.drv.enabled() ? 1 : 0, a.c->mA, a.mot.inverted() ? 1 : 0, a.sleeping ? 1 : 0,
                   (unsigned long)a.c->spd, (unsigned long)a.c->acc, a.c->jerk, (unsigned long)a.mot.speed(),
                   a.drv.holdPercent(), a.temp(), a.warm ? 1 : 0, a.hot ? 1 : 0, a.lost ? 1 : 0,
-                  a.c->crashPct, a.crash.average(),
+                  a.c->crashPct, a.crash.average(), a.homed ? 1 : 0,
                   a.sg, (unsigned long)((s >> 16) & 0x1F), (s & 1) ? 1 : 0, (s & 2) ? 1 : 0,
                   (s & (3UL << 2)) ? 1 : 0, (s & (3UL << 6)) ? 1 : 0, temp);
   }
@@ -404,7 +498,7 @@ void selfTest() {
   float v = batteryVolts();
   bool power = drivePowerOn();
   result(power ? 0 : 2, "drive power (stop button sense): %s", power ? "on" : "OFF - stop button pressed or battery off");
-  result(v >= 14.8f ? 0 : v >= VBAT_MIN ? 1 : 2, "battery %.2f V (4S: full 16.8, stop below %.1f)", v, VBAT_MIN);
+  result(v >= cfg.batLow ? 0 : v >= cfg.batStop ? 1 : 2, "battery %.2f V (4S: full 16.8, stop below %.1f)", v, cfg.batStop);
   result(ESP.getFreeHeap() > 100000 ? 0 : 1, "RAM free %lu bytes", (unsigned long)ESP.getFreeHeap());
   result(temperatureRead() < 65 ? 0 : 1, "ESP32 chip %.0f C", temperatureRead());
   result(crashedLastTime() ? 1 : 0, "last restart: %s%s", resetReason(), crashedLastTime() ? " (see: log crash)" : "");
@@ -436,9 +530,11 @@ void selfTest() {
     result(a.temp() < cfg.warnC ? 0 : 1, "[%s] motor about %.0f C (estimate)", a.name, a.temp());
     if (a.lost) result(1, "[%s] position not trusted (crash / off): home it", a.name);
   }
-  pinMode(PIN_X_HOME, INPUT_PULLUP); pinMode(PIN_Y_HOME, INPUT_PULLUP);
+  // NC contacts to GND: a free switch reads LOW, pressed (or a broken wire) reads HIGH
   result(0, "home switches: X %s, Y %s (pressed = at home or broken wire)",
-         digitalRead(PIN_X_HOME) ? "free" : "PRESSED", digitalRead(PIN_Y_HOME) ? "free" : "PRESSED");
+         digitalRead(PIN_X_HOME) ? "PRESSED" : "free", digitalRead(PIN_Y_HOME) ? "PRESSED" : "free");
+  result(0, "start button %s, magnet %s, servo %u us", digitalRead(PIN_START) ? "free" : "PRESSED",
+         magnet.isOn() ? "on" : "off", lift.us());
   BlackBox::add("selftest: %d fail, %d warn", fails, warns);
   if (fails) con.reply("err selftest FAIL %d, WARN %d", fails, warns);
   else con.reply("ok selftest PASS (%d warnings)", warns);
@@ -504,6 +600,176 @@ void tune(Axis &a, long dist) {
             (unsigned long)a.c->spd, (unsigned long)a.c->acc);
 }
 
+// ---------------------------------------------------------------- homing
+// The home switches are NC contacts to GND with the internal pull-up: free = LOW, pressed or a broken wire = HIGH,
+// so a cut wire stops the search at once instead of driving the carriage into the end.
+bool switchPressed(int i) { return digitalRead(i ? PIN_Y_HOME : PIN_X_HOME) == HIGH; }
+
+// one homing move of `mm` (signed) at mmPerS; with want 0 / 1 it halts as soon as the switch reads free / pressed
+// (3 readings in a row), with want -1 it just runs to the end.
+// 1 = done (switch reached, or the end for want -1), 0 = the move ended without the switch,
+// -1 = homing took longer than homeTimeS, -2 = aborted (stop, crash, watchdog, heat, battery)
+int homeMove(Axis &a, float mm, float mmPerS, int want, uint32_t t0) {
+  int i = axisIndex(a);
+  if (!prepMove(a)) return -2;
+  a.mot.moveWith(a.mot.position() + toSteps(a, mm), max(1.0f, mmPerS * cfg.spm[i]), a.c->acc, 0);
+  uint8_t hits = 0;
+  while (a.mot.running()) {
+    if (want >= 0 && switchPressed(i) == (bool)want) { if (++hits >= 3) { a.mot.halt(); return 1; } }
+    else hits = 0;
+    service(); busyPoll();
+    if (abortReq) { a.mot.halt(); return -2; }
+    if (millis() - t0 > cfg.homeTimeS * 1000.0f) { a.mot.halt(); return -1; }
+  }
+  return want < 0 || switchPressed(i) == (bool)want ? 1 : 0;
+}
+
+// fast search towards the switch, off it, `back` mm further, slow touch, then position = home offset.
+// The fast search stops at once (no deceleration) so it does not run past the switch's overtravel;
+// any steps lost there do not matter, the slow touch sets the position. Returns false after an "err" reply.
+bool homeAxis(Axis &a) {
+  int i = axisIndex(a);
+  float dir = cfg.homeDir[i] < 0 ? -1.0f : 1.0f;
+  float back = max(0.5f, cfg.homeBack);
+  uint32_t t0 = millis();
+  a.homed = false;
+  int r = 1;
+  if (switchPressed(i)) {                             // already on it (or a broken wire): get off it first
+    r = homeMove(a, -dir * 3 * back, cfg.homeSlow * 2, 0, t0);
+    if (r == 0) { con.reply("err home %s switch stays pressed (broken wire?)", a.name); return false; }
+  }
+  if (r == 1) r = homeMove(a, dir * (cfg.maxMm[i] - cfg.minMm[i] + 20.0f), cfg.homeFast, 1, t0);   // travel + 20 mm
+  if (r == 1) r = homeMove(a, -dir * 3 * back, cfg.homeSlow * 2, 0, t0);    // off the switch
+  if (r == 1) r = homeMove(a, -dir * back, cfg.homeFast, -1, t0);           // a little further
+  if (r == 1) r = homeMove(a, dir * 3 * back, cfg.homeSlow, 1, t0);         // slow touch
+  if (r != 1) {
+    con.reply("err home %s %s", a.name, r == -2 ? "stopped" : "timeout");  // 0 = switch not found: also "timeout"
+    return false;
+  }
+  a.mot.setPosition(toSteps(a, cfg.homeOff[i]));
+  a.lost = false; a.homed = true;
+  event("home %s: switch found, position %.2f mm", a.name, cfg.homeOff[i]);
+  return true;
+}
+
+void homeCmd() {
+  const char *w = con.words() > 1 ? con.word(1) : "all";
+  bool all = !strcmp(w, "all");
+  Axis *one = findAxis(w);
+  if (!all && (!one || one == &AW)) { con.reply("err home x|y|all (the wrist has no switch: set it to its mark, zero w)"); return; }
+  if (anyMoving()) { con.reply("err stop the motors first"); return; }
+  busy = "home"; abortReq = false;
+  bool ok = all ? homeAxis(AX) && homeAxis(AY) : homeAxis(*one);
+  busy = nullptr; abortReq = false;
+  if (ok) con.reply("ok home %s", all ? "all" : one->name);
+}
+
+// ---------------------------------------------------------------- wrist
+// absolute angle, 0 = the hand-set mark (zero w). Takes the shorter way round, unless that would wind the magnet
+// leads more than wristTurn degrees from the mark (wiring.md: a loose 2-turn coil): then it goes the other way.
+bool wristTo(float deg) {
+  float cur = toUnits(AW, AW.mot.target());
+  float d = fmodf(deg - cur + 180.0f, 360.0f);
+  if (d < 0) d += 360.0f;
+  float tgt = cur + d - 180.0f;
+  if (cfg.wristTurn > 0 && fabsf(tgt) > cfg.wristTurn + 0.01f) {
+    float other = tgt - copysignf(360.0f, tgt);
+    if (fabsf(other) < fabsf(tgt)) tgt = other;
+  }
+  if (!prepMove(AW)) return false;
+  AW.mot.moveTo(toSteps(AW, tgt));
+  return true;
+}
+
+// ---------------------------------------------------------------- "set": the v5 settings by name
+struct Param { const char *name; float *v; float lo, hi; const char *what; };
+const Param PARAMS[] = {
+  {"xspm", &cfg.spm[0], 1, 2000, "X steps per mm"},
+  {"yspm", &cfg.spm[1], 1, 2000, "Y steps per mm"},
+  {"wspd", &cfg.spm[2], 0.1f, 200, "wrist steps per degree"},
+  {"xmin", &cfg.minMm[0], -50, 500, "X soft limit low, mm (after homing)"},
+  {"xmax", &cfg.maxMm[0], -50, 500, "X soft limit high, mm"},
+  {"ymin", &cfg.minMm[1], -50, 500, "Y soft limit low, mm"},
+  {"ymax", &cfg.maxMm[1], -50, 500, "Y soft limit high, mm"},
+  {"xhome", &cfg.homeOff[0], -50, 500, "X position at the switch, mm"},
+  {"yhome", &cfg.homeOff[1], -50, 500, "Y position at the switch, mm"},
+  {"xhomedir", &cfg.homeDir[0], -1, 1, "X direction to the switch (-1 / 1)"},
+  {"yhomedir", &cfg.homeDir[1], -1, 1, "Y direction to the switch (-1 / 1)"},
+  {"homefast", &cfg.homeFast, 1, 100, "homing search speed, mm/s"},
+  {"homeslow", &cfg.homeSlow, 0.2f, 20, "homing touch speed, mm/s"},
+  {"homeback", &cfg.homeBack, 0.5f, 20, "homing back-off, mm"},
+  {"hometime", &cfg.homeTimeS, 2, 120, "homing timeout per axis, s"},
+  {"servomin", &cfg.servoMin, 500, 2500, "servo pulse lowest allowed, us"},
+  {"servomax", &cfg.servoMax, 500, 2500, "servo pulse highest allowed, us"},
+  {"servoslew", &cfg.servoSlew, 50, 20000, "servo speed limit, us per s"},
+  {"maghold", &cfg.magHold, 0, 100, "magnet hold power, %"},
+  {"magkick", &cfg.magKickMs, 0, 2000, "magnet full power at switch-on, ms"},
+  {"magmax", &cfg.magMaxS, 0, 600, "magnet on-time guard, s (0 = off)"},
+  {"batlow", &cfg.batLow, 0, 25, "battery low warning, V (0 = off)"},
+  {"batstop", &cfg.batStop, 0, 25, "battery stop, V (0 = off)"},
+  {"wristturn", &cfg.wristTurn, 0, 3600, "wrist may go this far either side of the mark, deg (0 = no limit)"},
+};
+
+void setCmd() {
+  if (con.words() < 3) {
+    for (auto &p : PARAMS) Serial.printf("  %-10s %9.3f  %s\r\n", p.name, *p.v, p.what);
+    con.reply("ok set (set <name> <value>; 'save' keeps them)");
+    return;
+  }
+  for (auto &p : PARAMS) {
+    if (!con.is(1, p.name)) continue;
+    if (p.v == &cfg.spm[0] || p.v == &cfg.spm[1] || p.v == &cfg.spm[2]) {
+      if (anyMoving()) { con.reply("err stop the motors first"); return; }
+      AX.homed = AY.homed = false;                 // positions in mm change meaning: home again
+    }
+    float v = constrain(con.argFloat(2), p.lo, p.hi);
+    if (p.v == &cfg.homeDir[0] || p.v == &cfg.homeDir[1]) v = v < 0 ? -1.0f : 1.0f;
+    *p.v = v;
+    con.reply("ok set %s %g", p.name, v);
+    return;
+  }
+  con.reply("err set: no setting %s (set alone lists them)", con.word(1));
+}
+
+// ---------------------------------------------------------------- move queue
+bool queueable(const char *w) {
+  static const char *const OK[] = {"g", "m", "r", "line", "gomm", "linemm", "wrist", "servo", "mag", "led", "home", "wait"};
+  for (auto s : OK) if (!strcmp(w, s)) return true;
+  return false;
+}
+
+void queueAdd() {
+  if (con.words() < 2) { con.reply("err q <command>"); return; }
+  if (!queueable(con.word(1))) {
+    con.reply("err q: only g m r line gomm linemm wrist servo mag led home wait"); return;
+  }
+  if (con.is(1, "wait") && con.words() < 3) { con.reply("err q wait <ms>"); return; }
+  char line[MoveQueue::LEN] = "";
+  for (uint8_t i = 1; i < con.words(); i++) {
+    if (i > 1) strlcat(line, " ", sizeof line);
+    strlcat(line, con.word(i), sizeof line);
+  }
+  if (!queue.push(line)) { con.reply("err q full (%u)", MoveQueue::CAP); return; }
+  con.reply("ok q %u", queue.size());
+}
+
+void command(bool fromQueue = false);
+
+// called from loop() only (never inside a long command): the next line starts when the motors, the servo and any
+// "wait" are finished. A line that answers "err ..." stops the queue (the rest assumes it worked).
+void queueStep() {
+  if (!qRunning) return;
+  if (anyMoving() || lift.moving() || (int32_t)(millis() - qWaitUntil) < 0) return;
+  char line[MoveQueue::LEN];
+  if (!queue.pop(line)) { qRunning = false; event("q done %u", qDone); return; }
+  qDone++;
+  if (!strncmp(line, "wait ", 5)) { qWaitUntil = millis() + strtoul(line + 5, nullptr, 10); return; }
+  con.load(line);
+  con.clearErr();
+  command(true);
+  if (con.lastWasErr()) queueStop();
+}
+
 // ---------------------------------------------------------------- commands
 void help() {
   Serial.print(
@@ -516,7 +782,16 @@ void help() {
     "  zero <axis>         call the present position 0 (also: position trusted again)\r\n"
     "  test                each motor: 1 turn forward, 1 back, one after another\r\n"
     "  all <turns>         all three motors at once\r\n"
-    "  stop                stop all motors (decelerate); also aborts a long command\r\n"
+    "  stop                stop all motors (decelerate); also aborts a long command and the queue\r\n"
+    "in mm / degrees (after 'home' X and Y refuse targets outside the soft limits: err limit x):\r\n"
+    "  home x|y|all        find the home switch, position = home offset\r\n"
+    "  gomm <axis> <mm>    absolute (wrist: degrees);  linemm <x mm> <y mm>  straight XY line\r\n"
+    "  wrist <deg>         absolute wrist angle, shorter way round, 0 = the hand-set mark (zero w)\r\n"
+    "  servo <us> | servo off   lift servo pulse 500..2500 us, speed-limited ('event servo done' at the end)\r\n"
+    "  mag on | mag off    magnet: full power, then hold %; switches off by itself after the guard time\r\n"
+    "  led red 0|1         red LED;  the start button sends 'event start'\r\n"
+    "  q <command> | q wait <ms> | qrun | qclear | qstat   move queue: lines run one after another\r\n"
+    "  set [name value]    units, soft limits, homing, servo, magnet, battery, wrist (set alone lists them)\r\n"
     "settings (each motor its own; 'save' keeps them in flash):\r\n"
     "  speed [axis] <steps/s>   max speed (up to 16000);  accel [axis] <steps/s^2>\r\n"
     "  jerk [axis] <ms>    S-curve: acceleration builds up over this time (0 = trapezoid); gentle on a stack\r\n"
@@ -558,18 +833,56 @@ bool perAxisSetting(const char *what) {
   return true;
 }
 
-void command() {
-  lastCmd = millis();
+void command(bool fromQueue) {
+  if (!fromQueue) lastCmd = millis();      // only the laptop feeds the watchdog
   if (con.is(0, "ping")) { wdTripped = false; con.reply("pong"); return; }
   if (con.is(0, "json")) { printJson(); return; }
-  if (!con.is(0, "log")) BlackBox::add("> %s %s %s", con.word(0), con.word(1), con.word(2));
+  if (!fromQueue && !con.is(0, "log")) BlackBox::add("> %s %s %s", con.word(0), con.word(1), con.word(2));
   if (con.is(0, "stream")) { streamMs = con.argInt(1); con.reply("ok stream %lu", (unsigned long)streamMs); return; }
   if (con.is(0, "wd")) { wdMs = con.argInt(1); wdTripped = false; con.reply("ok wd %lu", (unsigned long)wdMs); return; }
   if (con.is(0, "echo")) { con.setEcho(con.argInt(1) != 0); con.reply("ok echo %d", con.echo() ? 1 : 0); return; }
   if (con.is(0, "help") || con.is(0, "?")) { help(); return; }
   if (con.is(0, "status")) { for (auto &a : axes) printStatus(a); return; }
   if (con.is(0, "mem")) { printMem(); return; }
-  if (con.is(0, "stop")) { stopAll(); con.reply("ok stop"); return; }
+  if (con.is(0, "stop")) { stopAll(); queueStop(); con.reply("ok stop"); return; }
+  // move queue
+  if (con.is(0, "q")) { queueAdd(); return; }
+  if (con.is(0, "qrun")) { qRunning = true; qDone = 0; qWaitUntil = 0; con.reply("ok qrun %u", queue.size()); return; }
+  if (con.is(0, "qclear")) { queue.clear(); qRunning = false; qWaitUntil = 0; con.reply("ok qclear"); return; }
+  if (con.is(0, "qstat")) { con.reply("ok qstat %u %s", queue.size(), qRunning ? "running" : "idle"); return; }
+  // lift, magnet, LED
+  if (con.is(0, "servo")) {
+    if (con.is(1, "off")) { lift.off(); con.reply("ok servo off"); return; }
+    if (con.words() < 2) { con.reply("err servo <us 500..2500> | servo off"); return; }
+    uint16_t us = lift.set(constrain(con.argInt(1), 500L, 2500L), cfg.servoMin, cfg.servoMax, cfg.servoSlew);
+    con.reply("ok servo %u", us); return;
+  }
+  if (con.is(0, "mag")) {
+    if (con.is(1, "on")) magnet.on(cfg.magKickMs, cfg.magHold, cfg.magMaxS);
+    else if (con.is(1, "off")) magnet.off();
+    else { con.reply("err mag on|off"); return; }
+    con.reply("ok mag %s", con.word(1)); return;
+  }
+  if (con.is(0, "led")) {
+    if (!con.is(1, "red") || con.words() < 3) { con.reply("err led red 0|1"); return; }
+    ledRed = con.argInt(2) != 0;
+    digitalWrite(PIN_LED_RED, ledRed ? HIGH : LOW);
+    con.reply("ok led red %d", ledRed ? 1 : 0); return;
+  }
+  if (con.is(0, "set")) { setCmd(); return; }
+  // moves in mm / degrees, homing
+  if (con.is(0, "home")) { homeCmd(); return; }
+  if (con.is(0, "wrist")) {
+    if (con.words() < 2) { con.reply("err wrist <deg>"); return; }
+    if (wristTo(con.argFloat(1))) con.reply("ok wrist %s", con.word(1));
+    return;
+  }
+  if (con.is(0, "linemm")) {
+    if (con.words() < 3) { con.reply("err linemm <x mm> <y mm>"); return; }
+    int32_t x = toSteps(AX, con.argFloat(1)), y = toSteps(AY, con.argFloat(2));
+    if (!limitOk(AX, x) || !limitOk(AY, y)) return;
+    con.reply(lineTo(x, y) ? "ok linemm" : "err linemm"); return;
+  }
   if (con.is(0, "idle")) { cfg.idleS = con.argInt(1); con.reply("ok idle %lu", (unsigned long)cfg.idleS); return; }
   if (con.is(0, "speed") || con.is(0, "accel") || con.is(0, "jerk") || con.is(0, "crash")) {
     if (con.is(0, "crash") && con.words() == 1) {
@@ -646,20 +959,28 @@ void command() {
   }
   if (con.is(0, "all")) {
     long s = lroundf(con.argFloat(1) * STEPS_PER_REV);
+    for (auto &a : axes) if (!limitOk(a, a.mot.target() + s)) return;
     for (auto &a : axes) if (prepMove(a)) a.mot.move(s);
     con.reply("ok all"); return;
   }
   if (con.is(0, "line")) {
     if (con.words() < 3) { con.reply("err line <x steps> <y steps>"); return; }
+    if (!limitOk(AX, con.argInt(1)) || !limitOk(AY, con.argInt(2))) return;
     con.reply(lineTo(con.argInt(1), con.argInt(2)) ? "ok line" : "err line"); return;
   }
 
   Axis *a = findAxis(con.word(1));
   if (!a) { con.reply("err unknown command or axis - type help"); return; }
-  if (con.is(0, "m"))    { if (prepMove(*a)) { a->mot.move(con.argInt(2)); con.reply("ok m %s", a->name); } return; }
-  if (con.is(0, "r"))    { if (prepMove(*a)) { a->mot.move(lroundf(con.argFloat(2) * STEPS_PER_REV)); con.reply("ok r %s", a->name); } return; }
-  if (con.is(0, "g"))    { if (prepMove(*a)) { a->mot.moveTo(con.argInt(2)); con.reply("ok g %s", a->name); } return; }
-  if (con.is(0, "zero")) { a->mot.setPosition(0); a->lost = false; con.reply("ok zero %s", a->name); return; }
+  if (con.is(0, "m") || con.is(0, "r") || con.is(0, "g") || con.is(0, "gomm")) {
+    int32_t t = con.is(0, "m") ? a->mot.target() + con.argInt(2)
+              : con.is(0, "r") ? a->mot.target() + lroundf(con.argFloat(2) * STEPS_PER_REV)
+              : con.is(0, "g") ? con.argInt(2) : toSteps(*a, con.argFloat(2));
+    if (!limitOk(*a, t) || !prepMove(*a)) return;
+    a->mot.moveTo(t);
+    con.reply("ok %s %s", con.word(0), a->name); return;
+  }
+  // zero: position trusted again, but not homed (soft limits off until "home")
+  if (con.is(0, "zero")) { a->mot.setPosition(0); a->lost = false; a->homed = false; con.reply("ok zero %s", a->name); return; }
   if (con.is(0, "tune")) {
     if (anyMoving()) { con.reply("err stop the motors first"); return; }
     busy = "tune"; abortReq = false;
@@ -679,7 +1000,7 @@ void command() {
     if (a->hot) { con.reply("err %s too hot", a->name); return; }
     a->drv.enable(true); a->sleeping = false; a->lastActive = millis(); con.reply("ok on %s", a->name); return;
   }
-  if (con.is(0, "off"))  { a->mot.halt(); a->drv.enable(false); a->sleeping = false; a->lost = true; con.reply("ok off %s", a->name); return; }
+  if (con.is(0, "off"))  { a->mot.halt(); a->drv.enable(false); a->sleeping = false; loseAxis(*a); con.reply("ok off %s", a->name); return; }
   if (con.is(0, "dir"))  {
     if (a->mot.running()) { con.reply("err %s is moving - stop it first", a->name); return; }
     a->c->inv = !a->c->inv; applyAxis(*a); con.reply("ok dir %s %d", a->name, a->c->inv); return;
@@ -721,7 +1042,7 @@ void setup() {
   delay(500);
   BlackBox::begin();
   Settings::begin();
-  Serial.print("\r\nETZ plotter firmware v4 (X, Y, wrist), no outside libraries. Radio is never started.\r\n");
+  Serial.print("\r\nETZ plotter firmware v5 (X, Y, wrist, lift, magnet), no outside libraries. Radio is never started.\r\n");
   Serial.printf("last reset: %s, boot no. %lu\r\n", resetReason(), (unsigned long)BlackBox::boots());
   if (crashedLastTime()) {                 // keep the black box from before the crash, also through a power-off
     Settings::save("crashlog", &BlackBox::live(), sizeof(BlackBox::Log));
@@ -729,6 +1050,12 @@ void setup() {
   }
   BlackBox::add("boot: %s", resetReason());
   pinMode(PIN_STOP_SENSE, INPUT);
+  pinMode(PIN_X_HOME, INPUT_PULLUP); pinMode(PIN_Y_HOME, INPUT_PULLUP);   // 38 / 48: inputs ONLY (board RGB LED)
+  pinMode(PIN_START, INPUT_PULLUP);
+  startBtn.reset(digitalRead(PIN_START));     // held at power-on: no "start" until it is let go and pressed again
+  pinMode(PIN_LED_RED, OUTPUT); digitalWrite(PIN_LED_RED, LOW);
+  if (!magnet.begin(PIN_MAG_IO)) Serial.print("err magnet PWM did not start\r\n");
+  if (!lift.begin(PIN_SERVO)) Serial.print("err servo PWM did not start\r\n");
   for (int i = 0; i < 3; i++) axes[i].c = &cfg.ax[i];
   if (loadProfile("boot")) Serial.print("settings: profile 'boot' from flash\r\n");
   else Serial.print("settings: defaults (nothing saved yet)\r\n");
@@ -753,4 +1080,5 @@ void setup() {
 void loop() {
   if (con.poll()) { command(); con.prompt(); }
   service();
+  queueStep();
 }

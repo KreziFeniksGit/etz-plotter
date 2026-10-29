@@ -18,7 +18,7 @@ it (do not call `esp_wifi_init` / start BLE; build with Bluetooth disabled). Be 
                       |                    |                              |-- TMC2209 x4 VM (100 uF / 25 V at each)
                       |                    |                              |-- Mini560 Pro 5 V #2 -> 5 V servo rail (470 uF + 100 nF)
                       |                    |                              |-- green LED + 1.5 k to GND ("drives powered")
-                      |                    |                              '-- 100 k / 22 k divider -> GPIO47 (stop sense)
+                      |                    |                              '-- 100 k / 22 k divider -> GPIO42 (stop sense)
                       |                    '-- Mini560 Pro 5 V #1 -> 5 V LOGIC (not switched by the stop)
                       |                                 |-- 1N5819 -> board 5V pin (CHECK: do not also feed it from USB
                       |                                 |   without the diode; the diode stops back-feeding the laptop)
@@ -29,7 +29,7 @@ it (do not call `esp_wifi_init` / start BLE; build with Bluetooth disabled). Be 
 
 - The stop button needs **two NC contact blocks** (XB2 / LAY37 bodies take stacked blocks). Block 1 cuts the drive bus
   (steppers and servo). Block 2 cuts the magnet's 5 V. The ESP32, the sensors and connector C stay powered, so the program
-  can see the stop (GPIO47) and report it.
+  can see the stop (GPIO42) and report it.
 - The green LED hangs directly on the drive bus, so it shows the real state of drive power, not what the program thinks.
 - All grounds join at one point on the board: battery minus, both regulators, the drivers, the ESP32 GND.
 - TMC2209 logic (VIO) comes from the board's 3V3 pin.
@@ -52,15 +52,15 @@ GPIO 38 and 48: one of them drives the board's RGB LED (48 on v1.0, 38 on v1.1);
 | 9 | Connector A, SIG (ADC1_CH8) | 0..5 V sensor -> 10 k / 20 k divider -> 0..3.3 V; 10 nF to GND |
 | 10 | Connector B, SIG | 10 k / 20 k divider: a 5 V signal reads as 3.3 V |
 | 11 / 12 | UART1 TX / RX -> connector C | TX through 1 k; RX through a 10 k / 20 k divider (5 V -> 3.3 V); 9600 8-N-1 |
-| 1 | Magnet MOSFET gate (on the power board) | 100 R in series, 100 k gate to GND there; 100N03A (UMW, TO-252, logic level); SS34 across the magnet |
-| 2 | Battery voltage (ADC1_CH1) | divider 100 k / 15 k on the power board; stop the run below 14.0 V |
+| 1 | Magnet MOSFET gate (on the power board) | 100 R in series, 100 k gate to GND there; 100N03A (UMW, TO-252, logic level); SS34 across the magnet. Firmware v5: LEDC PWM 20 kHz, 100 % for 150 ms then 40 % hold, off after 30 s on (`mag on/off`). Low-side switch only: no reverse release pulse possible |
+| 2 | Battery voltage (ADC1_CH1) | divider 100 k / 15 k on the power board. Firmware v5: read every 100 ms, averaged over ~8; `event battery low` below 14.8 V, `event battery stop` + moves refused below 14.0 V; under 5 V = no battery (USB bench), guard off |
 | 42 | Stop sense | high = drive bus on (divider 100 k / 22 k on the power board) |
-| 41 | Servo PWM (MG996R) | LEDC, 50 Hz; 1 k in series on the power board; servo on its own 5 V rail |
+| 41 | Servo PWM (MG996R) | LEDC, 50 Hz (14 bit); 1 k in series on the power board; servo on its own 5 V rail. Firmware v5: `servo <us>` 500..2500, slew 1500 us/s; no pulse until the first command |
 | 40 / 39 | I2C SDA / SCL -> distance sensor (TOF400C) | 4.7 k pull-ups to 3V3 at the plug; XSHUT tied to 3V3 (sensor always on) |
-| 38 | X home switch (input only) | to GND, internal pull-up; wire the NC contact so a broken wire reads as "pressed" |
+| 38 | X home switch (input only) | to GND, internal pull-up; wire the NC contact so a broken wire reads as "pressed". Firmware: HIGH = pressed or broken wire; `home x` searches towards it (default the X 0 end, VERIFY) |
 | 48 | Y home switch (input only) | same as X |
-| 47 | Start button | to GND, internal pull-up, debounce in software |
-| 21 | Red LED ("program running") | 220 R to the LED |
+| 47 | Start button | to GND, internal pull-up; pressed = LOW, 30 ms debounce in the firmware -> `event start` |
+| 21 | Red LED ("program running") | 220 R to the LED; output, `led red 0/1` |
 | USB (UART port) | Laptop (wired, offline) | also powers the board while you develop |
 
 Board-to-board cables (straight 1:1 JST-XH, pin 1 to pin 1), see `pcb/split_boards.md`:
