@@ -201,12 +201,20 @@ def _one_plan(task, gst, rnd, greed, order, tool):
     where = {c: p for p, s in stacks.items() for c in s}
     steps, total = [], 0.0
     goal_places = set(gst)
+    # checkers already in their goal place that must be turned: they need one lift-turn-put-back move
+    needs_turn = {c for c, (gp, lvl) in task.goal.items() if task.angle.get(c) and where[c] == gp
+                  and stacks[gp].index(c) == lvl}
+    moved = set()
     for _ in range(10 * len(task.goal) + 20):
         def final_ok(p):            # stack at p: bottom part that is final
             return _done_height(stacks.get(p, []), gst.get(p, []))
-        if all(final_ok(p) == len(gst[p]) and len(stacks.get(p, [])) == len(gst[p]) for p in gst):
+        if all(final_ok(p) == len(gst[p]) and len(stacks.get(p, [])) == len(gst[p]) for p in gst) and needs_turn <= moved:
             break
         cands = []
+        for c in needs_turn - moved:                  # turn in place (only when it is on top)
+            p = where[c]
+            if stacks[p][-1] == c:
+                cands.append((c, p, p, 'goal'))
         # 1) moves straight to the goal: checker on top of its stack, goal stack ready for it
         for c, (gp, lvl) in task.goal.items():
             p = where[c]
@@ -218,7 +226,7 @@ def _one_plan(task, gst, rnd, greed, order, tool):
             if len(gs) == lvl and final_ok(gp) == lvl and p != gp:
                 cands.append((c, p, gp, 'goal'))
         if order:                   # naive: only the next checker of the fixed order, else unblock
-            nxt = next((c for c in order if not (where[c] == task.goal[c][0] and
+            nxt = next((c for c in order if (c in needs_turn and c not in moved) or not (where[c] == task.goal[c][0] and
                         final_ok(where[c]) > stacks[where[c]].index(c))), None)
             cands = [x for x in cands if x[0] == nxt]
         if not cands:
@@ -232,7 +240,9 @@ def _one_plan(task, gst, rnd, greed, order, tool):
                 # or if another non-final checker is under it, or if it covers a goal cell (off-centre spot)
                 covers_goal = p[0] == 'p' and any(math.dist(xy(p), F.cell_centre(*g)) < 26.0 for g in goal_places
                                                   if len(stacks.get(g, [])) < len(gst[g]))
-                if (p in goal_places and len(s) > fh) or len(s) - fh >= 2 or (covers_goal and s[-1] not in task.goal):
+                buried_turn = any(x in needs_turn and x not in moved for x in s[:-1])   # must uncover it to turn it
+                if (p in goal_places and len(s) > fh) or len(s) - fh >= 2 or (covers_goal and s[-1] not in task.goal) \
+                        or buried_turn:
                     blocked.append(p)
             if not blocked:
                 return None
@@ -258,6 +268,7 @@ def _one_plan(task, gst, rnd, greed, order, tool):
         stacks[p].pop()
         stacks.setdefault(q, []).append(c)
         where[c] = q
+        moved.add(c)
         steps.append((c, p, q, dt, kind))
         total += dt
         tool = xy(q)
