@@ -1,7 +1,8 @@
 # Past papers: VsOSh informatics, Robotics profile, 2025-26 (first year in informatics)
 
 From Egor (30 Oct). The `.txt` files are pdftotext extracts. Formulas inside the final-stage solutions are partly broken
-in the text, so check the PDF for those.
+in the text, so check the PDF for those. Pictures: PyMuPDF is installed (`python -m pip install pymupdf`), and
+`pymupdf.open(f)[page].get_pixmap(dpi=90).save("p.png")` renders a page.
 
 | File | What |
 |---|---|

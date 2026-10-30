@@ -12,7 +12,7 @@ Spoiler: do the paper as a 3-hour mock first.
 | 10-06 algorithms, 4 p | **760** | rect i: half-width 20 - i, half-height 1 + i. For i < j, the narrow tall j crosses the wide low i at 4 points; C(20,2) = 190 pairs -> 760 |
 | 10-07 control, 4 p | **50** | max speed when k v² = F: v = √(1000/0.1) = 100 m/s; half = 50 |
 | 10-08 control, 7 p | **90** | M(m) = m/(m + 10) - 0.001 m; M' = 10/(m + 10)² - 0.001 = 0 -> m + 10 = 100 -> m = 90 |
-| 10-09 navigation, 2 p | **?** | needs the picture (chord position); not solved yet |
+| 10-09 navigation, 2 p | **300** | Picture: horizontal chord, entry on the outer circle at 30°, so the chord is at height R sin 30° = √3 = 1.732 km < 1.75: it dips into the blind zone for x in [-0.25, 0.25] (√(1.75² - 3) = 0.25). Chord length 2·√(12 - 3) = 6 km. The beam goes clockwise 30° -> 0° -> ... and sweeps the chord's far end (150°) at t = 240/30 = 8 s, then again at 8 + 12 = 20 s. Slow drone: the beam meets it once on the way; it must be in the blind gap then, and it must leave before the next sweep at 20 s -> v ≥ 6 km/20 s = 300 m/s. Check v = 300: they meet at t = 10 s at x = 0 (in the gap). Gap works for 268..334 m/s, so the minimum is 300 |
 | 10-10 humanoid, 2 p | **3366** | sum of 40 unit steps turning 0.05 rad: 100·sin(40·0.025)/sin(0.025) = 100·0.84147/0.0249974 = 3366 mm |
 | 10-11 aerial, 2 p | **1** | focus = Σ(S·Cy^α·x)/Σ(S·Cy^α) = (0.08·0.91 + 0.008·1.9)/0.088 = 1.00 m |
 | 10-12 manipulators, 2 p | **16** | torque in kg·cm = Σ m·x: 0.2·10 + 0.15·35 + 0.05·55 + 0.1·60 = 2 + 5.25 + 2.75 + 6 = 16 |
