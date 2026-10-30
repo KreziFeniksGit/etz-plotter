@@ -4,7 +4,8 @@
 
 | Date | Set | Topics | Score | Notes |
 |---|---|---|---|---|
-| 30 Oct | `sets/01_diagnostic.md` | mixed diagnostic | - | given |
+| 30 Oct | `sets/01_diagnostic.md` | mixed basics (made before seeing the real papers; optional warm-up now) | - | given |
+| 30 Oct | `past/regional_2025-26_tasks.pdf` | Mock 0, 3 h, real paper as the diagnostic | - | given; key in `past/regional_2025-26_key.md` (10-09 needs the picture) |
 
 ## Error types (count, update after each set)
 
