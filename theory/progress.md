@@ -45,6 +45,12 @@
 | Mixing limits into one formula (μ x motor torque) | 2 | set 02 / 5, set 03 / 4 |
 | Arithmetic | 0 | |
 
+## To revisit (Egor asked)
+
+- **Prefix sums, 1D and 2D** (31 Oct): knew the naive code is slow but did not see how P works; got it only with
+  a worked table and the solution written for him (`sets/03_task7.py`). Next time: he writes it from scratch,
+  then a 1D variant and a new 2D task without hints.
+
 ## Topic status
 
 Not seen / seen / ok / solid.
