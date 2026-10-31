@@ -19,6 +19,7 @@
 | 06 algorithms | 840 | 760 | 0/4 | 12 min | off by one: widths 40, 38 .. 2 = 20 rectangles, not 21 (4·C(21,2) = 840) |
 | 07 control | 50 | 50 | 4/4 | 9 min | guessed; idea = terminal speed when drive force = drag |
 | 08 control | 90 | 90 | 7/7 | 11 min | - |
+| 09 navigation | 29, then 15 | 300 | 0/2 | - | first misread: beam starts ON the drone (30° = entry point); with hints the reasoning was right (600° -> 20 s, meet at M in the blind gap), then 6000 m / 20 s = 300 m/s divided by 20 again (units slip) |
 
 ## Error types (count, update after each set)
 
@@ -30,7 +31,7 @@
 | Wrong model (geometry of forces, torque vs force) | 1 | 04 |
 | Misread the condition (indexing from 0) | 1 | 05 |
 | Counting off by one | 1 | 06 (summed 4·(1..20) instead of 4·(0..19)) |
-| Careless step (extra factor) | 1 | 01 (x2 for no reason) |
+| Careless step (extra factor / no units written) | 2 | 01 (x2 for no reason), 09 (/20 twice) |
 | Arithmetic | 0 | |
 
 ## Topic status
