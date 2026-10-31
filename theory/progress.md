@@ -6,6 +6,7 @@
 |---|---|---|---|---|
 | 30 Oct | `sets/01_diagnostic.md` | mixed basics (made before seeing the real papers; optional warm-up now) | - | given |
 | 31 Oct | `sets/02_torque.md` 1-5 | torque, lever, tipping, motor -> gearbox -> wheel, traction limit | 1, 2 right; 3, 4, 5 with hints (5 solved himself after the step order) | 3: g on one side only, arm from the wrong point (mast, not wheel), divided instead of subtracting; 4: gearbox upside down (M/(i·η)), forgot 2 wheels, then diameter instead of radius; 5: M·r instead of M/r, thought 2 motors and μ cancel, equated motor torque to gravity torque; understood: two separate limits, take the smaller |
+| 31 Oct | `sets/03_mechanics.md` | mechanics without hints + 2D prefix sums | **10 / 23** (2, 3, 5 right; 1, 4, 6 wrong; 5, 6 after hints) | 1: sin 60° instead of cos 60° (12, key 7); 4: 162 = 180 − 18, subtracted friction instead of taking the min (key 18); 5: did not know rolling resistance, then 202 ✓; 6: forgot masses in the inertial force, then answer in m/s² (key 529 cm/s²); 7: naive code correct on the sample, but 20 full-grid queries = 2.7 s, 10^5 queries far too slow -> prefix sums explained |
 | 31 Oct | Mock 0 = `past/regional_2025-26_tasks.pdf` | full regional paper | **21 / 40** (02, 03, 07, 08, 12 right; 01, 04, 05, 06, 09 wrong) | 59 min for 01-08: fast. Most losses = reading / units, real gap = 04 |
 
 ### Mock 0 details
@@ -27,7 +28,11 @@
 
 | Type | Count | Example |
 |---|---|---|
-| Units / what is asked (turns vs rad, etc.) | 1 | Mock 0 / 01 |
+| Units / what is asked (turns vs rad, etc.) | 2 | Mock 0 / 01, set 03 / 6 (m/s² instead of cm/s²) |
+| sin vs cos (angle above horizon: arm = L cos α) | 1 | set 03 / 1 |
+| Limits: subtracted instead of taking the min | 1 | set 03 / 4 |
+| Inertial force without the mass (m·a) | 1 | set 03 / 6 |
+| Code too slow (no operation count before writing) | 1 | set 03 / 7 |
 | Rounding / answer entry | 0 | |
 | Formula not known (method) | 2 | 03 a sin + b cos (solved anyway), 07 terminal speed |
 | Wrong model (geometry of forces, torque vs force) | 1 | 04 |
@@ -37,7 +42,7 @@
 | Diameter vs radius | 1 | set 02 / 4 |
 | Lever arm from the wrong point | 1 | set 02 / 3 (mast instead of wheel) |
 | Gearbox direction (i multiplies torque) | 1 | set 02 / 4 |
-| Mixing limits into one formula (μ x motor torque) | 1 | set 02 / 5 |
+| Mixing limits into one formula (μ x motor torque) | 2 | set 02 / 5, set 03 / 4 |
 | Arithmetic | 0 | |
 
 ## Topic status
@@ -58,4 +63,4 @@ Not seen / seen / ok / solid.
 | Geometry / navigation | not seen yet (09) |
 | Vision geometry (Hough, RANSAC) | not seen |
 | Electrics, MCU, logic | not seen (low priority) |
-| Programming tasks | not seen |
+| Programming tasks | seen (correct logic; speed / prefix sums not yet) |
