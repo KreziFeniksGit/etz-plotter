@@ -6,7 +6,7 @@ Engineering calculator allowed (not programmable). Rules: `vsosh_robotics_region
 in Приложение 1.
 
 Egor's input (30 Oct): electrics fairly strong (not 100%), **mechanics weak**, 7+ h/week,
-wants short explanations + daily problem sets + mock tests.
+wants short explanations + daily problem sets + mock tests. **Rule (31 Oct): all tasks, tests and explanations in Russian.**
 
 ## What the real tasks look like (main source: `past/`)
 

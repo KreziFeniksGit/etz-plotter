@@ -1,49 +1,51 @@
-# Set 02: torque, lever arms, tipping (week 1)
+# Набор 02: момент силы, плечо, опрокидывание (неделя 1)
 
-## 10-minute theory
+## Теория на 10 минут
 
-**Torque / момент силы:** M = F · d, where d (плечо) = the **perpendicular** distance from the axis to the line of the force.
+**Момент силы:** M = F · d, где d (плечо) — **перпендикуляр** от оси вращения до линии действия силы.
 
-- Gravity is vertical, so its arm is the **horizontal** distance from the axis to the centre of mass.
-- A horizontal force (inertia, a push) has a **vertical** arm.
-- A link raised by angle α: horizontal arm = L·cos α (so the torque is biggest when the link is horizontal).
+- Сила тяжести вертикальна, поэтому её плечо — **горизонтальное** расстояние от оси до центра масс.
+- У горизонтальной силы (сила инерции, толчок) плечо **вертикальное**.
+- Звено поднято на угол α: горизонтальное плечо = L·cos α (момент максимален, когда звено горизонтально).
 
-**Equilibrium / равновесие:** ΣF = 0 and ΣM = 0 about **any** point. Pick the point where the unknown force acts,
-so it drops out.
+**Равновесие:** ΣF = 0 и ΣM = 0 относительно **любой** точки. Выбирай точку, где приложена неизвестная сила, —
+она тогда выпадает из уравнения.
 
-**Tipping / опрокидывание:** the body pivots about the **edge** of its support (the front wheel, for example).
-It tips when the torque that tips it about that edge > the torque that holds it.
+**Опрокидывание:** тело поворачивается вокруг **края** опоры (например, переднего колеса). Оно опрокидывается, когда
+опрокидывающий момент относительно этого края больше удерживающего.
 
-**"Torque in kg·cm"** = Σ m·x (mass x arm, no g). 1 kg·cm ≈ 0.098 N·m (with g = 10: 0.1 N·m).
+**«Момент в кг·см»** = Σ m·x (масса × плечо, без g). 1 кг·см ≈ 0,098 Н·м (при g = 10: 0,1 Н·м).
 
-**Units habit:** write the unit on every line.
+**Привычка с единицами:** пиши единицу измерения в каждой строке.
 
-Example: a servo holds a horizontal link 20 cm long, 100 g, with a 50 g load at the end.
-M = 0.1·10 + 0.05·20 = 2 kg·cm (= 0.2 N·m with g = 10).
+Пример: сервопривод держит горизонтальное звено длиной 20 см, массой 100 г, с грузом 50 г на конце.
+M = 0,1·10 + 0,05·20 = 2 кг·см (= 0,2 Н·м при g = 10).
 
-## Problems (g = 10 m/s², answers rounded to integers, about 60 min)
+## Задачи (g = 10 м/с², ответ — целое число после округления, около 60 минут)
 
-1. **(2 p)** A servo holds a straight link 25 cm long, mass 120 g (centre of mass in the middle), with a gripper + part
-   of 80 g at the end. The link is raised **30° above the horizontal** and is not moving. Holding torque in **N·cm**?
+1. **(2 балла)** Сервопривод удерживает прямое звено длиной 25 см и массой 120 г (центр масс посередине), на конце
+   которого захват с деталью массой 80 г. Звено поднято **на 30° над горизонтом** и неподвижно. Найдите удерживающий
+   момент в **Н·см**.
 
-2. **(2 p)** A gripper finger is a lever. The servo rod pushes it with 6 N at 2 cm from the pivot; the fingertip is 5 cm
-   from the pivot on the other side. Two such fingers squeeze a part from both sides, friction coefficient 0.5.
-   What is the largest part mass in **grams** that the gripper can hold (vertical fingers, part hangs between them)?
+2. **(2 балла)** Палец захвата — рычаг. Тяга сервопривода давит на него с силой 6 Н на расстоянии 2 см от оси;
+   кончик пальца находится в 5 см от оси с другой стороны. Два таких пальца сжимают деталь с двух сторон,
+   коэффициент трения 0,5. Какую наибольшую массу детали в **граммах** может удержать захват (пальцы вертикальны,
+   деталь висит между ними)?
 
-3. **(4 p)** A mobile manipulator. Wheels touch the floor at x = 0 and x = 20 cm. The base (3 kg) has its centre of
-   mass at x = 10 cm. A mast stands at x = 15 cm; a horizontal arm (0.5 kg, centre of mass 15 cm from the mast)
-   points forward (+x). A 1 kg load hangs at the end of the arm, at distance L from the mast. Max L in **cm**
-   before the robot tips over the front wheel?
+3. **(4 балла)** Мобильный манипулятор. Колёса касаются пола в точках x = 0 и x = 20 см. Центр масс основания (3 кг)
+   находится в точке x = 10 см. В точке x = 15 см стоит стойка; от неё вперёд (+x) горизонтально выдвинута рука
+   (0,5 кг, центр масс в 15 см от стойки). На конце руки, на расстоянии L от стойки, висит груз 1 кг. Найдите
+   наибольшее L в **см**, при котором робот ещё не опрокинется через переднее колесо.
 
-4. **(4 p)** A 2 kg wheeled robot drives **up** a 20° slope at constant speed. Two driven wheels, diameter 6 cm, each
-   with its own motor through a gearbox i = 30, efficiency 0.8. Rolling resistance is negligible. Torque needed
-   on **one motor shaft**, in **N·mm**?
+4. **(4 балла)** Колёсный робот массой 2 кг едет **вверх** по склону 20° с постоянной скоростью. Два ведущих колеса
+   диаметром 6 см, у каждого свой мотор с редуктором i = 30 и КПД 0,8. Сопротивлением качению пренебречь. Какой момент
+   нужен на **валу одного мотора**, в **Н·мм**?
 
-5. **(7 p)** A balancing two-wheeled robot: mass 4 kg (point mass at the centre of mass), centre of mass 0.3 m above
-   the wheel axle, wheel radius 5 cm. Each of the 2 wheel motors gives up to 0.6 N·m at the wheel. Friction
-   coefficient wheel/floor 0.5. What is the largest tilt from the vertical, in **degrees**, at which the robot can
-   still stop the fall (hold the angle)?
+5. **(7 баллов)** Двухколёсный балансирующий робот: масса 4 кг (вся масса в центре масс), центр масс на 0,3 м выше
+   оси колёс, радиус колеса 5 см. Каждый из 2 моторов колёс даёт до 0,6 Н·м на колесе. Коэффициент трения колесо/пол
+   0,5. При каком наибольшем отклонении от вертикали, в **градусах**, робот ещё может остановить падение (удержать
+   угол)?
 
-6. **(optional, code, 15 min)** Write a program for regional task 10-05 for any n: input n, output the number from
-   3n to 4n whose smallest remainder (divisors n + 0 .. n + (n - 1)) is the largest (smallest such number on ties).
-   Check: n = 5 -> 17. Then run n = 7 and n = 100 and send me the outputs.
+6. **(по желанию, код, 15 минут)** Напишите программу к региональной задаче 10-05 для любого n: на входе n,
+   на выходе число от 3n до 4n, у которого наименьший остаток (делители n + 0 .. n + (n - 1)) наибольший (при равенстве —
+   наименьшее такое число). Проверка: n = 5 -> 17. Затем запустите для n = 7 и n = 100 и пришлите ответы.
