@@ -9,6 +9,7 @@ in the text, so check the PDF for those. Pictures: PyMuPDF is installed (`python
 | `regional_2025-26_tasks.pdf/.txt` | Regional stage, theory, grades 10-11: conditions only, no key |
 | `final_2025-26_solutions.pdf/.txt` | Final stage, theory, grades 10-11: conditions + answers + solutions |
 | `regional_2025-26_key.md` | Our own solutions for the regional paper. **Don't open before you've done it as a mock.** |
+| `regional_2025-26_official_key.pdf/.txt` | Official regional answers + solutions (from Egor, 31 Oct). Matches our key on all 13 |
 
 ## What the 2025-26 format looked like
 
