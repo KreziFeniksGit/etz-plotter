@@ -5,7 +5,7 @@
 | Date | Set | Topics | Score | Notes |
 |---|---|---|---|---|
 | 30 Oct | `sets/01_diagnostic.md` | mixed basics (made before seeing the real papers; optional warm-up now) | - | given |
-| 31 Oct | Mock 0 = `past/regional_2025-26_tasks.pdf`, tasks 01-08 | regional paper, part 1 | **19 / 33** (02, 03, 07, 08 right; 01, 04, 05, 06 wrong) | 59 min for 8 tasks: fast. 09 + one specialised still to do |
+| 31 Oct | Mock 0 = `past/regional_2025-26_tasks.pdf` | full regional paper | **21 / 40** (02, 03, 07, 08, 12 right; 01, 04, 05, 06, 09 wrong) | 59 min for 01-08: fast. Most losses = reading / units, real gap = 04 |
 
 ### Mock 0 details
 
@@ -19,6 +19,7 @@
 | 06 algorithms | 840 | 760 | 0/4 | 12 min | off by one: widths 40, 38 .. 2 = 20 rectangles, not 21 (4·C(21,2) = 840) |
 | 07 control | 50 | 50 | 4/4 | 9 min | guessed; idea = terminal speed when drive force = drag |
 | 08 control | 90 | 90 | 7/7 | 11 min | - |
+| 12 manipulators (specialised) | 16 | 16 | 2/2 | - | - |
 | 09 navigation | 29, then 15 | 300 | 0/2 | - | first misread: beam starts ON the drone (30° = entry point); with hints the reasoning was right (600° -> 20 s, meet at M in the blind gap), then 6000 m / 20 s = 300 m/s divided by 20 again (units slip) |
 
 ## Error types (count, update after each set)
