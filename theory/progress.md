@@ -5,6 +5,7 @@
 | Date | Set | Topics | Score | Notes |
 |---|---|---|---|---|
 | 30 Oct | `sets/01_diagnostic.md` | mixed basics (made before seeing the real papers; optional warm-up now) | - | given |
+| 31 Oct | `sets/02_torque.md` 1-4 | torque, lever, tipping, motor -> gearbox -> wheel | 1, 2 right; 3, 4 with hints | 3: g on one side only, arm from the wrong point (mast, not wheel), divided instead of subtracting; 4: gearbox upside down (M/(i·η)), forgot 2 wheels, then diameter instead of radius |
 | 31 Oct | Mock 0 = `past/regional_2025-26_tasks.pdf` | full regional paper | **21 / 40** (02, 03, 07, 08, 12 right; 01, 04, 05, 06, 09 wrong) | 59 min for 01-08: fast. Most losses = reading / units, real gap = 04 |
 
 ### Mock 0 details
@@ -33,6 +34,9 @@
 | Misread the condition (indexing from 0) | 1 | 05 |
 | Counting off by one | 1 | 06 (summed 4·(1..20) instead of 4·(0..19)) |
 | Careless step (extra factor / no units written) | 2 | 01 (x2 for no reason), 09 (/20 twice) |
+| Diameter vs radius | 1 | set 02 / 4 |
+| Lever arm from the wrong point | 1 | set 02 / 3 (mast instead of wheel) |
+| Gearbox direction (i multiplies torque) | 1 | set 02 / 4 |
 | Arithmetic | 0 | |
 
 ## Topic status
