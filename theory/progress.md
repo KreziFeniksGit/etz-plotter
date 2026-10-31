@@ -5,7 +5,7 @@
 | Date | Set | Topics | Score | Notes |
 |---|---|---|---|---|
 | 30 Oct | `sets/01_diagnostic.md` | mixed basics (made before seeing the real papers; optional warm-up now) | - | given |
-| 31 Oct | `sets/02_torque.md` 1-4 | torque, lever, tipping, motor -> gearbox -> wheel | 1, 2 right; 3, 4 with hints | 3: g on one side only, arm from the wrong point (mast, not wheel), divided instead of subtracting; 4: gearbox upside down (M/(i·η)), forgot 2 wheels, then diameter instead of radius |
+| 31 Oct | `sets/02_torque.md` 1-5 | torque, lever, tipping, motor -> gearbox -> wheel, traction limit | 1, 2 right; 3, 4, 5 with hints (5 solved himself after the step order) | 3: g on one side only, arm from the wrong point (mast, not wheel), divided instead of subtracting; 4: gearbox upside down (M/(i·η)), forgot 2 wheels, then diameter instead of radius; 5: M·r instead of M/r, thought 2 motors and μ cancel, equated motor torque to gravity torque; understood: two separate limits, take the smaller |
 | 31 Oct | Mock 0 = `past/regional_2025-26_tasks.pdf` | full regional paper | **21 / 40** (02, 03, 07, 08, 12 right; 01, 04, 05, 06, 09 wrong) | 59 min for 01-08: fast. Most losses = reading / units, real gap = 04 |
 
 ### Mock 0 details
@@ -37,6 +37,7 @@
 | Diameter vs radius | 1 | set 02 / 4 |
 | Lever arm from the wrong point | 1 | set 02 / 3 (mast instead of wheel) |
 | Gearbox direction (i multiplies torque) | 1 | set 02 / 4 |
+| Mixing limits into one formula (μ x motor torque) | 1 | set 02 / 5 |
 | Arithmetic | 0 | |
 
 ## Topic status
