@@ -20,3 +20,6 @@ firmware/.vscode/
 laptop/.venv/
 laptop/__pycache__/
 laptop/snap_*.png
+vault/.obsidian/workspace*.json
+vault/.obsidian/cache
+vault/.trash/

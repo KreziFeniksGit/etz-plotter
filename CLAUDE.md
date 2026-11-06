@@ -3,6 +3,9 @@
 You are continuing Egor's olympiad robotics project with him. Read `docs/status.md` first (where we are, decisions,
 open items). Competition rules: `docs/etz_rules_summary.md` (official PDF `docs/etz_kratko_26_27.pdf`).
 Per-area rules load by themselves from `.claude/rules/` (cad, firmware, laptop, pcb) when you open files there.
+Knowledge graph (Obsidian vault, Egor's and Claude's shared knowledge): `vault/Home.md`. Before work in an area, open its
+hub and the lessons it links. After a surprise or a correction, add a `lesson` note; when a decision changes, update its
+note. Rules for notes: `vault/How to use this vault.md`.
 
 ## Who and what
 - Egor, grade 11, VsOSh (all-Russian olympiad) informatics, robotics profile, ETZ 2026-27 final stage.

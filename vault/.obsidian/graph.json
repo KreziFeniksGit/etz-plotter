@@ -1,0 +1,64 @@
+{
+  "colorGroups": [
+    {
+      "query": "tag:#hub",
+      "color": {
+        "a": 1,
+        "rgb": 14737632
+      }
+    },
+    {
+      "query": "tag:#lesson",
+      "color": {
+        "a": 1,
+        "rgb": 15029067
+      }
+    },
+    {
+      "query": "tag:#decision",
+      "color": {
+        "a": 1,
+        "rgb": 14922561
+      }
+    },
+    {
+      "query": "tag:#component",
+      "color": {
+        "a": 1,
+        "rgb": 5219296
+      }
+    },
+    {
+      "query": "tag:#concept",
+      "color": {
+        "a": 1,
+        "rgb": 5745498
+      }
+    },
+    {
+      "query": "tag:#theory",
+      "color": {
+        "a": 1,
+        "rgb": 11568112
+      }
+    },
+    {
+      "query": "tag:#person",
+      "color": {
+        "a": 1,
+        "rgb": 15763518
+      }
+    }
+  ],
+  "showTags": false,
+  "showAttachments": false,
+  "showOrphans": true,
+  "showArrow": false,
+  "nodeSizeMultiplier": 1.2,
+  "lineSizeMultiplier": 1,
+  "centerStrength": 0.5,
+  "repelStrength": 12,
+  "linkStrength": 1,
+  "linkDistance": 180,
+  "scale": 0.6
+}
