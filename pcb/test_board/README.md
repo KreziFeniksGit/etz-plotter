@@ -2,6 +2,8 @@
 
 This is a test version of `../etz_control.kicad_sch`, built as a factory 2-layer board. **The originals are untouched.** Everything lives in this folder.
 
+> **Do not order T1 yet (pin audit, 10 Nov 2026).** `etz_control.kicad_sch` still has the *old* single-board pin map (22 Oct). The split boards and firmware v5 use the new one (`wiring.md` section 2, `firmware/include/pins.h`). On T1 every STEP/DIR pin, the TMC UART (15/16 instead of 5/6), I2C, the home switches, start, the LED, the magnet and the servo are on different GPIOs. Driver EN sits on GPIO13 with a pull-up, so the drivers stay off. The UART addresses are 0/1/2/3 instead of X 0, Y 2, wrist 3. Next step: rebuild T1 with the `pins.h` map.
+
 | File | What it is |
 |---|---|
 | `test_parts.py` | Parts table: a copy of the one in `build_pcb.py`, plus the fixes below |
