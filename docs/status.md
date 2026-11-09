@@ -83,4 +83,7 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
    outside the magnet's reach (`machine.worst_reach_shortfall()`). run.py clamps and compensates the carry offset; a
    real fix is ~20 mm more X travel (longer X rail + boom). Decide after measuring the real build (bringup.md 10).
    Also: firmware default speed 3200 steps/s = 40 mm/s is below the ETZ minimum 100 mm/s (run.py sets 8000 per run).
+11. **Open (9 Nov): AI-use rule.** The regional requirements (7.2.6, 8.2.5, 8.4.4) ban AI-generated code and check the
+   submitted files (photos, STEP, all programs) for AI use: 0 points if found. The code here was written with Claude.
+   Egor decides how to handle it (his own code for the submitted programs; see docs/etz_rules_summary.md). Files due ~18 Jan.
 10. Next big items: the full ETZ (scoring, the 10 final tasks -> tasks.py), camera choice + scan on the real plotter.
