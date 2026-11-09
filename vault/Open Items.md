@@ -8,7 +8,7 @@ updated: 2026-11-06
 Waiting, and on whom. Live list: `docs/status.md` "Open items".
 
 **Egor (hardware)**
-- Print [[Tolerance coupons]] and report fits -> constants in `wrist/wrist_module.py` section 1.
+- Last [[Tolerance coupons]] (D1, F1, G, E2), if needed; the main ones are done.
 - Calipers on everything marked VERIFY ([[Never guess a bought-part dimension - mark VERIFY]]).
 - Multimeter on the battery: [[Verify ADC readings with a multimeter]].
 - Choose the camera: [[Camera (not chosen)]].
