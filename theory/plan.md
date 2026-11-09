@@ -27,7 +27,10 @@ The tasks are physics-olympiad style with a robot story: read carefully, find th
 | 6 | Specialised: pick **one** track and train only it (manipulators or wheeled fit you best) | 1 of 4 | - | medium |
 | 7 | Electrics, sensors, logic, MCU (in the topic list, absent from 2025-26) | 0 / 26 | strong-ish | low: one quick pass |
 
-Doubt: you didn't pick coding practice, but the 2 programming tasks are new for 2026-27 and are probably worth
+**Update 9 Nov:** Egor has Yandex Contest practice and solves the coding tasks there himself, so weekly coding
+practice here is dropped: programming stays only inside mocks (2 tasks each), weeks 6 and 10 become calculation work.
+
+Old note: you didn't pick coding practice, but the 2 programming tasks are new for 2026-27 and are probably worth
 10-15 of the 45 points, with results shown live (easy points if you're fast). I keep 1-2 coding tasks a week.
 
 ## Week plan (about 1 h a day)

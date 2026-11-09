@@ -50,6 +50,9 @@
 - **Prefix sums, 1D and 2D** (31 Oct): knew the naive code is slow but did not see how P works; got it only with
   a worked table and the solution written for him (`sets/03_task7.py`). Next time: he writes it from scratch,
   then a 1D variant and a new 2D task without hints.
+  6 Nov: set 04 task A (1D) written from scratch, correct; 1.03 s on n = q = 2·10⁵ with plain input/print
+  (0.48 s with sys.stdin.readline + one print). 9 Nov: Egor dropped olympiad coding here (practises in Yandex
+  Contest himself) -> closed; B, C of set 04 skipped.
 
 ## Topic status
 
