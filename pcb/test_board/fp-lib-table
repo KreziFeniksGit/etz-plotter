@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "etz")(type "KiCad")(uri "${KIPRJMOD}/etz.pretty")(options "")(descr "ETZ plug-in modules"))
+)

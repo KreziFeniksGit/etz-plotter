@@ -1,0 +1,8 @@
+*.dsn
+*.ses
+*_freerouting_*.log
+route_run.log
+drc.json
+*.kicad_prl
+__pycache__/
+*-backups/
