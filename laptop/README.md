@@ -18,6 +18,7 @@ codes, and tells which **cell** each one is in. Own algorithms on OpenCV buildin
 | `vision.py` | field homography, checker detection (colour + cell), QR reading (whole picture, then cell by cell) |
 | `show_field.py` | shows the test field in a window with random checkers and QR codes (no printer needed) |
 | `camera_test.py` | live camera: draws what it found, prints it |
+| `cam_stand.py` | camera on the test stand (`camera_stand/`), close up: focus score, checker colour / px per mm / height, QR, ArUco. `--test` = no camera |
 | `selftest.py` | no camera: fake photos (tilt, blur, noise, colour cast) of known layouts -> must find everything. Now: 10 / 10 |
 
 ## Setup (done once; already done on Egor's PC)

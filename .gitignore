@@ -18,6 +18,7 @@ pcb/**/.history/
 firmware/.pio/
 firmware/.vscode/
 laptop/.venv/
+laptop/snapshots/
 laptop/__pycache__/
 laptop/snap_*.png
 vault/.obsidian/workspace*.json

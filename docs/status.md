@@ -10,7 +10,10 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
 - Real cable chains (rebuilt per pose), cable harness tubes, wiring map (`wiring.md`).
 - All 140 fasteners modelled and checked (`frame/fasteners.py`, `out/fastener_bom.csv`).
 - Stability / rail loads / sag (`tools/stability.py`, `out/stability.json`).
-- 11 tolerance test coupons (`tolerance/`), not printed yet.
+- 11 tolerance test coupons (`tolerance/`), printed and tested (see open item 1).
+- Camera test stand (`camera_stand/`, 17 Nov): base + 110 mm post + sliding arm with a blank plate for the Sandberg Flex
+  1080P board (out of its case, lens down; Egor drills the holes). Lens tip about 11..80 mm. DFM clean. Program
+  `laptop/cam_stand.py`: focus score, checker colour + px/mm + height from size, QR, ArUco (self-test only, no camera yet).
 - Parts checklist with shop links for the teacher: artifact "ETZ Plotter Parts" (https://claude.ai/artifact/M8HTCgmFh44aH4F9nQc8U6).
 - 3D build-steps page (new account, 21 Oct): https://claude.ai/artifact/S7toKVhgE4pYoQYChNBrtc. The old Parts checklist link belonged to the old account.
 

@@ -1,0 +1,68 @@
+{
+ "base": {
+  "size": [
+   116.0,
+   81.0,
+   20.0
+  ],
+  "fits_220": true,
+  "mass_g": 40.1,
+  "min_wall": 2.8,
+  "thin_samples": 0,
+  "steep_overhang_mm2": 0.0,
+  "widest_bridge_mm": 6.0,
+  "n_sharp": 0,
+  "sharp_internal_edges": [],
+  "thin_examples": [],
+  "valid": true
+ },
+ "post": {
+  "size": [
+   110.0,
+   20.0,
+   10.0
+  ],
+  "fits_220": true,
+  "mass_g": 14.5,
+  "min_wall": 4.01,
+  "thin_samples": 0,
+  "steep_overhang_mm2": 0.0,
+  "widest_bridge_mm": 0,
+  "n_sharp": 0,
+  "sharp_internal_edges": [],
+  "thin_examples": [],
+  "valid": true
+ },
+ "slider": {
+  "size": [
+   129.4,
+   50.8,
+   35.0
+  ],
+  "fits_220": true,
+  "mass_g": 17.4,
+  "min_wall": 2.55,
+  "thin_samples": 0,
+  "steep_overhang_mm2": 0.0,
+  "widest_bridge_mm": 0,
+  "n_sharp": 0,
+  "sharp_internal_edges": [],
+  "thin_examples": [],
+  "valid": true
+ },
+ "interference_mm3": {
+  "base/post": 0.0,
+  "base/slider": 0.0,
+  "post/slider": 0.0,
+  "camera/slider": 0.0
+ },
+ "plate_underside_range": [
+  20.0,
+  88.0
+ ],
+ "lens_tip_range_placeholder": [
+  11.4,
+  79.4
+ ],
+ "fillets_skipped": 12
+}
