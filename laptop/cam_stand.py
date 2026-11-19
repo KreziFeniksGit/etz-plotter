@@ -60,7 +60,13 @@ def measure(img, f_px):
                                 'px_per_mm': round(d / CHECKER_D, 2), 'height_mm': round(f_px * CHECKER_D / d, 1)})
     return res
 
-def draw(img, res, marks, qrs, best, hfov, fps):
+def draw(img, res, marks, qrs, best, hfov, fps, tg=()):
+    for kind, i, pts, ang in tg:
+        col = (255, 255, 0) if kind == 'ArUco' else (0, 165, 255)
+        cv2.polylines(img, [pts.astype(np.int32)], True, col, 3)
+        cv2.circle(img, tuple(pts[0].astype(int)), 8, (0, 0, 255), -1)                    # corner 0 = tag's top-left
+        c = pts.mean(axis=0).astype(int)
+        cv2.putText(img, '%s %d  %.0f deg' % (kind, i, ang), (c[0] - 90, c[1]), cv2.FONT_HERSHEY_SIMPLEX, 1.0, col, 3)
     for c in res['checkers']:
         cx, cy = c['px']
         cv2.circle(img, (cx, cy), int(c['d_px'] / 2), (255, 255, 255), 2)
@@ -83,6 +89,23 @@ def draw(img, res, marks, qrs, best, hfov, fps):
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
 
 QR = cv2.QRCodeDetectorAruco()   # on a real checker sticker (tight-cut, blue around): 40/40 frames vs 7/40 for the classic one
+
+TAG_DETS = [(name, cv2.aruco.ArucoDetector(cv2.aruco.getPredefinedDictionary(d), cv2.aruco.DetectorParameters()))
+            for name, d in (('ArUco', cv2.aruco.DICT_4X4_50), ('April', cv2.aruco.DICT_APRILTAG_36h11))]
+
+def tags(img):
+    """[(kind, id, corners 4x2, angle deg)] of checker tags: ArUco 4x4 (field marks 27/28/29 left out) and AprilTag 36h11.
+    Angle = direction of the tag's top edge (corner 0 -> 1) in the image, 0 = pointing right, clockwise positive."""
+    g = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    out = []
+    for name, det in TAG_DETS:
+        cs, ids, _ = det.detectMarkers(g)
+        for c, i in zip(cs, [] if ids is None else ids.flatten()):
+            if name == 'ArUco' and int(i) in F.MARK_IDS:
+                continue
+            p = c[0]; dx, dy = p[1] - p[0]
+            out.append((name, int(i), p, math.degrees(math.atan2(dy, dx))))
+    return out
 
 def qr_codes(img):
     ok, texts, pts, _ = QR.detectAndDecodeMulti(img)
@@ -117,11 +140,12 @@ def main():
             add_field(res, v)
         if n % 2 == 0:
             qrs = qr_codes(img)
+        tg = tags(img)
         n += 1
         if time.time() - t0 > 1:
             fps, n, t0 = n / (time.time() - t0), 0, time.time()
         shown = img.copy()
-        draw(shown, res, v.marks, qrs, best, hfov, fps)
+        draw(shown, res, v.marks, qrs, best, hfov, fps, tg)
         cv2.imshow('cam stand', cv2.resize(shown, (shown.shape[1] * 960 // shown.shape[1], shown.shape[0] * 960 // shown.shape[1])))
         k = cv2.waitKey(1) & 0xFF
         if k in (27, ord('q')):
@@ -129,7 +153,8 @@ def main():
         if k == ord('s'):
             p = os.path.join(snaps, time.strftime('cam_%H%M%S.png')); cv2.imwrite(p, img); print('saved', p)
         if k == ord('p'):
-            print('focus %.0f' % res['sharp'], res['checkers'], [t for t, _ in qrs], sorted(v.marks))
+            print('focus %.0f' % res['sharp'], res['checkers'], [t for t, _ in qrs], sorted(v.marks),
+                  ['%s %d %.0f deg' % (k, i, a) for k, i, _, a in tg])
         if k == ord('b'):
             best = 0.0
         if k == ord('c'):
@@ -160,7 +185,15 @@ def selftest():
     img2 = np.full((H, W, 3), 255, np.uint8); img2[100:100 + qr.shape[0], 100:100 + qr.shape[1]] = qr[..., None]
     q = [t for t, _ in qr_codes(img2)]
     assert q == ['ETZ test'], q
-    print('cam_stand selftest: ok (checkers, height from size, focus score, QR)')
+    img3 = np.full((H, W, 3), 255, np.uint8)
+    for x0, d, i in ((200, cv2.aruco.DICT_4X4_50, 7), (900, cv2.aruco.DICT_APRILTAG_36h11, 5), (1500, cv2.aruco.DICT_4X4_50, 27)):
+        m = cv2.aruco.generateImageMarker(cv2.aruco.getPredefinedDictionary(d), i, 320)
+        img3[300:620, x0:x0 + 320] = m[..., None]
+    rot = cv2.warpAffine(img3, cv2.getRotationMatrix2D((W / 2, H / 2), -30, 0.8), (W, H), borderValue=(255, 255, 255))
+    got = sorted((k, i, round(a)) for k, i, _, a in tags(rot))
+    assert [(k, i) for k, i, _ in got] == [('April', 5), ('ArUco', 7)], got          # field mark 27 left out
+    assert all(abs(a - 30) <= 2 for _, _, a in got), got
+    print('cam_stand selftest: ok (checkers, height from size, focus score, QR, ArUco + AprilTag ids and angle)')
 
 if __name__ == '__main__':
     selftest() if '--test' in sys.argv else main()
