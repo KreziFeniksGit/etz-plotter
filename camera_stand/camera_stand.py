@@ -7,7 +7,7 @@ before the plotter exists. Not part of the plotter.
     base   - foot plate with a socket for the post; stands on the field
     post   - 20 x 10 bar with a long slot (height adjust) and a notch every 10 mm (height scale)
     slider - rides on the post, clamped by one M3 bolt through the slot; its arm ends in a blank camera plate.
-             The camera board (taken out of the Sandberg Flex 1080P case) is screwed UNDER the plate, lens down.
+             The camera board (DF-1901A webcam board, out of its case) is screwed UNDER the plate, lens down.
              The plate has no screw holes: drill them to match the board (top grooves mark the plate centre).
 
 Bought parts: M3x20 bolt + M3 nut + 2 washers (clamp), 2x M3x12 (post to base, cut their own thread in the post).
@@ -42,7 +42,8 @@ BOLT_Z = 22.0                                   # clamp bolt above the slider bo
 ARM_T, ARM_X1 = 6.0, 50.0                       # arm thickness, end (x from the post front face); width = slider width
 PLATE_X, PLATE_Y, PLATE_T = 70.0, 50.0, 3.0     # blank camera plate, starts at ARM_X1
 GROOVE = (1.2, 0.6)                             # centre-mark grooves on the plate top (round, r 0.6)
-# Camera: Sandberg USB Webcam Flex 1080P HD (133-97), fixed focus, 72 deg horizontal FOV (retailer spec, VERIFY).
+# Camera: DF-1901A USB webcam board (no datasheet found), 1080p, manual focus ring; ~72 deg horizontal FOV
+# (estimated from the 19 Nov live test: ~79 mm wide view at ~54 mm, VERIFY with a ruler).
 # The board inside is NOT measured: placeholder only. Egor measures it when it is out of the case.
 CAM_PCB = (60.0, 22.0, 1.6)                     # VERIFY: board size
 CAM_LENS = (8.0, 7.0)                           # VERIFY: lens holder diameter, height under the board

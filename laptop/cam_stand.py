@@ -2,7 +2,7 @@
 Camera on the test stand (camera_stand/): what the wrist camera will see, before the plotter exists.
 Works close up, where the field marks are usually out of view, so everything is measured in the image itself:
   - focus: sharpness of the centre (variance of the Laplacian), with the best value seen so far.
-    The Sandberg Flex is fixed focus (made for ~0.5 m and further): turn its lens to refocus close, watch this number.
+    The DF-1901A board ships focused for ~0.5 m and further: turn its lens to refocus close, watch this number.
   - checkers: coloured discs -> colour, diameter in px, px/mm (a checker is 26 mm) and the lens height that gives it.
   - QR codes (text), ArUco marks (id; 27/28/29 = field marks; if one is seen, checker field positions and cells too).
 Keys: Q / Esc quit, S save a snapshot (laptop/snapshots), P print what is seen, B reset the best focus,
@@ -17,7 +17,7 @@ import field as F
 from vision import Vision, classify_hue, SAT_MIN, VAL_MIN, CHECKER_D
 sys.stdout.reconfigure(encoding="utf-8")
 
-HFOV_DEG = 72.0              # Sandberg Flex 1080P horizontal field of view (retailer spec, VERIFY with a ruler)
+HFOV_DEG = 72.0              # DF-1901A horizontal FOV, estimated from the 19 Nov live test (VERIFY with a ruler)
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 def sharpness(img):

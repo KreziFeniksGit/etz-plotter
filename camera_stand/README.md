@@ -16,7 +16,7 @@ Bought: M3x20 bolt + M3 nut + 2 washers (height clamp), 2x M3x12 (post to base, 
 thread in the 2.5 mm holes, try on a scrap first).
 
 ## Camera board
-Sandberg USB Webcam Flex 1080P HD, taken out of its case. Screw the board UNDER the plate, lens pointing down.
+DF-1901A USB webcam board (1080p, no datasheet found), taken out of its case. Screw the board UNDER the plate, lens pointing down.
 The plate has no holes: drill them to match the board. The two grooves on top cross at the plate centre.
 The board and lens in the model are a placeholder (VERIFY: measure the board, then change `CAM_PCB`, `CAM_LENS`).
 
