@@ -98,7 +98,7 @@ MAG_D, MAG_H = 20.0, 15.0
 # camera board DF-1901A (Egor measured, 19 Nov): PCB 54 x 19, three M3 holes: one on the centre line 3 mm from one end,
 # a pair 14.5 apart 46 mm further on (5 mm from the other end), lens in the middle of the board (d 14, 23 below the
 # PCB), cable at the two-hole end, back-side parts 3 mm
-CAM_PCB = (54.0, 19.0, 1.6)                 # length, width, thickness (thickness VERIFY)
+CAM_PCB = (54.0, 19.0, 1.6)                 # length, width, thickness (all measured by Egor)
 CAM_HOLE1_E, CAM_HOLE_SPAN, CAM_HOLE_PAIR = 3.0, 46.0, 14.5
 CAM_LENS_D, CAM_LENS_L = 14.0, 23.0
 CAM_BACK_H = 3.0

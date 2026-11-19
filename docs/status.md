@@ -56,7 +56,7 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
 ## Open items (in order)
 0. Build order: `docs/print_test_order.md` (coupons, then Y, X, wrist, electronics, chains, full test).
 1. Tolerance coupons: done and in the model (A, B, C, D2, E1, F2, F3 on 16 Oct; A2 on 21 Oct; `wrist/wrist_module.py` section 1). Still listed as not tested in `tolerance/README.md`: D1 (684ZZ press seat), F1 (servo), G (panel holes), E2 (pancake boss).
-2. Calipers on the parts marked VERIFY: 17HS4023S (body 23, shaft 20..24 - the hub takes up to 23, thread depth 4.5, connector side), V-slot section and Soberizavod bracket hole position, MG996R (sizes came from a third-party model: tab holes 48.4, tab-to-cover 7.7, spline offset 9.6, horn seat depth), horn hole thread, magnet thread depth, camera DF-1901A PCB thickness, chain link pitch and end link, corner bracket hole position, MGN12 rail hole pitch/counterbore, NEMA11 thread depth.
+2. Calipers on the parts marked VERIFY: 17HS4023S (body 23, shaft 20..24 - the hub takes up to 23, thread depth 4.5, connector side), V-slot section and Soberizavod bracket hole position, MG996R (sizes came from a third-party model: tab holes 48.4, tab-to-cover 7.7, spline offset 9.6, horn seat depth), horn hole thread, magnet thread depth, chain link pitch and end link, corner bracket hole position, MGN12 rail hole pitch/counterbore, NEMA11 thread depth.
 3. Egor checks which parts the school has (parts checklist artifact); BOM may change.
 4. Camera: DF-1901A chosen and modelled (v2.16); VERIFY sizes in item 2.
 5. Organisers: is a self-designed PCB with plug-in TMC2209 allowed; V pin of connectors A and B.
