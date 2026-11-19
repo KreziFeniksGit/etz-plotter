@@ -82,8 +82,10 @@ def draw(img, res, marks, qrs, best, hfov, fps):
     cv2.putText(img, 'focus %.0f (best %.0f)  FOV %.0f deg  %.0f fps' % (res['sharp'], best, hfov, fps), (320, 27),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
 
+QR = cv2.QRCodeDetectorAruco()   # on a real checker sticker (tight-cut, blue around): 40/40 frames vs 7/40 for the classic one
+
 def qr_codes(img):
-    ok, texts, pts, _ = cv2.QRCodeDetector().detectAndDecodeMulti(img)
+    ok, texts, pts, _ = QR.detectAndDecodeMulti(img)
     return [(t, p) for t, p in zip(texts, pts) if t] if ok else []
 
 def add_field(res, v):
@@ -113,7 +115,7 @@ def main():
         best = max(best, res['sharp'])
         if v.find_field(img):
             add_field(res, v)
-        if n % 5 == 0:
+        if n % 2 == 0:
             qrs = qr_codes(img)
         n += 1
         if time.time() - t0 > 1:
