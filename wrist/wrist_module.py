@@ -95,10 +95,10 @@ N17P_SHAFT_D, N17P_SHAFT_FLAT, N17P_SHAFT_LEN = 5.0, 4.5, 20.0   # D-shaft; list
 N17P_CONN = (16.0, 6.0, 9.0, 16.0)       # 6-pin JST-PH socket on the +x side face: width, out from the face, z from..to above the mounting face (VERIFY)
 # electromagnet P20/15, 5 V, M3 thread on top
 MAG_D, MAG_H = 20.0, 15.0
-# camera board DF-1901A (Egor measured, 20 Nov): PCB 55 x 19, three M3 holes: one on the centre line 3 mm from one end,
-# a pair 14.5 apart 46 mm further on (Egor: 5 mm from the other end, but 3 + 46 + 5 = 54: VERIFY the 1 mm), lens in the
-# middle of the board (d 14, 23 below the PCB), cable at the two-hole end, back-side parts <= 3 mm (VERIFY: 3 mm or 3 cm?)
-CAM_PCB = (55.0, 19.0, 1.6)                 # length, width, thickness (thickness VERIFY)
+# camera board DF-1901A (Egor measured, 19 Nov): PCB 54 x 19, three M3 holes: one on the centre line 3 mm from one end,
+# a pair 14.5 apart 46 mm further on (5 mm from the other end), lens in the middle of the board (d 14, 23 below the
+# PCB), cable at the two-hole end, back-side parts 3 mm
+CAM_PCB = (54.0, 19.0, 1.6)                 # length, width, thickness (thickness VERIFY)
 CAM_HOLE1_E, CAM_HOLE_SPAN, CAM_HOLE_PAIR = 3.0, 46.0, 14.5
 CAM_LENS_D, CAM_LENS_L = 14.0, 23.0
 CAM_BACK_H = 3.0
@@ -563,10 +563,10 @@ def end_plate():
     return cut_all(body, cut)
 
 # Camera ON TOP of the shelf, lens down through a hole: under the shelf the 23 mm lens would hit a 5-stack next to a
-# checker being placed (h 5). The board runs along y (55 mm does not fit along x under the 600 mm edge), two-hole
+# checker being placed (h 5). The board runs along y (54 mm does not fit along x under the 600 mm edge), two-hole
 # (cable) end at the shelf's +y edge, single hole on a tab at -y. 3 nylon spacers 4.2 x 7 x 3 (same as the pivots)
 # between the shelf top and the board; M3 x 12 from the top, nut under the shelf. The shelf still prints top face down.
-CAM_Y0 = SH_Y1 - CAM_PCB[0]                                           # -16: board -y end
+CAM_Y0 = SH_Y1 - CAM_PCB[0]                                           # -15: board -y end
 CAM_HOLES = [(CAM_X, CAM_Y0 + CAM_HOLE1_E)] + [(CAM_X + a * CAM_HOLE_PAIR / 2, CAM_Y0 + CAM_HOLE1_E + CAM_HOLE_SPAN) for a in (-1, 1)]
 CAM_LENS_C = (CAM_X, CAM_Y0 + CAM_PCB[0] / 2)
 Z_CAM0 = Z_SH1 + SPACER_L                                              # PCB underside
@@ -702,7 +702,7 @@ def bought():
     B['nema17p_shaft'] = sh.cut(box(MAG_X + N17P_SHAFT_FLAT - N17P_SHAFT_D / 2, MAG_Y - 3, Z_SH1 - N17P_SHAFT_LEN - 1, MAG_X + 3, MAG_Y + 3, Z_SH1 + 1))
     B['electromagnet'] = cyl((MAG_X, MAG_Y, H_MID), MAG_D / 2, MAG_H)
     B['camera_board'] = box(CAM_X - CAM_PCB[1] / 2, CAM_Y0, Z_CAM0, CAM_X + CAM_PCB[1] / 2, CAM_Y0 + CAM_PCB[0], Z_CAM0 + CAM_PCB[2]).cut(
-        [cyl((x, y, Z_CAM0 - 1), 1.6, CAM_PCB[2] + 2) for x, y in CAM_HOLES])          # back-side parts (<= 3 mm) not modelled
+        [cyl((x, y, Z_CAM0 - 1), 1.6, CAM_PCB[2] + 2) for x, y in CAM_HOLES])          # back-side parts (3 mm, Egor) not modelled
     B['camera_lens'] = cyl((CAM_LENS_C[0], CAM_LENS_C[1], Z_CAM0), CAM_LENS_D / 2, -CAM_LENS_L)
     for i, (x, y) in enumerate(CAM_HOLES):
         B['cam_spacer%d' % i] = cyl((x, y, Z_SH1), SPACER_OD / 2, SPACER_L).cut(cyl((x, y, Z_SH1 - 1), 2.1, SPACER_L + 2))

@@ -24,9 +24,9 @@ constant to change. Print them before the real parts.
 - **TOF400C (VL53L1X)** under the wrist shelf at x 125.5, looking down, on 2 posts with M2 self-tapping screws.
 
 ## Camera (v2.16)
-- **DF-1901A** board (55 x 19, lens d 14 x 23 in the middle, 3 M3 holes) sits ON TOP of the wrist shelf at x 150,
+- **DF-1901A** board (54 x 19, lens d 14 x 23 in the middle, 3 M3 holes) sits ON TOP of the wrist shelf at x 150,
   along y, lens down through a 15 mm hole, on 3 nylon spacers 4.2x7x3 with 3x M3x12 + nut. Under the shelf the long lens
-  would hit a 5-stack; on top its lowest point is 30 mm at face height 5. The single hole sits on a shelf tab at y -19..-3.
+  would hit a 5-stack; on top its lowest point is 30 mm at face height 5. The single hole sits on a shelf tab at y -18..-3.
   It counts the checkers in a stack, reading with the magnet up (49..74 mm). Wiring and firmware notes: `wiring.md`.
   (An RDS3235 servo was tried and dropped, 16 Oct: the wrist stays on the MG996R.)
 
@@ -213,4 +213,4 @@ Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 11. Route the cables (see wiring.md): the harness tie on the end plate, two ties round the top arm, servo lead to the bundle, two ties on the chain post.
 
 ## Measure before printing (marked VERIFY in the script)
-Wrist stepper 17HS4023S: body height (23), shaft length (20..24; the hub takes up to 23), screw thread depth (4.5), which side the connector is on. Servo (MG996R, taken from a third-party STEP model): tab face to cover top, case height, spline centre to case end, tab hole spacing (48.4), horn face height, horn screw hole thread. Magnet: thread depth. Camera DF-1901A: PCB thickness, the 1 mm hole/edge mismatch (3 + 46 + 5 = 54 vs 55), back-side part height. Enter the measured values at the top of `wrist_module.py`; everything else follows.
+Wrist stepper 17HS4023S: body height (23), shaft length (20..24; the hub takes up to 23), screw thread depth (4.5), which side the connector is on. Servo (MG996R, taken from a third-party STEP model): tab face to cover top, case height, spline centre to case end, tab hole spacing (48.4), horn face height, horn screw hole thread. Magnet: thread depth. Camera DF-1901A: PCB thickness. Enter the measured values at the top of `wrist_module.py`; everything else follows.
