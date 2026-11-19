@@ -78,9 +78,11 @@ def draw(img, res, marks, qrs, best, hfov, fps, tg=()):
     for i, pts in marks.items():
         cv2.polylines(img, [pts.astype(np.int32)], True, (0, 255, 0), 2)
         cv2.putText(img, 'mark %d' % i, tuple(pts[0].astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-    for text, pts in qrs:
-        cv2.polylines(img, [pts.astype(np.int32)], True, (255, 0, 255), 2)
-        cv2.putText(img, 'QR: ' + text[:30], tuple(pts[0].astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 255), 2)
+    for text, pts, ang in qrs:
+        cv2.polylines(img, [pts.astype(np.int32)], True, (255, 0, 255), 3)
+        cv2.circle(img, tuple(pts[0].astype(int)), 8, (0, 0, 255), -1)                    # corner 0 = code's top-left
+        c = pts.mean(axis=0).astype(int)
+        cv2.putText(img, 'QR %s  %.0f deg' % (text[:20], ang), (c[0] - 90, c[1]), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 0, 255), 3)
     h, w = img.shape[:2]
     cv2.rectangle(img, (w // 4, h // 4), (3 * w // 4, 3 * h // 4), (128, 128, 128), 1)    # focus area
     bar = int(min(1.0, res['sharp'] / max(best, 1e-6)) * 300)
@@ -108,8 +110,15 @@ def tags(img):
     return out
 
 def qr_codes(img):
+    """[(text, corners 4x2, angle deg)]: corner 0 -> 1 = the code's top edge (found from its 3 finder squares, so
+    the angle is right over the full 360 deg, checked at 0/30/90/150/200/280); same angle convention as tags()."""
     ok, texts, pts, _ = QR.detectAndDecodeMulti(img)
-    return [(t, p) for t, p in zip(texts, pts) if t] if ok else []
+    out = []
+    for t, p in zip(texts, pts) if ok else ():
+        if t:
+            dx, dy = p[1] - p[0]
+            out.append((t, p, math.degrees(math.atan2(dy, dx))))
+    return out
 
 def add_field(res, v):
     """If a field mark is in view: checker centres in field mm and their cells."""
@@ -153,7 +162,7 @@ def main():
         if k == ord('s'):
             p = os.path.join(snaps, time.strftime('cam_%H%M%S.png')); cv2.imwrite(p, img); print('saved', p)
         if k == ord('p'):
-            print('focus %.0f' % res['sharp'], res['checkers'], [t for t, _ in qrs], sorted(v.marks),
+            print('focus %.0f' % res['sharp'], res['checkers'], ['QR %s %.0f deg' % (t, a) for t, _, a in qrs], sorted(v.marks),
                   ['%s %d %.0f deg' % (k, i, a) for k, i, _, a in tg])
         if k == ord('b'):
             best = 0.0
@@ -183,8 +192,13 @@ def selftest():
     qr = cv2.QRCodeEncoder.create().encode('ETZ test')
     qr = cv2.resize(qr, None, fx=12, fy=12, interpolation=cv2.INTER_NEAREST)
     img2 = np.full((H, W, 3), 255, np.uint8); img2[100:100 + qr.shape[0], 100:100 + qr.shape[1]] = qr[..., None]
-    q = [t for t, _ in qr_codes(img2)]
+    q = [t for t, _, _ in qr_codes(img2)]
     assert q == ['ETZ test'], q
+    for ang in (0, 30, 150, 200, 280):                    # angle over the full turn (200 -> -160)
+        r = cv2.warpAffine(img2, cv2.getRotationMatrix2D((100 + qr.shape[1] / 2, 100 + qr.shape[0] / 2), -ang, 0.7), (W, H),
+                           borderValue=(255, 255, 255))
+        a = [a for _, _, a in qr_codes(r)]
+        assert len(a) == 1 and abs((a[0] - ang + 180) % 360 - 180) <= 2, (ang, a)
     img3 = np.full((H, W, 3), 255, np.uint8)
     for x0, d, i in ((200, cv2.aruco.DICT_4X4_50, 7), (900, cv2.aruco.DICT_APRILTAG_36h11, 5), (1500, cv2.aruco.DICT_4X4_50, 27)):
         m = cv2.aruco.generateImageMarker(cv2.aruco.getPredefinedDictionary(d), i, 320)
