@@ -19,6 +19,7 @@ codes, and tells which **cell** each one is in. Own algorithms on OpenCV buildin
 | `show_field.py` | shows the test field in a window with random checkers and QR codes (no printer needed) |
 | `camera_test.py` | live camera: draws what it found, prints it |
 | `cam_stand.py` | camera on the test stand (`camera_stand/`), close up: focus score, checker colour / px per mm / height, QR, ArUco. `--test` = no camera |
+| `make_stickers.py` | A4 sheet `out/stickers_a4.png` (300 dpi): 16 ArUco 4x4 (no 27-29), 16 AprilTag 36h11, 16 QR (15 mm), each in a 26 mm cut circle + 100 mm scale bar; reads the sheet back to check every sticker |
 | `selftest.py` | no camera: fake photos (tilt, blur, noise, colour cast) of known layouts -> must find everything. Now: 10 / 10 |
 
 ## Setup (done once; already done on Egor's PC)
