@@ -90,6 +90,27 @@ def save_png(path, img):
     i = 8 + 25                                                     # after the signature and IHDR
     open(path, 'wb').write(b[:i] + chunk + b[i:])
 
+def save_pdf(path, img):
+    """One A4 page, the image filling it exactly (210 x 297 mm), so 'actual size' printing keeps the 26 mm circles."""
+    h, w = img.shape
+    data = zlib.compress(img.tobytes(), 9)
+    W, H = A4[0] / 25.4 * 72, A4[1] / 25.4 * 72                    # points
+    content = b'q %.3f 0 0 %.3f 0 0 cm /Im0 Do Q' % (W, H)
+    objs = [b'<< /Type /Catalog /Pages 2 0 R >>',
+            b'<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+            b'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 %.3f %.3f] /Resources << /XObject << /Im0 4 0 R >> >> '
+            b'/Contents 5 0 R >>' % (W, H),
+            b'<< /Type /XObject /Subtype /Image /Width %d /Height %d /ColorSpace /DeviceGray /BitsPerComponent 8 '
+            b'/Filter /FlateDecode /Length %d >>\nstream\n' % (w, h, len(data)) + data + b'\nendstream',
+            b'<< /Length %d >>\nstream\n' % len(content) + content + b'\nendstream']
+    out, offs = b'%PDF-1.4\n', []
+    for i, o in enumerate(objs, 1):
+        offs.append(len(out)); out += b'%d 0 obj\n' % i + o + b'\nendobj\n'
+    x = len(out)
+    out += b'xref\n0 %d\n0000000000 65535 f \n' % (len(objs) + 1) + b''.join(b'%010d 00000 n \n' % o for o in offs)
+    out += b'trailer\n<< /Size %d /Root 1 0 R >>\nstartxref\n%d\n%%%%EOF\n' % (len(objs) + 1, x)
+    open(path, 'wb').write(out)
+
 def check(page, placed):
     """Read the sheet back as a camera at ~4 px/mm would, every sticker must be found with the right value."""
     small = cv2.resize(page, None, fx=0.35, fy=0.35, interpolation=cv2.INTER_AREA)       # 300 dpi -> ~4.1 px/mm
@@ -118,6 +139,7 @@ if __name__ == '__main__':
     out = os.path.join(HERE, 'out'); os.makedirs(out, exist_ok=True)
     path = os.path.join(out, 'stickers_a4.png')
     save_png(path, page)
+    save_pdf(path[:-4] + '.pdf', page)
     bad, extra = check(page, placed)
     print('%d stickers -> %s' % (len(placed), path))
     print('read back: %s, wrong extra ids: %s' % ('all found' if not bad else 'MISSING %s' % bad, extra))
