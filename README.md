@@ -21,7 +21,12 @@ constant to change. Print them before the real parts.
 - Control PCB: `pcb/README.md`.
 
 ## Stack-height sensor (v2.11)
-- **TOF400C (VL53L1X)** under the wrist shelf at x 125.5, looking down, on 2 posts with M2 self-tapping screws; the camera moved to x 150.
+- **TOF400C (VL53L1X)** under the wrist shelf at x 125.5, looking down, on 2 posts with M2 self-tapping screws.
+
+## Camera (v2.16)
+- **DF-1901A** board (55 x 19, lens d 14 x 23 in the middle, 3 M3 holes) sits ON TOP of the wrist shelf at x 150,
+  along y, lens down through a 15 mm hole, on 3 nylon spacers 4.2x7x3 with 3x M3x12 + nut. Under the shelf the long lens
+  would hit a 5-stack; on top its lowest point is 30 mm at face height 5. The single hole sits on a shelf tab at y -19..-3.
   It counts the checkers in a stack, reading with the magnet up (49..74 mm). Wiring and firmware notes: `wiring.md`.
   (An RDS3235 servo was tried and dropped, 16 Oct: the wrist stays on the MG996R.)
 
@@ -100,7 +105,7 @@ Results: no fastener clips any part at rest or in 16 poses against the moving pa
 - no clash between any two parts at rest, and no cable passes through a part;
 - no collision in 54 poses: Y 40/124/208/292/376 x X 287/323/359/395/430 x face height 5/40 mm, plus wrist +-90/180, chains and cables included;
 - every pose stays inside the 600 x 500 polygon; parked device inside zones 1+2, feet only in zone 1;
-- lowest part over the field at face height 5 mm: camera lens at 29.4 mm (clears a 5-stack);
+- lowest part over the field at face height 5 mm: camera lens at 30 mm (clears a 5-stack);
 - every printed part: walls >= 2.4 mm, no unrounded internal corner, no overhang > 45 deg, widest bridge 9.3 mm, fits 220 x 220.
 
 ## Stability and stiffness (`tools/stability.py`, results in `out/stability.json`)
@@ -163,7 +168,7 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 ## Review results
 - Interference: none, checked at face height 5, 10, 16, 22.5, 30, 36 and 40 mm and wrist angle 0, 90 and 180 degrees, with every bought part included.
 - Smallest moving gaps: 0.3 mm (spacers in the arms) and 0.5 mm (lower arm to its boss and to the shelf). Servo case to window: 0.36 mm.
-- Lowest point at face height 5 mm: camera lens 29.4 mm, which clears a stack of 5 checkers (25 mm).
+- Lowest point at face height 5 mm: camera lens 30 mm, which clears a stack of 5 checkers (25 mm).
 - Every printed part: walls at least 2.4 mm, no unrounded internal corner, no overhang beyond 45 degrees, widest bridge 6.3 mm, all fit a 220 x 220 bed. About 72 g of PETG.
 
 ## Wrist module parts list
@@ -180,7 +185,7 @@ Run the model yourself: install FreeCAD 1.0 or 1.1 (Linux AppImage or Windows in
 
 Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 
-**Bought parts:** MG996R servo + 25T aluminium arm horn, NEMA17 pancake 17HS4023S, P20/15 5 V magnet, 3x 684ZZ, 3x nylon spacer 4.2x7x3, 3x shim 4.2x7x0.8, camera, 10x Ruthex M3x5.7.
+**Bought parts:** MG996R servo + 25T aluminium arm horn, NEMA17 pancake 17HS4023S, P20/15 5 V magnet, 3x 684ZZ, 6x nylon spacer 4.2x7x3 (3 pivots, 3 camera), 3x shim 4.2x7x0.8, camera DF-1901A, 10x Ruthex M3x5.7.
 
 **Screws:**
 - 4x M3x6 ISO4762: carriage to the rail block.
@@ -190,7 +195,7 @@ Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 - 2x M3x10: belt riser. 2x M3x10: chain post. 2x M3x8: belt clamp. 2x M3x12 + nut: X chain end on the post.
 - 2x M3x10: shelf to end plate.
 - 4x M3x8 ISO7380: wrist NEMA17 pancake, from below the shelf.
-- 4x M2x6 self-tapping (pan head): camera board, from below into the shelf posts.
+- 3x M3x12 ISO4762 + hex nut: camera board, from the top through the board, a nylon spacer and the shelf, nut below.
 - 1x M3x6 or M3x8 ISO7380: magnet. Use the length that suits the magnet's thread depth.
 - 1x M3x10 ISO7380: top arm to the horn (r 24 hole, tapped M3 in the horn: VERIFY).
 
@@ -202,10 +207,10 @@ Suggested settings: PETG, 0.2 mm layers, 4 walls, 40 % gyroid, no supports.
 5. Press the bearings into both arms from the end-plate side (flush).
 6. Set the servo to its centre pulse (1500 us), fit the horn with the arm level, and screw the top arm to it.
 7. Lower pivot A: M4x30 from the servo side, through the boss, spacer, bearing, shim and nyloc. Snug only: the arm must swing freely.
-8. Screw the shelf to the end plate (2x M3x10 from below). Mount the NEMA17 pancake (4x M3x8 from below, connector toward +x, away from the end plate) and the camera (4x M2x6 self-tapping from below).
+8. Screw the shelf to the end plate (2x M3x10 from below). Mount the NEMA17 pancake (4x M3x8 from below, connector toward +x, away from the end plate) and the camera on top (3x M3x12 down through board + spacer + shelf, nuts below).
 9. B pivots: M4x20 with washer and spacer from the arm side, then bearing, shim, end plate and nyloc.
 10. Press the hub onto the stepper shaft (D flat aligned), with the magnet screw already inside it, then screw on the electromagnet.
-11. Route the cables (see wiring.md): camera cable tie on the shelf, the harness tie on the end plate, two ties round the top arm, servo lead to the bundle, two ties on the chain post.
+11. Route the cables (see wiring.md): the harness tie on the end plate, two ties round the top arm, servo lead to the bundle, two ties on the chain post.
 
 ## Measure before printing (marked VERIFY in the script)
-Wrist stepper 17HS4023S: body height (23), shaft length (20..24; the hub takes up to 23), screw thread depth (4.5), which side the connector is on. Servo (MG996R, taken from a third-party STEP model): tab face to cover top, case height, spline centre to case end, tab hole spacing (48.4), horn face height, horn screw hole thread. Magnet: thread depth. Camera: board size and hole spacing. Enter the measured values at the top of `wrist_module.py`; everything else follows.
+Wrist stepper 17HS4023S: body height (23), shaft length (20..24; the hub takes up to 23), screw thread depth (4.5), which side the connector is on. Servo (MG996R, taken from a third-party STEP model): tab face to cover top, case height, spline centre to case end, tab hole spacing (48.4), horn face height, horn screw hole thread. Magnet: thread depth. Camera DF-1901A: PCB thickness, the 1 mm hole/edge mismatch (3 + 46 + 5 = 54 vs 55), back-side part height. Enter the measured values at the top of `wrist_module.py`; everything else follows.

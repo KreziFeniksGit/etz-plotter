@@ -95,7 +95,7 @@ Inside the wrist module (drawn, rebuilt for every lift pose):
 
 | Harness | From -> to | Ties |
 |---|---|---|
-| `cable_wrist_camera` | camera board -> up through the shelf hole -> tied on the shelf -> up beside the stepper's +x side -> over the motor top -> junction J beside the end plate | 1 on the shelf (`wm_zip_camera`) |
+| `cable_wrist_camera` | camera board DF-1901A (on top of the shelf, cable at its two-hole +y end) -> up over the screw heads -> beside the stepper's +x side -> over the motor top -> junction J beside the end plate | - |
 | `cable_wrist_stepper` | NEMA17 pancake: plug-in 4-wire cable in its 6-pin JST-PH socket, socket turned to +x (VERIFY which side yours has) -> up and over the motor top -> J | - |
 | `cable_wrist_harness` | J -> up the end plate's +y face between the pivot nuts -> over its top edge -> along the top arm's upper edge -> off the arm beyond the carriage plate -> under the X block -> `cable_wrist_bundle` | end plate (`wm_zip_end_plate`), 2 round the top arm's upper web through its lightening slot (`wm_zip_arm_1/2`) |
 | `cable_wrist_servo` | servo (far end of the case; VERIFY lead exit) -> up beside the case -> under the carriage plate -> bundle | 1 through the carriage plate (`wm_zip_servo`) |

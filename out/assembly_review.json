@@ -2,7 +2,7 @@
  "static_park": {},
  "cable_paths_through_parts": "none",
  "footprint_parked_outside_zones": "none",
- "fasteners_count": 119,
+ "fasteners_count": 118,
  "fastener_clips_at_rest": "none",
  "fastener_engagement_problems": "none",
  "near_table": "none",
@@ -143,24 +143,19 @@
    "engagement_mm": 4.75
   },
   "wm_f_cam0": {
-   "screw": "M2 x 6 pan head self-tapping",
-   "into": "self",
-   "engagement_mm": 4.5
+   "screw": "M3 x 12 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 2.4
   },
   "wm_f_cam1": {
-   "screw": "M2 x 6 pan head self-tapping",
-   "into": "self",
-   "engagement_mm": 4.5
+   "screw": "M3 x 12 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 2.4
   },
   "wm_f_cam2": {
-   "screw": "M2 x 6 pan head self-tapping",
-   "into": "self",
-   "engagement_mm": 4.5
-  },
-  "wm_f_cam3": {
-   "screw": "M2 x 6 pan head self-tapping",
-   "into": "self",
-   "engagement_mm": 4.5
+   "screw": "M3 x 12 ISO 4762",
+   "into": "nut",
+   "engagement_mm": 2.4
   },
   "wm_f_magnet": {
    "screw": "M3 x 8 ISO 4026 set screw",
@@ -624,7 +619,7 @@
  ],
  "lowest_over_field_h5": [
   [
-   29.4,
+   30.0,
    "wm_camera_lens"
   ],
   [
@@ -642,6 +637,7 @@
   249.7,
   417.7
  ],
+ "quick": "wrist only: frame pairs and frame DFM not re-checked",
  "dfm_frame": {
   "foot_1": {
    "size": [

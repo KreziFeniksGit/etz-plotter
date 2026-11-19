@@ -95,9 +95,13 @@ N17P_SHAFT_D, N17P_SHAFT_FLAT, N17P_SHAFT_LEN = 5.0, 4.5, 20.0   # D-shaft; list
 N17P_CONN = (16.0, 6.0, 9.0, 16.0)       # 6-pin JST-PH socket on the +x side face: width, out from the face, z from..to above the mounting face (VERIFY)
 # electromagnet P20/15, 5 V, M3 thread on top
 MAG_D, MAG_H = 20.0, 15.0
-# camera board (your choice; change to match it)
-CAM_BOARD, CAM_HOLE_PITCH, CAM_HOLE = 32.0, 28.0, 2.0
-CAM_LENS_D = 12.0
+# camera board DF-1901A (Egor measured, 20 Nov): PCB 55 x 19, three M3 holes: one on the centre line 3 mm from one end,
+# a pair 14.5 apart 46 mm further on (Egor: 5 mm from the other end, but 3 + 46 + 5 = 54: VERIFY the 1 mm), lens in the
+# middle of the board (d 14, 23 below the PCB), cable at the two-hole end, back-side parts <= 3 mm (VERIFY: 3 mm or 3 cm?)
+CAM_PCB = (55.0, 19.0, 1.6)                 # length, width, thickness (thickness VERIFY)
+CAM_HOLE1_E, CAM_HOLE_SPAN, CAM_HOLE_PAIR = 3.0, 46.0, 14.5
+CAM_LENS_D, CAM_LENS_L = 14.0, 23.0
+CAM_BACK_H = 3.0
 # GT2 6 mm belt
 BELT_W, BELT_T, BELT_PITCH = 6.0, 1.4, 2.0
 # zip ties 2.5 mm wide
@@ -113,7 +117,7 @@ H_MID = 22.5                    # magnet face height with the arms level
 H_MIN, H_MAX = 5.0, 40.0        # single checker on the field .. carry height over a 5-stack
 MAG_X, MAG_Y = 110.0, 18.5      # magnet axis relative to pivot A. x 110: the 42 mm pancake motor clears the lower arm's
                                 # B boss (x <= 87.5); y 18.5: its +y side stays at y < 40 (parked inside zone 2)
-CAM_X = 150.0                     # camera posts clear the motor screw heads under the shelf (x 125.5) and the distance sensor
+CAM_X = 150.0                     # camera board centre line: clear of the motor connector (x 137) and the distance sensor (x <= 133)
 # distance sensor TOF400C (VL53L1X module, Egor's; vendor/tof400c_vl53l1x.step): PCB 20 x 12 x 1.4, two M2 holes (d 2) 16 apart,
 # sensor in the middle of the component side, which faces down. The 6-pin header is not fitted: wires soldered to the pads.
 # The VL53L1X needs >= 40 mm: read the stack height with the magnet up (h 40): 49 mm to a 5-stack, 74 mm to the field.
@@ -558,8 +562,17 @@ def end_plate():
     cut.append(zip_slots(ZIPS['zip_end_plate']))                                          # wrist harness, between the pivot nuts
     return cut_all(body, cut)
 
-CAM_POSTS = [(CAM_X + a * CAM_HOLE_PITCH / 2, MAG_Y + b * CAM_HOLE_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
-CAM_POST_H = 4.0                 # posts under the shelf, board screwed to them from below
+# Camera ON TOP of the shelf, lens down through a hole: under the shelf the 23 mm lens would hit a 5-stack next to a
+# checker being placed (h 5). The board runs along y (55 mm does not fit along x under the 600 mm edge), two-hole
+# (cable) end at the shelf's +y edge, single hole on a tab at -y. 3 nylon spacers 4.2 x 7 x 3 (same as the pivots)
+# between the shelf top and the board; M3 x 12 from the top, nut under the shelf. The shelf still prints top face down.
+CAM_Y0 = SH_Y1 - CAM_PCB[0]                                           # -16: board -y end
+CAM_HOLES = [(CAM_X, CAM_Y0 + CAM_HOLE1_E)] + [(CAM_X + a * CAM_HOLE_PAIR / 2, CAM_Y0 + CAM_HOLE1_E + CAM_HOLE_SPAN) for a in (-1, 1)]
+CAM_LENS_C = (CAM_X, CAM_Y0 + CAM_PCB[0] / 2)
+Z_CAM0 = Z_SH1 + SPACER_L                                              # PCB underside
+CAM_TAB = (CAM_X - 9.0, CAM_HOLES[0][1] - 6.0, CAM_X + 9.0)            # shelf tab under the single hole: x0, y0, x1
+CAM_LENS_LOW = Z_CAM0 - CAM_LENS_L - (H_MID - H_MIN)                   # lens bottom with the magnet at h 5
+assert CAM_LENS_LOW >= 5 * 5.0 + 2.0, 'camera lens would hit a 5-stack (25 mm) next to a checker being placed'
 TOF_HOLES = [(TOF_C[0], TOF_C[1] + b * TOF_HOLE_PITCH / 2) for b in (-1, 1)]
 CAM_PILOT_DEPTH = 5.5            # blind M2 pilot: leaves 2.5 mm of shelf above it
 MOTOR_HOLES = [(MAG_X + a * N17P_HOLE_PITCH / 2, MAG_Y + b * N17P_HOLE_PITCH / 2) for a in (-1, 1) for b in (-1, 1)]
@@ -571,22 +584,21 @@ def shelf():
     notch = box(SH_X0 - 1, ARM_Y0 - TOL_MOVE - 0.5, Z_SH0, EP_X1 + 1.0, ARM_Y1 + 0.5, Z_SH1 + 1)   # lower arm clears at full lift
     ny0, ny1 = ARM_Y0 - TOL_MOVE - 0.5, ARM_Y1 + 0.5                            # notch edges
     under = box(76.0, SH_Y0, Z_SH0 - 10.0, 81.0, ny0, Z_SH0).fuse(box(76.0, ny1, Z_SH0 - 10.0, 81.0, SH_Y1, Z_SH0))   # rib under the end plate, flush with the notch
-    posts = [cyl((x, y, Z_SH0), 3.55, -CAM_POST_H) for x, y in CAM_POSTS]      # 2.4+ mm wall around the M2 pilot
-    posts += [cyl((x, y, Z_SH0), 3.55, -TOF_POST_H) for x, y in TOF_HOLES]      # distance sensor posts
-    body = tidy(body.cut(notch).fuse([under] + posts))
+    posts = [cyl((x, y, Z_SH0), 3.55, -TOF_POST_H) for x, y in TOF_HOLES]      # distance sensor posts, 2.4+ mm wall around the M2 pilot
+    tab = box(CAM_TAB[0], CAM_TAB[1], Z_SH0, CAM_TAB[2], SH_Y0 + 1.0, Z_SH1)   # carries the camera's single hole
+    body = tidy(body.cut(notch).fuse([under, tab] + posts))
     body = fillet_all(body)
     cut = [cyl((MAG_X, MAG_Y, Z_SH0 - 1), (N17P_PILOT_D + TOL_MOTOR) / 2, SH_T + 2)]
     for x, y in MOTOR_HOLES:
         cut.append(cyl((x, y, Z_SH0 - 1), (N17P_HOLE + TOL_MOTOR) / 2, SH_T + 2))
-    for x, y in CAM_POSTS:                                                     # M2 self-tapping from below, blind (the motor sits above)
-        cut.append(cyl((x, y, Z_SH0 - CAM_POST_H - 0.01), M2_PILOT / 2, CAM_PILOT_DEPTH))
-    cut.append(cyl((CAM_X, MAG_Y, Z_SH0 - 1), 5.0, SH_T + 2))                  # camera cable pass
+    for x, y in CAM_HOLES:                                                     # camera: M3 x 12 down through board, spacer, shelf; nut below
+        cut.append(cyl((x, y, Z_SH0 - 1), bolt(3) / 2, SH_T + 2))
+    cut.append(cyl((CAM_LENS_C[0], CAM_LENS_C[1], Z_SH0 - 1), (CAM_LENS_D + 1.0) / 2, SH_T + 2))   # lens through the shelf
     for x, y in TOF_HOLES:                                                     # distance sensor: M2 self-tapping from below, blind
         cut.append(cyl((x, y, Z_SH0 - TOF_POST_H - 0.01), M2_PILOT / 2, CAM_PILOT_DEPTH))
     cut.append(cyl((TOF_X1 + 1.2, TOF_C[1], Z_SH0 - 1), 2.0, SH_T + 2))         # its 5 wires (soldered to the pads) go up here
     for x, y in FOOT_SCREWS:
         cut.append(cyl((x, y, Z_SH0 - 1), bolt(3) / 2, SH_T + 2))
-    cut.append(zip_slots(ZIPS['zip_camera']))                                             # camera cable
     return cut_all(body, cut)
 
 def wrist_hub():
@@ -614,7 +626,6 @@ ZIPS = {
     'zip_chain_post_1': ('chain_post', ((CHAIN_X0 + CHAIN_X1) / 2, CP_Y0, 165.0), 'z', 'y', -1, CHAIN_POST_T, 7.0, 10.0, 0.5),
     'zip_chain_post_2': ('chain_post', ((CHAIN_X0 + CHAIN_X1) / 2, CP_Y0, 192.0), 'z', 'y', -1, CHAIN_POST_T, 7.0, 10.0, 0.5),
     'zip_end_plate': ('end_plate', ((EP_X0 + EP_X1) / 2, EP_Y1, 98.0), 'z', 'y', 1, EP_T, 6.0, 8.0, 0.1),
-    'zip_camera': ('shelf', (CAM_X, 30.0, Z_SH1), 'y', 'z', 1, SH_T, 3.5, 5.5, 0.1),
 }
 HARNESS_D = 6.0                   # wrist harness: stepper 4 + camera (USB) wires
 HARNESS_LIFT = 0.3                # harness above the top arm's upper edge
@@ -649,9 +660,8 @@ def harness_paths():
                                             (E, (87.5, 35.4, 132.0)), (E, (82.0, 29.6, 133.5)),
                                             (A, tuple(arm_harness_point(74.0))), (A, tuple(arm_harness_point(32.0))),
                                             (X, (31.7, 8.0, 136.5)), (X, (31.7, -27.6, 136.5)), (X, (13.0, -28.5, 142.0))]),
-        # camera: up through the shelf, tied on it, up beside the motor's +x face and over its top to J
-        'cable_wrist_camera': (3.5, [(E, (CAM_X, MAG_Y, 61.3)), (E, (CAM_X, MAG_Y, 69.35)), (E, (CAM_X, 35.5, 69.35)),
-                                     (E, (cx + 1.0, 36.5, 72.0)), (E, (cx + 1.0, 36.5, MOTOR_TOP + 2.0)), (E, (92.0, 36.5, MOTOR_TOP + 2.0)), (E, J)]),
+        # camera: from the board's two-hole end, over the screw heads, up beside the motor's +x face and over its top to J
+        'cable_wrist_camera': (3.5, [(E, (CAM_X, 37.5, Z_CAM0 + CAM_PCB[2] + 2.0)), (E, (CAM_X, 37.5, 77.0)), (E, (cx + 1.0, 36.5, 77.0)), (E, (cx + 1.0, 36.5, MOTOR_TOP + 2.0)), (E, (92.0, 36.5, MOTOR_TOP + 2.0)), (E, J)]),
         # stepper: plug in the connector on the motor's +x face (VERIFY which side yours has), cable up and over the motor top to J
         'cable_wrist_stepper': (4.0, [(E, (cx + 2.1, MAG_Y, Z_SH1 + (N17P_CONN[2] + N17P_CONN[3]) / 2)), (E, (cx + 2.0, MAG_Y + 6.0, MOTOR_TOP - 2.0)),
                                       (E, (cx - 4.0, 30.0, MOTOR_TOP + 2.5)), (E, (95.0, 31.0, MOTOR_TOP + 2.5)), (E, (88.0, 35.4, J[2])), (E, J)]),
@@ -691,8 +701,11 @@ def bought():
     sh = cyl((MAG_X, MAG_Y, Z_SH1), N17P_SHAFT_D / 2, -N17P_SHAFT_LEN)
     B['nema17p_shaft'] = sh.cut(box(MAG_X + N17P_SHAFT_FLAT - N17P_SHAFT_D / 2, MAG_Y - 3, Z_SH1 - N17P_SHAFT_LEN - 1, MAG_X + 3, MAG_Y + 3, Z_SH1 + 1))
     B['electromagnet'] = cyl((MAG_X, MAG_Y, H_MID), MAG_D / 2, MAG_H)
-    B['camera_board'] = box(CAM_X - CAM_BOARD / 2, MAG_Y - CAM_BOARD / 2, Z_SH0 - 4.0 - 1.6, CAM_X + CAM_BOARD / 2, MAG_Y + CAM_BOARD / 2, Z_SH0 - 4.0)
-    B['camera_lens'] = cyl((CAM_X, MAG_Y, Z_SH0 - 5.6), CAM_LENS_D / 2, -11.0)
+    B['camera_board'] = box(CAM_X - CAM_PCB[1] / 2, CAM_Y0, Z_CAM0, CAM_X + CAM_PCB[1] / 2, CAM_Y0 + CAM_PCB[0], Z_CAM0 + CAM_PCB[2]).cut(
+        [cyl((x, y, Z_CAM0 - 1), 1.6, CAM_PCB[2] + 2) for x, y in CAM_HOLES])          # back-side parts (<= 3 mm) not modelled
+    B['camera_lens'] = cyl((CAM_LENS_C[0], CAM_LENS_C[1], Z_CAM0), CAM_LENS_D / 2, -CAM_LENS_L)
+    for i, (x, y) in enumerate(CAM_HOLES):
+        B['cam_spacer%d' % i] = cyl((x, y, Z_SH1), SPACER_OD / 2, SPACER_L).cut(cyl((x, y, Z_SH1 - 1), 2.1, SPACER_L + 2))
     zt = Z_SH0 - TOF_POST_H
     cx, cy, ch = TOF_COVER
     B['tof_board'] = box(TOF_X0, TOF_C[1] - 10.0, zt - TOF_PCB_T, TOF_X1, TOF_C[1] + 10.0, zt).fuse(
@@ -752,7 +765,8 @@ GROUP = {'wrist_carriage': 'xcar', 'x_belt_riser': 'xcar', 'x_belt_clamp': 'xcar
          'mgn12h_block': 'xcar', 'servo_case': 'xcar', 'servo_tabs': 'xcar', 'servo_spline': 'armT', 'servo_horn': 'armT', 'tof_board': 'end',
          'nema17p': 'end', 'nema17p_pilot': 'end', 'nema17p_shaft': 'wrist', 'electromagnet': 'wrist', 'camera_board': 'end',
          'camera_lens': 'end', 'brg_AL': 'armB', 'brg_BT': 'armT', 'brg_BL': 'armB', 'x_belt': 'xcar',
-         'spacer_AL': 'xcar', 'spacer_BT': 'end', 'spacer_BL': 'end', 'shim_BT': 'end', 'shim_BL': 'end', 'shim_AL': 'xcar'}
+         'spacer_AL': 'xcar', 'spacer_BT': 'end', 'spacer_BL': 'end', 'shim_BT': 'end', 'shim_BL': 'end', 'shim_AL': 'xcar',
+         'cam_spacer0': 'end', 'cam_spacer1': 'end', 'cam_spacer2': 'end'}
 GROUP.update({k: GROUP[spec[0]] for k, spec in ZIPS.items()})
 GROUP.update({'zip_arm_%d' % (i + 1): 'armT' for i in range(len(ARM_TIES_X))})
 

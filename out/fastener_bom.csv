@@ -11,10 +11,10 @@ M4 washer ISO 7089 (9 x 0.8),8,"B pivots: washer, spacer, bearing, shim, end pla
 M3 x 10 ISO 7380,7,"top arm to the horn arm (M3 tapped hole at r 24, VERIFY); X chain fixed end link on the boom top; printed foot: button head on the plywood top, into the foot insert"
 M3 x 6 ISO 7380,1,horn centre screw into the servo spline
 M3 x 8 ISO 7380,4,"wrist stepper (NEMA17 pancake) from below (motor thread depth VERIFY, about 4.5)"
-M2 x 6 pan head self-tapping,6,"distance sensor (TOF400C), M2 self-tapping from below into the shelf posts; camera board, M2 self-tapping from below into the shelf posts"
+M2 x 6 pan head self-tapping,2,"distance sensor (TOF400C), M2 self-tapping from below into the shelf posts"
+M3 x 12 ISO 4762,5,"camera board DF-1901A: down through the board, a nylon spacer and the shelf, nut below; X chain moving end link on the chain post"
+M3 hex ISO 4032 nut,13,"camera board DF-1901A: down through the board, a nylon spacer and the shelf, nut below; X chain moving end link on the chain post; Y chain moving end link, nut under the carriage; X belt tension: pushes the idler slider toward +x; hex nut locks it on the lug; Y belt tension: pushes the idler slider toward -y; hex nut locks it on the lug; Y chain guide (heads sunk under the chain)"
 M3 x 8 ISO 4026 set screw,1,"magnet stud: set screw in an insert in the hub bottom, magnet spun on with Loctite 243 (magnet thread depth VERIFY)"
-M3 x 12 ISO 4762,2,X chain moving end link on the chain post
-M3 hex ISO 4032 nut,10,"X chain moving end link on the chain post; Y chain moving end link, nut under the carriage; X belt tension: pushes the idler slider toward +x; hex nut locks it on the lug; Y belt tension: pushes the idler slider toward -y; hex nut locks it on the lug; Y chain guide (heads sunk under the chain)"
 M3 x 8 ISO 4762,30,"Y carriage to the Y block, heads sunk 5; X rail to the boom (bottom slot); Y rail to the beam (top slot)"
 M5 x 10 ISO 4762,2,"post in its socket, T-nut in the post slot"
 M5 drop-in T-nut for 2020 V-slot (6 mm slot),16,"post in its socket, T-nut in the post slot; X motor mount to the post (+y slot), heads in the counterbore; X motor mount cheek to the post (-x slot); corner bracket; Y beam through plywood and riser, from below"

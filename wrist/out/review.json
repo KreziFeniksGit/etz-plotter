@@ -72,8 +72,8 @@
   "end_plate | nema17p": 1.85
  },
  "lowest_z_at_h5": {
-  "camera_lens": 29.4,
-  "camera_board": 40.4,
+  "camera_lens": 30.0,
+  "camera_board": 53.0,
   "shelf": 36.0,
   "wrist_hub": 20.0,
   "end_plate": 50.0,
@@ -291,12 +291,12 @@
    "qty": 1,
    "size": [
     110.0,
-    42.0,
+    58.0,
     14.0
    ],
    "fits_220": true,
-   "volume_cm3": 17.92,
-   "mass_g": 13.7,
+   "volume_cm3": 18.06,
+   "mass_g": 13.8,
    "min_wall": 2.51,
    "thin_samples": 0,
    "thin_examples": [],

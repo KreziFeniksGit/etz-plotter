@@ -182,10 +182,11 @@ def wrist_fasteners():
     for i, (x, y) in enumerate(W.TOF_HOLES):
         L.append(F('wm_f_tof%d' % i, 'pan', 2, 6, (x, y, zt), (0, 0, 1), 'end', ('self', 'wm_shelf', 3.5, None), extra=('wm_tof_board',),
                    note='distance sensor (TOF400C), M2 self-tapping from below into the shelf posts'))
-    zb = W.Z_SH0 - W.CAM_POST_H - 1.6
-    for i, (x, y) in enumerate(W.CAM_POSTS):
-        L.append(F('wm_f_cam%d' % i, 'pan', 2, 6, (x, y, zb), (0, 0, 1), 'end', ('self', 'wm_shelf', 3.5, None), extra=('wm_camera_board',),
-                   note='camera board, M2 self-tapping from below into the shelf posts'))
+    zb = W.Z_CAM0 + W.CAM_PCB[2]
+    for i, (x, y) in enumerate(W.CAM_HOLES):
+        L.append(F('wm_f_cam%d' % i, 'cap', 3, 12, (x, y, zb), (0, 0, -1), 'end', ('nut', None, 2.4, None),
+                   extra=('wm_camera_board', 'wm_cam_spacer%d' % i), nut=('hex', zb - W.Z_SH0),
+                   note='camera board DF-1901A: down through the board, a nylon spacer and the shelf, nut below'))
     zh = W.H_MID + W.MAG_H                          # hub bottom = magnet top
     L.append(F('wm_f_magnet', 'set', 3, 8, (W.MAG_X, W.MAG_Y, zh + 4.5), (0, 0, -1), 'wrist', ('blind', 'wm_electromagnet', 3.0, 4.0),
                insert=('wm_wrist_hub', 4.5 - INSERT_L),
