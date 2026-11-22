@@ -4,7 +4,7 @@ In:  J1 XT30  battery (after the inline 5 A fuse): 1 GND, 2 VBAT (male; pad 2 = 
      J2 XT30  drive bus back from stop block 1:     1 VDRIVE, 2 GND
 Out: J3 XT30  VDRIVE to the driver board
      J4 1x3   MG996R servo: 1 SIG, 2 +5VS, 3 GND (470 uF + 100 nF at the plug)
-     J5 JST-XH 6 to the controller: 1 MAG_IO, 2 +5V, 3 GND, 4 VBAT_SENSE, 5 STOP_SENSE, 6 SERVO_IO
+     J5 JST-XH 6 to the controller: 1 MAG_IO, 2 GND, 3 +5V, 4 VBAT_SENSE, 5 STOP_SENSE, 6 SERVO_IO
      J6 JST-XH 2 magnet: 1 MAG5, 2 MAG_SW      J7 JST-XH 2 stop block 2: 1 +5V out, 2 MAG5 back
      J8 JST-XH 2 green LED (drives powered): 1 LEDG_A, 2 GND
 U1 Mini560 Pro 5 V (logic, from VBAT), U2 Mini560 Pro 5 V (servo, from VDRIVE). Q1 100N03A (UMW, TO-252, logic level) switches the magnet.
