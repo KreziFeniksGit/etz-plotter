@@ -44,7 +44,7 @@ defaults; set the motor values again (or `tune`) and `save`.
 | **Long commands** | `selftest`, `tune`, `test`, `home` still answer `ping` and `json`, and `stop` aborts them; other commands get `err busy (...)` |
 | **Battery guard** | battery voltage read every 100 ms, averaged over about 8 readings. Below 14.8 V `event battery low (14.75 V)`, below 14.0 V `event battery stop (13.98 V)`: motors stop, queue stopped, every move refused with `err battery` until the average is back above 15.1 V (`event battery ok (...)`). Below 5 V = no battery (bench on USB): guard off. Thresholds: `set batlow`, `set batstop` (0 = off) |
 | **Magnet guard** | the magnet switches itself off after 30 s on (`event magnet timeout`); `set magmax` |
-| **Soft limits** | after `home`, X and Y moves outside their limits (default X 0..143, Y 0..336 mm, VERIFY) are refused with `err limit x`, for every move command (steps or mm). Before homing all moves are allowed and json shows `homed:0`. A crash, `off` or `zero` clears `homed` |
+| **Soft limits** | after `home`, X and Y moves outside their limits (default X 0..165, Y 0..336 mm, VERIFY; 143 before model v2.17: a board with saved settings keeps its old `xmax`, so `set xmax 165` + `save`) are refused with `err limit x`, for every move command (steps or mm). Before homing all moves are allowed and json shows `homed:0`. A crash, `off` or `zero` clears `homed` |
 
 ## Commands
 | Command | Does |

@@ -58,7 +58,7 @@ constexpr uint32_t CFG_MAGIC = 0xE7202605;
 // motors (wiring.md section 4): X/Y StepperOnline 17HS16-2004S1 rated 2.0 A, wrist 17HS4023S rated 0.7 A.
 // tau = thermal time constant in s (VERIFY: not in the datasheets, typical NEMA17 10-15 min, pancake less)
 // 80 steps/mm = GT2 belt on 20-tooth pulleys (40 mm per turn) at 3200 microsteps per turn; wrist direct, 3200 per 360 deg.
-// Soft limits X 0..143, Y 0..336 = the modelled travel (PXB 287..430, PYC 40..376), switch at the 0 end: VERIFY
+// Soft limits X 0..165, Y 0..336 = the modelled travel (PXB 287..452 since model v2.17, PYC 40..376), switch at the 0 end: VERIFY
 // once built (where the switch really triggers, which end, any overtravel).
 const Cfg DEFAULTS = {CFG_MAGIC, sizeof(Cfg), {
   {3200, 6400, 0, 900, 2000, 900, 0, 50, 30, 0},
@@ -66,7 +66,7 @@ const Cfg DEFAULTS = {CFG_MAGIC, sizeof(Cfg), {
   {3200, 6400, 0, 600, 700, 600, 0, 50, 30, 0}},
   60, 70, 90, {0, 0},
   {80.0f, 80.0f, 3200.0f / 360.0f},
-  {0.0f, 0.0f}, {143.0f, 336.0f},
+  {0.0f, 0.0f}, {165.0f, 336.0f},
   {0.0f, 0.0f}, {-1.0f, -1.0f},
   25.0f, 2.0f, 3.0f, 25.0f,
   500.0f, 2500.0f, 1500.0f,

@@ -59,8 +59,9 @@ For new features, design choices and bought parts (not for small fixes, where th
 | `vendor/` | Real STEP models of bought parts (Egor's downloads), swapped in by `world(detail=True)` |
 | `components.csv`, `wiring.md` | Every bought component and why; power, pin map, harnesses, driver currents |
 
-Machine coordinates: X along the 600 mm side (zone 1 x 0..350, field from x 350), Y along 500, Z up from the table, mm.
+Machine coordinates: X along the 600 mm side, Y along 500, Z up from the table, mm. Since v2.17 the polygon starts at
+machine x 13 (`frame.FIELD_DX`): zone 1 x 13..363, field from x 363; polygon x = machine x - 13.
 Y-carriage parts are built at PYC0 = 40 and moved by (0, PYC-40, 0); wrist parts are built in module coordinates
-(x from PXB, y from PYC, absolute z) and moved by `W.pose()` then (PXB, PYC, 0). Travel: PYC 40..376, PXB 287..430,
+(x from PXB, y from PYC, absolute z) and moved by `W.pose()` then (PXB, PYC, 0). Travel: PYC 40..376, PXB 287..452,
 magnet face h 5..40 mm, wrist any angle. Groups: base, ycar, wm_xcar, wm_armT, wm_armB, wm_end, wm_wrist, chainX, chainY.
 The ETZ field frame (laptop) is different: see `laptop/field.py` and `laptop/machine.py`.

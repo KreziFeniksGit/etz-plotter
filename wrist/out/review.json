@@ -51,7 +51,7 @@
   "arm_top | wrist_carriage": 1.5,
   "arm_bottom | wrist_carriage": 0.5,
   "servo_horn | wrist_carriage": 5.81,
-  "arm_top | x_belt_riser": 7.38,
+  "arm_top | x_belt_riser": 10.44,
   "arm_bottom | shelf": 0.5,
   "arm_top | end_plate": 0.8,
   "arm_bottom | end_plate": 0.8,
@@ -148,7 +148,7 @@
    "fits_220": true,
    "volume_cm3": 8.55,
    "mass_g": 6.5,
-   "min_wall": 2.45,
+   "min_wall": 2.68,
    "thin_samples": 0,
    "thin_examples": [],
    "steep_overhang_mm2": 0.0,
@@ -158,7 +158,7 @@
      4.1,
      13.2,
      [
-      -4.0,
+      9.0,
       -2.2,
       6.5
      ]
@@ -167,7 +167,7 @@
      4.1,
      13.2,
      [
-      -12.0,
+      1.0,
       -2.2,
       6.5
      ]

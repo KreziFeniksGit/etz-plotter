@@ -2,10 +2,11 @@
 The plotter's numbers for the laptop side (planner, digital twin, run program): one place, so they always agree.
 Coordinates:
 - field  (X, Y): official ETZ frame, mm, origin = mark 27 (see field.py)
-- machine (mx, my): the polygon frame of the CAD model (frame/frame.py): x along the 600 mm side, y along 500, mm
+- machine (mx, my): the CAD model's frame (frame/frame.py): x along the 600 mm side, y along 500, mm. Since v2.17 the
+  machine stands 13 mm further from the field: polygon x = mx - FIELD_DX (13), polygon y = my
 - carriage (PXB, PYC): X carriage pivot x and Y carriage centre y as in the CAD model (assembly.world())
 - axis (ax, ay): firmware positions in mm from the home switches (`gomm`, `linemm`)
-Nominal sheet position (CAD frame.field_reference): mx = 564.5 - Y, my = 116.5 + X. The real sheet may be 5 mm off and
+Nominal sheet position (CAD frame.field_reference): mx = 577.5 - Y, my = 116.5 + X. The real sheet may be 5 mm off and
 3 deg turned (ETZ 2.2): FieldTransform.fit() finds it from the measured mark positions.
 Calibrated values (bring-up, docs/bringup.md) are kept in machine_cal.json next to this file; defaults below.
 Everything marked VERIFY is an estimate until measured on the real plotter.
@@ -17,13 +18,14 @@ CAL_FILE = os.path.join(HERE, 'machine_cal.json')
 
 # ---------------------------------------------------------------- geometry from the CAD model (wrist/wrist_module.py, frame/frame.py)
 MAG_DX, MAG_DY = 110.0, 18.5           # magnet axis from (PXB, PYC): wrist_module MAG_X, MAG_Y
-PXB_RANGE = (287.0, 430.0)             # X carriage travel (CLAUDE.md)
+PXB_RANGE = (287.0, 452.0)             # X carriage travel (frame.PXB_RANGE, v2.17)
 PYC_RANGE = (40.0, 376.0)              # Y carriage travel
 PARK = (287.0, 40.0)                   # parked carriage (inside zones 1 + 2)
 R_ARM, H_MID = 80.0, 22.5              # lift parallelogram arm, magnet face height with the arms level
 H_MIN, H_MAX = 5.0, 40.0               # magnet face height range
 CHECKER_H = 5.0                        # checker height (ETZ 2.3)
-NOMINAL_ORIGIN = (564.5, 116.5)        # mark 27 in machine mm (CAD)
+FIELD_DX = 13.0                        # frame.FIELD_DX: polygon x = machine x - 13
+NOMINAL_ORIGIN = (564.5 + FIELD_DX, 116.5)   # mark 27 in machine mm (CAD)
 
 DEFAULTS = {
     # firmware axis zero = home switch; the carriage position there (VERIFY at bring-up: home, then measure)
@@ -125,8 +127,8 @@ def clamp_to_reach(mx, my):
 
 def worst_reach_shortfall(step_deg=0.5):
     """How far cells can lie outside the magnet's reach when the sheet is placed anywhere the ETZ allows
-    (5 mm shift, 3 deg turn about the sheet centre). 29 Oct 2026: about 11.9 mm (row Е) and 8.1 mm (row А / buffer А)
-    in machine x: the X travel (PXB 287..430) only just covers the nominal sheet."""
+    (5 mm shift, 3 deg turn about the sheet centre). 29 Oct 2026 (PXB 287..430, no offset): 11.9 mm (row Е) and 8.1 mm
+    (row А / buffer А) in machine x. v2.17 (PXB 287..452, machine 13 mm further from the field): 0."""
     import field as F
     cx, cy = F.SHEET[0] / 2 - F.ORIGIN_ON_SHEET[0], F.SHEET[1] / 2 - F.ORIGIN_ON_SHEET[1]   # sheet centre, field mm
     nominal = FieldTransform()
@@ -205,16 +207,16 @@ def _self_check():
     cal = dict(DEFAULTS)
     t = FieldTransform()
     assert all(abs(a - b) < 1e-9 for a, b in zip(t.to_machine(0, 0), NOMINAL_ORIGIN))
-    assert all(abs(a - b) < 1e-9 for a, b in zip(t.to_machine(84, 56), (564.5 - 56, 116.5 + 84)))   # Б3 as in the CAD
+    assert all(abs(a - b) < 1e-9 for a, b in zip(t.to_machine(84, 56), (NOMINAL_ORIGIN[0] - 56, 116.5 + 84)))   # Б3 as in the CAD
     assert all(abs(a - b) < 1e-9 for a, b in zip(t.to_field(*t.to_machine(30, 40)), (30, 40)))
     # a sheet 4 mm off and 2.5 deg turned is found again from the three marks
-    real = FieldTransform(math.pi / 2 + math.radians(2.5), 566.0, 112.0)
+    real = FieldTransform(math.pi / 2 + math.radians(2.5), NOMINAL_ORIGIN[0] + 1.5, 112.0)
     pairs = [(m, real.to_machine(*m)) for m in ((0, 0), (224, 0), (252, 168))]
     fit = FieldTransform.fit(pairs)
     assert fit.residual(pairs) < 1e-6 and abs(fit.a - real.a) < 1e-9
-    # every cell centre of the nominal sheet is within 1 mm of the magnet's reach (row Е is 0.5 mm short)
+    # every cell centre of the nominal sheet is inside the magnet's reach, and of any sheet placement the ETZ allows
     import field as F
-    assert all(reachable(*t.to_machine(*F.cell_centre(*c)), tol=1.0) for c in F.all_cells())
+    assert all(reachable(*t.to_machine(*F.cell_centre(*c))) for c in F.all_cells())
     assert abs(servo_us(H_MID, cal) - cal['servo_us_level']) < 1e-9
     assert speed_mm_s(cal) >= 100.0                   # ETZ: at least 100 mm/s
     return True

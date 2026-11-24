@@ -7,7 +7,7 @@
 class MoveQueue {
 public:
   static constexpr uint16_t CAP = 128;
-  static constexpr uint8_t LEN = 48;              // longest line kept (e.g. "linemm 143.00 336.00" is 20)
+  static constexpr uint8_t LEN = 48;              // longest line kept (e.g. "linemm 165.00 336.00" is 20)
   bool push(const char *line) {
     if (n_ >= CAP || strlen(line) >= LEN) return false;
     strlcpy(buf_[(head_ + n_) % CAP], line, LEN);

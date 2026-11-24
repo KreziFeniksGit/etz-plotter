@@ -107,7 +107,7 @@ class Twin:
         self.vbat = 15.6; self.vbat_state = 0
         self.queue, self.q_running, self.q_wait_until, self.q_done = [], False, 0.0, 0
         self.prof, self.saved, self.crashes = 'defaults', {}, 0
-        self.limits = {'x': (0.0, 143.0), 'y': (0.0, 336.0)}
+        self.limits = {'x': (0.0, 165.0), 'y': (0.0, 336.0)}   # firmware soft limits (PXB 287..452, v2.17)
         self.home_switch = {'x': 0.0, 'y': 0.0}       # switch position in axis mm
         self.mag_hold_pct = 40
         self.log_lines = []

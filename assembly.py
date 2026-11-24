@@ -272,6 +272,7 @@ def fastener_engagement(parts):
     return rep, bad
 
 def in_zones(x, y):
+    x -= F.FIELD_DX                                  # machine x -> polygon x
     if x < -0.01 or x > 600.01 or y < -0.01 or y > 500.01:
         return False
     return x <= 350.01 or y <= 80.01 or y >= 419.99
@@ -306,7 +307,7 @@ def polygon_excess(parts):
         if g == 'field':
             continue
         b = s.BoundBox
-        e = max(-b.XMin, b.XMax - 600.0, -b.YMin, b.YMax - 500.0, 0.0)
+        e = max(F.FIELD_DX - b.XMin, b.XMax - F.FIELD_DX - 600.0, -b.YMin, b.YMax - 500.0, 0.0)
         if e > worst:
             worst, who = e, k
     return round(worst, 1), who
@@ -318,10 +319,11 @@ def lowest_over_field(parts):
         if g in ('field', 'wm_wrist') or kind == 'reference':
             continue
         b = s.BoundBox
-        if b.XMax < 350 or b.YMax < 85 or b.YMin > 415:
+        x0 = 350 + F.FIELD_DX
+        if b.XMax < x0 or b.YMax < 85 or b.YMin > 415:
             continue
         vs, _ = s.tessellate(1.0)
-        z = [p.z for p in vs if p.x > 350 and 85 < p.y < 415]
+        z = [p.z for p in vs if p.x > x0 and 85 < p.y < 415]
         if z and min(z) < low[0]:
             low = (min(z), k)
     return (round(low[0], 1), low[1]) if low[1] else None
@@ -329,10 +331,10 @@ def lowest_over_field(parts):
 def poses_full():
     out = []
     for PYC in (40.0, 124.0, 208.0, 292.0, 376.0):
-        for PXB in (287.0, 323.0, 359.0, 395.0, 430.0):
+        for PXB in (287.0, 328.0, 369.5, 411.0, 452.0):
             for h in (5.0, 40.0):
                 out.append((PYC, PXB, h, 90.0 if h == 5.0 else 0.0))
-    out += [(376.0, 430.0, 22.5, 180.0), (40.0, 287.0, 22.5, -180.0), (40.0, 430.0, 5.0, 180.0), (376.0, 287.0, 40.0, -90.0)]
+    out += [(376.0, 452.0, 22.5, 180.0), (40.0, 287.0, 22.5, -180.0), (40.0, 452.0, 5.0, 180.0), (376.0, 287.0, 40.0, -90.0)]
     return out
 
 if __name__ == '__main__':
@@ -377,7 +379,7 @@ if __name__ == '__main__':
     R['detailed_static_park'] = collisions(wd) or 'none'
     R['detailed_fastener_clips'] = fastener_check(wd) or 'none'
     dsweep = {}
-    for p in [(40.0, 287.0, 5.0, 90.0), (40.0, 287.0, 40.0, 0.0), (376.0, 430.0, 5.0, 180.0), (376.0, 430.0, 40.0, -90.0)]:
+    for p in [(40.0, 287.0, 5.0, 90.0), (40.0, 287.0, 40.0, 0.0), (376.0, 452.0, 5.0, 180.0), (376.0, 452.0, 40.0, -90.0)]:
         hits = collisions(world(*p, field=False, detail=True), only_moving=True)
         if hits:
             dsweep[str(p)] = hits

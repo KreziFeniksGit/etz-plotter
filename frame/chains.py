@@ -38,7 +38,7 @@ Z_BOOM_TOP = 172.0
 XC_V_LOW = Z_BOOM_TOP + CH_H / 2          # lower run centre (rests on the boom)
 XC_FIX_U = 250.0                          # fixed end link x 230..250 (corner bracket ends at x 229)
 XC_MOVE_DX = 25.0                         # moving end = PXB + 25 (end link x PXB+5..PXB+25 on the chain post)
-XC_L = 280.0                              # chain length between the end links (cut to whole links)
+XC_L = 297.5                              # chain length between the end links (cut to whole links)
 XC_POST_TOP = XC_V_LOW + 2 * CH_R - CH_H / 2   # 208: top of the chain post plate
 
 # =============================================================================

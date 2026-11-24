@@ -28,7 +28,7 @@ Run the checks that cover the change (Egor prefers this): a wrist-only change ->
 `ETZ_QUICK=wrist` assembly run. The full run (about 15 min) before exporting / delivering the whole model:
 1. `cd wrist && ../fcpy review.py` - interference none, DFM clean.
 2. `./fcpy assembly.py` - static_park {}, cable_paths_through_parts none, fastener_clips_at_rest none,
-   fastener_engagement_problems none, fastener_sweep none, sweep none, detailed_* none, worst_outside_polygon 0,
+   fastener_engagement_problems none, fastener_sweep none, sweep none, detailed_* none, worst_outside_polygon only during the run (7 mm at PXB 452 since v2.17; the rules allow it, parked must stay inside),
    parked in zones, every frame part DFM clean (thin 0, sharp 0, overhang 0).
 3. `./fcpy tools/assembly_sim.py` (problems: 0), `./fcpy tools/fea.py` (all ok), then `./fcpy tools/stability.py`.
 4. `./fcgui export_gui.py`, then `./fcpy verify_step.py out/ETZ_plotter_parked.step`.

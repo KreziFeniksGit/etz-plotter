@@ -438,7 +438,7 @@
       "straight 2.5 hex driver",
       "L hex key 2.5"
      ],
-     "spanner_hits": "{'f_beam0_head', 'f_yidler_bolt0_nut'}",
+     "spanner_hits": "{'f_yidler_bolt0_nut', 'f_beam0_head'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -523,7 +523,7 @@
       "straight 2 hex driver",
       "L hex key 2"
      ],
-     "spanner_hits": "{'y_block_mgn12h', 'y_idler_bracket'}",
+     "spanner_hits": "{'y_idler_bracket', 'y_block_mgn12h'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -536,7 +536,7 @@
       "straight 2 hex driver",
       "L hex key 2"
      ],
-     "spanner_hits": "{'y_block_mgn12h', 'y_idler_bracket', 'f_ychain0_nut'}",
+     "spanner_hits": "{'f_ychain0_nut', 'y_idler_bracket', 'y_block_mgn12h'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -742,7 +742,7 @@
      ],
      "pose": [
       40.0,
-      430.0,
+      452.0,
       40.0,
       0.0
      ]
@@ -755,7 +755,7 @@
      ],
      "pose": [
       40.0,
-      430.0,
+      452.0,
       40.0,
       0.0
      ]
@@ -1189,9 +1189,9 @@
     [
      0.0,
      0.0,
-     -1.0
+     1.0
     ],
-    38.5
+    70.0
    ]
   },
   {
@@ -1207,7 +1207,7 @@
       "straight 3 hex driver",
       "L hex key 3"
      ],
-     "spanner_hits": "{'y_carriage', 'plywood_base', 'wm_wrist_carriage', 'wm_x_belt_riser'}",
+     "spanner_hits": "{'wm_wrist_carriage', 'plywood_base', 'y_carriage'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1314,7 +1314,7 @@
       "straight 3 hex driver",
       "L hex key 3"
      ],
-     "spanner_hits": "{'wm_end_plate', 'wm_f_pivotB0_nut'}",
+     "spanner_hits": "{'wm_f_pivotB0_nut', 'wm_end_plate'}",
      "nut": {
       "path_free": true,
       "socket": "wm_end_plate",
@@ -1481,39 +1481,49 @@
     "wm_f_cam0": {
      "entry": null,
      "tool": [
-      "precision Phillips",
-      "stubby Phillips bit"
-     ]
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'wm_camera_lens', 'wm_shelf', 'wm_f_n17p_2_head'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     },
     "wm_f_cam1": {
      "entry": null,
      "tool": [
-      "precision Phillips",
-      "stubby Phillips bit"
-     ]
+      "straight 2.5 hex driver",
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'wm_shelf', 'wm_camera_lens'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     },
     "wm_f_cam2": {
      "entry": null,
      "tool": [
-      "precision Phillips",
-      "stubby Phillips bit"
-     ]
-    },
-    "wm_f_cam3": {
-     "entry": null,
-     "tool": [
-      "precision Phillips",
-      "stubby Phillips bit"
-     ]
+      "L hex key 2.5"
+     ],
+     "spanner_hits": "{'wm_shelf', 'wm_f_cam1_nut', 'wm_camera_lens'}",
+     "nut": {
+      "path_free": true,
+      "socket": true,
+      "spanner": true
+     }
     }
    },
    "insert": [
     [
      0.0,
      0.0,
-     -1.0
+     1.0
     ],
-    7.0
+    20.5
    ]
   },
   {
@@ -1540,7 +1550,7 @@
       "straight 2 hex driver",
       "L hex key 2"
      ],
-     "spanner_hits": "{'f_beam2_head', 'f_guide0_nut'}",
+     "spanner_hits": "{'f_guide0_nut', 'f_beam2_head'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1566,7 +1576,7 @@
       "straight 2 hex driver",
       "L hex key 2"
      ],
-     "spanner_hits": "{'f_guide2_nut', 'f_beam3_head', 'f_ymotor_bolt2_nut'}",
+     "spanner_hits": "{'f_guide2_nut', 'f_ymotor_bolt2_nut', 'f_beam3_head'}",
      "nut": {
       "path_free": true,
       "socket": true,
@@ -1590,7 +1600,11 @@
   }
  ],
  "problems": [],
- "unassigned_parts": [],
+ "unassigned_parts": [
+  "wm_cam_spacer0",
+  "wm_cam_spacer1",
+  "wm_cam_spacer2"
+ ],
  "fasteners_without_parts": [],
  "fastener_plan": {
   "wm_f_block0": [
@@ -1832,14 +1846,6 @@
    ]
   ],
   "wm_f_cam2": [
-   "machine",
-   35,
-   [
-    "wm_camera_board",
-    "wm_shelf"
-   ]
-  ],
-  "wm_f_cam3": [
    "machine",
    35,
    [

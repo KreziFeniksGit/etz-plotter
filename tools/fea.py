@@ -153,7 +153,7 @@ def dist_line(p, c, axis):
 def case_y_motor():
     py, pz = F.YM_C
     face = F.YM_FACE
-    screws = F.YM_WOOD
+    screws = F.YM_BOLTS                                             # M4 through-bolts (v2.14)
     ref = ((F.Y_BELT_X0 + F.Y_BELT_X1) / 2, py, pz)                  # belt centre on the pulley
     return dict(
         build=F.y_motor_mount,
@@ -187,7 +187,7 @@ def case_y_idler():
     ref = ((F.Y_BELT_X0 + F.Y_BELT_X1) / 2, py, pz)
     return dict(
         build=F.y_idler_bracket,
-        fixed=lambda x, y, z: (on(z, F.Z_PLY1) and any(near((x, y), s, 5.0) for s in F.IDLER_WOOD)) or
+        fixed=lambda x, y, z: (on(z, F.Z_PLY1) and any(near((x, y), s, 5.0) for s in F.IDLER_BOLTS)) or
                               (on(y, F.YB_Y0) and near((x, z), (F.YB_X, F.Z_YB1 - 10.0), 5.0)),
         normal=[(lambda x, y, z: on(z, F.Z_PLY1), 3), (lambda x, y, z: on(y, F.YB_Y0) and abs(x - F.YB_X) <= 10.05, 2)],
         rigid=F.y_idler_held,

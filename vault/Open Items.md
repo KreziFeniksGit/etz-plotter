@@ -16,7 +16,7 @@ Waiting, and on whom. Live list: `docs/status.md` "Open items".
 - Build, then [[Bring-up]].
 
 **Decisions after measuring**
-- [[X reach shortfall]]: ~20 mm more X travel?
+- [[X reach shortfall]]: fixed in v2.17 (1 mm spare each end) - measure the real travel
 
 **Organisers / documents**
 - The full ETZ: scoring and the final tasks -> [[Task registry]]. The regional requirements (Appendix 3) may already have part of it.

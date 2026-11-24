@@ -150,7 +150,7 @@ def backlash(ms):
     yc = F.Y_BELT_GAP
     L1 = F.YM_C[0] - yc                                               # upper strand, clamp -> motor
     L2 = loop(F.YI_C[0], F.YM_C[0]) - L1                              # the other way round, via the idler
-    # X: clamp middle at PXB + X_BELT_GAP, farthest from the motor (x 165) at PXB 430
+    # X: clamp middle at PXB + X_BELT_GAP, farthest from the motor (x 165) at PXB 452
     xc = F.PXB_RANGE[1] + W.X_BELT_GAP
     X1 = xc - F.XM_C[0]
     X2 = loop(F.XM_C[0], F.XI_C[0]) - X1
@@ -198,7 +198,7 @@ if __name__ == '__main__':
     R = {'design_acc_m_s2': ACC}
     worst_tip, worst_rail, worst_def = None, None, None
     table = []
-    for p in [(40.0, 287.0, 40.0, 0.0), (376.0, 430.0, 5.0, 0.0), (40.0, 430.0, 5.0, 0.0), (376.0, 287.0, 40.0, 0.0), (208.0, 340.0, 22.5, 0.0)]:
+    for p in [(40.0, 287.0, 40.0, 0.0), (376.0, 452.0, 5.0, 0.0), (40.0, 452.0, 5.0, 0.0), (376.0, 287.0, 40.0, 0.0), (208.0, 340.0, 22.5, 0.0)]:
         ms = masses(*p)
         t = tipping(ms)
         r = rail_loads(ms, p[0], p[1])

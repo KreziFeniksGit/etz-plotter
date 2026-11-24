@@ -27,7 +27,8 @@ Before anything: practise the whole run on the digital twin (`python laptop/run.
    broken wire also reads PRESSED, which is the safe side).
 2. `home x`, then `home y` (`home all` later). Pass: `ok home x`, the carriage stops gently at the switch.
 3. With the carriages at home, measure the CAD positions: X carriage pivot x and Y carriage centre y from the
-   polygon's corner -> [`home_pxb`, `home_pyc`] (CAD park = 287 / 40).
+   polygon's corner -> [`home_pxb`, `home_pyc`] (CAD park = 287 / 40). Machine x = polygon x + 13 (v2.17: the machine
+   stands 13 mm further from the field, plywood -x edge 77 mm from the polygon edge), so add 13 to the measured x.
 4. Soft limits: after homing, `gomm x 200` must answer `err limit x`.
 
 ## 4. Steps per mm
@@ -66,11 +67,12 @@ Before anything: practise the whole run on the digital twin (`python laptop/run.
   the difference = the offset (to be added to machine.py).
 - Field check: scan, then send the magnet over mark 27, 28, 29 (run window / `linemm`): must be within 1 mm of the centres.
 
-## 10. Reach check (known limit, 29 Oct)
-- X travel (PXB 287..430) only just covers the field: with the sheet at the ETZ limits (5 mm off, 3 deg turned) a cell
-  can lie up to 11.9 mm outside the magnet's reach (row Е, and 8 mm at row А / buffer А). run.py clamps and compensates
-  the offset, and warns in the log. Check on the real machine: `home all`, then `gomm x 0` / `gomm x 143` and see
-  which rows the magnet really covers. If the real sheet can come close to the limits, consider ~20 mm more X travel.
+## 10. Reach check (fixed in the model v2.17)
+- v2.17: X travel PXB 287..452 and the machine 13 mm further from the field (plywood -x edge 77 mm from the polygon
+  edge). Even with the sheet at the ETZ limits (5 mm off, 3 deg turned) every cell is in reach, with about 1 mm to spare
+  at each end (before: up to 11.9 mm short). The margin is small: place the base carefully (77 mm), and check on the real
+  machine: `home all`, then `gomm x 0` / `gomm x 165` and see that the magnet covers row А and row Е with the sheet
+  pushed 5 mm toward each side. If the real switch or rail end costs travel, run.py still clamps and warns.
 
 ## 11. First tasks (ETZ 4.2)
 1. On the twin first: `python laptop/run.py`, TWIN, task 1 (Д1 -> Д5), Enter task, Start.

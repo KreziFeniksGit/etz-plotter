@@ -171,7 +171,7 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 
 | Bought | Qty |
 |---|---|
-| Cable chain 10x15 R18 (X 280 mm, Y 250 mm + end links) | 1 m |
+| Cable chain 10x15 R18 (X 297.5 mm, Y 250 mm + end links) | 1 m |
 | M3x12 + nuts, M3x10 button + T-nuts, M3x20 button + nut, wood screws 3.5x20 | |
 | Zip ties 2.5-3 mm, wires and JST connectors (`wiring.md`) | |
 

@@ -42,8 +42,8 @@ FLEX = ('cable_', 'zip_tie', 'wm_zip_', 'y_belt_gt2', 'x_belt_gt2', 'battery_str
 
 # poses to try when something is blocked in the parked pose (carriages can be pushed by hand, the lift turned)
 PARK = (Fr.PYC0, Fr.PXB0, W.H_MAX, 0.0)
-POSES = [PARK, (208.0, 287.0, W.H_MAX, 0.0), (376.0, 287.0, W.H_MAX, 0.0), (40.0, 430.0, W.H_MAX, 0.0), (208.0, 360.0, W.H_MAX, 0.0),
-         (376.0, 430.0, W.H_MAX, 0.0), (208.0, 360.0, W.H_MIN, 0.0), (208.0, 360.0, W.H_MIN, 90.0), (208.0, 430.0, W.H_MIN, 45.0)]
+POSES = [PARK, (208.0, 287.0, W.H_MAX, 0.0), (376.0, 287.0, W.H_MAX, 0.0), (40.0, 452.0, W.H_MAX, 0.0), (208.0, 360.0, W.H_MAX, 0.0),
+         (376.0, 452.0, W.H_MAX, 0.0), (208.0, 360.0, W.H_MIN, 0.0), (208.0, 360.0, W.H_MIN, 90.0), (208.0, 452.0, W.H_MIN, 45.0)]
 
 # ------------------------------------------------------------------ the assembly order
 # (step label, context, [part name prefixes]); context 'machine' or 'bench:<name>'; ('mount', '<name>') fits a

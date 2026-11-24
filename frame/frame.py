@@ -1,8 +1,8 @@
 """
 ETZ plotter v2: frame, Y axis, X axis and base items  (FreeCAD Part script)
 ==========================================================================
-World coordinates (mm), the competition polygon:
-  X  along the 600 mm side (0..350 = zone 1, field from 350),
+World coordinates (mm), the machine frame:
+  X  along the 600 mm side; the polygon starts at x = FIELD_DX (13): zone 1 x 13..363, field from x 363,
   Y  along the 500 mm side,
   Z  up from the table.
 Everything that rides on the Y carriage is built at the parked position
@@ -29,7 +29,12 @@ V = App.Vector
 # =============================================================================
 PYC0, PXB0 = 40.0, 287.0                  # parked Y carriage centre, parked wrist pivot X (magnet at x 397, first cell column)
 PYC_RANGE = (40.0, 376.0)
-PXB_RANGE = (287.0, 430.0)                 # = magnet x 397..540 - W.MAG_X (110): covers the cells (397..537); at 287 the wrist carriage is 2 mm clear of the Y carriage (x 245)
+PXB_RANGE = (287.0, 452.0)                 # magnet x 397..562 (MAG_X 110) = polygon x 384..549: covers the worst sheet placement
+                                           # (5 mm off, 3 deg turned: cells at polygon x 385.1..548.1, laptop/machine.py). At 287 the
+                                           # wrist carriage is 2 mm clear of the Y carriage (x 245); at 452 the belt clamp is 3 mm clear
+                                           # of the X idler lug (x 444) and the block 4 mm from the rail end (v2.17)
+FIELD_DX = 13.0                            # v2.17: the machine stands 13 mm further from the field: polygon x = machine x - 13
+                                           # (plywood -x edge 77 mm from the polygon edge). Moves the reach 13 mm toward zone 1
 # base
 Z_FOOT, Z_PLY = 9.0, 6.0                  # printed feet (below the plywood), plywood thickness (Egor's board: 6 mm)
 Z_PLY0, Z_PLY1 = Z_FOOT, Z_FOOT + Z_PLY
@@ -96,7 +101,7 @@ XI_SLIDER = (461.0, 475.0, 27.0, 36.0)    # x0, x1, y0, y1 (rel. PYC) of the X i
 XI_Z = (155.0, 174.0)                     # slider: z 155 up (the wrist harness passes under the idler parts at X 380..410, z <= 154)
 XI_CAP_T = 12.0                           # end cap thickness (6 in v2.6: it bent under the belt pull)
 XI_TOP = (176.0, 182.0)                   # top flange over the slider: side plate + flange + lug + end wall make a stiff channel
-XI_LUG_X = (442.0, 452.0)                 # lug at the -x end of the side plate; the M3 push screw threads into it
+XI_LUG_X = (444.0, 453.0)                 # lug at the -x end of the side plate; the M3 push screw threads into it (v2.17: -x face 444 for belt clamp clearance at PXB 452, +x face 453 keeps 2.5 mm behind the 6.5 insert pocket)
 XI_PUSH = (31.5, X_BELT_Z)                # (y rel. PYC, z) of the push screw: in line with the axle, so the slider does not tilt
 # control panel and base items
 PANEL = (95.0, 30.0, 160.0, 125.0, 55.0)  # x0, y0, x1, y1, top z
@@ -588,14 +593,14 @@ def x_idler_bracket():
     py0, py1 = P0 + XI_PLATE_DY[0], P0 + XI_PLATE_DY[1]
     zt = XI_TOP[1]
     ys = P0 + XI_SLIDER[3]
-    ep = box(BOOM_X1, P0 - 12.0, Z_BOOM0 - 2.0, BOOM_X1 + XI_CAP_T, py0, Z_BOOM1 + 2.0)
+    ep = box(BOOM_X1, P0 - 12.0, Z_BOOM0 - 2.0, BOOM_X1 + XI_CAP_T, py0, Z_BOOM1)
     side = box(XI_LUG_X[0], py0, z0, BOOM_X1 + XI_CAP_T, py1, zt)
     lug = box(XI_LUG_X[0], py1, z0, XI_LUG_X[1], ys, zt)
     top = box(XI_LUG_X[0], py1, XI_TOP[0], BOOM_X1 + XI_CAP_T, ys, zt)
     wall = box(BOOM_X1, py1, z0, BOOM_X1 + XI_CAP_T, ys, zt)              # end wall: also stops the slider after 4 mm
     floor = box(XI_LUG_X[0], py1, z0, XI_SLIDER[0] - 2.0, ys, z0 + 5.0)   # short bottom flange at the lug (the slider never goes -x)
     r = W.FILLET_IN                                                  # end cap to side plate corner, filleted by hand
-    cove = box(BOOM_X1 - r, py0 - r, z0, BOOM_X1, py0, Z_BOOM1 + 2.0).cut(cyl((BOOM_X1 - r, py0 - r, z0 - 1), r, 30.0))
+    cove = box(BOOM_X1 - r, py0 - r, z0, BOOM_X1, py0, Z_BOOM1).cut(cyl((BOOM_X1 - r, py0 - r, z0 - 1), r, 30.0))  # top = end cap top (v2.17: +2 left a knife edge)
     body = fillet_all(tidy(ep.fuse([side, lug, top, wall, floor, cove])))
     yp, zp = P0 + XI_PUSH[0], XI_PUSH[1]
     cut = [cyl((BOOM_X1 - 1, P0, X_BELT_Z), bolt(5) / 2, 8.0, 'x'),
@@ -820,6 +825,8 @@ def field_reference():
     for nm, (k, n) in (('marker_27', (0, 0)), ('marker_28', (0, 8)), ('marker_29', (6, 9))):
         x, y = 564.5 - 28 * k, 116.5 + 28 * n
         out[nm] = (box(x - 9, y - 9, 0.2, x + 9, y + 9, 0.3), 'black')
+    for s, col in out.values():                    # drawn in polygon coordinates above, placed in the machine frame here
+        s.translate(V(FIELD_DX, 0, 0))
     return out
 
 def build_frame():

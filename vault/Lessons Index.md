@@ -23,6 +23,7 @@ Mistakes and surprises, each turned into a rule. Read the ones for your area bef
 - [[Check that a human can assemble it]]
 - [[Vendor models can be the wrong variant]]
 - [[Non-ASCII paths break external tools]]
+- [[Check which way a change moves the reach]]
 
 **Electronics / firmware**
 - [[Check the wiring before blaming the firmware]]

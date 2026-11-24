@@ -29,7 +29,7 @@ Rules,Connectors,Female headers 2.54 mm: 1x3 (A), 1x3 (B), 1x4 (C) on a perfboar
 Rules,Breadboard,400-point solderless breadboard,1,3,Rule (final stage): at least 400 contacts next to the connectors,
 Base,Plywood,Birch plywood 6 mm 250 x 460,1,5,Egor's board (16 Oct: 6 mm; was planned 12),"Z_PLY in frame.py; wood screws engage 4..6 mm and none comes out underneath"
 Base,Feet,"Printed PETG foot 20 x 10 (part foot_x4) + Ruthex M3 insert + M3x10 countersunk from the plywood top",4,0,"Egor (22 Oct): printed instead of rubber feet; 1 mm locating recess (20 mm Forstner), 9 mm under the plywood: room for the nuts",
-Cables,Cable chain,"10 x 15 mm open cable chain R18 (outer 15 x 23), 1 m with end links",1,8,"X needs 280 mm, Y 250 mm (plus 2 end links each); R18 keeps the bend height at 51 mm","outer 15 x 23, inner 10 x 15, R18 at the centre line; end links fixed through slots, so any hole spacing fits (VERIFY link pitch)"
+Cables,Cable chain,"10 x 15 mm open cable chain R18 (outer 15 x 23), 1 m with end links",1,8,"X needs 297.5 mm (17 links, v2.17; was 280), Y 250 mm (plus 2 end links each); R18 keeps the bend height at 51 mm","outer 15 x 23, inner 10 x 15, R18 at the centre line; end links fixed through slots, so any hole spacing fits (VERIFY link pitch)"
 Fasteners,Heat-set inserts,Ruthex RX-M3x5.7,30,0.15,"15 used (one is the magnet stud in the hub), spares for mistakes","hole 4.0 mm, pocket 6.5 mm"
 Fasteners,Screws and nuts,"ISO 4762 / ISO 7380 M2, M3, M4, M5 assortment; M3/M5 drop-in T-nuts",1,20,,
 Vision,Camera,DF-1901A USB webcam board (1080p; no datasheet found),1,-,"Egor's, already works on the test stand. 54 x 19 PCB, 3 M3 holes, lens d 14 x 23 in the middle; on top of the wrist shelf, lens through a hole, 3x M3x12 + nut + nylon spacers",

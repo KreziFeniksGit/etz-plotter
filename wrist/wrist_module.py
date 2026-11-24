@@ -170,8 +170,9 @@ FOOT_X0, FOOT_X1 = 59.0, 75.0     # pivot B nut starts at x 76
 X_BELT_Z = 162.0 - 12.73 / 2
 XB_Y0, XB_Y1 = 14.0, 20.0
 # belt riser and chain post footprints
-RS_X0, RS_X1 = CP_X0, 2.0               # 42 mm: the open belt's two ends, 9 teeth each (x > -16 it overhangs the plate edge, above the arms)
-X_BELT_GAP = -19.0              # the two belt ends meet here (over the middle clamp screw)
+RS_X0, RS_X1 = CP_X0 - 13.0, -11.0      # 42 mm: the open belt's two ends, 9 teeth each. v2.17: moved 13 mm toward -x (it overhangs the
+                                        # plate's -x edge by 13 mm) so the X carriage reaches PXB 452 with the clamp 3 mm clear of the X idler lug
+X_BELT_GAP = -32.0              # the two belt ends meet here (over the middle clamp screw; -19 before v2.17)
 RS_Y0, RS_Y1 = 14.5, CP_Y_RISER
 CHAIN_X0, CHAIN_X1 = 4.0, 22.0
 

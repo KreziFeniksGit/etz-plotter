@@ -86,25 +86,25 @@ Results: no fastener clips any part at rest or in 16 poses against the moving pa
 
 
 ## Cable chains and cables (v2.1)
-- **X chain** (10 x 15 R18, 280 mm): fixed end on the boom top at x 230..250 (2 M3 drop-in T-nuts), lower run lies on the boom,
+- **X chain** (10 x 15 R18, 297.5 mm = 17 links since v2.17, was 280): fixed end on the boom top at x 230..250 (2 M3 drop-in T-nuts), lower run lies on the boom,
   U-bend toward +X, upper run back to the moving end on top of `chain_post`. The post top is now at z 208 (boom top 172 + 2 x R18)
   and has a 45 deg brace and a slot for the end link screws (any hole spacing fits).
 - **Y chain** (10 x 15 R18, 250 mm): lower run in the printed `y_chain_guide` on the plywood (x 235.5, y 213..421), U-bend toward +Y,
   upper run to the moving end on top of the Y carriage (M3 + nut through a slot). The guide's 17 mm floor (pockets underneath)
   lifts the chain so the upper run meets the carriage top.
 - Both chains are rebuilt for every pose: the bend sits where the chain length puts it (it moves at half the carriage speed).
-  X bend x 395..467, Y bend y 250..418: the Y bend stays 57 mm inside the polygon edge.
+  X bend x 401..484 (v2.17), Y bend y 250..418: the Y bend stays 57 mm inside the polygon edge.
 - **Cable tunnel:** the Y beam now sits on four printed risers (10 mm), so the cables from the battery, the panel and the Y motor
   cross under the beam (at y 60 and y 205) to the electronics board. Before this, nothing could reach the board without crossing the
   Y carriage's path. The post is 10 mm shorter (130 mm), so the boom height is unchanged.
 - The cable bundles are modelled as tubes (`cable_*`), so the collision check sees them.
-- **X travel was pivot X 292..435** (v2.2; 287..430 since v2.8) (magnet X 397..540, the cells need 397..537). Raising the Y axis left the
+- **X travel was pivot X 292..435** (v2.2; 287..430 since v2.8; **287..452 since v2.17**, see below) (magnet X 397..540, the cells need 397..537). Raising the Y axis left the
   wrist carriage 3 mm into the Y carriage at the old minimum (256).
 
 ## Whole-device check (`assembly.py`, results in `out/assembly_review.json`)
 - no clash between any two parts at rest, and no cable passes through a part;
-- no collision in 54 poses: Y 40/124/208/292/376 x X 287/323/359/395/430 x face height 5/40 mm, plus wrist +-90/180, chains and cables included;
-- every pose stays inside the 600 x 500 polygon; parked device inside zones 1+2, feet only in zone 1;
+- no collision in 54 poses: Y 40/124/208/292/376 x X 287/328/369.5/411/452 x face height 5/40 mm, plus wrist +-90/180, chains and cables included;
+- parked device inside the 600 x 500 polygon and zones 1+2, feet only in zone 1; during the run parts may leave the polygon (ETZ rules): at PXB 452 the wrist shelf passes 7 mm beyond the 600 mm edge;
 - lowest part over the field at face height 5 mm: camera lens at 30 mm (clears a 5-stack);
 - every printed part: walls >= 2.4 mm, no unrounded internal corner, no overhang > 45 deg, widest bridge 9.3 mm, fits 220 x 220.
 
