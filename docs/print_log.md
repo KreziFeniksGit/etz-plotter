@@ -31,6 +31,15 @@ Status: `printed` / `REPRINT` (model changed since) / `-` (not printed yet).
 | 3 | `wrist_wrist_hub` | 1 | - | | | wait (as above) |
 | 5 | `y_chain_guide` | 1 | - | | | |
 
+Test stands (not plotter parts):
+
+| Stand | Part | Qty | Status | Reported | Note |
+|---|---|---|---|---|---|
+| camera | `camera_stand/out/camera_stand_{base,post,slider}.step` | 3 | printed | 19 Nov | stand built |
+| wrist | `wrist_stand/out/wrist_stand_base.step` | 1 | - | | 24 Nov model |
+| wrist | `wrist_stand/out/wrist_stand_post.step` | 1 | - | | |
+| wrist | `wrist_stand/out/wrist_stand_head.step` | 1 | - | | 3 Ruthex inserts |
+
 Step 1: all printed (24 Nov). Waiting for the MGN12 rails (400 + 250, MGN12H blocks) to assemble the Y axis.
 
 "v2.15+": these parts have the same geometry from v2.15 (23 Oct) to v2.17. A print made before 23 Oct may be

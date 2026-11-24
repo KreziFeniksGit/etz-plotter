@@ -53,6 +53,7 @@ For new features, design choices and bought parts (not for small fixes, where th
 | `export_gui.py` | Coloured, grouped STEP + FCStd and `out/printed/*.step` (needs the FreeCAD GUI) |
 | `tools/` | `stability.py`, `fea.py` (see `docs/stiffness_review.md`), `render_pose.py`, `assembly_sim.py`, `anim_export.py`, `plywood_dxf.py` |
 | `camera_stand/` | Printed test stand for the webcam board (no plotter needed); program `laptop/cam_stand.py` |
+| `wrist_stand/` | Printed test stand that holds the real wrist module at its real height (servo, magnet, wrist stepper tests without rails) |
 | `tolerance/` | 11 tolerance test coupons; `tolerance/README.md` = how to test |
 | `pcb/` | 3 split single-sided hand-routed boards (`build_drivers.py`, `build_power.py`, `build_controller.py`), see `pcb/split_boards.md`; `docs/pcb_guide.md` |
 | `firmware/` | ESP32-S3 firmware, own libs in `firmware/lib/`; commands in `firmware/README.md` |

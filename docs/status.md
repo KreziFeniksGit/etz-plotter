@@ -15,6 +15,9 @@ The whole device is modelled in FreeCAD (Python scripts), checked and exported:
   webcam board (out of its case, lens down; Egor drills the holes). Lens tip about 11..80 mm. DFM clean. Program
   `laptop/cam_stand.py`: focus score, checker colour + px/mm + height from size, QR, ArUco (self-test only, no camera yet).
   Stand built (19 Nov). Checker sticker sheet: `laptop/make_stickers.py` -> `laptop/out/stickers_a4.png` (ArUco, AprilTag, QR).
+- Wrist test stand (`wrist_stand/`, 24 Nov): U foot + 20x20 post + head that copies the MGN12H block underside
+  (3 inserts, face at z 139). The real wrist bolts on (without the X belt riser, clamp and chain post), magnet h 5..40
+  over the desk. No touch over the lift and wrist range, DFM clean, CoM 62 mm inside the foot. Model only, not printed.
 - Parts checklist with shop links for the teacher: artifact "ETZ Plotter Parts" (https://claude.ai/artifact/M8HTCgmFh44aH4F9nQc8U6).
 - 3D build-steps page (new account, 21 Oct): https://claude.ai/artifact/S7toKVhgE4pYoQYChNBrtc. The old Parts checklist link belonged to the old account.
 

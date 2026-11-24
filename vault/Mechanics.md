@@ -1,6 +1,6 @@
 ---
 tags: [hub]
-updated: 2026-11-06
+updated: 2026-11-24
 ---
 # Mechanics
 
@@ -9,5 +9,6 @@ updated: 2026-11-06
 - Wrist module: [[Parallelogram lift]] driven by the [[MG996R servo]], [[17HS4023S wrist stepper]] turns the [[P20-15 electromagnet]], [[TOF400C distance sensor]], camera shelf
 - Checks: [[Interference sweep]], [[Stability and tipping]], [[FEA]], [[Backlash budget]], [[Accuracy budget]], [[Assembly simulation]]
 - Making it: [[Design rules (DFM)]], [[Tolerance coupons]], [[Ruthex M3 inserts]], [[Zip-tie features]], [[Fasteners model]], [[Cable chains and harness]]
+- Test before the rails: [[Wrist test stand]] (the camera has its own stand, `camera_stand/`)
 - Coordinates: [[Machine coordinates]]
 - Theory links: [[Statics and torque]], [[Dynamics and traction]]
