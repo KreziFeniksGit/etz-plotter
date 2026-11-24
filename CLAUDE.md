@@ -20,6 +20,8 @@ note. Rules for notes: `vault/How to use this vault.md`.
 ## Standing instructions
 - STEP only, never STL files (not even as an extra): his slicer opens STEP. A stop hook also checks for `*.stl`.
 - Keep `README.md`, `docs/status.md`, `components.csv`, `wiring.md` true after each change.
+- `docs/print_log.md` tracks what Egor has printed: update it when he reports a print; when you change a printed
+  part's geometry, mark it REPRINT there and tell him.
 - Commit with a clear message and push right after every finished change whose checks are clean, without asking.
   Why: a session can die mid-way (on 16 Oct a finished MG996R revert sat uncommitted for days) and his other devices
   pull from GitHub. A stop hook reminds you when tracked changes are left uncommitted or unpushed.

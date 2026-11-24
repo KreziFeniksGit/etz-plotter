@@ -15,7 +15,8 @@ Printed parts follow `docs/design_rules.md`: parameters at the top, tolerances f
 (TOL_MOVE, TOL_PRESS, TOL_BOLT, TOL_MOTOR in `wrist/wrist_module.py` section 1), walls >= 2.4 mm, fillets on internal
 corners, overhang <= 45 deg, bridges < 10 mm, fits 220 x 220, M2..M5 + Ruthex M3 inserts, zip-tie features.
 A bought-part size you have not measured or read from a datasheet / vendor STEP is marked `VERIFY` and asked.
-Bump the model version (v2.x) in `docs/status.md` for model changes.
+Bump the model version (v2.x) in `docs/status.md` for model changes. If a changed part is `printed` in
+`docs/print_log.md`, set it to REPRINT (with the version) and tell Egor.
 
 ## Running
 FreeCAD 1.0.x / 1.1.x (Egor's PC: 1.1), scripts run with FreeCAD's own Python:
