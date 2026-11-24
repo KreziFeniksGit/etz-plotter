@@ -7,7 +7,7 @@ device as a reference while assembling, open `out/ETZ_plotter_parked.FCStd` (or 
 
 Print settings: PETG, 0.4 nozzle, 0.2 mm layers, no supports, no hole compensation.
 Load parts (motor mounts, idler brackets, carriages, risers, arms) get 6 walls and >= 50 % infill;
-trays and panel can use 4 walls, 20-30 %.
+light parts (feet, caps, clamps) can use 4 walls, 20-30 %.
 
 ---
 
@@ -126,7 +126,7 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 | NEMA17 pancake 17HS4023S | 1 |
 | P20/15 electromagnet 5 V, AO3400 MOSFET, 1N5819 diode | 1 each |
 | Screws: M2x8 self-tapping + large washers (servo tabs), M4x30 / M4x20 + nylocs + washers (pivots), M3x8 button (pancake), M3x6 button (horn centre), M3x8 set screw + insert (magnet stud), M3x10 button (arm to horn), M3x10 + inserts (shelf, chain post) | see `out/fastener_bom.csv` |
-| 6 V regulator, 3rd TMC2209 (wrist, 0.6 A) | 1 each |
+| 2nd Mini560 Pro 5 V regulator (servo), 3rd TMC2209 (wrist, 0.6 A) | 1 each |
 | A few test checkers | |
 
 **Tests:**
@@ -137,14 +137,11 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 
 ---
 
-## Step 4. Electronics, panel and trays
+## Step 4. Electronics and panel
 **Goal:** the device runs from its own battery with the rule-required stop, start, LEDs and connectors.
 
-| Printed (`out/printed/`) | Qty |
-|---|---|
-| `control_panel` | 1 |
-| `battery_tray` | 1 |
-| `breadboard_tray` | 1 |
+Nothing printed here since v2.14: the controller, panel parts, breadboard and battery are placed on the plywood by hand
+(drill their holes where you want them; every part on the board is bolted through with a washer + hex nut underneath).
 
 | Bought | Qty |
 |---|---|
@@ -152,10 +149,10 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 | 4S LiPo 2200 + fuse + XT60, 2x Mini560 Pro 5 V regulators | 1 each |
 | ESP32-S3 board, 4x TMC2209, perfboard with connectors A/B/C, BSS138 level shifter, passives (`wiring.md`) | |
 | 400-point breadboard | 1 |
-| Wood screws 3.5x50 (panel), 3.5x12 (trays), M3x16 countersunk (standoff) | |
+| M3 bolts + washers + hex nuts through the plywood, M3 standoffs for the board | |
 
 **Tests (from `wiring.md`):**
-1. Before any motor is connected: check 5 V and 6 V rails with a multimeter.
+1. Before any motor is connected: check both 5 V rails with a multimeter.
 2. Press E-stop while an axis moves: motors and servo must lose power, and the magnet must drop the checker.
 3. Green LED = drives powered, red = program running; start button starts the program.
 4. Connectors A/B/C: check voltages and the UART on C with a laptop.
@@ -172,7 +169,7 @@ Tip: build it on the `wrist_wrist_carriage` on the bench first (carriage off the
 | Bought | Qty |
 |---|---|
 | Cable chain 10x15 R18 (X 297.5 mm, Y 250 mm + end links) | 1 m |
-| M3x12 + nuts, M3x10 button + T-nuts, M3x20 button + nut, wood screws 3.5x20 | |
+| M3x12 + nuts, M3x10 button + T-nuts, M3x20 button + nut, 4x M3x25 button + washer + nut (chain guide through the plywood) | |
 | Zip ties 2.5-3 mm, wires and JST connectors (`wiring.md`) | |
 
 **Tests:**

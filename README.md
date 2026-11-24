@@ -121,8 +121,8 @@ with FreeCAD's python. `./fcpy tools/render_pose.py Y X h wrist out.png` renders
 **Frame parts (same rules as the wrist module):** y_carriage (post socket with round relief groove, block screws sunk 5 mm: fit them
 before the post; slot for the Y chain end), y_belt_spacer, y_belt_clamp (two belt ends, tooth grooves), y_motor_mount (fixed, gusseted), y_idler_bracket
 (idler slot, tension lug, Y home switch post), y_idler_slider, y_beam_riser x4 (tongues locate the beam in its slot), y_chain_guide, x_motor_mount (M5 into the post's +y and -x faces,
-X home switch), x_idler_bracket (slotted axle, tension lug), x_idler_slider, post_cap, control_panel (stop, start, LEDs, connectors A/B/C),
-breadboard_tray, battery_tray.
+X home switch), x_idler_bracket (slotted axle, tension lug), x_idler_slider, post_cap, foot_x4. The control panel and the battery / breadboard trays are no longer printed
+(v2.14: Egor places the electronics on the plywood by hand).
 
 **Screws:** `out/fastener_bom.csv` is the complete list (it replaces the screw lists further down where they differ). Zip ties are not modelled.
 
