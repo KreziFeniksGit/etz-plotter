@@ -45,8 +45,8 @@ Optional: 4 wood screws (3.5 mm holes in the foot corners) or a clamp, if it roc
 - **Camera / distance sensor:** the shelf camera and the TOF400C see the desk at the real heights.
 
 ## Not tested / risks
-- Only modelled: nothing printed yet. The wrist parts themselves are still waiting on coupons D1, F1, E2 and caliper
-  checks of the MG996R and the 17HS4023S (`docs/print_log.md`, step 3).
+- Only modelled: nothing printed yet. The wrist parts are printed with the model fits (coupons D1, F1, E2 skipped,
+  24 Nov): a tight servo window, bearing seat or motor pilot means reprinting that part.
 - The 2.5 mm self-threading holes are the camera stand's guess (VERIFY on a scrap).
 - Without the riser and clamp, the X belt grip is not tested here.
 

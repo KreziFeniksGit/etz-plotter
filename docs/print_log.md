@@ -23,12 +23,12 @@ Status: `printed` / `REPRINT` (model changed since) / `-` (not printed yet).
 | 2 | `wrist_wrist_carriage` | 1 | - | | | |
 | 2 | `wrist_x_belt_riser` | 1 | - | | | changed in v2.17; also the belt grip test |
 | 2 | `wrist_x_belt_clamp` | 1 | - | | | changed in v2.17; also the belt grip test |
-| 3 | `wrist_chain_post` | 1 | - | | | wait: coupons D1, F1, E2 + calipers first |
-| 3 | `wrist_arm_top` | 1 | - | | | wait (as above) |
-| 3 | `wrist_arm_bottom` | 1 | - | | | wait (as above) |
-| 3 | `wrist_end_plate` | 1 | - | | | wait (as above) |
-| 3 | `wrist_shelf` | 1 | - | | | wait (as above) |
-| 3 | `wrist_wrist_hub` | 1 | - | | | wait (as above) |
+| 3 | `wrist_chain_post` | 1 | - | | | ok to print (Egor: skip coupons D1/F1/E2, 24 Nov) |
+| 3 | `wrist_arm_top` | 1 | - | | | ok to print |
+| 3 | `wrist_arm_bottom` | 1 | - | | | ok to print |
+| 3 | `wrist_end_plate` | 1 | - | | | ok to print |
+| 3 | `wrist_shelf` | 1 | - | | | ok to print |
+| 3 | `wrist_wrist_hub` | 1 | - | | | ok to print |
 | 5 | `y_chain_guide` | 1 | - | | | |
 
 Test stands (not plotter parts):
