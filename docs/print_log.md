@@ -8,7 +8,7 @@ Status: `printed` / `REPRINT` (model changed since) / `-` (not printed yet).
 
 | Step | Part (`out/printed/*.step`) | Qty | Status | Model | Reported | Note |
 |---|---|---|---|---|---|---|
-| 1 | `foot_x4` | 4 | printed | v2.15+ | 24 Nov | how many printed: confirm 4 |
+| 1 | `foot_x4` | 4 | printed | v2.15+ | 24 Nov | all 4 |
 | 1 | `y_beam_riser_x4` | 4 | printed | v2.15+ | 24 Nov | |
 | 1 | `y_motor_mount` | 1 | printed | v2.15+ | 24 Nov | |
 | 1 | `y_idler_bracket` | 1 | printed | v2.15+ | 24 Nov | |
